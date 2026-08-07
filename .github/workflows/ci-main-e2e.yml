@@ -1,0 +1,19 @@
+name: ci-main-e2e
+# Check complet (PR -> main) : parcours navigateur (Cypress) contre la stack réelle.
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  e2e:
+    name: Tests e2e (Cypress)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+      - name: Installation
+        run: make install
+      # make test-e2e doit démarrer la stack (front + back) avant Cypress headless.
+      - name: Tests e2e
+        run: make test-e2e
