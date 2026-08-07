@@ -1,0 +1,62 @@
+/* Pied de page — rappel de la promesse, navigation secondaire, appel à contact. */
+
+.footer {
+  margin-top: var(--space-section);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface-muted);
+  padding-block: var(--space-xl);
+}
+
+/* Une seule colonne jusqu'à 640 px, deux au-delà : la grille se réorganise sans
+ * point de rupture en dur, la colonne d'identité gardant 18rem au minimum. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+  gap: var(--space-lg);
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+
+.name {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.tagline {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+.legal {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}

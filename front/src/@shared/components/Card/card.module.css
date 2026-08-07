@@ -1,0 +1,47 @@
+/* Carte — surface autonome posée sur le fond de page. */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.eyebrow {
+  align-self: flex-start;
+  padding: var(--space-3xs) var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: var(--font-size-lg);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  color: var(--color-text-muted);
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+
+  /* Colle le pied de carte en bas quelles que soient les hauteurs voisines :
+   * dans une grille, les cartes restent alignées. */
+  margin-top: auto;
+  padding-top: var(--space-2xs);
+}

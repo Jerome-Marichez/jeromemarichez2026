@@ -1,0 +1,59 @@
+/* Lien d'action — la seule mise en avant cliquable du socle. */
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+
+  /* 44 px de hauteur utile : cible tactile confortable, au-delà du minimum
+   * WCAG 2.5.8 (24 px). */
+  min-height: 2.75rem;
+  padding: var(--space-2xs) var(--space-md);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-snug);
+  text-align: center;
+  text-decoration: none;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.primary {
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.primary:hover {
+  background-color: var(--color-accent-hover);
+  color: var(--color-accent-contrast);
+}
+
+.secondary {
+  border-color: var(--color-border-strong);
+  background-color: transparent;
+  color: var(--color-accent);
+}
+
+.secondary:hover {
+  background-color: var(--color-accent-soft);
+  color: var(--color-accent-hover);
+}
+
+/* Complément lu par les lecteurs d'écran, invisible à l'œil. Jamais
+ * `display: none` ni `visibility: hidden` : le texte doit rester restitué. */
+.assistiveHint {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

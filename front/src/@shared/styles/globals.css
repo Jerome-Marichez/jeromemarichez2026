@@ -1,0 +1,149 @@
+/* globals.css — jeromemarichez2026
+ * Seule feuille de style globale du site : remise à zéro minimale, styles des
+ * éléments HTML de base et squelette du layout. Tout le reste est colocalisé
+ * dans le module CSS de son composant. Les valeurs viennent de tokens.css.
+ */
+
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  /* Empêche l'agrandissement automatique du texte en paysage sur iOS. */
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+
+  /* Garantit qu'aucun mot long (URL, adresse e-mail) ne pousse la largeur du
+   * document au-delà du viewport à 320 px. C'est la seule protection contre le
+   * défilement horizontal : on ne masque jamais l'overflow. */
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  flex: 1 1 auto;
+
+  /* Cible du lien d'évitement : laisse respirer le haut du contenu au moment du
+   * saut de focus. */
+  scroll-margin-top: var(--space-md);
+}
+
+/* Aucun média ne dépasse son conteneur, quelle que soit la largeur du viewport. */
+img,
+svg,
+video,
+canvas,
+iframe {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--font-size-3xl);
+}
+
+h2 {
+  font-size: var(--font-size-2xl);
+}
+
+h3 {
+  font-size: var(--font-size-xl);
+}
+
+h4 {
+  font-size: var(--font-size-lg);
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+/* Longueur de ligne confortable pour le texte courant (environ 70 caractères). */
+p {
+  max-width: 70ch;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+ul,
+ol {
+  padding-left: var(--space-md);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Un seul indicateur de focus pour tout le site, jamais supprimé. */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+::selection {
+  background-color: var(--color-accent-soft);
+  color: var(--color-text);
+}
+
+/* Mouvement réduit. Toutes les animations du site passent par les jetons
+ * `--transition-*` : les neutraliser à la source suffit, sans sélecteur universel
+ * ni `!important`. C'est un bénéfice direct de la règle « aucune valeur en dur ». */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0s;
+    --transition-base: 0s;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
