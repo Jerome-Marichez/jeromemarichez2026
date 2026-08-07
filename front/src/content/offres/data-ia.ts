@@ -3,8 +3,9 @@
 // Sources de vérité : README.md (périmètre éditorial) puis les CV de référence
 // (/Users/nicolasb/Documents/CV/) pour les chiffres, dates et périmètres.
 // Points de véracité tenus ici : aucun framework RAG (LangChain / LlamaIndex) — la
-// chaîne est maison ; la méthode d'extraction audio est une publication arXiv
-// implémentée par Jérôme, jamais « en collaboration avec » un laboratoire ;
+// chaîne est maison ; l'Universitat de Barcelona est nommée comme ÉDITRICE de la
+// publication arXiv (arbitrage de Jérôme MARICHEZ, 2026-08-08), la méthode étant
+// implémentée par lui — écrire « en collaboration avec » resterait interdit ;
 // pas de cluster Kubernetes administré en propre.
 import type { IOffre } from '../../interfaces/offre'
 import { offreSchema } from '../../schemas/offre.schema'
@@ -50,7 +51,7 @@ const donnees = {
       cle: 'machine-learning',
       titre: 'Machine learning',
       description:
-        'Modèle supervisé anticipant les échecs de dépôt vocal, en production : extraction des caractéristiques du signal audio (niveau de bruit, probabilité de présence de voix, durée, puissance sonore dans le temps), entraînement TensorFlow, inférence en cloud functions, versioning et monitoring. La méthode d’extraction vient d’une publication arXiv, que j’ai implémentée moi-même, adaptée à des données réelles puis industrialisée.',
+        'Modèle supervisé anticipant les échecs de dépôt vocal, en production : extraction des caractéristiques du signal audio (niveau de bruit, probabilité de présence de voix, durée, puissance sonore dans le temps), entraînement TensorFlow, inférence en cloud functions, versioning et monitoring. La méthode d’extraction vient d’une publication arXiv de l’Universitat de Barcelona, que j’ai implémentée moi-même, adaptée à des données réelles puis industrialisée.',
       preuve: 'Routes vocales coûteuses évitées.',
     },
     {

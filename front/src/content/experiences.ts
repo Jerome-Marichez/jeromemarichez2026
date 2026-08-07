@@ -14,9 +14,11 @@ import { experienceSchema } from '../schemas/experience.schema'
 const donnees = [
   {
     cle: 'acetelecom-mailingvox',
-    // Intitulé réel retenu (CLAUDE.md). Les trois CV en portent des déclinaisons
-    // ciblées ; l'arbitrage de la déclinaison publiée revient à Jérôme MARICHEZ.
-    intitule: 'Lead Tech',
+    // Titre réel (« Lead Tech », CLAUDE.md) suivi du périmètre, comme sur le CV
+    // Ingénieur Full Stack. Déclinaison arbitrée par Jérôme MARICHEZ le 2026-08-08 :
+    // le site couvre les trois offres à la fois, un périmètre large y est plus juste
+    // qu'un intitulé ciblé sur une seule.
+    intitule: 'Lead Tech · Ingénieur full stack, mobile & IA',
     employeur: 'Acetelecom / MailingVox',
     secteur: 'Éditeur SaaS BtoB multicanal',
     anneeDebut: 2023,
