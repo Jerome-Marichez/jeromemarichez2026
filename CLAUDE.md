@@ -2,14 +2,88 @@
 
 ## Présentation
 
-Site portfolio et vitrine de services de Jérôme Marichez, ingénieur logiciel à Lille : ingénierie web, data & IA, SEO/SEA.
+Site portfolio et vitrine de services de Jérôme Marichez, ingénieur logiciel à Lille :
+**Ingénierie Web**, **Data & IA**, **SEO/SEA**. Domaine visé : **jeromemarichez.fr**.
 
-<!-- TODO : compléter — périmètre fonctionnel, contraintes techniques, choix retenus. -->
+Le site raconte un parcours (ingénieur logiciel, 9 ans, passé par la chefferie de projet
+et l'AMOA) et vend trois offres qui s'appuient dessus. Promesse centrale, à faire
+apparaître partout : **un seul interlocuteur humain pour vos projets digitaux, aucune
+sous-traitance** — celui qui cadre est celui qui code, mesure et exploite.
 
-**Stack** : TypeScript — Next.js (App Router) (front) ; Node.js/TypeScript (back le cas
-échéant) ; **Zod** pour la validation des entrées.
+Le **périmètre éditorial complet** (les trois offres en détail, les preuves chiffrées,
+les certifications, l'arborescence des pages, les contraintes SEO / perf / a11y / RGPD)
+est décrit dans le [`README.md`](./README.md) : c'est la **source de vérité du contenu**.
+Ce fichier-ci porte les règles qui encadrent la façon de l'écrire et de le développer.
+
+**Stack** : TypeScript — front Next.js (App Router) ; back Node.js/TypeScript ; entités
+et schémas **Zod** partagés dans `shared/`.
+
+**Ce projet n'est pas un paquet npm** : rien n'y est publié sur le registre. La règle
+SemVer ci-dessous s'applique donc aux **tags et releases Git** — la mention `npm publish`
+de la règle 9 est sans objet ici.
+
+**Contraintes produit non négociables** : rendu statique ou ISR et métadonnées par page
+(SEO), Lighthouse ≥ 95 sur les 4 catégories, accessibilité RGAA / WCAG AA testée dans
+`tests/acceptance/uat/`, mesure d'audience conforme RGPD avec consentement. Le site est
+la démonstration de ce qu'il vend : un défaut de perf ou d'accessibilité y coûte plus
+cher qu'ailleurs.
 
 > Projet géré par Jérôme MARICHEZ.
+
+## Règles de véracité du contenu (bloquantes)
+
+Le site engage la réputation professionnelle de Jérôme et sera lu par des prospects et
+des recruteurs. **Aucune formulation ne doit dépasser ce qui est réellement établi**, même
+quand une formule plus large serait plus vendeuse. Ces règles priment sur toute
+considération marketing.
+
+**Ne JAMAIS écrire sur ce site :**
+
+| Interdit | Formulation juste |
+|----------|-------------------|
+| ISTQB niveau **Avancé** / Automatisation de test | **ISTQB Foundation** uniquement — l'Avancé n'est pas obtenu |
+| Management, lead ou mentorat de **développeurs** | Encadrement d'**équipes marketing / SEO-SEA, de prestataires externes, d'alternants et de stagiaires**. Titre réel : « Lead Tech » chez MailingVox (équipe de 2 devs + 1 PO) |
+| « en collaboration avec l'Universitat de Barcelona » | Méthode d'extraction audio **publiée sur arXiv**, qu'il a **implémentée lui-même** puis industrialisée |
+| LangChain, LlamaIndex, tout **framework** RAG | Le **RAG comme technique** est confirmé (recherche vectorielle PostgreSQL + API OpenAI), fait **maison** |
+| AppsFlyer, Adjust, Amplitude, Tealium, Adobe Launch / Analytics | Côté mobile : **Firebase Analytics et Crashlytics uniquement**. Côté web : GTM (web et server-side), Measurement Protocol, GA, Matomo, CMP |
+| Meta Ads, LinkedIn Ads | Google Ads, Bing Ads, SEO / SEA / SMA |
+| GraphQL, NestJS, Prisma, Gherkin / Cucumber, PyTorch | Voir la stack réellement revendiquée dans le `README.md` |
+| Cluster **Kubernetes** administré en propre | Cloud Run, VM Compute Engine **auto-scalées**, cloud functions, Pub/Sub, Vertex AI — l'absence de K8s se dit telle quelle, c'est un argument de lucidité |
+| GTM attribué à la période **Verhoeven Joaillier** | GTM appartient à la période **Acetelecom / MailingVox**. Chez Verhoeven : Google Analytics, A/B testing, heatmaps |
+
+**Points de vigilance supplémentaires :**
+
+- **Prézage** et **Llama 3** peuvent être **nommés** (autorisation explicite de Jérôme,
+  2026-08-07). Restent hors ligne : le contenu du corpus, les données, les chiffres du
+  projet — le NDA couvre ceux-là.
+- Les **intitulés de poste historiques** (Verhoeven Joaillier, Truffle Capital) sont
+  repris **à l'identique des CV**, sans réécriture pour coller à une offre de service.
+- Toute **certification affichée doit pointer vers son justificatif officiel**. Une URL
+  de certification ne s'invente ni ne s'approxime : tant qu'elle n'a pas été fournie par
+  Jérôme, le lien reste marqué *à fournir* et la certification n'est **pas** publiée avec
+  un lien mort.
+- Deux points restent **à confirmer avec Jérôme** avant mise en ligne : l'année exacte de
+  la certification Google Ads (2021 ou 2022 selon les CV) et l'existence d'une
+  certification **Microsoft Ads**.
+- Les **CV de référence** vivent dans `/Users/nicolasb/Documents/CV/`
+  (`cv-ingenieur-fullstack.md`, `cv-ai-engineer.md`, `cv-tracking-specialist.md`) : en cas
+  de doute sur un chiffre, une date ou un périmètre, ce sont eux qui font foi — pas la
+  mémoire de l'assistant.
+
+## Ligne éditoriale
+
+- **Vendre une décision, pas une techno.** Chaque bloc de service se termine sur ce que
+  le client peut trancher grâce à la prestation, jamais sur une liste d'outils.
+- **Chaque affirmation porte sa preuve** : un chiffre, une durée, une contrainte tenue.
+  Les preuves disponibles sont listées dans le `README.md` (panier moyen +50 %,
+  Lighthouse 98/100, budgets de 100 000 € pilotés, migrations sans coupure, fraude en
+  baisse). Une affirmation sans preuve disponible se reformule ou se supprime.
+- **Ton** : sobre, direct, à la première personne. Pas de superlatif, pas de jargon
+  d'agence, pas d'emoji dans le contenu publié.
+- **Le développement en IA augmentée** (Claude Code / Gemini — agents, hooks, skills,
+  loop, serveurs MCP) **piloté par les tests (TDD)** est un différenciateur assumé : il
+  apparaît partout où le site parle de programmation, jamais comme un détail
+  d'outillage.
 
 ## Méthode de travail (workflow Git)
 

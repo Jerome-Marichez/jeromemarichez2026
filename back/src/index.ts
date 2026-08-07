@@ -18,6 +18,7 @@ export const server = createServer((req, res) => {
 // En test (niveau système), le serveur est démarré par le test via listen(0).
 if (process.env.NODE_ENV !== 'test') {
   server.listen(port, () => {
+    // biome-ignore lint/suspicious/noConsole: log de démarrage — en conteneur, stdout est le canal de log
     console.log(`jeromemarichez2026 back démarré sur http://localhost:${port}`)
   })
 }

@@ -1,11 +1,48 @@
 # Architecture
 
-<!-- TODO : compléter à mesure que le projet prend forme. -->
-
 ## Vue d'ensemble
 
-Décrire ici : les grands blocs (front React, back API, base de données), leurs
-responsabilités et les flux entre eux (schéma bienvenu).
+Deux applications séparées, une frontière HTTP explicite entre les deux.
+
+```
+                 ┌─────────────────────────────┐
+   Visiteur ────►│ front/  Next.js (port 3000) │  pages statiques (SSG/ISR) : offres,
+                 │                             │  parcours, certifications
+                 └──────────────┬──────────────┘
+                                │ HTTP (JSON, contrats de shared/)
+                 ┌──────────────▼──────────────┐
+                 │ back/  API Node (port 3001) │  formulaire de contact, /health,
+                 │                             │  intégrations futures
+                 └─────────────────────────────┘
+
+   shared/  ── interfaces IXxx + schémas Zod communs aux deux côtés
+```
+
+**Le contenu éditorial reste côté front et prérendu.** Le back ne sert pas les pages :
+il porte ce qui ne peut pas être statique — aujourd'hui l'envoi du formulaire de
+contact, demain les intégrations (mesure d'audience côté serveur, webhooks, endpoints
+appelables par un agent).
+
+**Conséquence structurante** : tout ce qui peut être prérendu l'est. Une page qui exige
+du rendu serveur doit le justifier — c'est la contrainte SEO et performance du
+`README.md` qui commande, et le site est lui-même la démonstration de ce qu'il vend.
+
+### Découpage par domaine (front)
+
+| Domaine | Contenu |
+|---------|---------|
+| `front/src/@vitrine/` | Sections éditoriales : offres, parcours, preuves, certifications |
+| `front/src/@contact/` | Formulaire et son appel à l'API back |
+| `front/src/@shared/` | Design system, layout, composants transverses, SEO/métadonnées |
+
+Le **contenu éditorial est de la donnée, pas du JSX** : offres, expériences et
+certifications vivent dans des structures typées (`front/src/interfaces/`, une entité
+par fichier, préfixe `I`) que les composants consomment. Ajouter une certification ou
+une offre ne doit pas demander de toucher au rendu.
+
+**Le contrat de contact vit dans `shared/`** : `shared/interfaces/` pour l'entité,
+`shared/schemas/` pour le schéma Zod. Le front valide avant l'envoi, le back revalide à
+la frontière — **le même schéma**, jamais dupliqué.
 
 ## Front (Next.js (App Router) + TypeScript)
 
@@ -55,4 +92,11 @@ responsabilités et les flux entre eux (schéma bienvenu).
 
 | Choix | Alternatives considérées | Justification |
 |-------|--------------------------|---------------|
-| _TODO_ | | |
+| **Front et back séparés** | Next.js seul avec ses API routes | Choix explicite de Jérôme. Le back existe indépendamment du site : il pourra porter des intégrations (webhooks, endpoints appelables par un agent) sans que le front, lui, cesse d'être une vitrine entièrement prérendue. Coût assumé : deux applications à déployer et à exploiter. |
+| **Next.js (App Router)** côté front | Vite + React, Astro | Rendu statique et métadonnées par page nativement, stratégie de rendu arbitrable route par route — exactement l'argument SEO vendu dans l'offre. C'est aussi la stack mise en avant sur le site : la cohérence compte. |
+| **Rendu statique (SSG) par défaut** | SSR systématique | Contenu éditorial quasi figé. Coût serveur nul, TTFB minimal, Core Web Vitals au vert sans effort d'optimisation ultérieur. |
+| **Back `node:http` sans framework** | Express, Fastify | Point de départ posé par le bootstrap. La surface est minuscule (contact, `/health`) ; introduire un framework se décidera quand une vraie route le justifiera, pas avant. |
+| **Pas de base de données** | CMS headless (Strapi), Notion API | Le contenu change quelques fois par an et n'a qu'un seul auteur. Le versionner dans le dépôt le rend relisible en revue de PR et supprime une dépendance d'exploitation. À réévaluer si la publication devient fréquente. |
+| **Contenu typé en TypeScript** | Fichiers Markdown / MDX | Les entités (offre, expérience, certification) ont une forme stricte que le typage fait respecter — un lien de certification manquant devient une erreur de compilation, pas une page publiée avec un lien mort. |
+| **Schéma de contact dans `shared/`** | Un schéma par côté | Front et back valident le **même** contrat Zod. Une divergence de validation entre les deux serait un bug invisible jusqu'au premier message perdu. |
+| **Hébergement** | _à trancher_ | Le front s'héberge naturellement sur Vercel (affinité Next.js, previews par PR) ; le back demande un hôte distinct (Cloud Run, ou le VPS Hetzner existant). Décision à prendre avant la première mise en production. |

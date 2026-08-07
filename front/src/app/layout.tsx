@@ -3,8 +3,9 @@
 import type { ReactNode } from 'react'
 
 export const metadata = {
-  title: 'jeromemarichez2026',
-  description: 'Site portfolio et vitrine de services de Jérôme Marichez, ingénieur logiciel à Lille : ingénierie web, data & IA, SEO/SEA.',
+  title: 'Jérôme Marichez — Ingénieur logiciel à Lille',
+  description:
+    'Ingénierie web, data & IA, SEO/SEA. Un seul interlocuteur pour vos projets digitaux, sans sous-traitance.',
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
