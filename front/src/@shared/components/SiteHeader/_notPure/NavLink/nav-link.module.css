@@ -1,0 +1,26 @@
+/* Lien de la navigation principale. */
+
+.link {
+  display: inline-block;
+  min-height: 1.5rem;
+  padding: var(--space-3xs) var(--space-2xs);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+/* La page courante n'est jamais signalée par la seule couleur : le soulignement
+ * porte l'information pour qui ne perçoit pas la nuance (WCAG 1.4.1). */
+.link[aria-current="page"] {
+  color: var(--color-accent);
+  font-weight: var(--font-weight-medium);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+}

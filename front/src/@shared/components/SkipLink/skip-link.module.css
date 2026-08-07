@@ -1,0 +1,25 @@
+/* Lien d'évitement — premier élément focusable du document. */
+
+.skipLink {
+  position: fixed;
+  top: var(--space-2xs);
+  left: var(--space-2xs);
+  z-index: var(--z-skip-link);
+  padding: var(--space-2xs) var(--space-sm);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-accent);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+
+  /* Hors champ visuel mais TOUJOURS rendu et focusable : ni `display: none`,
+   * ni `visibility: hidden`, qui le retireraient de l'ordre de tabulation. */
+  transform: translateY(calc(-100% - var(--space-lg)));
+  transition: transform var(--transition-fast);
+}
+
+.skipLink:focus-visible,
+.skipLink:focus {
+  transform: translateY(0);
+}

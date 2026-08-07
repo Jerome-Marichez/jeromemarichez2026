@@ -1,0 +1,24 @@
+/* Conteneur de largeur maximale — gouttière fluide, jamais de débordement. */
+
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--space-gutter);
+
+  /* Autorise le conteneur à rétrécir dans un parent flex ou grid : sans cela,
+   * un enfant large (tableau, bloc de code) imposerait sa largeur au document
+   * et provoquerait un défilement horizontal. */
+  min-width: 0;
+}
+
+.narrow {
+  max-width: var(--layout-width-narrow);
+}
+
+.default {
+  max-width: var(--layout-width-default);
+}
+
+.wide {
+  max-width: var(--layout-width-wide);
+}

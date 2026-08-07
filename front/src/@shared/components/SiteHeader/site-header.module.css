@@ -1,0 +1,52 @@
+/* En-tête du site — identité et navigation principale. */
+
+.header {
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-background);
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2xs) var(--space-md);
+  padding-block: var(--space-xs);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.brandName {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.brandRole {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.brand:hover .brandName {
+  color: var(--color-accent-hover);
+}
+
+.nav {
+  min-width: 0;
+}
+
+/* Liste de liens qui se replie sur plusieurs lignes : pas de menu déroulant,
+ * donc aucun piège de focus, aucun état à gérer et aucun JavaScript. */
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3xs) var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
