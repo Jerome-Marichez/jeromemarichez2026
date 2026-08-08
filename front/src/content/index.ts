@@ -5,6 +5,7 @@
 // une offre ou une certification ne demande pas de toucher au rendu. Chaque jeu de
 // données est validé par son schéma Zod au chargement du module — une donnée non
 // conforme fait donc échouer le build, jamais la production.
+export { accueil } from './accueil'
 export { certifications } from './certifications'
 export { experiences } from './experiences'
 export { formations } from './formations'
