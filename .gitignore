@@ -16,8 +16,11 @@ coverage/
 storybook-static/
 .stryker-tmp/
 reports/
-cypress/screenshots/
-cypress/videos/
+# Chemins préfixés par « **/ » : en layout front-back, les artefacts Cypress vivent
+# dans front/cypress/ et non à la racine — un motif non ancré ne les attrape pas.
+**/cypress/screenshots/
+**/cypress/videos/
+**/cypress/downloads/
 *.tsbuildinfo
 
 # OS / IDE

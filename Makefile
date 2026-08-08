@@ -45,7 +45,22 @@ test-int: ## Tests d'intégration (front + back)
 	cd front && npx jest tests/integration --passWithNoTests
 	cd back && npx jest tests/integration --passWithNoTests
 
-test-e2e: ## Tests e2e navigateur (Cypress headless) — stack démarrée au préalable
+# La cible démarre elle-même le front : Cypress refuse de tourner tant que `baseUrl`
+# ne répond pas, et le workflow ci-main-e2e.yml n'a aucun autre moyen de le lancer.
+# Serveur de production (et non `next dev`) : c'est le rendu réellement livré qui doit
+# être mesuré. Le serveur est arrêté quoi qu'il arrive, y compris si Cypress échoue,
+# et le code de sortie de Cypress est celui de la cible — sans quoi un échec e2e
+# passerait inaperçu.
+test-e2e: ## Tests e2e navigateur (Cypress headless) — démarre le front, le teste, l'arrête
+	cd front && npm run build
+	@set -e; \
+	( cd front && npx next start -p 3000 >/dev/null 2>&1 ) & \
+	serveur=$$!; \
+	trap 'kill $$serveur 2>/dev/null || true' EXIT; \
+	for i in $$(seq 1 40); do \
+	  curl -sf -o /dev/null http://localhost:3000/ && break; \
+	  sleep 1; \
+	done; \
 	cd front && npx cypress run
 
 test-system: ## Tests système back (vrai serveur HTTP via listen(0))

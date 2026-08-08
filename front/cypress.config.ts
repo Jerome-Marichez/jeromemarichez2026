@@ -4,7 +4,9 @@ import { defineConfig } from 'cypress'
 
 export default defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:3000', // TODO : port réel du front
+    // Port du serveur de production démarré par `make test-e2e`, qui attend que
+    // cette URL réponde avant de lancer Cypress.
+    baseUrl: 'http://localhost:3000',
     specPattern: 'tests/e2e/**/*.cy.ts',
     supportFile: false,
     video: false,
