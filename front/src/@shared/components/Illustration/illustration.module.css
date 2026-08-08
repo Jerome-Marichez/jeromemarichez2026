@@ -1,0 +1,21 @@
+/* Illustration — image responsive, formats modernes et dimensions déclarées. */
+
+.picture {
+  /* `picture` est en ligne par défaut : la ligne de base laisserait un blanc sous
+   * l'image. En bloc, le conteneur épouse exactement l'image qu'il porte. */
+  display: block;
+  min-width: 0;
+}
+
+.image {
+  width: 100%;
+
+  /* `height: auto` est déjà posé globalement sur les médias : la hauteur suit le rapport
+   * réservé par les attributs `width`/`height`, la place est donc tenue avant le
+   * chargement ET l'image reste fluide. */
+  border-radius: var(--radius-lg);
+
+  /* L'image est un aplat photographique posé sur le fond de page : l'ombre la rattache
+   * au même vocabulaire de profondeur que les autres surfaces détachées du site. */
+  box-shadow: var(--shadow-md);
+}

@@ -16,6 +16,19 @@ export type CleOffre = 'ingenierie-web' | 'data-ia' | 'sea'
 export type NiveauFormation = 'Bac +3' | 'Bac +5'
 
 /**
+ * Format d'un fichier image servi par le site.
+ *
+ * Union fermée et non `string` : c'est elle qui garantit qu'une déclinaison déclarée
+ * dans le contenu correspond à un fichier réellement présent dans `front/public/`. Un
+ * format ajouté au contenu sans que les fichiers existent produirait des `<source>` en
+ * 404 — silencieuses, puisque le navigateur passe simplement à la suivante.
+ *
+ * L'ordre de déclaration n'a aucun sens ici : c'est `IImageIllustration.formats` qui
+ * porte l'ordre de préférence, du plus efficace au repli.
+ */
+export type FormatImage = 'webp' | 'jpg'
+
+/**
  * Justificatif officiel d'une certification.
  *
  * Union discriminée volontaire : la variante `a-fournir` ne porte **aucune** propriété

@@ -20,9 +20,15 @@ import { cheminOffre } from '../config/routes'
 import type { JsonLdGraph, JsonLdNode } from '../interfaces/types'
 import { absoluteUrl, siteUrl } from './site'
 
-/** Identifiants stables du graphe : ils relient les nœuds au lieu de les dupliquer. */
-const PERSON_ID = `${siteUrl}/#person`
-const SERVICE_ID = `${siteUrl}/#service`
+/**
+ * Identifiants stables du graphe : ils relient les nœuds au lieu de les dupliquer.
+ *
+ * Exportés parce que les graphes DE PAGE (`structured-data-pages.ts`) s'y rattachent :
+ * une page qui redécrirait la personne ou l'activité publierait une seconde version de
+ * la même entité, que les moteurs auraient à réconcilier — ou ne réconcilieraient pas.
+ */
+export const PERSON_ID = `${siteUrl}/#person`
+export const SERVICE_ID = `${siteUrl}/#service`
 
 /**
  * Localisation publique : la ville et le pays, rien de plus.

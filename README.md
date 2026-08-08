@@ -298,7 +298,7 @@ Portée par `identite.langues` et émise dans `knowsLanguage` du JSON-LD — jam
 | `/services/data-ia` | Offre 2 en détail |
 | `/services/sea` | Offre 3 en détail |
 | `/parcours` | Parcours d'ingénieur et de chef de projet, formation, certifications liées |
-| `/contact` | Formulaire (validation Zod) + coordonnées directes |
+| `/contact` | Coordonnées directes (e-mail obfusqué, téléphone, LinkedIn) et mention RGPD. **Sans formulaire** — arbitrage de Jérôme MARICHEZ du 2026-08-08 : le service d'acheminement des messages n'est pas choisi, et un formulaire qui afficherait « message envoyé » sans rien envoyer serait pire que pas de formulaire. Le formulaire, son schéma partagé `shared/` et la route back feront l'objet d'une évolution ultérieure |
 
 Chaque page de service porte ses propres métadonnées SEO, ses données structurées
 (`schema.org/Service` et `ProfessionalService`) et un appel à contact contextualisé.
@@ -319,7 +319,10 @@ Chaque page de service porte ses propres métadonnées SEO, ses données structu
   pas.)*
 - **Accessibilité** : RGAA / WCAG AA, testée et non supposée (`tests/acceptance/uat/`).
 - **RGPD** : mesure d'audience conforme, consentement géré, aucune donnée personnelle
-  collectée hors formulaire de contact explicite.
+  collectée hors formulaire de contact explicite. *(État réel à ce jour : le site ne
+  collecte RIEN — aucun formulaire, aucun cookie, aucune mesure d'audience implémentée, et
+  les seules données personnelles publiées sont celles de Jérôme MARICHEZ lui-même. Détail
+  et points restant à trancher : [`docs/rgpd.md`](./docs/rgpd.md).)*
 
 Le contenu éditorial doit respecter les **règles de véracité** listées dans
 [`CLAUDE.md`](./CLAUDE.md) — ce qui n'est pas revendicable n'est pas écrit, même quand

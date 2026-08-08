@@ -1,0 +1,36 @@
+/* Expériences — une carte par poste, empilées de la plus récente à la plus ancienne. */
+
+.liste {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding-left: 0;
+  list-style: none;
+}
+
+/* Une seule colonne, volontairement : chaque poste porte jusqu'à onze faits, et deux
+ * colonnes réduiraient la longueur de ligne au point de rendre ces faits pénibles à
+ * lire. La page de parcours se lit, elle ne se survole pas comme une grille d'offres. */
+.item {
+  display: grid;
+  min-width: 0;
+}
+
+.periode {
+  color: var(--color-accent);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.secteur {
+  color: var(--color-text-muted);
+}
+
+/* Les faits sont la matière de la page : ils respirent davantage que du texte suivi. */
+.faits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin-top: var(--space-2xs);
+}

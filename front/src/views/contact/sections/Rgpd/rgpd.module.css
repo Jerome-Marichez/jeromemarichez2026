@@ -1,0 +1,8 @@
+/* Mentions RGPD — une mention par point, jamais un pavé. */
+
+.mentions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  color: var(--color-text-muted);
+}

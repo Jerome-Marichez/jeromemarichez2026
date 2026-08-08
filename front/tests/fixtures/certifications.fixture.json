@@ -1,0 +1,43 @@
+{
+  "commentaire": "Jeu de données de test, PAS le contenu du site. Il existe parce que les cinq certifications réelles sont toutes en « a-fournir » : un test joué sur elles seules ne pourrait pas distinguer « n'affiche pas de lien parce que le justificatif manque » de « n'affiche jamais de lien ». Ces quatre entrées couvrent les quatre cas du modèle — justificatif disponible avec année, second justificatif disponible (pour vérifier que deux libellés de lien restent distinguables, WCAG 2.4.4), justificatif à fournir avec année, justificatif à fournir sans année établie.",
+  "certifications": [
+    {
+      "cle": "avec-justificatif",
+      "intitule": "Certification attestée",
+      "organisme": "Organisme A",
+      "annee": 2024,
+      "justificatif": {
+        "statut": "disponible",
+        "url": "https://example.org/justificatifs/attestee"
+      }
+    },
+    {
+      "cle": "avec-second-justificatif",
+      "intitule": "Certification attestée par ailleurs",
+      "organisme": "Organisme B",
+      "annee": 2023,
+      "justificatif": {
+        "statut": "disponible",
+        "url": "https://example.org/justificatifs/par-ailleurs"
+      }
+    },
+    {
+      "cle": "sans-justificatif",
+      "intitule": "Certification sans justificatif",
+      "organisme": "Organisme C",
+      "annee": 2022,
+      "justificatif": {
+        "statut": "a-fournir"
+      }
+    },
+    {
+      "cle": "sans-justificatif-ni-annee",
+      "intitule": "Certification sans justificatif ni année",
+      "organisme": "Organisme D",
+      "annee": null,
+      "justificatif": {
+        "statut": "a-fournir"
+      }
+    }
+  ]
+}

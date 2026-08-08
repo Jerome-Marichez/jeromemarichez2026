@@ -7,6 +7,7 @@
 // conforme fait donc échouer le build, jamais la production.
 export { accueil } from './accueil'
 export { certifications } from './certifications'
+export { contactPage } from './contact-page'
 export { experiences } from './experiences'
 export { formations } from './formations'
 export { identite } from './identite'
@@ -19,3 +20,4 @@ export {
   offreSea,
   offres,
 } from './offres'
+export { parcoursPage } from './parcours-page'

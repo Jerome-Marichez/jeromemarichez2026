@@ -203,6 +203,64 @@ Le motif de profondeur n'introduit aucun élément interactif sur le dégradé :
 maillons de la chaîne et le panneau du constat ne contiennent aucun lien. Aucun anneau
 de focus n'a donc à être mesuré contre les bornes du dégradé.
 
+## Structure des pages parcours et contact
+
+Relevée **sur les pages servies** par `next start`, et mesurée dans Chrome piloté par CDP
+sur dix largeurs (320, 360, 390, 414, 600, 768, 1024, 1280, 1440, 1920 px) dans les **deux
+thèmes** — soit **40 mesures**.
+
+| Point | `/parcours` | `/contact` |
+|-------|-------------|------------|
+| Titre de niveau 1 | **1** | **1** |
+| Continuité des niveaux | `h1, h2, h3×3, h2, h3×2, h2, h3×5, h2` — aucun saut | `h1, h2, h2, h2` — aucun saut |
+| Régions nommées | **5** `section[aria-labelledby]` | **4** |
+| Défilement horizontal | **aucun** sur les 20 mesures (`scrollWidth` égal à `clientWidth`), aucun élément débordant | **aucun** sur les 20 mesures |
+| Thème restitué | `rgb(252, 252, 250)` en clair, `rgb(14, 16, 19)` en sombre | idem |
+
+**Aucun nouveau couple de couleurs n'est introduit par ces deux pages.** Les feuilles de
+style du lot n'emploient que `--color-text-muted`, `--color-accent` et
+`--color-accent-soft`, sur les fonds `--color-background`, `--color-surface`,
+`--color-surface-muted` et `--color-accent-soft` : les huit combinaisons produites
+figurent déjà dans les 28 couples de `@shared/config/contrast-pairs.ts` mesurés plus haut.
+L'inventaire reste donc à 28 couples et 56 mesures.
+
+### L'image de la page parcours
+
+- **Texte alternatif descriptif**, pas un intitulé : il énumère ce que montre la photo.
+  Le schéma refuse en dessous de 40 caractères, et un test vérifie qu'il ne commence pas
+  par « image », « photo », « illustration » ni ne recopie le titre de la page.
+- **Dimensions déclarées** — celles du fichier réellement servi en `src`, soit la
+  déclinaison large (1 200 × 800 px) : la place est réservée avant le chargement, la page
+  ne saute pas.
+- L'image ne porte **aucun texte** et **aucun élément interactif** : aucun contraste n'a
+  donc à être mesuré contre elle.
+
+### L'adresse e-mail obfusquée — accessibilité mesurée
+
+L'obfuscation ne devait rien coûter. Ce qui a été vérifié, et **une régression trouvée
+puis corrigée en cours de route** :
+
+| Point | État | Détail |
+|-------|------|--------|
+| Nom accessible du lien | OK | Exactement `jeromemarichez@ik.me`. **Première version rejetée** : envelopper chaque fragment dans un `<span>` donnait « jeromemarichez @ ik.me » — l'algorithme de calcul du nom accessible sépare par une espace le résultat de chaque enfant de type **élément**. Les fragments sont désormais des **nœuds de texte**, que l'algorithme concatène sans rien insérer. |
+| Sélection et copie | OK | `textContent` vaut l'adresse exacte : aucun leurre n'est glissé entre les fragments, aucun caractère n'est masqué, l'ordre du DOM est l'ordre de lecture. |
+| Activation au clavier | OK | C'est un `a[href]`, focalisable et activable par Entrée ; l'anneau de focus global s'applique. |
+| Fonctionnement sans JavaScript | OK | Rien n'est reconstruit à l'exécution. Le `href` est percent-encodé, forme que le navigateur décode avant de la passer au client de messagerie (RFC 6068) ; vérifié : `decodeURIComponent(href)` rend `mailto:jeromemarichez@ik.me`. |
+| Téléphone | OK | `href="tel:+33771651588"` (E.164, seule forme composable hors de France), texte affiché au format national, seule forme lisible par un humain. |
+| Lien de profil | OK | Nom accessible = l'URL sans protocole, qui dit où le lien mène. Même onglet : un `target="_blank"` non demandé retire le bouton « précédent ». |
+
+Ce que l'obfuscation **ne** fait **pas** est documenté dans [`rgpd.md`](./rgpd.md) : elle
+arrête les moissonneurs qui appliquent une expression régulière au HTML brut, pas un robot
+qui rend la page — et l'adresse reste publiée en clair dans le JSON-LD de **toutes** les
+pages, par arbitrage du 2026-08-08.
+
+### La page contact ne comporte aucun contrôle de formulaire
+
+Ni `form`, ni `input`, ni `textarea`, ni `select`, ni `button` — vérifié par test. Les
+règles « chaque champ a un `label` », « erreurs en `aria-live` » et « états annoncés » de
+la checklist ci-dessus sont donc **sans objet sur cette page** à ce jour, et redeviendront
+applicables le jour où le formulaire sera livré.
+
 ## Vérification
 
 - Lint accessibilité (règles a11y de Biome) — `make lint`.
@@ -215,8 +273,9 @@ de focus n'a donc à être mesuré contre les bornes du dégradé.
 | Layout global (en-tête, contenu, pied de page) | Contrastes recalculés, clavier, 320→1920 px, deux thèmes | Vérifié |
 | Page d'accueil | Contrastes recalculés (28 couples), 320→1920 px dans les deux thèmes, hiérarchie de titres et régions relevées sur la page servie | Vérifié |
 | Pages de services | — | À faire (autre lot) |
-| Parcours | — | À faire (autre lot) |
-| Formulaire de contact | — | À faire (autre lot) ; couleurs d'état à définir et à mesurer |
+| Parcours | 320→1920 px dans les deux thèmes, hiérarchie de titres et régions relevées sur la page servie, image et texte alternatif | Vérifié |
+| Contact | 320→1920 px dans les deux thèmes, hiérarchie de titres et régions, nom accessible de chaque coordonnée | Vérifié |
+| Formulaire de contact | — | Sans objet à ce jour : la page `/contact` n'a pas de formulaire (arbitrage du 2026-08-08). Couleurs d'état à définir et à mesurer le jour où il existera |
 
 ## Restes à faire
 

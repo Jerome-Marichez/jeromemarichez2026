@@ -1,0 +1,31 @@
+/* Coordonnées — liste de définitions : une étiquette, une valeur cliquable. */
+
+.liste {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Le `div` de regroupement est le seul enfant admis entre `dl` et ses paires : il rend
+ * le couple étiquette/valeur adressable en mise en page sans casser la sémantique. */
+.ligne {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.etiquette {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+/* `dd` porte une marge gauche par défaut dans tous les navigateurs : elle décalerait la
+ * valeur par rapport à son étiquette. */
+.valeur {
+  margin-left: 0;
+  font-size: var(--font-size-md);
+}

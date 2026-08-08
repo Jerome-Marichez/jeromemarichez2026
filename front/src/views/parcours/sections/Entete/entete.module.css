@@ -1,0 +1,32 @@
+/* En-tête de la page parcours — le titre, son chapô et l'illustration. */
+
+.section {
+  padding-block: var(--space-section);
+}
+
+/* Deux colonnes dès que la place existe, une seule en dessous. Pas de media query : le
+ * nombre de colonnes se déduit de la largeur disponible, comme partout sur le site.
+ * `min()` empêche la piste de réclamer 22 rem quand le conteneur est plus étroit — c'est
+ * ce qui évite le défilement horizontal à 320 px.
+ *
+ * Le basculement a lieu vers 49 rem de viewport, valeur reprise dans l'attribut `sizes`
+ * de l'illustration (`content/parcours-page.ts`) : les deux décrivent la même bascule et
+ * doivent bouger ensemble. */
+.grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.texte {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.lead {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-md);
+}

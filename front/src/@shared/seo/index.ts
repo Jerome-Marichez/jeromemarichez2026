@@ -16,3 +16,4 @@ export {
   titleTemplate,
 } from './site'
 export { buildOffreStructuredData, buildSiteStructuredData } from './structured-data'
+export { buildContactStructuredData, buildParcoursStructuredData } from './structured-data-pages'

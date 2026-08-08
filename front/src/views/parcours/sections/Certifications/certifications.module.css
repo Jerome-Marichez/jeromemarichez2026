@@ -1,0 +1,26 @@
+/* Certifications — grille de cartes, une par titre obtenu. */
+
+.grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+  gap: var(--space-md);
+  padding-left: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  min-width: 0;
+}
+
+.annee {
+  color: var(--color-text-muted);
+}
+
+/* Le lien ferme la carte quand il existe. `margin-top: auto` l'aligne d'une colonne à
+ * l'autre — et une carte sans justificatif ne laisse aucun trou à sa place, puisque
+ * rien n'y est rendu du tout. */
+.justificatif {
+  margin-top: auto;
+  padding-top: var(--space-2xs);
+}

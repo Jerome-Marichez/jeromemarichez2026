@@ -1,0 +1,11 @@
+/* En-tête de la page de contact — le titre et son chapô. */
+
+.section {
+  padding-block: var(--space-section);
+}
+
+.lead {
+  margin-top: var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-md);
+}

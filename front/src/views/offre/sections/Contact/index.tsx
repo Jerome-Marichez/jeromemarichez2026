@@ -1,7 +1,5 @@
-import { ActionLink } from '@/@shared/components/ActionLink'
-import { Container } from '@/@shared/components/Container'
+import { PanneauAction } from '@/@shared/components/PanneauAction'
 import type { IOffrePage } from '@/interfaces/offre-page'
-import styles from './contact.module.css'
 
 interface IContactProps {
   contenu: IOffrePage['contact']
@@ -10,24 +8,14 @@ interface IContactProps {
 /**
  * Appel à contact fermant une page d'offre.
  *
- * Composé à la main plutôt qu'avec `@shared/Section` : le titre et le texte doivent se
- * trouver À L'INTÉRIEUR du panneau mis en avant, alors que `Section` rend toujours son
- * en-tête au-dessus de son contenu.
- *
- * Le panneau ne porte qu'un seul lien, et il est `primary` : sur un fond
- * `--color-accent-soft`, un lien `secondary` deviendrait invisible au survol, puisqu'il
- * prend précisément cette couleur comme fond (mesure consignée dans docs/design.md).
+ * La composition du panneau vit désormais dans `@shared/components/PanneauAction/` : la
+ * page parcours ferme sur le même bloc, et les mesures de contraste qui interdisent le
+ * filet et le lien secondaire n'ont pas à être redécouvertes une seconde fois. Cette
+ * section garde son existence propre parce qu'elle sait ce qu'une page d'offre appelle
+ * « contact » — son ancre et son contenu — ce que le composant partagé ignore.
  */
 export function Contact({ contenu }: IContactProps) {
   return (
-    <section aria-labelledby="contact-titre" className={styles.section} id="contact">
-      <Container>
-        <div className={styles.panneau}>
-          <h2 id="contact-titre">{contenu.titre}</h2>
-          <p className={styles.lead}>{contenu.lead}</p>
-          <ActionLink href={contenu.action.href}>{contenu.action.libelle}</ActionLink>
-        </div>
-      </Container>
-    </section>
+    <PanneauAction action={contenu.action} id="contact" lead={contenu.lead} titre={contenu.titre} />
   )
 }

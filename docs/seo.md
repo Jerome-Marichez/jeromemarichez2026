@@ -177,10 +177,23 @@ Google](https://search.google.com/test/rich-results) et le
   `summary_large_image` ; tant qu'aucune image n'existe, les réseaux retombent sur un
   aperçu sans visuel. À poser en `app/opengraph-image.tsx`.
 - **URL des offres dans le JSON-LD** : le `hasOfferCatalog` décrit les trois services
-  sans `url`, les pages `/services/<cle>` n'existant pas encore. Déclarer l'URL d'une
-  page absente enverrait les moteurs sur une 404.
+  sans `url`. La raison invoquée — « les pages `/services/<cle>` n'existent pas encore » —
+  **n'est plus valable** : elles ont été livrées, et `/parcours` et `/contact` le sont
+  désormais aussi. Les trois `url` peuvent donc être déclarées. Non fait ici :
+  c'est une modification du graphe du SITE, hors du périmètre des issues #23 et #24, et
+  `donnees-structurees.spec.ts` fixe explicitement l'absence de ces `url` — le test devra
+  évoluer avec le code, dans le même lot.
 - **`lastModified`** : en CI, la copie de travail est fraîchement clonée, donc toutes les
   dates valent celle du build. Une date par page, tirée de l'historique Git, serait plus
   juste.
-- **Vérification automatisée** : les contrôles ci-dessus sont manuels. Ils gagneraient à
-  devenir des tests d'acceptation (`tests/acceptance/uat/`) une fois les pages livrées.
+- **Vérification automatisée** : partiellement fait. `front/tests/unitaire/parcours-contact-seo.spec.ts`
+  vérifie désormais, pour `/parcours` et `/contact`, la canonique propre (une page qui
+  oublierait `path` hériterait de celle de l'accueil — défaut invisible et silencieux), le
+  suffixage du titre, les bornes Zod, l'entrée au sitemap et le rattachement du graphe de
+  page au `Person` du layout. Reste manuel : le contrôle du JSON-LD **servi** et les
+  validateurs en ligne. À porter en `tests/acceptance/uat/`.
+- **Graphes de page** : `/parcours` émet une `ProfilePage` et `/contact` une `ContactPage`,
+  toutes deux rattachées au `Person` du layout par son `@id`
+  (`@shared/seo/structured-data-pages.ts`). Aucune ne redécrit la personne ni l'activité,
+  et `/contact` n'émet **pas** de `ContactPoint` : schema.org en attendrait `contactType`,
+  `availableLanguage` et `hoursAvailable`, dont rien n'est établi.

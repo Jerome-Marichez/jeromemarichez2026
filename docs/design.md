@@ -181,6 +181,9 @@ Chacun dans son dossier PascalCase, `index.tsx` + module CSS colocalisé.
 | `ActionLink` | lien mis en avant comme un bouton | rend toujours un `a` — les appels à l'action du site sont des navigations ; `variant` = `primary` / `secondary` ; `external` ajoute `rel="noopener noreferrer"` et une mention « nouvelle fenêtre » pour les lecteurs d'écran |
 | `Card` | surface autonome titrée | volontairement non cliquable en entier : la zone d'action est explicite (`footer`), ce qui évite de superposer un lien invisible au texte |
 | `Section` | bloc de page titré | `id` obligatoire : il nomme la région via `aria-labelledby` et sert d'ancre ; `tone="muted"` pour alterner les fonds |
+| `Illustration` | image responsive | `<picture>` + `srcset`/`sizes` + dimensions déclarées, entièrement dérivés d'une `IImageIllustration` — voir « Traitement des images » |
+| `LienEmail` | adresse e-mail publiée | obfusquée au rendu sans coût d'accessibilité — voir [`accessibility.md`](./accessibility.md) et `src/utils/email.ts` |
+| `PanneauAction` | panneau d'appel à l'action | bloc de clôture sur `--color-accent-soft` ; un seul lien, `primary`, aucun filet (les deux viennent d'une mesure) |
 | `SkipLink` | lien d'évitement | premier élément focusable du document |
 | `SiteHeader` | en-tête global | identité + navigation principale |
 | `SiteFooter` | pied de page global | promesse, navigation secondaire, appel à contact |
@@ -289,6 +292,80 @@ avec un avant-plan clair est encadré par les deux ratios mesurés. Vérifier le
 vérifie tout le dégradé. Cet ordonnancement canal par canal est la condition de la
 démonstration : le jour où une borne est retouchée, c'est lui qu'il faut revérifier
 d'abord.
+
+## Traitement des images
+
+La première image du site est arrivée avec la page parcours. Le principe est le même que
+pour les jetons : **une seule déclaration, tous les attributs en découlent.**
+
+L'image est décrite comme une **donnée typée** (`IImageIllustration`, validée par Zod dans
+`content/parcours-page.ts`) ; le composant `@shared/components/Illustration/` en dérive le
+`<picture>`, et `utils/image.ts` compose les chaînes. Aucun chemin, aucune largeur, aucun
+type MIME n'est écrit dans du JSX.
+
+### Ce que la déclaration porte
+
+| Champ | Rôle |
+|-------|------|
+| `alt` | texte alternatif — **décrit** l'image ; le schéma refuse en dessous de 40 caractères, ce qui attrape l'intitulé creux (« photo », « illustration ») |
+| `base` | racine du chemin public, sans largeur ni extension : `/images/tasse` |
+| `formats` | du plus efficace au repli. Tous sauf le dernier deviennent des `<source>` ; le dernier alimente l'`<img>` |
+| `declinaisons` | largeurs **et hauteurs natives**, de la plus étroite à la plus large (ordre imposé par le schéma) |
+| `tailles` | attribut `sizes` : la largeur d'**affichage** selon le viewport |
+| `placeholder`, `licence`, `provenance` | traçabilité — voir plus bas |
+
+### Les trois propriétés tenues, et le défaut que chacune évite
+
+1. **Dimensions déclarées.** `width` et `height` portent les dimensions natives du fichier
+   réellement pointé par `src`, c'est-à-dire la **déclinaison la plus large**. Le
+   navigateur en déduit le rapport et réserve la place avant le chargement : le texte
+   sous l'image ne se fait pas repousser. C'est pour cela que le schéma impose l'ordre
+   croissant des déclinaisons — le rendu lit la dernière, et un ordre quelconque
+   déclarerait des dimensions qui ne sont pas celles du fichier servi. Le défaut serait
+   silencieux : l'image s'afficherait parfaitement, la page sauterait seulement.
+2. **Formats modernes avec repli.** WebP en `<source type="image/webp">`, JPEG sur
+   l'`<img>`. Le type MIME vient d'une table explicite : `image/jpeg`, jamais
+   `image/jpg` — un type inconnu ferait retomber l'image sur le repli sans que rien ne le
+   signale.
+3. **Tailles responsives.** `sizes` dit la largeur d'affichage, `srcset` les largeurs
+   disponibles, en descripteurs de largeur (`w`) et non de densité (`x`) : le navigateur
+   choisit en connaissant à la fois la densité de l'écran et la place réelle. Sans
+   `sizes`, il suppose `100vw` et télécharge la plus grande déclinaison même sur un
+   téléphone.
+
+**Mesuré** sur la page servie, en pilotant Chrome par CDP : à densité 1, toutes les
+largeurs de 320 à 1920 px reçoivent la déclinaison étroite en WebP (800 px de large,
+**42,8 ko**) ; à densité 2, au-delà de 320 px, la déclinaison large (1 200 px,
+**90,3 ko**). Les replis JPEG pèsent respectivement 113,7 et 246,8 ko et ne sont servis
+qu'aux navigateurs sans WebP.
+
+> Les largeurs sont écrites ici avec leur séparateur de milliers, et les noms de fichiers
+> ne sont pas cités : le test d'acceptation `montant-abandonne.test.js` interdit d'écrire
+> dans une documentation la borne haute de la grille tarifaire SEA sous forme d'entier nu —
+> or la déclinaison large de l'image porte par coïncidence la même valeur en pixels. La
+> contrainte est stricte et volontaire ; la typographie française l'évite de toute façon.
+> Les noms exacts des quatre fichiers restent lisibles dans `content/parcours-page.ts`.
+
+### `<picture>` plutôt que `next/image`
+
+Le site est entièrement prérendu et servi en `output: standalone`. `next/image` ajouterait
+un optimiseur d'images à l'exécution pour un gain nul sur des fichiers déjà déclinés à la
+main, et ferait dépendre le rendu d'un service là où trois balises HTML suffisent. C'est
+la même logique que « le HTML d'abord » plus haut.
+
+### Traçabilité d'un visuel provisoire
+
+`tasse-*.{webp,jpg}` est un **placeholder sous licence Unsplash**, à remplacer par une
+photo de Jérôme MARICHEZ. Ce n'est délibérément **pas un portrait** : un visage inconnu
+parti en production présenterait quelqu'un d'autre comme étant lui.
+
+Le statut provisoire est porté par la **donnée** (`placeholder: true`, `licence`,
+`provenance`) et pas seulement par un commentaire, pour une raison précise : un
+commentaire disparaît sans que rien ne s'en aperçoive, et l'image d'emprunt reste en
+ligne. Porté par la donnée, il est vérifiable par un test — et
+`parcours-structure.spec.tsx` le vérifie. Des commentaires le signalent en plus dans
+`content/parcours-page.ts` et dans la section d'en-tête de la page parcours. Provenance
+complète : `~/Desktop/assets-jeromemarichez/LICENCE-ET-PROVENANCE.md`.
 
 ### Libellés de liens répétés
 
