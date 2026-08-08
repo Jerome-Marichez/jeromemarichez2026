@@ -20,6 +20,31 @@ Les tests **conditionnent la fusion** d'une PR vers `dev` (voir le
 lancée — runner Node natif (`node:test` + `fetch`), dans `tests/acceptance/` et
 `tests/acceptance/uat/<catégorie>/`.
 
+## Environnement de test front — jsdom, TSX et modules CSS
+
+Les tests front des niveaux **unitaire** et **intégration** rendent de vrais composants
+React avec React Testing Library : ils ont besoin d'un DOM et tournent donc en
+environnement **`jsdom`** (`front/jest.config.mjs`). Le **back reste en environnement
+`node`** — sa configuration (`back/jest.config.mjs`) est indépendante et inchangée.
+
+La compilation du TypeScript/JSX et la résolution des imports non-JS sont déléguées à
+**`next/jest`**, livré avec Next.js — **aucune dépendance supplémentaire** :
+
+| Ce qu'importe le composant | Ce que voit le test |
+|---|---|
+| `.ts` / `.tsx` | compilé par **SWC**, le compilateur du build Next, avec les alias de `tsconfig.json` (`@/…`) |
+| `styles from './card.module.css'` | un **proxy d'objet** : `styles.card` vaut la chaîne `'card'` — la classe appliquée reste donc assertable |
+| CSS global, images, `next/font`, `server-only` | neutralisés : ce ne sont pas des comportements observables en Jest |
+
+Cette résolution vient **de la configuration**, jamais d'une doublure écrite à la main :
+le dépôt ne contient ni `jest.mock`, ni dossier `__mocks__`, ni fichier de doublure. Un
+module CSS est un **actif de style**, pas un module métier — la règle « pas de mocks »
+ci-dessous porte sur la **logique métier**, qui n'est jamais remplacée.
+
+**Contrepartie assumée** : SWC transpile **sans vérifier les types**. Le type-checking
+des tests reste couvert par TypeScript lui-même — `npx tsc --noEmit` dans `front/`, et
+`next build` en CI, dont le périmètre inclut `front/tests/**`.
+
 ## Cycle : le test d'abord, écrit par le développeur
 
 L'ordre n'est pas négociable — il est appliqué par le hook
@@ -78,7 +103,10 @@ vers un mock.
 - **Supertest** ou un **vrai serveur** (`listen(0)`) pour le niveau système ;
 - une **base de test dédiée** (jamais celle de dev/prod), rechargée depuis les fixtures ;
 - `jest.fn()` / `jest.spyOn` pour **observer** un appel (callback, événement) sans
-  remplacer un module métier.
+  remplacer un module métier ;
+- la **résolution des actifs non-JS** (modules CSS, images, polices) par `next/jest` —
+  un mapper de configuration fourni par le framework, qui ne remplace **aucun module
+  métier** (voir « Environnement de test front » ci-dessus).
 
 Le hook se désarme par `ALLOW_TEST_DOUBLES=1` — décision de Jérôme MARICHEZ, à justifier.
 

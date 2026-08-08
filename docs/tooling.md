@@ -21,6 +21,25 @@ Toutes les opérations passent par `make` (voir `Makefile`) : agnostique, docume
 make lint
 ```
 
+## Chaîne de test front — Jest, jsdom, next/jest
+
+`front/jest.config.mjs` tourne en environnement **`jsdom`** (les tests rendent des
+composants React) et délègue la transformation à **`next/jest`**, fourni avec Next.js :
+TypeScript/JSX compilé par **SWC**, alias `@/…` de `tsconfig.json`, et résolution des
+imports `*.module.css` par un proxy d'objet. **Aucune dépendance ajoutée**, aucune
+doublure de module écrite à la main. `back/jest.config.mjs` reste en environnement
+**`node`** avec `ts-jest`. Détail : [`testing.md`](./testing.md).
+
+## Fichiers générés — ce qui n'entre pas dans le dépôt
+
+`next dev` génère `front/AGENTS.md` et `front/CLAUDE.md` (option `agentRules` de
+Next.js, active par défaut) pour orienter un agent de code vers la documentation de la
+version installée. Ces fichiers sont **ignorés par git** : un second `CLAUDE.md` dans le
+dépôt entrerait en concurrence avec les règles du projet, portées par le seul
+`CLAUDE.md` racine. Pour supprimer la génération elle-même plutôt que l'ignorer, il
+faudrait poser `agentRules: false` dans `next.config.mjs` — non retenu, la documentation
+versionnée avec Next étant utile en local.
+
 ## Hooks Claude Code (`.claude/`)
 
 | Hook | Événement | Rôle |
