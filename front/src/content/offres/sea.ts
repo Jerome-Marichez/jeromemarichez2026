@@ -15,8 +15,13 @@
 // Protocol, GA, Matomo et CMP (ni Tealium, ni Adobe) ; régies limitées à Google Ads
 // et Bing Ads (ni Meta Ads, ni LinkedIn Ads). Les budgets cités (100 000 € chez Truffle
 // Capital, environ 25 000 € chez Verhoeven Joaillier) sont des faits du PARCOURS : ils
-// décrivent ce qui a été fait, pas ce qui est vendu. Aucun tarif n'est publié : la
-// tarification fait l'objet d'un arbitrage distinct (HT ou TTC) non encore rendu.
+// décrivent ce qui a été fait, pas ce qui est vendu.
+//
+// Tarifs (issue #17, arbitrage du 2026-08-08) : ils ne sont PAS ici. La grille vit dans
+// `sea-tarifs.ts`, seul fichier du dépôt où un montant est écrit. L'axe « Pilotage des
+// campagnes » ci-dessous porte la preuve chiffrée que la grille désigne par référence —
+// ne pas en modifier la clé (`sea-pilotage`) ni la vider sans mettre à jour la grille et
+// la page d'accueil, qui la référencent toutes deux.
 import type { IOffre } from '../../interfaces/offre'
 import { offreSchema } from '../../schemas/offre.schema'
 

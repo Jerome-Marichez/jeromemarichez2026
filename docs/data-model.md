@@ -26,6 +26,8 @@ Point d'entrée unique du contenu : `front/src/content/index.ts`.
 |--------|------|-----------|
 | `IOffre` | Une des trois offres de service. Porte l'accroche et la **décision** que la prestation permet de trancher. | Contient 1..n `IAxeOffre`. Référencée par `IExperience.offresLiees`. |
 | `IAxeOffre` | Un axe de travail à l'intérieur d'une offre : ce qui est fait, la preuve qui l'appuie, et le `volet` auquel il appartient le cas échéant. | Appartient à une `IOffre`. |
+| `IGrilleTarifaire` | Les prix publiés pour une offre, et l'argument qui les rend cohérents. Une seule existe : celle de **SEA**. | Pointe vers une `IOffre` (`offre`), contient 1..n `ITarif`, porte une `IReferencePreuve`. |
+| `ITarif` | Une ligne tarifaire : la prestation, sa condition d'application, son `Montant`. | Appartient à une `IGrilleTarifaire`. |
 | `IExperience` | Une expérience professionnelle du parcours. | Pointe vers 1..n `IOffre` via `offresLiees` (clés `CleOffre`). |
 | `IFormation` | Un diplôme obtenu. | Aucune. |
 | `ICertification` | Une certification et son justificatif officiel. | Porte un `Justificatif` (union discriminée). |
@@ -36,6 +38,9 @@ Point d'entrée unique du contenu : `front/src/content/index.ts`.
 ```mermaid
 erDiagram
     IOFFRE      ||--|{ IAXEOFFRE     : "contient"
+    IOFFRE      ||--o| IGRILLETARIFAIRE : "tarifée par (0 ou 1)"
+    IGRILLETARIFAIRE ||--|{ ITARIF   : "contient"
+    ITARIF      ||--|| MONTANT       : "porte"
     IEXPERIENCE }o--|{ IOFFRE        : "appuie (offresLiees)"
     ICERTIFICATION ||--|| JUSTIFICATIF : "porte"
     IIDENTITE   ||--|| ICONTACT      : "porte"
@@ -73,12 +78,15 @@ Elles sont portées **deux fois** : par le typage (à la compilation) et par le 
 | Une offre a au moins un axe ; une expérience au moins un fait | schémas Zod |
 | `IAxeOffre.volet` est optionnel mais jamais vide s'il est présent | `axe-offre.schema.ts` |
 | `anneeFin >= anneeDebut` sur une expérience | `experience.schema.ts` (`refine`) |
+| `maximum > minimum` sur une fourchette de prix | `tarif.schema.ts` (`refine`) |
+| Montants en euros **entiers et positifs** (pas de centimes, pas de zéro) | `tarif.schema.ts` |
+| Une grille tarifaire a au moins une ligne | `grille-tarifaire.schema.ts` |
 | Années bornées à `2000..2100`, entières | schémas Zod |
 | Aucune clé inconnue dans une entité | `z.strictObject` |
 
 ## Règle de véracité portée par le typage
 
-Deux règles du [`CLAUDE.md`](../CLAUDE.md) ne sont pas laissées à la vigilance du
+Plusieurs règles du [`CLAUDE.md`](../CLAUDE.md) ne sont pas laissées à la vigilance du
 rédacteur : elles sont **rendues impossibles à enfreindre** par le modèle.
 
 ### 1. Pas de lien de certification mort ou inventé
@@ -138,6 +146,75 @@ de référence classent « Anglais, B2 (EF SET, CECRL) » sous *Langues*. EF SET
 qui évalue le niveau, pas un titre obtenu. La compétence part donc dans `knowsLanguage`
 du JSON-LD, jamais dans `hasCredential` — où elle aurait gonflé la liste des
 certifications d'une ligne indue.
+
+### 5. Pas de montant sans sa mention fiscale
+
+Un prix publié engage Jérôme vis-à-vis d'un prospect, et un prix sans mention fiscale est
+ambigu — l'ambiguïté se paie au premier échange commercial. La mention n'est donc pas une
+consigne de rédaction : c'est une **propriété du montant**, absente des variantes qui ne
+portent aucun chiffre. `Montant` (dans `front/src/interfaces/types.ts`) est bâti comme
+`Justificatif` :
+
+```ts
+export type Montant =
+  | { readonly nature: 'inclus' }
+  | {
+      readonly nature: 'fourchette'
+      readonly minimum: number
+      readonly maximum: number
+      readonly mentionFiscale: MentionFiscale
+      readonly periodicite: Periodicite
+      readonly variableSelon: string
+    }
+  | { readonly nature: 'sur-devis'; readonly periodicite: Periodicite }
+```
+
+Conséquences, toutes vérifiées :
+
+- écrire une fourchette **sans** `mentionFiscale` est une **erreur de compilation**
+  (`TS2322` — *Property 'mentionFiscale' is missing … but required*) ;
+- écrire une `mentionFiscale` sur une ligne `inclus` ou `sur-devis` — là où il n'y a
+  aucun montant à taxer — est une **erreur de compilation** (`TS2353`), et le
+  `z.strictObject` la rejetterait aussi **au chargement** ;
+- lire `montant.minimum` sans narrowing sur `nature === 'fourchette'` ne compile pas : un
+  rendu ne peut pas afficher un chiffre qui n'existe pas ;
+- `MentionFiscale` vaut `'TTC'` et rien d'autre. L'arbitrage rendu (2026-08-08) est
+  *toutes taxes comprises* ; publier du hors taxes serait un **second arbitrage
+  commercial**, qui passerait par une modification explicite du type, relue en PR ;
+- une fourchette inversée est refusée **au build** par le `refine` de `tarif.schema.ts`,
+  avec le message *« La borne haute d'une fourchette doit être strictement supérieure à
+  la borne basse. »* — l'égalité est refusée aussi : deux bornes identiques ne sont pas
+  une estimation, c'est un prix ferme déguisé.
+
+Côté **rendu**, la garantie est prolongée par `front/src/utils/tarif.ts`, seul module qui
+transforme un `Montant` en texte. Il émet toujours le chiffre et sa mention d'un seul
+tenant — « … € TTC, une seule fois, selon le périmètre » — et la fonction qui met en forme
+les euros **n'est pas exportée** : il n'existe aucun moyen d'obtenir un montant nu. Sa
+sortie porte un type marqué, `MontantAffichable` : un composant qui déclare ce type en
+propriété ne peut pas recevoir un prix écrit à la main dans du JSX.
+
+*(Les chiffres eux-mêmes ne sont recopiés ni ici, ni dans les commentaires du code : ils
+vivent dans `front/src/content/offres/sea-tarifs.ts`, et nulle part ailleurs.)*
+
+### 6. Un montant, une seule écriture
+
+Comme pour les coordonnées, les montants ne sont **saisis qu'une fois**, dans
+`front/src/content/offres/sea-tarifs.ts`. Ni le [`README.md`](../README.md), ni ce
+document, ni une page ne les recopient : ils décrivent la grille — incluse, fourchette
+TTC une seule fois selon le périmètre, forfait mensuel sur devis — et renvoient au
+fichier. Deux écritures d'un même prix finissent par diverger, et c'est la copie oubliée
+qui se retrouve devant le prospect.
+
+La grille est rattachée à son offre par `IGrilleTarifaire.offre` plutôt que d'être un
+champ obligatoire d'`IOffre` : **Data & IA est entièrement sur devis** et Ingénierie Web
+n'a pas d'arbitrage rendu. Un champ obligatoire aurait forcé à inventer des montants là
+où il n'y en a pas ; l'absence de grille est ici une information, pas un trou.
+
+L'argument commercial qui justifie la gratuité de la mise en place vit dans
+`IGrilleTarifaire.argument`, à la première personne du singulier, et la preuve chiffrée
+qui l'appuie est **désignée** par `IReferencePreuve` (offre `sea`, axe `sea-pilotage`) et
+non recopiée : les budgets pilotés et les prestataires encadrés restent écrits à un seul
+endroit, dans l'offre.
 
 ## Validation au chargement
 

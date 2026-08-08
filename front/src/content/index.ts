@@ -10,4 +10,11 @@ export { certifications } from './certifications'
 export { experiences } from './experiences'
 export { formations } from './formations'
 export { identite } from './identite'
-export { offreDataIa, offreIngenierieWeb, offreSea, offres } from './offres'
+export {
+  grillesTarifaires,
+  grilleTarifaireSea,
+  offreDataIa,
+  offreIngenierieWeb,
+  offreSea,
+  offres,
+} from './offres'

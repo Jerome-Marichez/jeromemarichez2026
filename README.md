@@ -178,7 +178,8 @@ découpage est porté par la donnée elle-même (`IAxeOffre.volet`), pas par la 
 > projet data se chiffre au périmètre : volume et état des données, usage visé,
 > contraintes de mise en production. **Aucun montant n'est affiché pour cette offre.**
 > « Sur devis » est une modalité, pas un prix — c'est à ce titre que la mention est
-> publiée. Les montants de l'offre SEA relèvent de l'issue #17, distincte.
+> publiée. La seule grille tarifaire du site est celle de l'offre **SEA**, plus bas ; le
+> contenu typé de Data & IA ne porte aucun montant et aucune grille ne lui est rattachée.
 
 ### 3. SEA
 
@@ -214,10 +215,39 @@ agence : la mesure n'est pas déclarative, elle est construite dans le code.
 - **Ce que l'offre ne couvre pas** — ni rédaction de contenu, ni netlinking, ni suivi de
   positions. Dit explicitement plutôt que laissé à supposer.
 
-> **Tarifs : aucun montant n'est publié.** La tarification SEA fait l'objet d'un
-> arbitrage distinct, **bloqué tant que Jérôme MARICHEZ n'a pas tranché HT ou TTC** — un
-> montant sans mention est ambigu et se paie au premier échange commercial. Aucun prix ne
-> figure donc dans ce dépôt, ni dans le contenu publié, ni en commentaire.
+#### Tarifs
+
+Grille publiée — arbitrages de Jérôme MARICHEZ du 2026-08-08 (issue #17). **Toutes taxes
+comprises**, mention affichée à côté de chaque montant et jamais reléguée en note de bas
+de page : c'est elle qui rend le prix non ambigu.
+
+| Prestation | Condition d'application | Tarif |
+|------------|-------------------------|-------|
+| Mise en place de la solution data-driven | si j'ai conçu le site | **incluse** |
+| Mise en place de la solution data-driven | sur un site existant, que je n'ai pas conçu | **fourchette TTC, une seule fois, selon le périmètre** |
+| Gestion du compte | ensuite, une fois la solution en place | **forfait mensuel, sur devis** |
+
+> **Les montants eux-mêmes ne sont pas recopiés ici.** Ils vivent dans
+> `front/src/content/offres/sea-tarifs.ts`, et nulle part ailleurs — même règle que les
+> coordonnées de contact. Un prix écrit à deux endroits finit par diverger, et c'est la
+> copie oubliée qui engage Jérôme vis-à-vis d'un prospect. La mention « TTC » n'est pas
+> une convention de rédaction : c'est une **propriété du montant**, sans laquelle le
+> contenu ne compile pas — voir [`docs/data-model.md`](./docs/data-model.md).
+
+**Pourquoi la mise en place est incluse quand je conçois le site.** En encadrant des
+prestataires d'acquisition avant de piloter moi-même, j'ai vu la même mécanique se
+répéter : les campagnes s'optimisent sur les métriques de la régie — coût par clic,
+conversions déclarées — parce que c'est la seule matière disponible de ce côté-là,
+pendant que l'entreprise décide sur ses chiffres à elle : marge, stock, valeur d'un
+client dans la durée. Ce n'est pas une affaire de compétence, c'est une affaire d'accès.
+D'où la gratuité de la mise en place dans ce cas précis : c'est le seul où la mesure est
+construite dans le produit dès le départ, du côté des chiffres du client. C'est la
+charnière économique de la chaîne cadrage → développement → câblage data → SEA.
+
+*Cet argument se dit **à la première personne, depuis l'expérience vécue** — jamais comme
+un jugement sur une profession, sans nom d'agence et sans généralisation. Le dénigrement
+de concurrents est juridiquement risqué, et un prospect déjà accompagné se sentirait pris
+à partie.*
 
 ---
 
