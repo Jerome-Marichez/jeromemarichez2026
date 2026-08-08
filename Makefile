@@ -2,7 +2,7 @@
 # Interface de commandes unique (local + CI). `make help` liste les cibles.
 
 .DEFAULT_GOAL := help
-.PHONY: help install dev build lint test test-unit test-int test-mutation
+.PHONY: help install dev build lint typecheck test test-unit test-int test-mutation
 .PHONY: test-e2e
 .PHONY: test-system
 .PHONY: test-acceptance
@@ -15,6 +15,14 @@ help: ## Liste les commandes disponibles
 lint: ## Biome sur tout le dépôt + limite 300 lignes/fichier
 	npx @biomejs/biome@^2.0.0 check .
 	./scripts/check-max-lines.sh
+
+# Le front compile ses tests via next/jest (SWC) et le back via ts-jest : ni l'un ni
+# l'autre n'échoue sur une erreur de types. Cette cible est le seul contrôle de types
+# joué avant la fusion dans dev. Le back passe par tsconfig.typecheck.json, car son
+# tsconfig.json de build est limité à « src » (rootDir + declaration pour dist/).
+typecheck: ## Vérification des types TypeScript (front + back, tests inclus, sans artefact)
+	cd front && npx tsc --noEmit
+	cd back && npx tsc -p tsconfig.typecheck.json
 
 test: test-unit test-int ## Tests unitaires + intégration (rapides)
 
