@@ -43,7 +43,7 @@ Source : `front/src/@shared/styles/tokens.css`.
 
 ### Couleurs
 
-Douze jetons, déclarés à l'identique dans les deux thèmes. Les valeurs de contraste
+Seize jetons, déclarés à l'identique dans les deux thèmes. Les valeurs de contraste
 mesurées sont dans [`accessibility.md`](./accessibility.md).
 
 | Jeton | Clair | Sombre | Usage |
@@ -60,6 +60,15 @@ mesurées sont dans [`accessibility.md`](./accessibility.md).
 | `--color-accent-contrast` | `#ffffff` | `#07131c` | texte posé sur l'accent |
 | `--color-accent-soft` | `#e3eef6` | `#152430` | pastilles, fonds d'accent discrets |
 | `--color-focus` | `#0b4f79` | `#7fc1f0` | anneau de focus |
+| `--color-depth-top` | `#0f4267` | `#0c3550` | borne haute du dégradé de profondeur |
+| `--color-depth-bottom` | `#072235` | `#061b2a` | borne basse du dégradé de profondeur |
+| `--color-depth-text` | `#f4f8fb` | `#eef4f8` | texte principal posé sur la profondeur |
+| `--color-depth-text-muted` | `#b6c9d8` | `#adc0d0` | étiquettes et texte secondaire sur la profondeur |
+
+Les quatre jetons `depth` forment un sous-système fermé : ils ne se mélangent jamais
+aux autres. Un texte posé sur le dégradé emploie `--color-depth-text`, jamais
+`--color-text` — les deux thèmes n'ont pas la même idée de ce qu'est du texte, alors
+que le dégradé, lui, reste sombre dans les deux.
 
 **Palette retenue** : un bleu d'encre profond sur un blanc légèrement chaud. Une seule
 teinte d'accent, pas de couleur secondaire décorative — un site qui vend de l'ingénierie
@@ -110,9 +119,28 @@ Deux espacements fluides portent la mise en page :
 
 `--radius-sm` 4 px, `--radius-md` 8 px, `--radius-lg` 14 px, `--radius-pill`.
 
-`--shadow-sm` et `--shadow-md` sont doux en thème clair et nettement plus sombres en
-thème sombre, où une ombre diffuse ne se voit plus : c'est alors `--color-border` qui
-porte l'essentiel de la séparation entre surfaces.
+Quatre niveaux d'ombre, doux en thème clair et nettement plus sombres en thème sombre,
+où une ombre diffuse ne se voit plus : c'est alors `--color-border` qui porte
+l'essentiel de la séparation entre surfaces.
+
+| Jeton | Rôle |
+|-------|------|
+| `--shadow-sm` | carte posée sur le fond (`Card` par défaut) |
+| `--shadow-md` | surface détachée : carte d'offre, point d'entrée |
+| `--shadow-lg` | surface franchement surélevée : maillon de la chaîne, panneau du constat |
+| `--shadow-xl` | la même, soulevée au survol |
+
+Deux jetons complètent le vocabulaire de profondeur :
+
+| Jeton | Valeur | Rôle |
+|-------|--------|------|
+| `--elevation-lift` | `-2px` | décalage vertical d'une surface soulevée au survol |
+| `--gradient-depth` | `linear-gradient(160deg, …)` | dégradé de bleu profond, bâti sur les deux bornes `--color-depth-*` |
+
+`--gradient-depth` n'est déclaré **que** dans `:root`, et suit pourtant le thème : ses
+deux bornes sont des `var()`, substituées au moment de l'emploi avec la valeur héritée
+par l'élément. L'angle est donc décidé une seule fois, et le thème sombre n'a rien à
+redéclarer.
 
 Largeurs utiles : `--layout-width-narrow` 44 rem (texte suivi),
 `--layout-width-default` 68 rem, `--layout-width-wide` 80 rem (en-tête, grilles).
@@ -196,18 +224,71 @@ employer est la page d'accueil (`views/accueil/`).
 | **Grille de cartes** | `views/accueil/sections/Offres` | `ul` en `grid` `auto-fit` : un lecteur d'écran annonce le nombre de cartes avant de les énumérer. Les `li` sont en `display: grid` pour que chaque carte occupe toute la hauteur de sa rangée et que les pieds de carte s'alignent. |
 | **Liste de preuves** | `views/accueil/sections/Preuves` | Volontairement **pas** des cartes : une preuve n'est pas une surface autonome mais un fait rattaché à une offre. Un filet d'accent de 1 px et un retrait suffisent à la délimiter. |
 | **Panneau d'appel à l'action** | `views/accueil/sections/AppelContact` | Bloc sur `--color-accent-soft`, arrondi en `--radius-lg`, fermant la page. Ne contient qu'un seul lien, et il est `primary`. |
+| **Chaîne** | `views/accueil/sections/Chaine` | `ol` en `grid` `auto-fit` : quatre maillons surélevés sur le dégradé de profondeur. L'ordre est l'information, d'où la liste **ordonnée**. |
+| **Chemin d'étapes** | `views/accueil/sections/PointsEntree` | `ol` de pastilles reliées par un filet. Le filet est un `::after` au `content` **vide** : purement décoratif, jamais restitué. |
+| **Constat en deux colonnes** | `views/accueil/sections/Pourquoi` | Panneau de profondeur, deux colonnes strictement symétriques. Aucun lien à l'intérieur. |
 
-Deux contraintes de ce dernier motif viennent d'une **mesure**, pas d'un goût :
+### Le motif de profondeur
+
+La direction artistique demande de la **tridimensionnalité**, obtenue en **élévation et
+en couches** — jamais en 3D. Une bibliothèque WebGL coûterait 150 à 600 ko et ferait de
+ce site la contre-démonstration de ce qu'il vend : la profondeur est donc entièrement
+en CSS, sans une ligne de JavaScript ni une dépendance.
+
+Quatre procédés, et rien d'autre :
+
+| Procédé | Jetons | Où |
+|---------|--------|-----|
+| Dégradé de bleu profond | `--gradient-depth` | maillons de la chaîne, panneau du constat |
+| Ombre portée franche | `--shadow-lg`, `--shadow-xl` | les mêmes, plus les cartes d'offre et les points d'entrée |
+| Décalage au survol | `--elevation-lift` | toute surface surélevée |
+| Couches de fond alternées | `tone="muted"` de `Section` | rythme vertical de la page |
+
+Deux règles tiennent ce motif :
+
+- **La profondeur bleutée marque ce qui explique, pas ce qui fait agir.** La chaîne et
+  le constat sont sur le dégradé ; les points d'entrée et les offres, qui portent les
+  liens, restent sur `--color-surface`. Un lien sur le dégradé demanderait un cinquième
+  jeu de couleurs (lien, survol, anneau de focus) pour un gain nul.
+- **Le décalage se déclenche aussi au clavier.** Partout où une surface se soulève au
+  survol, elle se soulève également en `:focus-within` : un visiteur au clavier voit la
+  même carte se détacher qu'un visiteur à la souris.
+
+Le mouvement réduit est traité **à la source** : les transitions sont exprimées avec
+`--transition-base`, que `globals.css` passe à `0s` sous
+`prefers-reduced-motion: reduce`. Le décalage devient alors instantané — plus rien ne
+s'anime, sans sélecteur universel ni `!important`. C'est le bénéfice direct de la règle
+« aucune valeur en dur » : il n'y a pas eu une seule animation à retrouver pour la
+neutraliser.
+
+L'élévation des cartes d'offre est appliquée depuis `offres.module.css` via la prop
+`className` de `Card`, et **non** dans `Card` elle-même : la profondeur est un motif de
+la page d'accueil, pas une propriété du composant partagé. Une carte de formulaire ou de
+page d'offre n'a aucune raison de se soulever.
+
+Deux contraintes du **panneau d'appel à l'action** viennent d'une **mesure**, pas d'un
+goût :
 
 - Il ne porte **aucun filet**. `--color-border` sur `--color-accent-soft` ne contraste
   qu'à **1.19:1** (thème clair) : la bordure serait invisible.
 - Il n'accueille **pas** de lien `secondary`. Au survol, un lien secondaire prend
   précisément `--color-accent-soft` comme fond — il disparaîtrait dans le panneau.
 
-Les trois combinaisons de couleurs introduites par ces motifs
-(`text-muted` / `accent-soft`, `accent-hover` / `accent-soft`, `focus` / `accent-soft`)
-sont inscrites dans `@shared/config/contrast-pairs.ts` et mesurées dans
-[`accessibility.md`](./accessibility.md).
+Les combinaisons de couleurs introduites par ces motifs sont inscrites dans
+`@shared/config/contrast-pairs.ts` et mesurées dans
+[`accessibility.md`](./accessibility.md) : trois par le panneau d'appel à l'action
+(`text-muted` / `accent-soft`, `accent-hover` / `accent-soft`, `focus` / `accent-soft`),
+quatre par le motif de profondeur (`depth-text` et `depth-text-muted`, chacun contre les
+deux bornes du dégradé).
+
+**Pourquoi deux bornes suffisent à couvrir un dégradé.** Un ratio ne se calcule que
+contre une couleur unie ; un dégradé en présente une infinité. `--color-depth-bottom`
+est plus sombre que `--color-depth-top` **sur les trois canaux** : toute couleur
+intermédiaire a donc une luminance comprise entre celles des deux bornes, et le ratio
+avec un avant-plan clair est encadré par les deux ratios mesurés. Vérifier les bornes
+vérifie tout le dégradé. Cet ordonnancement canal par canal est la condition de la
+démonstration : le jour où une borne est retouchée, c'est lui qu'il faut revérifier
+d'abord.
 
 ### Libellés de liens répétés
 
