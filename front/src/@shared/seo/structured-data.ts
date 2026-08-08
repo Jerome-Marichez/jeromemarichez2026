@@ -14,7 +14,9 @@
 // Jérôme MARICHEZ, déjà publiques sur ses CV, dont il a explicitement demandé la
 // publication. Elles proviennent du contenu typé, jamais d'une chaîne écrite ici.
 import { certifications, formations, identite, offres } from '@/content'
+import type { IOffre } from '@/interfaces/offre'
 import { telephoneVersE164 } from '@/utils/telephone'
+import { cheminOffre } from '../config/routes'
 import type { JsonLdGraph, JsonLdNode } from '../interfaces/types'
 import { absoluteUrl, siteUrl } from './site'
 
@@ -154,5 +156,73 @@ export function buildSiteStructuredData(): JsonLdGraph {
   return {
     '@context': 'https://schema.org',
     '@graph': [personne(), activite()],
+  }
+}
+
+/**
+ * Les axes de l'offre, décrits un à un.
+ *
+ * Chaque axe est bien un service rendu dans le cadre de l'offre : le catalogue reprend
+ * son titre et sa description tels qu'écrits dans `content/offres/`, sans les reformuler.
+ * Aucun prix n'y figure — voir `serviceDeLOffre` ci-dessous.
+ */
+function catalogueAxes(offre: IOffre): JsonLdNode {
+  return {
+    '@type': 'OfferCatalog',
+    name: offre.titre,
+    itemListElement: offre.axes.map((axe) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: axe.titre,
+        description: axe.description,
+      },
+    })),
+  }
+}
+
+/**
+ * Le `Service` décrivant UNE offre — l'entité propre à sa page.
+ *
+ * `provider` pointe l'`@id` du `ProfessionalService` du layout racine au lieu de le
+ * redécrire : les moteurs recomposent un seul graphe pour le document, et l'activité
+ * n'y est déclarée qu'une fois (règle du CLAUDE.md — `Person` et `ProfessionalService`
+ * décrivent le site entier, une page ne décrit que ce qui lui est propre).
+ *
+ * Ce qui n'est PAS émis, et pourquoi :
+ *
+ * - aucun prix, aucune `offers`, aucun `priceSpecification` — y compris pour SEA, seule
+ *   offre à publier une grille. Un prix en JSON-LD engage une devise, une validité et
+ *   des conditions de livraison qu'aucun arbitrage n'a fixées ; la grille dit « incluse
+ *   si j'ai conçu le site » et « sur devis », qui ne se traduisent pas en `price`. Le
+ *   texte visible reste la seule publication des montants, et `utils/tarif.ts` la seule
+ *   façon de les mettre en forme ;
+ * - ni `areaServed`, ni `aggregateRating`, ni `review` : rien de tout cela n'est établi,
+ *   et une donnée structurée fausse est une affirmation fausse (docs/seo.md).
+ */
+function serviceDeLOffre(offre: IOffre): JsonLdNode {
+  const url = absoluteUrl(cheminOffre(offre.cle))
+  return {
+    '@type': 'Service',
+    '@id': `${url}#offre`,
+    name: offre.titre,
+    description: offre.accroche,
+    serviceType: offre.titre,
+    url,
+    provider: { '@id': SERVICE_ID },
+    hasOfferCatalog: catalogueAxes(offre),
+  }
+}
+
+/**
+ * Graphe d'une page d'offre. Injecté par la vue, en plus de celui du layout.
+ *
+ * Construit intégralement à partir de l'offre typée reçue en argument : ajouter une
+ * quatrième offre au contenu lui donne son `Service` sans qu'une ligne d'ici change.
+ */
+export function buildOffreStructuredData(offre: IOffre): JsonLdGraph {
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [serviceDeLOffre(offre)],
   }
 }

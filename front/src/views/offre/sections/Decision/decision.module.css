@@ -1,0 +1,25 @@
+/* Décision permise — panneau de profondeur fermant l'argument de l'offre. */
+
+.section {
+  padding-block: var(--space-section);
+}
+
+.panneau {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+
+  /* Le dégradé est un jeton : son angle et ses deux bornes sont décidés une seule
+   * fois, et il suit le thème sans être redéclaré ici. */
+  background-image: var(--gradient-depth);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-depth-text);
+}
+
+.texte {
+  max-width: var(--layout-width-narrow);
+  font-size: var(--font-size-md);
+}

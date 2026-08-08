@@ -1,0 +1,74 @@
+/* Grille tarifaire — lignes de prix posées sur une section au fond atténué. */
+
+.argument {
+  max-width: var(--layout-width-narrow);
+  margin-bottom: var(--space-lg);
+  color: var(--color-text-muted);
+}
+
+.lignes {
+  display: grid;
+
+  /* Le nombre de colonnes se déduit de la place disponible, sans point de rupture.
+   * `min()` empêche la piste de réclamer 16 rem quand le viewport est plus étroit —
+   * c'est ce qui évite le défilement horizontal à 320 px. */
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+  gap: var(--space-md);
+  padding-left: 0;
+  list-style: none;
+}
+
+.ligne {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.intitule {
+  font-weight: var(--font-weight-medium);
+}
+
+.condition {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* Le montant ferme la ligne. `margin-top: auto` l'aligne d'une colonne à l'autre,
+ * quelle que soit la longueur de l'intitulé ou de la condition au-dessus. */
+.montant {
+  margin-top: auto;
+  padding-top: var(--space-2xs);
+  color: var(--color-accent);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.preuve {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  max-width: var(--layout-width-narrow);
+  margin-top: var(--space-lg);
+
+  /* 1 px : seule épaisseur de filet employée par le socle (voir Card, Preuves). */
+  border-left: 1px solid var(--color-accent);
+  padding-left: var(--space-sm);
+}
+
+.preuveLibelle {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.preuveEnonce {
+  color: var(--color-text);
+}

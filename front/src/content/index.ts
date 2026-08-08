@@ -10,6 +10,7 @@ export { certifications } from './certifications'
 export { experiences } from './experiences'
 export { formations } from './formations'
 export { identite } from './identite'
+export { offrePage } from './offre-page'
 export {
   grillesTarifaires,
   grilleTarifaireSea,

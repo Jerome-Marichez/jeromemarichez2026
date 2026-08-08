@@ -1,0 +1,19 @@
+/* Entête d'une page d'offre — porte le h1 et l'accroche. */
+
+.entete {
+  padding-block: var(--space-section);
+}
+
+.contenu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.lead {
+  /* Longueur de ligne volontairement plus courte que le titre : c'est le texte que
+   * l'on lit vraiment, il doit tenir en quelques fixations de l'œil. */
+  max-width: var(--layout-width-narrow);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-md);
+}
