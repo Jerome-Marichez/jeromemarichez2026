@@ -5,9 +5,13 @@
 import type { IOffre } from '../../interfaces/offre'
 import { offreDataIa } from './data-ia'
 import { offreIngenierieWeb } from './ingenierie-web'
-import { offreSeoSea } from './seo-sea'
+import { offreSea } from './sea'
 
-export { offreDataIa, offreIngenierieWeb, offreSeoSea }
+export { offreDataIa, offreIngenierieWeb, offreSea }
 
-/** Ordre éditorial : l'offre socle d'abord, puis les deux spécialisations. */
-export const offres: readonly IOffre[] = [offreIngenierieWeb, offreDataIa, offreSeoSea]
+/**
+ * Ordre éditorial : la chaîne, dans l'ordre où elle se déroule. Je cadre et je
+ * développe (Ingénierie Web), je câble la donnée, puis cette donnée alimente les
+ * projets data et IA (Data & IA) et pilote l'acquisition (SEA).
+ */
+export const offres: readonly IOffre[] = [offreIngenierieWeb, offreDataIa, offreSea]

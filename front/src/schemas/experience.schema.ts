@@ -18,7 +18,7 @@ export const experienceSchema = z
     anneeFin: anneeSchema,
     contexte: z.string().min(1),
     faits: z.array(z.string().min(1)).min(1),
-    offresLiees: z.array(z.literal(['ingenierie-web', 'data-ia', 'seo-sea'])).min(1),
+    offresLiees: z.array(z.literal(['ingenierie-web', 'data-ia', 'sea'])).min(1),
   })
   .refine((experience) => experience.anneeFin >= experience.anneeDebut, {
     message: 'L’année de fin ne peut pas précéder l’année de début.',

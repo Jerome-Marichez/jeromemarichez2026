@@ -10,6 +10,9 @@ export const axeOffreSchema = z.strictObject({
   // `null` explicite : un axe sans preuve publiable l'affiche comme tel plutôt que
   // d'en inventer une (ligne éditoriale du CLAUDE.md).
   preuve: z.string().min(1).nullable(),
+  // Optionnel : seules les offres qui distinguent des volets le renseignent. Absent,
+  // l'axe appartient au socle commun de son offre.
+  volet: z.string().min(1).optional(),
 })
 
 export type AxeOffreValide = z.infer<typeof axeOffreSchema>

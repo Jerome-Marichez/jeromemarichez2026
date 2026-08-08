@@ -38,7 +38,7 @@ const donnees = [
       'Analyse des schémas de fraude sous Orange Data Mining et règles métier mises en production : fraude en baisse, conversion des inscriptions en hausse, latence réduite.',
       'Développement full stack TypeScript et Python en IA augmentée (Claude Code, Gemini — agents, hooks, skills, loop, serveurs MCP internes), piloté par les tests : vélocité augmentée à effectif constant.',
     ],
-    offresLiees: ['ingenierie-web', 'data-ia', 'seo-sea'],
+    offresLiees: ['ingenierie-web', 'data-ia', 'sea'],
   },
   {
     cle: 'verhoeven-joaillier',
@@ -58,7 +58,7 @@ const donnees = [
       'Cadrage RGPD des données clients, documentation et support aux utilisateurs internes.',
       'Encadrement des prestataires SEA (budget d’environ 25 000 €), SEO et SMA.',
     ],
-    offresLiees: ['ingenierie-web', 'seo-sea'],
+    offresLiees: ['ingenierie-web', 'sea'],
   },
   {
     cle: 'truffle-capital',
@@ -75,7 +75,7 @@ const donnees = [
       'AMOA de la startup biotech Artedrone : besoin recueilli auprès des équipes scientifiques et dirigeantes, traduit en spécifications exploitables par des prestataires non spécialistes du domaine.',
       'Coordination d’une équipe marketing de 5 à 10 personnes et de 3 prestataires. Budget ADS / SEO de 100 000 € piloté, mesuré et justifié auprès des dirigeants.',
     ],
-    offresLiees: ['ingenierie-web', 'seo-sea'],
+    offresLiees: ['ingenierie-web', 'sea'],
   },
 ] satisfies readonly IExperience[]
 

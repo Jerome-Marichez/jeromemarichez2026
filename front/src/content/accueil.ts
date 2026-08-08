@@ -25,7 +25,7 @@ const donnees = {
     // l'identité complète et ne doit pas être suffixée une seconde fois.
     titre: 'Jérôme Marichez — Ingénieur logiciel à Lille',
     description:
-      'Ingénierie web, data et IA, SEO et SEA à Lille. Un seul interlocuteur pour vos projets digitaux : celui qui cadre est celui qui code, mesure et exploite.',
+      'Ingénierie web, data et IA, SEA à Lille. Un seul interlocuteur pour vos projets digitaux : celui qui cadre est celui qui code, mesure et exploite.',
   },
 
   accroche: {
@@ -55,7 +55,7 @@ const donnees = {
     // Ordre : les trois offres sont représentées dès les trois premières lignes.
     references: [
       { offre: 'ingenierie-web', axe: 'ui-ux' },
-      { offre: 'seo-sea', axe: 'sea-pilotage' },
+      { offre: 'sea', axe: 'sea-pilotage' },
       { offre: 'data-ia', axe: 'data-mining' },
       { offre: 'ingenierie-web', axe: 'migrations' },
       { offre: 'ingenierie-web', axe: 'front-end' },
