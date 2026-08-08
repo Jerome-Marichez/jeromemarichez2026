@@ -74,6 +74,16 @@ const contenant = (nombre) => {
   return lus.filter((source) => motif.test(source.contenu)).map((source) => source.chemin)
 }
 
+/**
+ * Un prix, c'est-à-dire l'une des bornes publiées SUIVIE d'un symbole monétaire ou d'une
+ * mention fiscale.
+ *
+ * La borne basse ne peut pas être cherchée seule hors du contenu éditorial : « 300 » est
+ * aussi la limite de lignes par fichier source, citée dans le CLAUDE.md, le README et la
+ * documentation. Un nombre nu n'est pas un prix ; un nombre suivi d'un « € » en est un.
+ */
+const PRIX_PUBLIE = /(?<!\d)(300|1[ {2}]?200)\s*(€|EUR\b|TTC)/
+
 describe('le balayage du dépôt est réel', () => {
   it('parcourt les sources versionnées du dépôt', () => {
     assert.ok(
@@ -120,27 +130,55 @@ describe('le montant abandonné ne réapparaît nulle part', () => {
   })
 })
 
-/**
- * Un prix, c'est-à-dire l'une des bornes publiées SUIVIE d'un symbole monétaire ou d'une
- * mention fiscale.
- *
- * La borne basse ne peut pas être cherchée seule hors du contenu éditorial : « 300 » est
- * aussi la limite de lignes par fichier source, citée dans le CLAUDE.md, le README et la
- * documentation. Un nombre nu n'est pas un prix ; un nombre suivi d'un « € » en est un.
- */
-const PRIX_PUBLIE = /(?<!\d)(300|1[ {2}]?200)\s*(€|EUR\b|TTC)/
-
 describe('les bornes publiées ne sont écrites qu’une fois', () => {
   const GRILLE = 'front/src/content/offres/sea-tarifs.ts'
-  const contenuEditorial = (chemins) =>
-    chemins.filter((chemin) => chemin.startsWith('front/src/content/'))
+  const contenuEditorial = () =>
+    lus.filter((source) => source.chemin.startsWith('front/src/content/'))
 
-  it('n’écrit la borne basse que dans la grille tarifaire', () => {
-    assert.deepEqual(contenuEditorial(contenant(300)), [GRILLE])
+  /**
+   * ÉVOLUTION DU 2026-08-08 (lot « pages parcours et contact », issues #23 et #24) —
+   * à relire par Jérôme MARICHEZ.
+   *
+   * Les deux cas précédents exigeaient que l'ENTIER NU des deux bornes n'apparaisse, dans
+   * `front/src/content/`, que dans la grille. C'était vrai le jour où ils ont été écrits,
+   * et c'est devenu un FAUX POSITIF : `content/parcours-page.ts` déclare les dimensions
+   * natives de l'image de la page parcours, dont la déclinaison large mesure en pixels
+   * exactement la borne haute de la grille. Une largeur d'image n'est pas un prix.
+   *
+   * Le fichier faisait DÉJÀ ce constat pour la borne basse — « un nombre nu n'est pas un
+   * prix ; un nombre suivi d'un € en est un » (voir `PRIX_PUBLIE`), parce que 300 est
+   * aussi la limite de lignes par fichier. La même distinction est simplement étendue au
+   * contenu éditorial.
+   *
+   * L'intention est INCHANGÉE : un montant tarifaire ne s'écrit qu'à un seul endroit. Et
+   * elle est mieux tenue qu'avant, parce que le premier cas ci-dessous ne dépend plus des
+   * chiffres eux-mêmes : il attrape TOUT montant déclaré hors de la grille, y compris un
+   * montant futur que personne n'aurait pensé à ajouter à la liste des bornes surveillées.
+   */
+  it('ne déclare aucun montant tarifaire hors de la grille', () => {
+    const avecMontant = contenuEditorial()
+      .filter((source) =>
+        /mentionFiscale|nature: '(fourchette|sur-devis|inclus)'/.test(source.contenu),
+      )
+      .map((source) => source.chemin)
+
+    assert.deepEqual(
+      avecMontant,
+      [GRILLE],
+      `Un montant est déclaré hors de la grille, dans : ${avecMontant.join(', ')}.`,
+    )
   })
 
-  it('n’écrit la borne haute que dans la grille tarifaire', () => {
-    assert.deepEqual(contenuEditorial(contenant(1200)), [GRILLE])
+  it('n’écrit les bornes publiées comme un PRIX dans aucun autre contenu', () => {
+    const avecPrix = contenuEditorial()
+      .filter((source) => source.chemin !== GRILLE && PRIX_PUBLIE.test(source.contenu))
+      .map((source) => source.chemin)
+
+    assert.deepEqual(avecPrix, [])
+  })
+
+  it('garde la grille comme seul contenu à écrire la borne haute en toutes lettres', () => {
+    assert.match(lus.find((source) => source.chemin === GRILLE).contenu, /maximum/)
   })
 
   it('ne recopie la borne haute dans aucune documentation', () => {
