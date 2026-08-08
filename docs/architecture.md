@@ -35,6 +35,12 @@ du rendu serveur doit le justifier — c'est la contrainte SEO et performance du
 | `front/src/@contact/` | Formulaire et son appel à l'API back |
 | `front/src/@shared/` | Design system, layout, composants transverses, SEO/métadonnées |
 
+Le **socle SEO** vit dans `front/src/@shared/seo/` : origine du site (seul lecteur de
+l'environnement), construction des métadonnées par page, données structurées JSON-LD et
+découverte des routes réelles qui alimente le `sitemap.xml`. Une page ne rédige jamais
+ses balises elle-même — elle déclare un titre, une description et un chemin, le reste en
+découle. Marche à suivre : [`seo.md`](./seo.md).
+
 Le **contenu éditorial est de la donnée, pas du JSX** : offres, expériences et
 certifications vivent dans des structures typées (`front/src/interfaces/`, une entité
 par fichier, préfixe `I`) que les composants consomment. Ajouter une certification ou
@@ -99,5 +105,7 @@ la frontière — **le même schéma**, jamais dupliqué.
 | **Pas de base de données** | CMS headless (Strapi), Notion API | Le contenu change quelques fois par an et n'a qu'un seul auteur. Le versionner dans le dépôt le rend relisible en revue de PR et supprime une dépendance d'exploitation. À réévaluer si la publication devient fréquente. |
 | **Contenu typé en TypeScript** | Fichiers Markdown / MDX | Les entités (offre, expérience, certification) ont une forme stricte que le typage fait respecter — un lien de certification manquant devient une erreur de compilation, pas une page publiée avec un lien mort. |
 | **Preuves référencées, jamais recopiées** | Reprendre le texte des preuves dans le contenu de chaque page | Une page qui met en avant une preuve la désigne par `{ offre, axe }` (`IReferencePreuve`) ; `services/preuves.service.ts` la résout contre `content/offres/`. Le texte reste écrit à un seul endroit, celui qui a été relu contre les règles de véracité. Une référence cassée, ou pointant un axe sans preuve publiable, lève une erreur **au build** — le site ne peut pas afficher une affirmation non prouvée. |
+| **Sitemap dérivé des routes réelles** | Liste de routes maintenue à la main ; bibliothèque tierce | `@shared/seo/routes.server.ts` lit l'arborescence de `src/app/` au build : la seule façon d'entrer dans le sitemap est d'exister comme route. Une liste manuelle serait juste le jour de son écriture et fausse au premier ajout de page — et un sitemap faux est pire qu'absent, il envoie les moteurs sur des 404 sans qu'aucun test ni aucun lint ne s'en aperçoive. Coût assumé : une lecture du système de fichiers au build, et les routes dynamiques restent à déclarer explicitement. |
+| **Métadonnées construites par un module partagé** | Chaque page écrit ses balises | Une page déclare un titre, une description et un chemin ; canonique, Open Graph et carte Twitter en découlent. Les entrées sont bornées par Zod (60 / 160 caractères) et les pages étant prérendues, un dépassement casse le **build**. Le défaut SEO devient une erreur de compilation au lieu d'une régression invisible. |
 | **Schéma de contact dans `shared/`** | Un schéma par côté | Front et back valident le **même** contrat Zod. Une divergence de validation entre les deux serait un bug invisible jusqu'au premier message perdu. |
 | **Hébergement** | _à trancher_ | Le front s'héberge naturellement sur Vercel (affinité Next.js, previews par PR) ; le back demande un hôte distinct (Cloud Run, ou le VPS Hetzner existant). Décision à prendre avant la première mise en production. |

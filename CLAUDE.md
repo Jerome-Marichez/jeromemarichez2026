@@ -233,12 +233,43 @@ indisponible) est **refusé**.
   le site public, `@shared` pour le transverse), chaque domaine portant ses propres
   `components/`, `hooks/`, `services/`, `utils/`, `interfaces/`.
 
+## Politique SEO (permanente)
+
+Ajoutée à la demande explicite de Jérôme MARICHEZ le 2026-08-08. Le référencement est
+une **exigence permanente**, tenue page par page au moment où la page est écrite — jamais
+une passe de rattrapage en fin de projet. L'une des trois offres vendues sur ce site est
+« SEO / SEA » : un site de référencement mal référencé est une contradiction que le
+premier prospect technique verra.
+
+**Toute nouvelle page :**
+
+1. **déclare ses métadonnées** via le module partagé `front/src/@shared/seo/`
+   (`buildPageMetadata`) — jamais de balise écrite à la main, jamais d'objet `metadata`
+   rédigé de zéro ;
+2. **déclare son URL canonique** — elle découle du `path` passé au constructeur. Une
+   page qui l'omet hérite de la canonique de l'accueil, c'est-à-dire d'une canonique
+   fausse, qui la fait disparaître des résultats plutôt que de la protéger ;
+3. **déclare ses données structurées** s'il y a lieu : une page décrivant une entité qui
+   lui est propre (une offre et son `Service`) porte son propre graphe JSON-LD. `Person`
+   et `ProfessionalService`, qui décrivent le site entier, restent au layout racine ;
+4. **est vérifiée sur sa sémantique HTML et la continuité de sa hiérarchie de titres** :
+   un seul `<h1>`, aucun niveau sauté, repères (`main`, `nav`, `header`, `footer`)
+   corrects.
+
+Les **règles de véracité** ci-dessus s'appliquent au JSON-LD **exactement comme au texte
+visible** : pas d'URL de certification inventée, pas de note ni d'avis fabriqués, pas
+d'adresse postale non établie. Une donnée structurée fausse est une affirmation fausse,
+même lorsque seule une machine la lit.
+
+Marche à suivre, dérivation du sitemap et vérifications : [`docs/seo.md`](./docs/seo.md).
+
 ## Politique de documentation
 
 - Toute modification de code **impactante** met à jour le `README.md` et la doc `docs/`
   concernée (architecture, data-model, testing, ci-cd, docker, tooling…).
 - Une nouvelle catégorie `docs/` créée doit être **liée** dans le `README.md` **et** ce `CLAUDE.md`.
 - Docs disponibles : [architecture](./docs/architecture.md), [data-model](./docs/data-model.md),
+  [seo](./docs/seo.md),
   [testing](./docs/testing.md), [ci-cd](./docs/ci-cd.md), [git-workflow](./docs/git-workflow.md),
   [tooling](./docs/tooling.md), [model-routing](./docs/model-routing.md),
   [security](./docs/security.md),

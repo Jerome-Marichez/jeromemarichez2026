@@ -3,7 +3,13 @@
 # Secrets et variables : .env (gitignoré) — modèle documenté dans .env.example.
 services:
   front:
-    build: ./front
+    build:
+      context: ./front
+      # Variable de BUILD et non d'exécution : Next.js substitue les NEXT_PUBLIC_* au
+      # moment du build. La passer par `env_file` seul n'aurait aucun effet sur les URL
+      # canoniques du site généré. Voir docs/seo.md.
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-}
     ports:
       - "${FRONT_PORT:-3000}:3000"
     env_file:
