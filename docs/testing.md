@@ -120,6 +120,56 @@ vers un mock.
 
 Le hook se désarme par `ALLOW_TEST_DOUBLES=1` — décision de Jérôme MARICHEZ, à justifier.
 
+## Ce qui est couvert aujourd'hui
+
+Premier lot de tests des **domaines stables**, posé sur délégation explicite de Jérôme
+MARICHEZ du 2026-08-08 (`TESTS_WRITABLE_BY_ASSISTANT=1`, issue #26). Chaque fichier porte
+en tête son bloc **`Intention : …`**. Tous les tests ci-dessous ont été **exécutés** :
+**353 tests, 17 suites, front** (`make test`).
+
+| Domaine | Fichier (`front/tests/unitaire/`) | Ce qui est verrouillé |
+|---|---|---|
+| Contrastes | `contrastes-jetons.spec.ts` | Chaque couple de `contrast-pairs.ts` tient son seuil WCAG **dans les deux thèmes**, valeurs lues dans le vrai `tokens.css` |
+| Lecture des jetons | `proprietes-personnalisees-css.spec.ts` | `:root` ne peut pas attraper `:root[data-theme="dark"]` ; un sélecteur absent **lève** au lieu de rendre une table vide |
+| Calcul de contraste | `couleur-contraste.spec.ts` | Bornes WCAG (21:1, 1:1), luminance relative, refus de toute valeur non hexadécimale |
+| Parité des thèmes | `parite-themes.spec.ts` | Clair et sombre déclarent le **même jeu** de `--color-*` ; le bloc `prefers-color-scheme` est aligné sur le thème sombre forcé |
+| Composants du socle | `card.spec.tsx`, `action-link.spec.tsx`, `socle-structure.spec.tsx` | Niveaux de titre, zones optionnelles, `rel="noopener noreferrer"`, ouverture annoncée **dans le nom accessible**, région nommée par son propre titre, navigation du pied de page dérivée du contenu |
+| Données structurées | `json-ld.spec.tsx`, `donnees-structurees.spec.ts` | Graphe sérialisable, `Person` ↔ `ProfessionalService` reliés par `@id`, **aucune propriété non établie** à aucune profondeur, EF SET en `knowsLanguage` et jamais en `hasCredential`, aucun lien de justificatif inventé |
+| Métadonnées | `metadonnees-seo.spec.ts` | Canonique = `og:url`, gabarit de titre, `absoluteTitle`, refus d'une description hors bornes ou d'un chemin mal formé |
+| Routes et sitemap | `routes-sitemap.spec.ts` | Table de vérité de la découverte (groupe de routes, dossier privé, emplacement parallèle, route interceptée, segment dynamique), sitemap projeté des routes réelles, `robots.txt` |
+| Navigation dérivée | `navigation-derivee.spec.ts` | Les libellés **viennent** du contenu (comparaison relationnelle, jamais littérale) ; l'URL vient de la **clé**, jamais du titre |
+| Identité | `identite-telephone.spec.ts` | Conversion E.164, motif national unique partagé par la validation et la conversion, refus des schémas Zod (e-mail, HTTPS, code pays, bornes SEO) |
+| Contenu éditorial | `contenu-schemas.spec.ts`, `contenu-veracite.spec.ts` | Conformité Zod du jeu de données réel, **lien de certification mort impossible**, termes interdits, absence de « nous », SEO non vendu, mention arXiv conforme à l'arbitrage du 2026-08-08 |
+| Offre Data & IA | `offre-data-ia.spec.ts` | L'**ordre des axes est le message** (fiabilité, puis qualification, puis les volets) ; les volets sont une donnée, pas une mise en forme |
+
+**Note de véracité** : la proposition initiale interdisait « Universitat » et « Barcelona »
+dans le contenu publié. Elle est **périmée** — Jérôme MARICHEZ a arbitré l'inverse le
+2026-08-08 : l'Universitat de Barcelona est nommée comme **éditrice** de la publication
+arXiv. L'interdiction qui demeure est « en collaboration avec », et c'est elle qui est
+testée.
+
+## Ce qui n'est pas couvert
+
+Dit franchement, pour que personne ne s'appuie sur une garantie qui n'existe pas :
+
+- **Page d'accueil** (`AccueilView`, `content/accueil.ts`, `services/preuves.service.ts`)
+  et **grille tarifaire** (`sea-tarifs.ts`, `utils/tarif.ts`) : deuxième vague. Les deux
+  domaines étaient en réécriture au moment de ce lot ; leurs tests sont proposés dans les
+  PR correspondantes.
+- **`SiteHeader`** : il rend `NavLink`, composant client qui lit la route courante
+  (`usePathname`) pour poser `aria-current="page"`. Hors contexte de routeur, ce
+  comportement ne s'observe pas sans doublure de module — interdite ici. Il relève du
+  niveau **e2e**.
+- **Accessibilité de mise en page** : lien d'évitement effectivement ramené dans le champ
+  visuel au focus, ordre de tabulation, absence de défilement horizontal à 320 px. jsdom
+  ne calcule pas de mise en page : niveau **e2e (Cypress)**, qui ne tourne que sur les PR
+  vers `main`.
+- **Niveaux intégration, système, e2e et acceptation** : encore vides côté front.
+- **`buildRootMetadata` en conditions de production** : `NEXT_PUBLIC_SITE_URL` n'est pas
+  renseignée en test, l'origine est donc le repli de développement. Les assertions portent
+  sur la **relation** entre canonique, `og:url` et sitemap, jamais sur un domaine écrit en
+  dur.
+
 ## Qualité des tests — mutation testing (Stryker)
 
 **Stryker** mesure la capacité des tests unitaires/intégration à détecter de vraies
