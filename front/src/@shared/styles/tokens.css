@@ -29,6 +29,17 @@
   --color-accent-soft: #e3eef6;
   --color-focus: #0b4f79;
 
+  /* Profondeur : les deux bornes du dégradé de bleu profond et les deux couleurs
+   * de texte qui se posent dessus. Les bornes sont ordonnées canal par canal
+   * (`bottom` est plus sombre que `top` sur R, V ET B) : toute couleur
+   * intermédiaire du dégradé a donc une luminance comprise entre les deux, et
+   * vérifier le contraste aux deux bornes suffit à le garantir partout.
+   * Ratios mesurés : docs/accessibility.md. */
+  --color-depth-top: #0f4267;
+  --color-depth-bottom: #072235;
+  --color-depth-text: #f4f8fb;
+  --color-depth-text-muted: #b6c9d8;
+
   /* ------------------------------------------------------------- Typographie */
   /* Pile système : aucune requête réseau, aucun décalage de mise en page au
    * chargement, aucun appel à un service tiers (contrainte RGPD du README). */
@@ -83,6 +94,19 @@
   /* ------------------------------------------------------------------ Ombres */
   --shadow-sm: 0 1px 2px rgb(22 24 28 / 6%), 0 1px 3px rgb(22 24 28 / 8%);
   --shadow-md: 0 2px 4px rgb(22 24 28 / 5%), 0 8px 24px rgb(22 24 28 / 9%);
+  --shadow-lg: 0 4px 8px rgb(22 24 28 / 8%), 0 16px 40px rgb(22 24 28 / 14%);
+  --shadow-xl: 0 8px 16px rgb(22 24 28 / 10%), 0 28px 64px rgb(22 24 28 / 18%);
+
+  /* --------------------------------------------------------------- Élévation */
+  /* Décalage vertical d'une surface « soulevée » au survol. Négatif : la surface
+   * monte vers le lecteur. Sous `prefers-reduced-motion`, la transition qui le
+   * porte vaut 0s — le décalage devient instantané, plus rien ne bouge. */
+  --elevation-lift: -2px;
+
+  /* Le dégradé de profondeur n'est déclaré QU'ICI, et pourtant il suit le thème :
+   * ses deux bornes sont des `var()`, substituées au moment de l'emploi avec la
+   * valeur héritée par l'élément. Un seul point de vérité pour l'angle. */
+  --gradient-depth: linear-gradient(160deg, var(--color-depth-top), var(--color-depth-bottom));
 
   /* ------------------------------------------------------------------ Layout */
   --layout-width-narrow: 44rem;
@@ -117,10 +141,19 @@
   --color-accent-soft: #152430;
   --color-focus: #7fc1f0;
 
+  /* Bornes assombries : sur un fond #0e1013, le dégradé du thème clair
+   * rayonnerait. Même ordonnancement canal par canal que le thème clair. */
+  --color-depth-top: #0c3550;
+  --color-depth-bottom: #061b2a;
+  --color-depth-text: #eef4f8;
+  --color-depth-text-muted: #adc0d0;
+
   /* Sur fond sombre une ombre diffuse ne se voit plus : on l'assombrit et on
    * s'appuie davantage sur --color-border pour séparer les surfaces. */
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
   --shadow-md: 0 2px 4px rgb(0 0 0 / 35%), 0 10px 28px rgb(0 0 0 / 50%);
+  --shadow-lg: 0 4px 8px rgb(0 0 0 / 45%), 0 18px 44px rgb(0 0 0 / 60%);
+  --shadow-xl: 0 8px 18px rgb(0 0 0 / 50%), 0 30px 70px rgb(0 0 0 / 68%);
 }
 
 /* Préférence système : thème sombre par défaut, sauf `data-theme='light'` explicite. */
@@ -141,7 +174,14 @@
     --color-accent-soft: #152430;
     --color-focus: #7fc1f0;
 
+    --color-depth-top: #0c3550;
+    --color-depth-bottom: #061b2a;
+    --color-depth-text: #eef4f8;
+    --color-depth-text-muted: #adc0d0;
+
     --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
     --shadow-md: 0 2px 4px rgb(0 0 0 / 35%), 0 10px 28px rgb(0 0 0 / 50%);
+    --shadow-lg: 0 4px 8px rgb(0 0 0 / 45%), 0 18px 44px rgb(0 0 0 / 60%);
+    --shadow-xl: 0 8px 18px rgb(0 0 0 / 50%), 0 30px 70px rgb(0 0 0 / 68%);
   }
 }

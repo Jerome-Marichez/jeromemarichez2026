@@ -108,6 +108,37 @@ export const CONTRAST_REQUIREMENTS: readonly IContrastRequirement[] = [
     usage: "libellé d'un lien d'action plein survolé",
   },
 
+  // ------------------------------------------- Profondeur (page d'accueil)
+  // Le texte de la chaîne et du constat se pose sur un DÉGRADÉ, pas sur un aplat.
+  // Vérifier ses deux bornes suffit à couvrir tout le dégradé : `--color-depth-bottom`
+  // est plus sombre que `--color-depth-top` sur les trois canaux, donc toute couleur
+  // intermédiaire a une luminance comprise entre les deux, et le ratio avec un
+  // avant-plan clair est encadré par les deux ratios mesurés ici.
+  {
+    foreground: 'color-depth-text',
+    background: 'color-depth-top',
+    minimumRatio: 4.5,
+    usage: 'texte principal sur la borne haute du dégradé de profondeur',
+  },
+  {
+    foreground: 'color-depth-text',
+    background: 'color-depth-bottom',
+    minimumRatio: 4.5,
+    usage: 'texte principal sur la borne basse du dégradé, et sur la pastille de rattachement',
+  },
+  {
+    foreground: 'color-depth-text-muted',
+    background: 'color-depth-top',
+    minimumRatio: 4.5,
+    usage: 'étiquettes et texte secondaire sur la borne haute du dégradé',
+  },
+  {
+    foreground: 'color-depth-text-muted',
+    background: 'color-depth-bottom',
+    minimumRatio: 4.5,
+    usage: 'étiquettes et texte secondaire sur la borne basse du dégradé',
+  },
+
   // ------------------------------- Composants d'interface (WCAG 1.4.11, 3:1)
   {
     foreground: 'color-border-strong',
