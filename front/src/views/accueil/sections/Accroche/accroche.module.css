@@ -1,0 +1,28 @@
+/* Accroche — premier bloc de la page d'accueil, porteur du h1 et de la promesse. */
+
+.accroche {
+  padding-block: var(--space-section);
+}
+
+.contenu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.lead {
+  /* Longueur de ligne volontairement plus courte que le titre : c'est le texte que
+   * l'on lit vraiment, il doit tenir en quelques fixations de l'œil. */
+  max-width: var(--layout-width-narrow);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-md);
+}
+
+.actions {
+  display: flex;
+
+  /* Sous ~360 px les deux liens d'action passent l'un sous l'autre plutôt que de
+   * déborder : aucune media query n'est nécessaire pour cela. */
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}

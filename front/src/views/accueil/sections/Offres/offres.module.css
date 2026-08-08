@@ -1,0 +1,34 @@
+/* Grille des trois offres. */
+
+.grille {
+  display: grid;
+
+  /* Le nombre de colonnes se déduit de la place disponible, sans point de rupture :
+   * 3 colonnes au large, 2 puis 1 en dessous. `min()` empêche la piste de réclamer
+   * 18 rem quand le viewport est plus étroit que cela — c'est ce qui évite le
+   * défilement horizontal à 320 px. */
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+  gap: var(--space-md);
+  padding-left: 0;
+  list-style: none;
+}
+
+/* `grid` plutôt que `block` : la carte occupe toute la hauteur de sa rangée, ce qui
+ * aligne les pieds de carte (et donc les liens) d'une colonne à l'autre. */
+.item {
+  display: grid;
+  min-width: 0;
+}
+
+.decision {
+  color: var(--color-text);
+}
+
+.decisionLibelle {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}

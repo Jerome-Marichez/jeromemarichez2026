@@ -183,6 +183,40 @@ téléphone, il mange sinon une part notable de la hauteur utile.
 Les entrées sont déclarées une seule fois dans `@shared/config/navigation.ts` et
 consommées par l'en-tête comme par le pied de page : les deux ne peuvent pas diverger.
 
+## Motifs de page
+
+Les composants ci-dessus sont le vocabulaire ; les motifs ci-dessous sont les phrases
+qu'on en compose. Ils vivent dans `front/src/views/<route>/`, pas dans `@shared/` : ce
+sont des assemblages propres à une page, pas des briques réutilisables. Le premier à les
+employer est la page d'accueil (`views/accueil/`).
+
+| Motif | Où | Description |
+|-------|-----|-------------|
+| **Accroche** | `views/accueil/sections/Accroche` | Bloc d'ouverture portant le `h1`. Composé à la main plutôt qu'avec `Section`, qui ne sait titrer qu'en `h2`/`h3` : le niveau `h1` appartient à la page. Reste une région nommée (`aria-labelledby`). |
+| **Grille de cartes** | `views/accueil/sections/Offres` | `ul` en `grid` `auto-fit` : un lecteur d'écran annonce le nombre de cartes avant de les énumérer. Les `li` sont en `display: grid` pour que chaque carte occupe toute la hauteur de sa rangée et que les pieds de carte s'alignent. |
+| **Liste de preuves** | `views/accueil/sections/Preuves` | Volontairement **pas** des cartes : une preuve n'est pas une surface autonome mais un fait rattaché à une offre. Un filet d'accent de 1 px et un retrait suffisent à la délimiter. |
+| **Panneau d'appel à l'action** | `views/accueil/sections/AppelContact` | Bloc sur `--color-accent-soft`, arrondi en `--radius-lg`, fermant la page. Ne contient qu'un seul lien, et il est `primary`. |
+
+Deux contraintes de ce dernier motif viennent d'une **mesure**, pas d'un goût :
+
+- Il ne porte **aucun filet**. `--color-border` sur `--color-accent-soft` ne contraste
+  qu'à **1.19:1** (thème clair) : la bordure serait invisible.
+- Il n'accueille **pas** de lien `secondary`. Au survol, un lien secondaire prend
+  précisément `--color-accent-soft` comme fond — il disparaîtrait dans le panneau.
+
+Les trois combinaisons de couleurs introduites par ces motifs
+(`text-muted` / `accent-soft`, `accent-hover` / `accent-soft`, `focus` / `accent-soft`)
+sont inscrites dans `@shared/config/contrast-pairs.ts` et mesurées dans
+[`accessibility.md`](./accessibility.md).
+
+### Libellés de liens répétés
+
+Trois cartes voisines menant à trois pages différentes ne peuvent pas afficher trois fois
+le même libellé : restitués hors contexte, les liens deviendraient indiscernables
+(WCAG 2.4.4). Le libellé est donc composé à partir des données — une amorce portée par le
+contenu (`libelleLien`) suivie du titre de l'offre — ce qui donne « Voir l'offre
+Ingénierie Web », « Voir l'offre Data & IA », « Voir l'offre SEO / SEA ».
+
 ## Ajouter un jeton ou un composant
 
 1. Le jeton se déclare dans `tokens.css`, **dans les deux thèmes** — les deux blocs

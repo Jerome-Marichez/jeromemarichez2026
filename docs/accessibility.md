@@ -48,15 +48,17 @@ Toutes les combinaisons sont vérifiées **dans les deux thèmes**. Seuils appli
 | `--color-text` `#16181c` | `--color-background` `#fcfcfa` | **17.30:1** | 4.5 | texte courant sur le fond de page |
 | `--color-text` | `--color-surface` `#ffffff` | **17.77:1** | 4.5 | texte courant dans une carte |
 | `--color-text` | `--color-surface-muted` `#f1f0eb` | **15.58:1** | 4.5 | texte courant sur fond atténué |
-| `--color-text` | `--color-accent-soft` `#e3eef6` | **15.09:1** | 4.5 | texte courant sur pastille accent |
+| `--color-text` | `--color-accent-soft` `#e3eef6` | **15.09:1** | 4.5 | texte courant sur pastille et panneau d'accent |
 | `--color-text-muted` `#54585f` | `--color-background` | **6.96:1** | 4.5 | texte secondaire sur le fond de page |
 | `--color-text-muted` | `--color-surface` | **7.15:1** | 4.5 | texte secondaire dans une carte |
 | `--color-text-muted` | `--color-surface-muted` | **6.26:1** | 4.5 | texte secondaire sur fond atténué |
+| `--color-text-muted` | `--color-accent-soft` | **6.07:1** | 4.5 | texte secondaire dans le panneau d'appel à l'action |
 | `--color-accent` `#0b4f79` | `--color-background` | **8.49:1** | 4.5 | lien et navigation |
 | `--color-accent` | `--color-surface` | **8.72:1** | 4.5 | lien dans une carte |
 | `--color-accent` | `--color-surface-muted` | **7.64:1** | 4.5 | lien sur fond atténué |
 | `--color-accent` | `--color-accent-soft` | **7.40:1** | 4.5 | texte accent sur pastille |
 | `--color-accent-hover` `#083a5a` | `--color-background` | **11.59:1** | 4.5 | lien survolé |
+| `--color-accent-hover` | `--color-accent-soft` | **10.11:1** | 4.5 | libellé d'un lien d'action secondaire survolé |
 | `--color-accent-contrast` `#ffffff` | `--color-accent` | **8.72:1** | 4.5 | libellé d'un lien d'action plein |
 | `--color-accent-contrast` | `--color-accent-hover` | **11.91:1** | 4.5 | libellé d'un lien d'action survolé |
 | `--color-border-strong` `#8b8780` | `--color-background` | **3.48:1** | 3 | bordure d'action secondaire |
@@ -65,6 +67,7 @@ Toutes les combinaisons sont vérifiées **dans les deux thèmes**. Seuils appli
 | `--color-focus` `#0b4f79` | `--color-background` | **8.49:1** | 3 | anneau de focus |
 | `--color-focus` | `--color-surface` | **8.72:1** | 3 | anneau de focus dans une carte |
 | `--color-focus` | `--color-surface-muted` | **7.64:1** | 3 | anneau de focus sur fond atténué |
+| `--color-focus` | `--color-accent-soft` | **7.40:1** | 3 | anneau de focus dans le panneau d'appel à l'action |
 | `--color-accent` | `--color-background` | **8.49:1** | 3 | fond d'un lien d'action plein |
 
 ### Thème sombre
@@ -74,15 +77,17 @@ Toutes les combinaisons sont vérifiées **dans les deux thèmes**. Seuils appli
 | `--color-text` `#e9ebee` | `--color-background` `#0e1013` | **15.95:1** | 4.5 | texte courant sur le fond de page |
 | `--color-text` | `--color-surface` `#171a1f` | **14.60:1** | 4.5 | texte courant dans une carte |
 | `--color-text` | `--color-surface-muted` `#1f2329` | **13.21:1** | 4.5 | texte courant sur fond atténué |
-| `--color-text` | `--color-accent-soft` `#152430` | **13.25:1** | 4.5 | texte courant sur pastille accent |
+| `--color-text` | `--color-accent-soft` `#152430` | **13.25:1** | 4.5 | texte courant sur pastille et panneau d'accent |
 | `--color-text-muted` `#a7aeb8` | `--color-background` | **8.52:1** | 4.5 | texte secondaire sur le fond de page |
 | `--color-text-muted` | `--color-surface` | **7.80:1** | 4.5 | texte secondaire dans une carte |
 | `--color-text-muted` | `--color-surface-muted` | **7.06:1** | 4.5 | texte secondaire sur fond atténué |
+| `--color-text-muted` | `--color-accent-soft` | **7.08:1** | 4.5 | texte secondaire dans le panneau d'appel à l'action |
 | `--color-accent` `#7fc1f0` | `--color-background` | **9.79:1** | 4.5 | lien et navigation |
 | `--color-accent` | `--color-surface` | **8.96:1** | 4.5 | lien dans une carte |
 | `--color-accent` | `--color-surface-muted` | **8.11:1** | 4.5 | lien sur fond atténué |
 | `--color-accent` | `--color-accent-soft` | **8.13:1** | 4.5 | texte accent sur pastille |
 | `--color-accent-hover` `#a8d5f7` | `--color-background` | **12.27:1** | 4.5 | lien survolé |
+| `--color-accent-hover` | `--color-accent-soft` | **10.19:1** | 4.5 | libellé d'un lien d'action secondaire survolé |
 | `--color-accent-contrast` `#07131c` | `--color-accent` | **9.64:1** | 4.5 | libellé d'un lien d'action plein |
 | `--color-accent-contrast` | `--color-accent-hover` | **12.09:1** | 4.5 | libellé d'un lien d'action survolé |
 | `--color-border-strong` `#6b7380` | `--color-background` | **3.98:1** | 3 | bordure d'action secondaire |
@@ -91,6 +96,7 @@ Toutes les combinaisons sont vérifiées **dans les deux thèmes**. Seuils appli
 | `--color-focus` `#7fc1f0` | `--color-background` | **9.79:1** | 3 | anneau de focus |
 | `--color-focus` | `--color-surface` | **8.96:1** | 3 | anneau de focus dans une carte |
 | `--color-focus` | `--color-surface-muted` | **8.11:1** | 3 | anneau de focus sur fond atténué |
+| `--color-focus` | `--color-accent-soft` | **8.13:1** | 3 | anneau de focus dans le panneau d'appel à l'action |
 | `--color-accent` | `--color-background` | **9.79:1** | 3 | fond d'un lien d'action plein |
 
 **Combinaison la plus juste** : `--color-border-strong` sur `--color-surface-muted` en
@@ -102,6 +108,12 @@ revérifiée.
 il ne porte aucune information et ne délimite aucun élément interactif. Le jour où une
 bordure devient nécessaire à la compréhension d'un contrôle, c'est
 `--color-border-strong` qu'il faut employer.
+
+**Combinaison écartée** : `--color-border` sur `--color-accent-soft` a été mesurée à
+**1.19:1** en thème clair et **1.21:1** en thème sombre. Le panneau d'appel à l'action de
+la page d'accueil ne porte donc **aucun filet** : son fond seul le délimite. Une bordure y
+aurait été invisible, et l'y ajouter « pour la forme » aurait laissé croire à une
+séparation là où l'œil n'en perçoit aucune.
 
 ## Navigation clavier — socle de design
 
