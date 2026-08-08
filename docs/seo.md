@@ -114,15 +114,25 @@ comme au texte visible**, alors même qu'il n'est lu que par des machines.
 
 Le graphe est construit à partir du contenu typé de `front/src/content/`, jamais de texte
 en dur. Ne sont **pas** émis, faute d'être établis : note ou avis (`aggregateRating`,
-`review`), fourchette de prix (`priceRange`), coordonnées (`telephone`, `email`), rue
-(`streetAddress`), zone desservie (`areaServed`).
+`review`), fourchette de prix (`priceRange`), rue (`streetAddress`), zone desservie
+(`areaServed`), horaires (`openingHours`).
 
-Deux garde-fous sont portés par le **typage** et non par la vigilance :
+`email` et `telephone` **sont** émis sur le nœud `Person` depuis le 2026-08-08 :
+coordonnées de Jérôme MARICHEZ, déjà publiques sur ses CV, publication demandée
+explicitement. Le téléphone part en **E.164** (`+33771651588`) — seule forme composable
+hors de France — dérivée du format national stocké dans le contenu par
+`front/src/utils/telephone.ts`. Aucun numéro n'est réécrit dans le module SEO.
+
+Trois garde-fous sont portés par le **typage** et non par la vigilance :
 
 - une certification dont le justificatif est `a-fournir` est émise **sans lien** —
   l'union discriminée `Justificatif` rend l'accès à `url` non compilable ;
 - `sameAs` n'est émis que si un profil public a été **vérifié**. Un `sameAs` erroné
-  rattache l'identité du site à un tiers.
+  rattache l'identité du site à un tiers. Deux profils y figurent aujourd'hui : le compte
+  GitHub et le profil LinkedIn ;
+- une **langue** part dans `knowsLanguage`, jamais dans `hasCredential` : `ILangue` et
+  `ICertification` sont deux entités distinctes, un niveau de langue ne peut donc pas
+  être publié comme une certification.
 
 ## Vérifier
 
@@ -142,6 +152,19 @@ curl -s http://localhost:3117/ \
   | grep -o '<script type="application/ld+json">[^<]*' \
   | sed 's/.*json">//' | node -e 'JSON.parse(require("fs").readFileSync(0,"utf8"))' \
   && echo "JSON-LD valide"
+```
+
+Et le contenu du nœud `Person` se relit **depuis la page servie**, pas depuis la source —
+c'est le seul endroit où l'on voit ce que les moteurs voient :
+
+```bash
+curl -s http://localhost:3117/ \
+  | grep -o '<script type="application/ld+json">[^<]*' | sed 's/.*json">//' \
+  | node -e '
+      const g = JSON.parse(require("fs").readFileSync(0, "utf8"))
+      const p = g["@graph"].find((n) => n["@type"] === "Person")
+      console.log(p.sameAs, p.email, p.telephone)
+    '
 ```
 
 Le graphe se contrôle ensuite avec le [validateur de résultats enrichis de

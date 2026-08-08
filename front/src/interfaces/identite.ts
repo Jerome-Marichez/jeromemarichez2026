@@ -6,9 +6,15 @@
 // non par du texte en dur semé dans le layout et les composants. Le nom, l'intitulé et
 // la ville se disent au même endroit que le reste du contenu éditorial.
 //
-// Elle ne porte QUE des informations professionnelles publiques : aucune coordonnée
-// personnelle, aucune adresse postale, aucun numéro. Contraintes RGPD du `README.md` et
-// règles de véracité du `CLAUDE.md`.
+// Elle ne porte QUE des informations professionnelles publiques. Les coordonnées
+// directes (e-mail, téléphone) y figurent depuis l'arbitrage de Jérôme MARICHEZ du
+// 2026-08-08 : ce sont les siennes, elles sont déjà diffusées sur ses trois CV, et il en
+// a explicitement demandé la publication. Restent absentes, faute d'être établies :
+// l'adresse postale, les horaires, le délai de réponse, la fourchette tarifaire.
+// Contraintes RGPD du `README.md` et règles de véracité du `CLAUDE.md`.
+import type { IContact } from './contact'
+import type { ILangue } from './langue'
+
 export interface IIdentite {
   readonly nom: string
   /** Intitulé professionnel, tel qu'il est revendiqué dans le `README.md`. */
@@ -24,6 +30,16 @@ export interface IIdentite {
    * moteurs tronquent — la contrainte est donc tenue au build, pas à la relecture.
    */
   readonly descriptionSite: string
+  /**
+   * Coordonnées directes. Point unique : la page de contact, le pied de page et le
+   * JSON-LD lisent d'ici, aucun ne réécrit une adresse ou un numéro.
+   */
+  readonly contact: IContact
+  /**
+   * Compétences linguistiques, telles que les CV de référence les classent — sous
+   * « Langues », et non parmi les certifications. Alimente `knowsLanguage` du JSON-LD.
+   */
+  readonly langues: readonly ILangue[]
   /**
    * Profils publics vérifiables, destinés au `sameAs` des données structurées.
    *
