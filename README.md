@@ -168,7 +168,11 @@ Chaque page de service porte ses propres métadonnées SEO, ses données structu
 ## ✅ Contraintes produit
 
 - **SEO** : rendu statique ou ISR par défaut, métadonnées et données structurées par
-  page, sitemap et robots générés.
+  page, sitemap et robots générés. Le socle technique est en place — une page déclare
+  son titre, sa description et son chemin, et l'URL canonique, l'Open Graph et la carte
+  Twitter en découlent ; le `sitemap.xml` est **dérivé des routes réelles**, jamais
+  d'une liste écrite à la main. Marche à suivre et vérifications :
+  [`docs/seo.md`](./docs/seo.md).
 - **Performance** : Lighthouse ≥ 95 sur les 4 catégories, Core Web Vitals au vert —
   le site est lui-même la démonstration de ce qui est vendu.
 - **Accessibilité** : RGAA / WCAG AA, testée et non supposée (`tests/acceptance/uat/`).
@@ -215,6 +219,12 @@ make dev            # démarrage des deux applications
 Les variables d'environnement sont décrites dans `.env.example` et validées par un
 schéma Zod (`schemas/env.schema.ts`) avant usage.
 
+`NEXT_PUBLIC_SITE_URL` (domaine public du site) est une variable de **build** et non
+d'exécution : Next.js la substitue pendant `next build`. Elle doit donc être présente
+dans l'environnement de construction — `docker compose` la transmet en argument de
+build. Absente, le front retombe sur `http://localhost:3000`. Détails :
+[`docs/seo.md`](./docs/seo.md).
+
 ## 🧪 Tests & qualité
 
 ```bash
@@ -237,6 +247,7 @@ décrite dans [`docs/testing.md`](./docs/testing.md).
 |----------|---------|
 | [`docs/architecture.md`](./docs/architecture.md) | Architecture applicative et choix techniques |
 | [`docs/data-model.md`](./docs/data-model.md) | Modèle de données |
+| [`docs/seo.md`](./docs/seo.md) | SEO technique (métadonnées, robots, sitemap, données structurées) |
 | [`docs/testing.md`](./docs/testing.md) | Stratégie de tests |
 | [`docs/ci-cd.md`](./docs/ci-cd.md) | Pipelines CI/CD |
 | [`docs/git-workflow.md`](./docs/git-workflow.md) | Workflow Git (main/dev, PR, protections) |

@@ -4,6 +4,11 @@
 
 FROM node:24-alpine AS build
 WORKDIR /app
+# Domaine public du site. NEXT_PUBLIC_* est substituée AU BUILD par Next.js : la fournir
+# au démarrage du conteneur serait sans effet, d'où cet argument de build. Absente, le
+# front retombe sur son repli de développement (voir .env.example et docs/seo.md).
+ARG NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 COPY package*.json ./
 RUN npm install
 COPY . .
