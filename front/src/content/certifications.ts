@@ -9,10 +9,15 @@
 //   en `a-fournir`. Une URL ne s'invente ni ne s'approxime — elle doit être transmise
 //   par Jérôme MARICHEZ. Le typage empêche tout rendu de lien tant que c'est le cas.
 // - `annee: null` = année non établie. Google Ads est daté 2021 sur deux CV et 2022 sur
-//   le CV Tracking Specialist : la contradiction n'est pas tranchée ici. EF SET n'est
-//   daté sur aucune source.
-// - « Microsoft Ads » figure au README avec la mention « à confirmer » et n'apparaît sur
-//   aucun CV : il n'est donc PAS saisi. À ajouter seulement après confirmation.
+//   le CV Tracking Specialist : arbitrage de Jérôme MARICHEZ du 2026-08-08, la
+//   contradiction n'est pas tranchée et AUCUNE année n'est affichée.
+// - « Microsoft Ads » n'est pas établi : absent des trois CV de référence. Il n'est pas
+//   saisi ici, et sa mention « à confirmer » a été retirée du README.md le 2026-08-08.
+// - « EF SET — Anglais B2 » n'est PAS une certification et ne figure plus ici : les trois
+//   CV le classent sous « Langues » (« Anglais, B2 (EF SET, CECRL) »), EF SET étant le
+//   test qui évalue le niveau et non un titre professionnel obtenu. La compétence est
+//   portée par `identite.langues` et part dans `knowsLanguage` du JSON-LD, pas dans
+//   `hasCredential`. Arbitrage de Jérôme MARICHEZ du 2026-08-08.
 import type { ICertification } from '../interfaces/certification'
 import { certificationSchema } from '../schemas/certification.schema'
 
@@ -51,14 +56,6 @@ const donnees = [
     organisme: 'Google',
     // 2021 sur les CV Ingénieur Full Stack et AI Engineer, 2022 sur le CV Tracking
     // Specialist. Non tranché : à confirmer par Jérôme MARICHEZ.
-    annee: null,
-    justificatif: { statut: 'a-fournir' },
-  },
-  {
-    cle: 'ef-set-anglais-b2',
-    intitule: 'EF SET — Anglais B2 (CECRL)',
-    organisme: 'EF SET',
-    // Aucune année sur les CV ni au README.
     annee: null,
     justificatif: { statut: 'a-fournir' },
   },
