@@ -27,3 +27,11 @@ cypress/videos/
 # Claude Code — settings personnels (settings.json partagé, local non)
 .claude/settings.local.json
 .claude/worktrees/
+
+# Consignes d'agent générées par « next dev » (option agentRules de Next.js,
+# active par défaut) : Next écrit AGENTS.md et CLAUDE.md à la racine du front
+# pour y pointer sa propre documentation. Ils ne sont jamais versionnés — un
+# second CLAUDE.md dans le dépôt entrerait en concurrence avec les règles du
+# projet, portées par le seul CLAUDE.md racine.
+/front/AGENTS.md
+/front/CLAUDE.md
