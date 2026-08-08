@@ -29,12 +29,17 @@ Point d'entrée unique du contenu : `front/src/content/index.ts`.
 | `IExperience` | Une expérience professionnelle du parcours. | Pointe vers 1..n `IOffre` via `offresLiees` (clés `CleOffre`). |
 | `IFormation` | Un diplôme obtenu. | Aucune. |
 | `ICertification` | Une certification et son justificatif officiel. | Porte un `Justificatif` (union discriminée). |
+| `IIdentite` | L'identité professionnelle publique : nom, titre, ville, promesse, profils. Alimente les métadonnées et le JSON-LD. | Porte un `IContact` et 0..n `ILangue`. |
+| `IContact` | Les coordonnées directes : e-mail et téléphone. | Appartient à `IIdentite`. |
+| `ILangue` | Une compétence linguistique : niveau, référentiel, organisme évaluateur. | Appartient à `IIdentite`. |
 
 ```mermaid
 erDiagram
     IOFFRE      ||--|{ IAXEOFFRE     : "contient"
     IEXPERIENCE }o--|{ IOFFRE        : "appuie (offresLiees)"
     ICERTIFICATION ||--|| JUSTIFICATIF : "porte"
+    IIDENTITE   ||--|| ICONTACT      : "porte"
+    IIDENTITE   ||--o{ ILANGUE       : "pratique"
     IFORMATION  {
         string cle
         string intitule
@@ -87,17 +92,45 @@ La variante `a-fournir` **ne porte aucune propriété `url`**. Conséquences :
   (`TS2353`), et le `z.strictObject` la rejetterait aussi **au chargement** ;
 - une URL `disponible` doit être absolue et en **HTTPS** (`z.url().startsWith('https://')`).
 
-**À ce jour, aucune URL de justificatif n'est connue : les six certifications sont
+**À ce jour, aucune URL de justificatif n'est connue : les cinq certifications sont
 toutes en `a-fournir`.** Elles ne pourront afficher un lien qu'une fois les URLs
 officielles transmises par Jérôme MARICHEZ.
 
 ### 2. Pas de chiffre approché
 
 - `ICertification.annee` est `number | null`. `null` signifie « année **non établie** » —
-  jamais une valeur approchée. Deux certifications sont dans ce cas aujourd'hui
-  (Google Ads, daté différemment selon les CV ; EF SET, daté nulle part).
+  jamais une valeur approchée. Une seule certification est dans ce cas aujourd'hui :
+  Google Ads, datée 2021 sur deux CV et 2022 sur le troisième — arbitrage du 2026-08-08,
+  aucune année n'est affichée.
 - `IAxeOffre.preuve` est `string | null`. `null` signifie « aucune preuve publiable » :
   la ligne éditoriale impose de reformuler ou de supprimer plutôt que d'inventer.
+
+### 3. Une coordonnée, une seule écriture
+
+`IContact` est le **point unique** des coordonnées : e-mail et téléphone n'existent nulle
+part ailleurs dans le code — ni dans un composant, ni dans un `mailto:`, ni dans le
+JSON-LD.
+
+| Donnée | Forme stockée | Validation | Forme dérivée |
+|--------|---------------|------------|---------------|
+| E-mail | adresse telle quelle | `z.email()` | — |
+| Téléphone | format national `0X XX XX XX XX` | `TELEPHONE_NATIONAL_FR` | E.164 (`+33…`) par `utils/telephone.ts` |
+
+*(Les valeurs elles-mêmes ne sont pas recopiées ici : elles vivent dans
+`front/src/content/identite.ts`, et nulle part ailleurs.)*
+
+Le format international **n'est pas saisi une seconde fois** : `telephoneVersE164()` le
+dérive du numéro national, et le motif qui valide la donnée est celui-là même qui
+autorise la conversion. Deux écritures d'un même numéro finiraient par diverger, et la
+seconde — celle que seules les machines lisent — divergerait en silence.
+
+### 4. Une langue n'est pas une certification
+
+`ILangue` existe pour que la distinction soit **structurelle** et non éditoriale : les CV
+de référence classent « Anglais, B2 (EF SET, CECRL) » sous *Langues*. EF SET est le test
+qui évalue le niveau, pas un titre obtenu. La compétence part donc dans `knowsLanguage`
+du JSON-LD, jamais dans `hasCredential` — où elle aurait gonflé la liste des
+certifications d'une ligne indue.
 
 ## Validation au chargement
 

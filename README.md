@@ -144,10 +144,30 @@ ni approximée.
 | Claude with Google Cloud's Vertex AI | 2026 | *à fournir* |
 | ISTQB **Foundation** (niveau Avancé **non** obtenu) | 2026 | *à fournir* |
 | Google Analytics Individual Qualification (GAIQ) | 2021 | *à fournir* |
-| Google Ads | 2021 *(à confirmer : 2022 sur un CV)* | *à fournir* |
-| Microsoft Ads *(à confirmer)* | — | *à fournir* |
+| Google Ads | *aucune année affichée* | *à fournir* |
 | WeLoveDev — Top 5 % React | 2023 | *à fournir* |
-| EF SET — Anglais B2 (CECRL) | — | *à fournir* |
+
+Trois arbitrages de Jérôme MARICHEZ (2026-08-08), rendus après recoupement des trois CV
+de référence, et tenus par le contenu typé (`front/src/content/certifications.ts`) :
+
+- **Google Ads reste sans année.** Les CV se contredisent — 2021 sur l'Ingénieur Full
+  Stack et l'AI Engineer, 2022 sur le Tracking Specialist. Une année approchée ne
+  s'écrit pas : la donnée porte `annee: null` et rien n'est affiché.
+- **Microsoft Ads est retiré.** Il figurait ici avec la mention « à confirmer » et
+  n'apparaît sur aucun des trois CV : non établi, donc non publié. Il ne se réintroduit
+  qu'avec un justificatif.
+- **EF SET n'est pas une certification** et ne figure plus dans ce tableau. Les trois CV
+  le classent sous « Langues » : c'est le test qui a **évalué** un niveau d'anglais, pas
+  un titre professionnel obtenu.
+
+## 🗣️ Langues
+
+| Langue | Niveau | Référentiel | Évalué par |
+|--------|--------|-------------|------------|
+| Anglais | B2 | CECRL | EF SET |
+
+Portée par `identite.langues` et émise dans `knowsLanguage` du JSON-LD — jamais dans
+`hasCredential`, qui est réservé aux diplômes et aux certifications.
 
 ---
 
