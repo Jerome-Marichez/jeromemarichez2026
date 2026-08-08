@@ -46,6 +46,13 @@ certifications vivent dans des structures typées (`front/src/interfaces/`, une 
 par fichier, préfixe `I`) que les composants consomment. Ajouter une certification ou
 une offre ne doit pas demander de toucher au rendu.
 
+Corollaire tenu partout : **un texte éditorial affiché deux fois n'est écrit qu'une
+fois**. Aucune configuration ne redéclare un libellé dont `src/content/` est déjà
+porteur — elle le dérive. La navigation en est le cas d'école : ses entrées d'offres
+sont construites depuis `content/offres/` (titre et clé), et seules les entrées sans
+source éditoriale, `Parcours` et `Contact`, sont écrites dans
+`@shared/config/navigation.ts`.
+
 **Le contrat de contact vit dans `shared/`** : `shared/interfaces/` pour l'entité,
 `shared/schemas/` pour le schéma Zod. Le front valide avant l'envoi, le back revalide à
 la frontière — **le même schéma**, jamais dupliqué.
@@ -105,6 +112,7 @@ la frontière — **le même schéma**, jamais dupliqué.
 | **Pas de base de données** | CMS headless (Strapi), Notion API | Le contenu change quelques fois par an et n'a qu'un seul auteur. Le versionner dans le dépôt le rend relisible en revue de PR et supprime une dépendance d'exploitation. À réévaluer si la publication devient fréquente. |
 | **Contenu typé en TypeScript** | Fichiers Markdown / MDX | Les entités (offre, expérience, certification) ont une forme stricte que le typage fait respecter — un lien de certification manquant devient une erreur de compilation, pas une page publiée avec un lien mort. |
 | **Preuves référencées, jamais recopiées** | Reprendre le texte des preuves dans le contenu de chaque page | Une page qui met en avant une preuve la désigne par `{ offre, axe }` (`IReferencePreuve`) ; `services/preuves.service.ts` la résout contre `content/offres/`. Le texte reste écrit à un seul endroit, celui qui a été relu contre les règles de véracité. Une référence cassée, ou pointant un axe sans preuve publiable, lève une erreur **au build** — le site ne peut pas afficher une affirmation non prouvée. |
+| **Navigation dérivée du contenu éditorial** | Libellés et liens écrits en dur dans `@shared/config/navigation.ts` | Les entrées d'offres de l'en-tête et du pied de page sont construites depuis `content/offres/` : le libellé est le `titre` de l'offre, le lien découle de sa `cle` via `@shared/config/routes.ts`, l'ordre est celui du contenu. La liste en dur avait divergé dès la première livraison — la navigation annonçait « Data et IA » quand la carte juste en dessous annonçait « Data & IA » (issue #11) — parce que deux sources décrivaient la même donnée et qu'aucun contrôle ne pouvait les comparer. Dérivée, la divergence n'est plus improbable : elle est impossible, et une quatrième offre apparaît dans la navigation sans que `navigation.ts` soit touché. Coût assumé : `@shared/` dépend de `src/content/`, dépendance déjà admise pour les données structurées. Les entrées sans source éditoriale (`Parcours`, `Contact`) restent, elles, déclarées à la main — elles n'ont rien d'où être dérivées. |
 | **Sitemap dérivé des routes réelles** | Liste de routes maintenue à la main ; bibliothèque tierce | `@shared/seo/routes.server.ts` lit l'arborescence de `src/app/` au build : la seule façon d'entrer dans le sitemap est d'exister comme route. Une liste manuelle serait juste le jour de son écriture et fausse au premier ajout de page — et un sitemap faux est pire qu'absent, il envoie les moteurs sur des 404 sans qu'aucun test ni aucun lint ne s'en aperçoive. Coût assumé : une lecture du système de fichiers au build, et les routes dynamiques restent à déclarer explicitement. |
 | **Métadonnées construites par un module partagé** | Chaque page écrit ses balises | Une page déclare un titre, une description et un chemin ; canonique, Open Graph et carte Twitter en découlent. Les entrées sont bornées par Zod (60 / 160 caractères) et les pages étant prérendues, un dépassement casse le **build**. Le défaut SEO devient une erreur de compilation au lieu d'une régression invisible. |
 | **Schéma de contact dans `shared/`** | Un schéma par côté | Front et back valident le **même** contrat Zod. Une divergence de validation entre les deux serait un bug invisible jusqu'au premier message perdu. |

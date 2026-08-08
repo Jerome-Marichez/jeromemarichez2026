@@ -1,6 +1,7 @@
 import { ActionLink } from '@/@shared/components/ActionLink'
 import { Card } from '@/@shared/components/Card'
 import { Section } from '@/@shared/components/Section'
+import { cheminOffre } from '@/@shared/config/routes'
 import type { IAccueil } from '@/interfaces/accueil'
 import type { IOffre } from '@/interfaces/offre'
 import styles from './offres.module.css'
@@ -26,7 +27,7 @@ export function Offres({ contenu, offres }: IOffresProps) {
           <li className={styles.item} key={offre.cle}>
             <Card
               footer={
-                <ActionLink href={`/services/${offre.cle}`} variant="secondary">
+                <ActionLink href={cheminOffre(offre.cle)} variant="secondary">
                   {`${contenu.libelleLien} ${offre.titre}`}
                 </ActionLink>
               }
