@@ -33,7 +33,13 @@ export const CONTRAST_REQUIREMENTS: readonly IContrastRequirement[] = [
     foreground: 'color-text',
     background: 'color-accent-soft',
     minimumRatio: 4.5,
-    usage: 'texte courant sur pastille accent',
+    usage: "texte courant sur pastille accent et dans le panneau d'appel à l'action",
+  },
+  {
+    foreground: 'color-text-muted',
+    background: 'color-accent-soft',
+    minimumRatio: 4.5,
+    usage: "texte secondaire dans le panneau d'appel à l'action",
   },
   {
     foreground: 'color-text-muted',
@@ -84,6 +90,12 @@ export const CONTRAST_REQUIREMENTS: readonly IContrastRequirement[] = [
     usage: 'lien survolé sur le fond de page',
   },
   {
+    foreground: 'color-accent-hover',
+    background: 'color-accent-soft',
+    minimumRatio: 4.5,
+    usage: "libellé d'un lien d'action secondaire survolé (son fond devient accent doux)",
+  },
+  {
     foreground: 'color-accent-contrast',
     background: 'color-accent',
     minimumRatio: 4.5,
@@ -132,6 +144,12 @@ export const CONTRAST_REQUIREMENTS: readonly IContrastRequirement[] = [
     background: 'color-surface-muted',
     minimumRatio: 3,
     usage: 'anneau de focus sur fond atténué',
+  },
+  {
+    foreground: 'color-focus',
+    background: 'color-accent-soft',
+    minimumRatio: 3,
+    usage: "anneau de focus dans le panneau d'appel à l'action",
   },
   {
     foreground: 'color-accent',

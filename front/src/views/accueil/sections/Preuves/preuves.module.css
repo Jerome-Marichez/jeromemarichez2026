@@ -1,0 +1,37 @@
+/* Preuves — volontairement PAS des cartes : ce ne sont pas des surfaces autonomes
+ * mais des faits rattachés à une offre. Un filet d'accent suffit à les délimiter. */
+
+.grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+  gap: var(--space-lg);
+  padding-left: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+
+  /* 1px : seule épaisseur de filet employée par le socle (voir Card). */
+  border-left: 1px solid var(--color-accent);
+  padding-left: var(--space-sm);
+}
+
+.offre {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.titre {
+  font-size: var(--font-size-lg);
+}
+
+.enonce {
+  color: var(--color-text);
+}
