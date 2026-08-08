@@ -69,6 +69,10 @@ Toutes les combinaisons sont vérifiées **dans les deux thèmes**. Seuils appli
 | `--color-focus` | `--color-surface-muted` | **7.64:1** | 3 | anneau de focus sur fond atténué |
 | `--color-focus` | `--color-accent-soft` | **7.40:1** | 3 | anneau de focus dans le panneau d'appel à l'action |
 | `--color-accent` | `--color-background` | **8.49:1** | 3 | fond d'un lien d'action plein |
+| `--color-depth-text` `#f4f8fb` | `--color-depth-top` `#0f4267` | **9.85:1** | 4.5 | texte sur la borne haute du dégradé de profondeur |
+| `--color-depth-text` | `--color-depth-bottom` `#072235` | **15.25:1** | 4.5 | texte sur la borne basse, et sur la pastille de rattachement |
+| `--color-depth-text-muted` `#b6c9d8` | `--color-depth-top` | **6.18:1** | 4.5 | étiquettes et texte secondaire, borne haute |
+| `--color-depth-text-muted` | `--color-depth-bottom` | **9.56:1** | 4.5 | étiquettes et texte secondaire, borne basse |
 
 ### Thème sombre
 
@@ -98,11 +102,28 @@ Toutes les combinaisons sont vérifiées **dans les deux thèmes**. Seuils appli
 | `--color-focus` | `--color-surface-muted` | **8.11:1** | 3 | anneau de focus sur fond atténué |
 | `--color-focus` | `--color-accent-soft` | **8.13:1** | 3 | anneau de focus dans le panneau d'appel à l'action |
 | `--color-accent` | `--color-background` | **9.79:1** | 3 | fond d'un lien d'action plein |
+| `--color-depth-text` `#eef4f8` | `--color-depth-top` `#0c3550` | **11.53:1** | 4.5 | texte sur la borne haute du dégradé de profondeur |
+| `--color-depth-text` | `--color-depth-bottom` `#061b2a` | **15.80:1** | 4.5 | texte sur la borne basse, et sur la pastille de rattachement |
+| `--color-depth-text-muted` `#adc0d0` | `--color-depth-top` | **6.84:1** | 4.5 | étiquettes et texte secondaire, borne haute |
+| `--color-depth-text-muted` | `--color-depth-bottom` | **9.37:1** | 4.5 | étiquettes et texte secondaire, borne basse |
+
+**Total : 28 combinaisons inventoriées, 56 mesures (deux thèmes), aucun échec.**
 
 **Combinaison la plus juste** : `--color-border-strong` sur `--color-surface-muted` en
 thème clair, à **3.13:1** pour un seuil de 3. C'est la marge la plus faible du socle :
 toute modification de `--color-border-strong` ou de `--color-surface-muted` doit être
-revérifiée.
+revérifiée. Les quatre combinaisons de profondeur, elles, sont larges — la plus juste,
+`--color-depth-text-muted` sur `--color-depth-top` en thème clair, tient **6.18:1** pour
+un seuil de 4.5.
+
+**Texte posé sur un dégradé.** Un ratio ne se calcule que contre une couleur unie, et
+un dégradé en présente une infinité. Les quatre combinaisons de profondeur sont mesurées
+contre les **deux bornes** du dégradé, ce qui suffit à le couvrir entièrement :
+`--color-depth-bottom` est plus sombre que `--color-depth-top` sur les trois canaux, donc
+toute couleur intermédiaire a une luminance comprise entre celles des deux bornes, et le
+ratio avec un avant-plan clair est encadré par les deux ratios mesurés. Cet
+ordonnancement canal par canal est ce qui rend la démonstration valide : il est à
+revérifier avant toute retouche d'une borne.
 
 `--color-border` (séparations décoratives) n'est volontairement pas soumis à un seuil :
 il ne porte aucune information et ne délimite aucun élément interactif. Le jour où une
@@ -140,7 +161,9 @@ Mesuré dans Chrome (headless, pilotage CDP) sur dix largeurs — 320, 360, 390,
 768, 1024, 1280, 1440 et 1920 px — dans les **deux thèmes**.
 
 Résultat : **aucun défilement horizontal** (`documentElement.scrollWidth` égal à la
-largeur du viewport dans les 40 mesures), et aucun élément débordant du viewport.
+largeur du viewport dans les 40 mesures du socle, puis dans les 20 mesures de la page
+d'accueil complète), et aucun élément débordant du viewport — la sonde énumère les
+descendants de `body` dont le bord droit dépasse `clientWidth`, et n'en trouve aucun.
 
 Trois garde-fous portent ce résultat, aucun ne consistant à masquer le débordement
 (`overflow-x: hidden` n'est employé nulle part) :
@@ -155,6 +178,31 @@ Le thème suit `prefers-color-scheme` : fond mesuré à `rgb(252, 252, 250)` en 
 `rgb(14, 16, 19)` en sombre, sans intervention. L'attribut `data-theme` sur `:root`
 permet de forcer l'un ou l'autre si un sélecteur de thème est ajouté plus tard.
 
+## Structure de la page d'accueil
+
+Relevée **sur la page servie** par `next start`, pas sur la source — c'est le seul
+endroit où l'on voit ce qu'un lecteur d'écran reçoit.
+
+| Point | Mesure | État |
+|-------|--------|------|
+| Titre de niveau 1 | `document.querySelectorAll('h1').length` vaut **1** | OK |
+| Continuité des niveaux | Séquence relevée : `h1, h2, h3×4, h2, h3×2, h2, h3×2, h2, h3×3, h2, h3×6, h2` — aucun saut de niveau | OK |
+| Régions nommées | **7** `section[aria-labelledby]` dans `main`, une par section de la page | OK |
+| Thème restitué | `rgb(252, 252, 250)` en clair, `rgb(14, 16, 19)` en sombre, sans intervention | OK |
+
+Deux points relèvent de WCAG 1.4.1 (« l'information n'est jamais portée par la seule
+couleur ») et sont traités par construction :
+
+- l'**ordre** de la chaîne et des chemins d'étapes est porté par des listes ordonnées
+  (`ol`) et par un rang écrit en toutes lettres (« Étape 1 »), jamais par la seule
+  disposition ;
+- le **filet de liaison** entre deux étapes est un pseudo-élément au `content` vide : il
+  ne peut être ni annoncé, ni nécessaire à la compréhension.
+
+Le motif de profondeur n'introduit aucun élément interactif sur le dégradé : les
+maillons de la chaîne et le panneau du constat ne contiennent aucun lien. Aucun anneau
+de focus n'a donc à être mesuré contre les bornes du dégradé.
+
 ## Vérification
 
 - Lint accessibilité (règles a11y de Biome) — `make lint`.
@@ -165,7 +213,7 @@ permet de forcer l'un ou l'autre si un sélecteur de thème est ajouté plus tar
 | Parcours | Audit | État |
 |----------|-------|------|
 | Layout global (en-tête, contenu, pied de page) | Contrastes recalculés, clavier, 320→1920 px, deux thèmes | Vérifié |
-| Page d'accueil | — | À faire (autre lot) |
+| Page d'accueil | Contrastes recalculés (28 couples), 320→1920 px dans les deux thèmes, hiérarchie de titres et régions relevées sur la page servie | Vérifié |
 | Pages de services | — | À faire (autre lot) |
 | Parcours | — | À faire (autre lot) |
 | Formulaire de contact | — | À faire (autre lot) ; couleurs d'état à définir et à mesurer |

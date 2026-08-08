@@ -20,6 +20,26 @@
   min-width: 0;
 }
 
+/* Élévation appliquée ICI et non dans `Card` : la profondeur est un motif de la page
+ * d'accueil, pas une propriété du composant partagé — une carte de formulaire ou de
+ * page d'offre n'a aucune raison de se soulever. `Card` reste donc inchangée, et
+ * c'est sa prop `className` qui porte le motif. */
+.carte {
+  box-shadow: var(--shadow-md);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+/* `focus-within` autant que `hover` : la carte contient un lien, un visiteur au
+ * clavier voit donc la même surface se détacher qu'un visiteur à la souris. Sous
+ * `prefers-reduced-motion`, les jetons `--transition-*` valent 0s (globals.css). */
+.carte:hover,
+.carte:focus-within {
+  transform: translateY(var(--elevation-lift));
+  box-shadow: var(--shadow-lg);
+}
+
 .decision {
   color: var(--color-text);
 }

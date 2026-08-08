@@ -1,0 +1,83 @@
+/* Pourquoi — le constat qui fonde la promesse, posé sur le même bleu profond que la
+ * chaîne. Les deux blocs qui EXPLIQUENT partagent ce vocabulaire de profondeur ;
+ * ceux qui font agir restent sur les surfaces claires du socle.
+ *
+ * Le panneau ne contient aucun lien : le seul appel à l'action de la page reste
+ * celui qui la ferme. C'est aussi ce qui permet au dégradé de n'accueillir que du
+ * texte, dont les deux couleurs sont mesurées contre ses deux bornes
+ * (docs/accessibility.md). */
+
+.panneau {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background-image: var(--gradient-depth);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-depth-text);
+}
+
+.colonnes {
+  display: grid;
+
+  /* Les deux colonnes passent l'une sous l'autre quand la place manque, sans point
+   * de rupture. `min()` évite qu'une piste réclame plus large que le viewport. */
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+  gap: var(--space-lg);
+}
+
+.colonne {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  min-width: 0;
+}
+
+/* Symétrie voulue : les deux colonnes ont exactement le même traitement. Distinguer
+ * l'une par une couleur reviendrait à porter un jugement là où le texte n'en porte
+ * pas — le constat décrit un périmètre d'accès à la donnée, pas un camp. */
+.colonneTitre {
+  color: var(--color-depth-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.elements {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding-left: 0;
+  list-style: none;
+}
+
+.element {
+  /* 1 px : seule épaisseur de filet employée par le socle. Le filet remplace la
+   * puce, retirée avec `list-style` — la liste garde donc un repère visuel. */
+  border-left: 1px solid var(--color-depth-text-muted);
+  padding-left: var(--space-sm);
+  color: var(--color-depth-text);
+}
+
+.conclusion {
+  color: var(--color-depth-text);
+  font-size: var(--font-size-md);
+}
+
+.preuves {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding-left: 0;
+  list-style: none;
+}
+
+/* Les preuves ferment le panneau en retrait typographique : ce sont des faits du
+ * parcours qui appuient le constat, pas le constat lui-même. */
+.preuve {
+  color: var(--color-depth-text-muted);
+  font-size: var(--font-size-sm);
+}
