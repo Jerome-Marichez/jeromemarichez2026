@@ -46,6 +46,13 @@ certifications vivent dans des structures typées (`front/src/interfaces/`, une 
 par fichier, préfixe `I`) que les composants consomment. Ajouter une certification ou
 une offre ne doit pas demander de toucher au rendu.
 
+Ce principe vaut jusqu'au **découpage interne d'une offre**. « Data & IA » se lit en deux
+volets — agents autonomes d'une part, projets data supervisés et non supervisés d'autre
+part : ce regroupement est porté par le champ `IAxeOffre.volet`, donc par la donnée, et
+non reconstitué par le rendu à partir de l'ordre des axes ou de leurs titres. Un axe sans
+`volet` appartient au socle commun de son offre. Le jour où une page d'offre affichera
+ces sections, elle groupera sur une valeur, pas sur une convention de nommage.
+
 Corollaire tenu partout : **un texte éditorial affiché deux fois n'est écrit qu'une
 fois**. Aucune configuration ne redéclare un libellé dont `src/content/` est déjà
 porteur — elle le dérive. La navigation en est le cas d'école : ses entrées d'offres
@@ -106,7 +113,7 @@ la frontière — **le même schéma**, jamais dupliqué.
 | Choix | Alternatives considérées | Justification |
 |-------|--------------------------|---------------|
 | **Front et back séparés** | Next.js seul avec ses API routes | Choix explicite de Jérôme. Le back existe indépendamment du site : il pourra porter des intégrations (webhooks, endpoints appelables par un agent) sans que le front, lui, cesse d'être une vitrine entièrement prérendue. Coût assumé : deux applications à déployer et à exploiter. |
-| **Next.js (App Router)** côté front | Vite + React, Astro | Rendu statique et métadonnées par page nativement, stratégie de rendu arbitrable route par route — exactement l'argument SEO vendu dans l'offre. C'est aussi la stack mise en avant sur le site : la cohérence compte. |
+| **Next.js (App Router)** côté front | Vite + React, Astro | Rendu statique et métadonnées par page nativement, stratégie de rendu arbitrable route par route — exactement ce que promet le livrable « SEO-ready » de l'offre Ingénierie Web (le référencement n'est pas vendu comme prestation : il est une propriété du produit livré). C'est aussi la stack mise en avant sur le site : la cohérence compte. |
 | **Rendu statique (SSG) par défaut** | SSR systématique | Contenu éditorial quasi figé. Coût serveur nul, TTFB minimal, Core Web Vitals au vert sans effort d'optimisation ultérieur. |
 | **Back `node:http` sans framework** | Express, Fastify | Point de départ posé par le bootstrap. La surface est minuscule (contact, `/health`) ; introduire un framework se décidera quand une vraie route le justifiera, pas avant. |
 | **Pas de base de données** | CMS headless (Strapi), Notion API | Le contenu change quelques fois par an et n'a qu'un seul auteur. Le versionner dans le dépôt le rend relisible en revue de PR et supprime une dépendance d'exploitation. À réévaluer si la publication devient fréquente. |
