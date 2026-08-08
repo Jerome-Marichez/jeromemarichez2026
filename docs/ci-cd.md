@@ -6,13 +6,19 @@ Deux familles de pipelines, alignées sur le [workflow Git](./git-workflow.md) :
 
 | Déclencheur | Workflows | Objectif |
 |-------------|-----------|----------|
-| **PR → `dev`** | `ci-dev-lint`, `ci-dev-tests` | Checks **rapides** : lint (Biome + limite 300 lignes), tests unitaires et intégration. |
+| **PR → `dev`** | `ci-dev-lint`, `ci-dev-tests` | Checks **rapides** : lint (Biome + limite 300 lignes), **vérification des types**, tests unitaires et intégration. |
 | **PR → `main`** | `ci-main-e2e`, `ci-main-system`, `ci-main-build` | Checks **complets** avant production : e2e navigateur, tests système, build. |
 
 ## Jobs
 
 - **lint** : `make lint` — Biome sur tout le dépôt + `scripts/check-max-lines.sh`
   (échec si un fichier source dépasse **300 lignes**).
+- **typecheck (dev)** : `make typecheck` — `tsc --noEmit` sur le front **et** le back,
+  `tests/**` inclus. Job du workflow `ci-dev-lint`. C'est le **seul** contrôle de types
+  joué avant la fusion dans `dev` : Biome ne voit pas les types, et `next/jest` compile
+  les tests front avec **SWC**, qui transpile sans type-checker. Sans ce job, une erreur
+  de types passe lint + tests au vert et n'éclate qu'au `build` de la PR vers `main` —
+  au pire moment, le lot déjà constitué. Détail : [`tooling.md`](./tooling.md).
 - **tests (dev)** : unitaires + intégration, front et back.
 - **e2e (main)** : stack démarrée puis Cypress headless.
 - **système (main)** : vrai serveur HTTP + client réel.

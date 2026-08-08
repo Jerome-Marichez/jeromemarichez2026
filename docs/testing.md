@@ -41,9 +41,19 @@ le dépôt ne contient ni `jest.mock`, ni dossier `__mocks__`, ni fichier de dou
 module CSS est un **actif de style**, pas un module métier — la règle « pas de mocks »
 ci-dessous porte sur la **logique métier**, qui n'est jamais remplacée.
 
-**Contrepartie assumée** : SWC transpile **sans vérifier les types**. Le type-checking
-des tests reste couvert par TypeScript lui-même — `npx tsc --noEmit` dans `front/`, et
-`next build` en CI, dont le périmètre inclut `front/tests/**`.
+**Contrepartie assumée** : SWC transpile **sans vérifier les types**. Un test front peut
+donc être **vert avec une erreur de types** — c'est vérifié, pas supposé : une erreur de
+types inoffensive à l'exécution laisse `npx jest` afficher `2 passed` là où `tsc` échoue
+sur le même fichier.
+
+Le type-checking est donc porté par une cible dédiée, **`make typecheck`**
+(`tsc --noEmit`, front + back, `tests/**` inclus), exécutée par le workflow
+`ci-dev-lint` **avant toute fusion dans `dev`**. Elle ne remplace pas les tests : les
+tests vérifient le **comportement**, `tsc` vérifie la **cohérence des types**. Voir
+[`tooling.md`](./tooling.md) et [`ci-cd.md`](./ci-cd.md).
+
+Côté back, `ts-jest` remonte déjà les diagnostics de types à l'exécution des tests, mais
+seulement pour les fichiers **atteints par un test** : `make typecheck` couvre le reste.
 
 ## Cycle : le test d'abord, écrit par le développeur
 
@@ -132,6 +142,7 @@ sous le seuil `break`). Lancer : `make test-mutation`.
 ## Commandes
 
 ```bash
+make typecheck        # vérification des types (tsc --noEmit, front + back, tests inclus)
 make test             # unitaires + intégration
 make test-unit        # unitaires (Jest)
 make test-int         # intégration (Jest)

@@ -21,6 +21,40 @@ Toutes les opérations passent par `make` (voir `Makefile`) : agnostique, docume
 make lint
 ```
 
+## Vérification des types — `make typecheck`
+
+Le lint **ne voit pas les types** : Biome analyse la syntaxe, pas le graphe de types.
+Et aucun runner de test du dépôt ne comble ce trou côté front — `next/jest` compile
+avec **SWC**, qui *transpile* sans type-checker.
+
+`make typecheck` est donc le **seul** contrôle de types joué avant la fusion dans `dev` :
+
+```bash
+make typecheck   # tsc --noEmit sur le front et le back, tests inclus, sans artefact
+```
+
+| Côté | Commande | Périmètre |
+|------|----------|-----------|
+| front | `npx tsc --noEmit` | `src/**` **et** `tests/**` — le `tsconfig.json` du front inclut déjà `**/*.ts(x)` |
+| back | `npx tsc -p tsconfig.typecheck.json` | `src/**` **et** `tests/**` |
+
+**Pourquoi un `back/tsconfig.typecheck.json` séparé.** Le `back/tsconfig.json` sert au
+**build** : il est limité à `include: ["src"]`, avec `rootDir: "src"`, `declaration` et
+`outDir: "dist"`. Y ajouter `tests` polluerait `dist/` et casserait `rootDir`. Le fichier
+de typecheck **étend** ce tsconfig et se contente d'élargir le périmètre en `noEmit` —
+la configuration de build reste intacte, les deux ne peuvent pas diverger.
+
+Vérifier le périmètre réellement couvert (et non supposé) :
+
+```bash
+cd back && npx tsc -p tsconfig.typecheck.json --listFilesOnly | grep -v node_modules
+```
+
+**Non couvert, volontairement** : `front/tests/e2e/**` et `front/cypress.config.ts`,
+exclus du `tsconfig.json` du front parce que les types de Cypress écrasent le `expect()`
+de Jest — Cypress type-vérifie ses specs lui-même. L'exclusion est antérieure à cette
+cible et documentée dans le `tsconfig.json`.
+
 ## Chaîne de test front — Jest, jsdom, next/jest
 
 `front/jest.config.mjs` tourne en environnement **`jsdom`** (les tests rendent des
@@ -29,6 +63,11 @@ TypeScript/JSX compilé par **SWC**, alias `@/…` de `tsconfig.json`, et résol
 imports `*.module.css` par un proxy d'objet. **Aucune dépendance ajoutée**, aucune
 doublure de module écrite à la main. `back/jest.config.mjs` reste en environnement
 **`node`** avec `ts-jest`. Détail : [`testing.md`](./testing.md).
+
+Conséquence directe sur les types : **SWC transpile sans vérifier**, donc un test front
+peut passer au vert avec une erreur de types. `ts-jest`, côté back, remonte lui des
+diagnostics — mais seulement sur les fichiers atteints par un test. D'où
+`make typecheck` ci-dessus, qui couvre les deux côtés intégralement.
 
 ## Fichiers générés — ce qui n'entre pas dans le dépôt
 
