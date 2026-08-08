@@ -15,4 +15,4 @@ export {
   siteUrl,
   titleTemplate,
 } from './site'
-export { buildSiteStructuredData } from './structured-data'
+export { buildOffreStructuredData, buildSiteStructuredData } from './structured-data'

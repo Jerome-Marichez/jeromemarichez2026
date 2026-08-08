@@ -1,0 +1,26 @@
+/* Appel à contact — dernier bloc d'une page d'offre, seule action mise en avant. */
+
+.section {
+  padding-block: var(--space-section);
+}
+
+/* Le fond suffit à délimiter le panneau : `--color-border` sur `--color-accent-soft`
+ * ne contraste qu'à 1.19:1 (mesuré), un filet y serait donc décoratif et illisible. */
+.panneau {
+  display: flex;
+  flex-direction: column;
+
+  /* Le lien d'action garde sa largeur naturelle plutôt que de s'étirer sur toute la
+   * ligne : une cible de plusieurs centaines de pixels ne se lit plus comme un bouton. */
+  align-items: flex-start;
+  gap: var(--space-sm);
+  min-width: 0;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-accent-soft);
+}
+
+.lead {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-md);
+}
