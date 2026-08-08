@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { axeOffreSchema } from './axe-offre.schema'
 
 export const offreSchema = z.strictObject({
-  cle: z.literal(['ingenierie-web', 'data-ia', 'seo-sea']),
+  cle: z.literal(['ingenierie-web', 'data-ia', 'sea']),
   titre: z.string().min(1),
   accroche: z.string().min(1),
   decisionPermise: z.string().min(1),

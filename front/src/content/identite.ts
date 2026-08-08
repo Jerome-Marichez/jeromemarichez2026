@@ -34,7 +34,7 @@ const donnees = {
   promesse:
     'Un seul interlocuteur humain pour vos projets digitaux, aucune sous-traitance : celui qui cadre est celui qui code, mesure et exploite.',
   descriptionSite:
-    'Ingénierie web, data & IA, SEO/SEA. Un seul interlocuteur pour vos projets digitaux, sans sous-traitance.',
+    'Ingénierie web, data & IA, SEA. Un seul interlocuteur pour vos projets digitaux, sans sous-traitance.',
   contact: {
     email: 'jeromemarichez@ik.me',
     // Format national ; l'E.164 (`+33771651588`) en est dérivé par `utils/telephone.ts`.

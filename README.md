@@ -1,7 +1,7 @@
 # jeromemarichez2026
 
 Site portfolio et vitrine de services de **Jérôme Marichez**, ingénieur logiciel à Lille :
-ingénierie web, data & IA, SEO/SEA. Domaine visé : **jeromemarichez.fr**.
+ingénierie web, data & IA, SEA. Domaine visé : **jeromemarichez.fr**.
 
 **Stack** : TypeScript — front Next.js (App Router), back Node.js/TypeScript, entités et
 schémas Zod partagés dans `shared/`.
@@ -10,6 +10,9 @@ Le site a deux fonctions et une seule promesse. Il **raconte un parcours** — i
 logiciel, 9 ans, passé par la chefferie de projet et l'AMOA — et il **vend trois offres**
 qui s'appuient dessus. La promesse : *un seul interlocuteur humain pour vos projets
 digitaux, aucune sous-traitance*. Celui qui cadre est celui qui code, mesure et exploite.
+
+Le contenu publié est écrit à la **première personne du singulier** : « je », jamais
+« nous ». Un « nous » contredirait la promesse à l'endroit exact où elle se vend.
 
 > Ce n'est **pas** un paquet npm : rien n'est publié sur le registre. Les `package.json`
 > ne servent qu'à l'outillage et au build.
@@ -31,6 +34,40 @@ décision rendue possible. Chaque bloc de service se termine sur ce que le clien
 
 ---
 
+## 🔗 La chaîne, et les deux points d'entrée
+
+Les trois offres ne sont **pas un catalogue** : elles forment une **chaîne continue**.
+Je cadre, je développe, je câble la donnée — et cette donnée pilote ensuite l'acquisition
+et alimente les projets IA. Le visiteur doit pouvoir **se situer immédiatement** :
+
+```
+   Vous partez de zéro ──►  Cadrage ──► Développement ──► Câblage data ──┬──► SEA
+                                                                         │
+   Vous avez déjà une app ─────────────────────►  Câblage data ──────────┴──► Data & IA
+```
+
+| Étape | Contenu |
+|-------|---------|
+| 1. Je cadre | Besoin, spécifications, BPMN 2.0, cartographie SI, matrice de risques, arbitrages techniques |
+| 2. Je développe | Site ou logiciel : UI/UX, front, back, mise en production, exploitation |
+| 3. Je câble | Taggage, entrepôt data multi-source, intégration big data |
+| 4a. Je pilote | SEA Google et Bing, dashboard unique, décisions sur la rentabilité long terme |
+| 4b. J'exploite | Agents autonomes, projets data supervisés et non supervisés |
+
+L'**entrepôt data est le pivot** : il alimente **à la fois** l'acquisition et l'IA. C'est
+ce qui justifie que ce soit la même personne qui construise le produit et qui pilote la
+mesure — le site est conçu dès le départ pour produire la donnée, au lieu d'être
+instrumenté après coup.
+
+> **Le SEO n'est pas une prestation vendue.** Ni rédaction de contenu, ni netlinking, ni
+> suivi de positions. Ce qui est livré, c'est un site **SEO-ready** : une propriété du
+> livrable de l'offre Ingénierie Web, pas une offre. La troisième offre est **SEA**, sans
+> SEO. En revanche l'**expérience SEO passée reste au parcours** (100 000 € ADS/SEO
+> pilotés chez Truffle Capital, encadrement SEO chez Verhoeven Joaillier) : la ligne passe
+> entre *ce qui est vendu* et *ce qui a été fait*.
+
+---
+
 ## 🧩 Les trois offres
 
 ### 1. Ingénierie Web
@@ -38,6 +75,10 @@ décision rendue possible. Chaque bloc de service se termine sur ce que le clien
 L'offre socle : concevoir, développer et exploiter un produit web ou mobile de bout en
 bout. Elle mobilise toutes les compétences du parcours.
 
+- **Cadrage** — recueil du besoin, spécifications, **BPMN 2.0**, cartographie SI, matrice
+  de risques, recette et tests d'acceptation (UAT). Coordination d'équipes et de
+  prestataires. *Preuve : équipe marketing de 5 à 10 personnes et 3 prestataires
+  coordonnés chez Truffle Capital.*
 - **UI / UX** — maquettage et design system, catalogue de composants (Storybook),
   accessibilité **RGAA / WCAG / W3C**, refonte de parcours pilotée par la mesure
   (A/B testing, heatmaps, taux de rebond). *Preuve : panier moyen +50 % sur un
@@ -49,6 +90,12 @@ bout. Elle mobilise toutes les compétences du parcours.
 - **Back-end** — Node.js / Express, API REST, webhooks, cloud functions, traitements
   asynchrones distribués (Google Cloud Pub/Sub), PostgreSQL (relationnel, séries
   temporelles, vectoriel), MySQL, Firebase, validation Zod.
+- **Livré SEO-ready** — métadonnées et données structurées par page, URL canoniques,
+  sitemap et robots générés, rendu statique, Core Web Vitals, sémantique HTML et
+  accessibilité. *Le site que vous lisez en est la démonstration : son propre socle de
+  référencement est construit exactement ainsi.* **Ce n'est pas une prestation de
+  référencement** : le site est prêt à être référencé, le travail éditorial et le
+  netlinking ne font partie d'aucune offre.
 - **Architecture & exploitation** — arbitrage monolithe / microservices, Docker, CI/CD
   GitHub Actions, Google Cloud (Cloud Run, VM Compute Engine auto-scalées, cloud
   functions, Pub/Sub), Vercel, serveurs on-premise et IaaS. SLI / SLO / SLA, PCA et PRA
@@ -58,9 +105,6 @@ bout. Elle mobilise toutes les compétences du parcours.
   non-régression à chaque livraison. Certification **ISTQB Foundation**.
 - **Migrations sans coupure** — PHP 5 → 7 puis réécriture Node.js, jQuery → React,
   Ionic 6 → 8 et Angular 15 → 19, chacune menée sans interruption ni gel de la roadmap.
-- **Chefferie de projet & AMOA** — recueil du besoin, spécifications, **BPMN 2.0**,
-  cartographie SI, matrice de risques, recette et tests d'acceptation (UAT),
-  coordination d'une équipe marketing de 5 à 10 personnes et de 3 prestataires.
 - **Développement en IA augmentée** — Claude Code et Gemini au quotidien (agents,
   hooks, skills, loop, serveurs MCP internes), piloté par les tests. Vélocité
   augmentée à effectif constant.
@@ -70,43 +114,80 @@ bout. Elle mobilise toutes les compétences du parcours.
 Mettre l'IA **en production**, dans des produits vendus, avec les contraintes qui vont
 avec : coût d'inférence, latence, RGPD, disponibilité. Pas dans des notebooks.
 
+**L'ordre de lecture est le message** (précisions de Jérôme MARICHEZ, 2026-08-08).
+L'offre s'ouvre sur la **fiabilité** des données, puis sur leur **qualification selon
+l'usage visé**, et **seulement ensuite** sur les deux volets d'exploitation. C'est le
+discours réel, et ce qui le distingue de qui vend l'IA d'abord pour découvrir ensuite que
+la donnée du client est inexploitable. Cet ordre ne s'inverse pas pour gagner en effet
+d'annonce : dans le contenu typé, l'ordre du tableau `axes` le porte tel quel.
+
+#### D'abord — la donnée
+
+- **Fiabilité des données** — le préalable, traité comme tel : vos données sont-elles
+  intègres, dédoublonnées, exploitables ? Pipelines d'ingestion, nettoyage,
+  dédoublonnage, agrégation et réconciliation multi-sources, contrôles d'intégrité et de
+  véracité dès l'ingestion, détection d'anomalies. La qualité de la donnée est un
+  **prérequis**, jamais un correctif appliqué après coup.
+- **Qualification selon l'usage visé** — la même donnée ne se prépare pas de la même
+  façon selon ce qu'on veut en faire. Trois usages, trois préparations : **usages
+  marketing** (segmentation, activation, mesure) ; **IA générative et LLM** (corpus,
+  découpage, indexation vectorielle) ; **modèles prédictifs et non prédictifs**
+  (sélection et pondération des variables, étiquetage, jeux d'entraînement et de test).
+
+Ensuite seulement, l'offre porte **deux volets explicites** sur ce même socle. Le
+découpage est porté par la donnée elle-même (`IAxeOffre.volet`), pas par la mise en page.
+
+#### Volet 1 — Agents autonomes
+
 - **LLM en production** — Claude (Vertex AI, API Anthropic), OpenAI, Gemini, Llama.
   Context engineering, comparaison continue des modèles et arbitrage
   **coût / latence / qualité / confidentialité** par cas d'usage.
-- **Adaptation de modèles** — fine-tuning de **Llama 3** sur corpus métier pour
-  l'application mobile *Prézage*, complété par un procédé maison d'augmentation du
-  contexte proche du RAG. Objectif métier tenu : charge de travail des prestataires
-  réduite.
-- **RAG documentaire** — réponse automatisée aux tickets de support de niveau 1 sur
-  l'ensemble des produits : recherche vectorielle PostgreSQL + API OpenAI, réponses
-  ancrées sur la documentation interne et non sur la mémoire du modèle.
-- **Agents & interopérabilité** — conception, développement **et documentation** de
+- **MCP & automatisation no-code** — conception, développement **et documentation** de
   serveurs **MCP** et de plugins **n8n / Make / Zapier** : le produit devient appelable
   par un agent IA ou un scénario no-code chez le client.
-- **Machine learning** — modèle supervisé anticipant les échecs de dépôt vocal, en
-  production (TensorFlow, inférence en cloud functions) : extraction des
-  caractéristiques du signal audio selon une méthode publiée sur **arXiv** par
-  l'Universitat de Barcelona, implémentée, adaptée aux données réelles puis
-  industrialisée. Routes vocales coûteuses évitées.
+- **RAG documentaire** — recherche vectorielle PostgreSQL + API OpenAI sur la base
+  documentaire, réponses ancrées sur les documents et non sur la mémoire du modèle.
+  *Preuve : réponse automatisée aux tickets de support de niveau 1.*
+- **Adaptation de modèles open-weight** — fine-tuning de **Llama 3** sur corpus métier
+  pour l'application mobile *Prézage*, complété par un procédé maison d'augmentation du
+  contexte proche du RAG. *Preuve : charge de travail des prestataires réduite.*
+
+#### Volet 2 — Projets data supervisés et non supervisés
+
+- **Apprentissage supervisé — modèles prédictifs** — classification, régression, réseaux
+  de neurones, **TensorFlow**. Modèle anticipant les échecs de dépôt vocal, en production
+  (inférence en cloud functions) : extraction des caractéristiques du signal audio selon
+  une méthode publiée sur **arXiv** par l'Universitat de Barcelona, implémentée, adaptée
+  aux données réelles puis industrialisée. *Preuve : routes vocales coûteuses évitées.*
+- **Apprentissage non supervisé — descriptif et non prédictif** — clustering, **KNN**,
+  profilage et segmentation. Ces modèles décrivent ce qui est, ils ne prédisent pas : la
+  distinction se dit, elle évite d'attendre d'un profilage ce qu'il ne peut pas donner.
 - **Data mining & règles métier** — analyse exploratoire sous Orange Data Mining,
   pondération et sélection des variables, élimination des corrélations fortes et du
   bruit, puis règles implémentées dans le produit. *Preuve : fraude en baisse,
   conversion des inscriptions en hausse, latence réduite.*
-- **Data engineering** — pipelines d'ingestion, nettoyage, dédoublonnage, agrégation et
-  réconciliation multi-sources. La qualité de la donnée est traitée comme un
-  **prérequis**, pas comme un correctif : contrôles d'intégrité et de véracité dès
-  l'ingestion, détection d'anomalies.
+
+#### Socle commun aux deux volets
+
 - **MLOps & cloud** — déploiement, versioning et monitoring de modèles, CI/CD Docker et
   GitHub Actions, Vertex AI, Pub/Sub, Cloud Run, VM auto-scalées.
 - **Conformité** — RGPD et DORA, exigés en appels d'offres grands comptes
   (distribution, assurance, banque).
 
-### 3. SEO / SEA
+> **Data & IA est entièrement sur devis** (arbitrage de Jérôme MARICHEZ, 2026-08-08). Un
+> projet data se chiffre au périmètre : volume et état des données, usage visé,
+> contraintes de mise en production. **Aucun montant n'est affiché pour cette offre.**
+> « Sur devis » est une modalité, pas un prix — c'est à ce titre que la mention est
+> publiée. Les montants de l'offre SEA relèvent de l'issue #17, distincte.
 
-L'offre acquisition, tenue par un ingénieur des données. C'est ce qui la différencie
-d'une agence : la mesure n'est pas déclarative, elle est construite dans le code.
+### 3. SEA
 
-- **Mesure et taggage** — Google Tag Manager conteneur **web et server-side**,
+Le SEA piloté par la donnée, tenu par un ingénieur des données. Ce qui le distingue d'une
+agence : la mesure n'est pas déclarative, elle est construite dans le code.
+
+**Cette offre ne contient aucun SEO** — voir l'encadré de la section « La chaîne ».
+
+- **Taggage et collecte** — Google Tag Manager conteneur **web et server-side**,
   dataLayer, Measurement Protocol, plan de taggage et nomenclature d'événements
   standardisée, documentée et opposable. Google Analytics, Matomo, Search Console,
   et côté mobile Firebase Analytics / Crashlytics.
@@ -114,22 +195,29 @@ d'une agence : la mesure n'est pas déclarative, elle est construite dans le cod
   conditionnel des tags par catégorie), cadrage des traitements avec le juridique.
   La conformité n'est pas une case à cocher après coup : elle conditionne l'architecture
   de collecte.
-- **LTV, pas one-shot** — système d'analyse multi-sources (SEO, SEA, IA) conforme RGPD :
-  agrégation des sources d'acquisition, réconciliation et dédoublonnage des identités,
-  mesure de la **rentabilité client à long terme**. Les budgets sont arbitrés sur la
-  rentabilité réelle, pas sur les métriques natives des régies.
-- **Solutions sur mesure multi-source** — pas de connecteur générique : la donnée est
-  agrégée depuis les régies (Google Ads, Bing Ads), le produit et le CRM, puis
-  réconciliée selon le modèle métier du client.
-- **Tableaux de bord personnalisés** — un dashboard par client et par produit, pas un
-  gabarit. Data visualisation et **clustering / profilage clients** (KNN) pour rendre
-  la décision lisible : ce que le dirigeant doit trancher apparaît, le reste
-  disparaît.
-- **SEA & pilotage** — Google Ads, Bing Ads, SEO / SEA / SMA, A/B testing, optimisation
-  du taux de conversion. *Budgets pilotés : 100 000 € ADS/SEO chez Truffle Capital,
-  ~25 000 € d'encadrement de prestataires SEA chez Verhoeven Joaillier.*
-- **SEO technique** — stratégie de rendu Next.js par type de page, Core Web Vitals,
-  Lighthouse, accessibilité — le référencement traité comme une propriété du produit.
+- **Entrepôt data multi-source** — Google Analytics, Matomo, Google Ads et Bing Ads
+  agrégés, réconciliés et dédoublonnés, avec **intégration big data**. Pas de connecteur
+  générique : la donnée est modélisée selon le métier du client. C'est ce même entrepôt
+  qui alimente ensuite les projets data et IA.
+- **Un seul tableau de bord** — toutes les sources sur un écran, sur mesure par client et
+  par produit. Plus de va-et-vient entre quatre interfaces qui ne comptent pas pareil.
+  Selon les besoins : data visualisation, clustering et profilage clients, segmentation
+  marketing et sémantique.
+- **LTV, pas one-shot** — agrégation des sources d'acquisition, réconciliation et
+  dédoublonnage des identités, mesure de la **rentabilité client à long terme**. Les
+  budgets sont arbitrés sur la rentabilité réelle, pas sur les métriques natives des
+  régies.
+- **Pilotage des campagnes** — Google Ads et Bing Ads, structuration des campagnes,
+  A/B testing, optimisation du taux de conversion. *Preuves : 100 000 € ADS/SEO pilotés
+  chez Truffle Capital, ~25 000 € de prestataires SEA encadrés chez Verhoeven Joaillier —
+  faits du parcours, pas prestations vendues.*
+- **Ce que l'offre ne couvre pas** — ni rédaction de contenu, ni netlinking, ni suivi de
+  positions. Dit explicitement plutôt que laissé à supposer.
+
+> **Tarifs : aucun montant n'est publié.** La tarification SEA fait l'objet d'un
+> arbitrage distinct, **bloqué tant que Jérôme MARICHEZ n'a pas tranché HT ou TTC** — un
+> montant sans mention est ambigu et se paie au premier échange commercial. Aucun prix ne
+> figure donc dans ce dépôt, ni dans le contenu publié, ni en commentaire.
 
 ---
 
@@ -178,7 +266,7 @@ Portée par `identite.langues` et émise dans `knowsLanguage` du JSON-LD — jam
 | `/` | Accroche, promesse d'interlocuteur unique, les 3 offres, preuves chiffrées, appel à contact |
 | `/services/ingenierie-web` | Offre 1 en détail |
 | `/services/data-ia` | Offre 2 en détail |
-| `/services/seo-sea` | Offre 3 en détail |
+| `/services/sea` | Offre 3 en détail |
 | `/parcours` | Parcours d'ingénieur et de chef de projet, formation, certifications liées |
 | `/contact` | Formulaire (validation Zod) + coordonnées directes |
 
@@ -193,8 +281,12 @@ Chaque page de service porte ses propres métadonnées SEO, ses données structu
   Twitter en découlent ; le `sitemap.xml` est **dérivé des routes réelles**, jamais
   d'une liste écrite à la main. Marche à suivre et vérifications :
   [`docs/seo.md`](./docs/seo.md).
-- **Performance** : Lighthouse ≥ 95 sur les 4 catégories, Core Web Vitals au vert —
-  le site est lui-même la démonstration de ce qui est vendu.
+- **Performance** : Lighthouse ≥ 90 sur les 4 catégories, Core Web Vitals au vert —
+  le site est lui-même la démonstration de ce qui est vendu. *(Seuil abaissé de 95 à 90
+  sur arbitrage de Jérôme MARICHEZ, 2026-08-08. À ne pas confondre avec la preuve
+  historique « Lighthouse 98/100 » de l'offre Ingénierie Web, obtenue sur la plateforme
+  Sms En Masse : c'est un résultat passé, pas le seuil du présent site — il ne bouge
+  pas.)*
 - **Accessibilité** : RGAA / WCAG AA, testée et non supposée (`tests/acceptance/uat/`).
 - **RGPD** : mesure d'audience conforme, consentement géré, aucune donnée personnelle
   collectée hors formulaire de contact explicite.

@@ -3,12 +3,16 @@
 ## Présentation
 
 Site portfolio et vitrine de services de Jérôme Marichez, ingénieur logiciel à Lille :
-**Ingénierie Web**, **Data & IA**, **SEO/SEA**. Domaine visé : **jeromemarichez.fr**.
+**Ingénierie Web**, **Data & IA**, **SEA**. Domaine visé : **jeromemarichez.fr**.
 
 Le site raconte un parcours (ingénieur logiciel, 9 ans, passé par la chefferie de projet
-et l'AMOA) et vend trois offres qui s'appuient dessus. Promesse centrale, à faire
-apparaître partout : **un seul interlocuteur humain pour vos projets digitaux, aucune
-sous-traitance** — celui qui cadre est celui qui code, mesure et exploite.
+et l'AMOA) et vend trois offres qui s'appuient dessus. Elles ne forment pas un catalogue
+mais une **chaîne continue** : je cadre, je développe, je câble la donnée — et cette
+donnée pilote ensuite l'acquisition et alimente les projets IA. Promesse centrale, à
+faire apparaître partout : **un seul interlocuteur humain pour vos projets digitaux,
+aucune sous-traitance** — celui qui cadre est celui qui code, mesure et exploite.
+Le contenu publié est écrit à la **première personne du singulier** : « je », jamais
+« nous » — un « nous » contredirait la promesse à l'endroit exact où elle se vend.
 
 Le **périmètre éditorial complet** (les trois offres en détail, les preuves chiffrées,
 les certifications, l'arborescence des pages, les contraintes SEO / perf / a11y / RGPD)
@@ -23,7 +27,8 @@ SemVer ci-dessous s'applique donc aux **tags et releases Git** — la mention `n
 de la règle 9 est sans objet ici.
 
 **Contraintes produit non négociables** : rendu statique ou ISR et métadonnées par page
-(SEO), Lighthouse ≥ 95 sur les 4 catégories, accessibilité RGAA / WCAG AA testée dans
+(SEO), Lighthouse ≥ 90 sur les 4 catégories (seuil abaissé de 95 à 90 sur arbitrage de
+Jérôme MARICHEZ, 2026-08-08), accessibilité RGAA / WCAG AA testée dans
 `tests/acceptance/uat/`, mesure d'audience conforme RGPD avec consentement. Le site est
 la démonstration de ce qu'il vend : un défaut de perf ou d'accessibilité y coûte plus
 cher qu'ailleurs.
@@ -62,9 +67,26 @@ considération marketing.
   de certification ne s'invente ni ne s'approxime : tant qu'elle n'a pas été fournie par
   Jérôme, le lien reste marqué *à fournir* et la certification n'est **pas** publiée avec
   un lien mort.
-- Deux points restent **à confirmer avec Jérôme** avant mise en ligne : l'année exacte de
-  la certification Google Ads (2021 ou 2022 selon les CV) et l'existence d'une
-  certification **Microsoft Ads**.
+- **Certification Google Ads — arbitrage rendu (2026-08-08) : aucune année n'est
+  affichée.** Les CV se contredisent (2021 sur l'Ingénieur Full Stack et l'AI Engineer,
+  2022 sur le Tracking Specialist). Une année approchée ne s'écrit pas : la donnée porte
+  `annee: null`. Ce point n'est plus « à confirmer », il est tranché.
+- **Certification Microsoft Ads — arbitrage rendu (2026-08-08) : non établie, retirée.**
+  Elle n'apparaît sur aucun des trois CV. Elle ne se réintroduit qu'avec un justificatif.
+- **EF SET n'est pas une certification** mais une **compétence linguistique** : les trois
+  CV le classent sous « Langues ». C'est le test qui a *évalué* un niveau d'anglais, pas
+  un titre professionnel obtenu. Il vit donc dans `identite.langues` et n'est émis que
+  dans `knowsLanguage` du JSON-LD — jamais dans `hasCredential`, jamais dans
+  `certifications.ts`.
+- **Le SEO n'est pas une prestation vendue** (arbitrage de Jérôme MARICHEZ, 2026-08-08).
+  Aucune prestation de référencement naturel n'est proposée : ni rédaction de contenu, ni
+  netlinking, ni suivi de positions. Ce qui est livré, c'est un site **SEO-ready** — une
+  **propriété du livrable** de l'offre Ingénierie Web, pas une offre. La troisième offre
+  s'appelle **SEA** (clé `sea`) et ne contient aucun SEO. En revanche l'**expérience SEO
+  passée reste au parcours** : les 100 000 € ADS/SEO pilotés chez Truffle Capital et
+  l'encadrement SEO chez Verhoeven Joaillier sont des faits vérifiables, et la ligne
+  passe entre *ce qui est vendu* et *ce qui a été fait* — vendre une prestation qu'on ne
+  fait plus serait faux, effacer une expérience réelle serait absurde.
 - Les **CV de référence** vivent dans `/Users/nicolasb/Documents/CV/`
   (`cv-ingenieur-fullstack.md`, `cv-ai-engineer.md`, `cv-tracking-specialist.md`) : en cas
   de doute sur un chiffre, une date ou un périmètre, ce sont eux qui font foi — pas la
@@ -237,9 +259,11 @@ indisponible) est **refusé**.
 
 Ajoutée à la demande explicite de Jérôme MARICHEZ le 2026-08-08. Le référencement est
 une **exigence permanente**, tenue page par page au moment où la page est écrite — jamais
-une passe de rattrapage en fin de projet. L'une des trois offres vendues sur ce site est
-« SEO / SEA » : un site de référencement mal référencé est une contradiction que le
-premier prospect technique verra.
+une passe de rattrapage en fin de projet. Le référencement n'est pas vendu comme une
+prestation, mais l'offre Ingénierie Web promet un site **livré SEO-ready** : ce site est
+la démonstration de cette promesse, et un site mal référencé la démentirait devant le
+premier prospect technique. L'exigence est donc la même, pour une raison plus forte —
+c'est le livrable lui-même qui est en jeu.
 
 **Toute nouvelle page :**
 

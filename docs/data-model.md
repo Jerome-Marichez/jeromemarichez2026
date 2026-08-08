@@ -25,7 +25,7 @@ Point d'entrée unique du contenu : `front/src/content/index.ts`.
 | Entité | Rôle | Relations |
 |--------|------|-----------|
 | `IOffre` | Une des trois offres de service. Porte l'accroche et la **décision** que la prestation permet de trancher. | Contient 1..n `IAxeOffre`. Référencée par `IExperience.offresLiees`. |
-| `IAxeOffre` | Un axe de travail à l'intérieur d'une offre : ce qui est fait, et la preuve qui l'appuie. | Appartient à une `IOffre`. |
+| `IAxeOffre` | Un axe de travail à l'intérieur d'une offre : ce qui est fait, la preuve qui l'appuie, et le `volet` auquel il appartient le cas échéant. | Appartient à une `IOffre`. |
 | `IExperience` | Une expérience professionnelle du parcours. | Pointe vers 1..n `IOffre` via `offresLiees` (clés `CleOffre`). |
 | `IFormation` | Un diplôme obtenu. | Aucune. |
 | `ICertification` | Une certification et son justificatif officiel. | Porte un `Justificatif` (union discriminée). |
@@ -53,8 +53,14 @@ erDiagram
 
 - Chaque entité porte une `cle` en minuscules, chiffres et tirets (`^[a-z0-9-]+$`),
   stable dans le temps : elle sert d'identifiant, d'ancre et de segment d'URL.
-- `CleOffre` est une union fermée : `'ingenierie-web' | 'data-ia' | 'seo-sea'`. Une
+- `CleOffre` est une union fermée : `'ingenierie-web' | 'data-ia' | 'sea'`. Une
   `offresLiees` pointant vers une offre inexistante ne compile pas.
+- La troisième clé était `seo-sea` jusqu'au 2026-08-08 (issue #16). Le référencement
+  naturel n'étant pas une prestation vendue, l'offre est devenue `sea` et l'axe « SEO
+  technique » a rejoint `ingenierie-web` sous la clé `seo-ready`, comme **propriété du
+  livrable**. L'union étant fermée et reprise à l'identique dans quatre schémas Zod
+  (`offre`, `accueil`, `experience`), le renommage ne pouvait pas être partiel : une clé
+  oubliée ne compile pas, et une référence de preuve orpheline casse le build.
 
 ## Contraintes d'intégrité
 
@@ -65,6 +71,7 @@ Elles sont portées **deux fois** : par le typage (à la compilation) et par le 
 |------------|-----|
 | Aucune chaîne vide (`min(1)`) sur tous les libellés | schémas Zod |
 | Une offre a au moins un axe ; une expérience au moins un fait | schémas Zod |
+| `IAxeOffre.volet` est optionnel mais jamais vide s'il est présent | `axe-offre.schema.ts` |
 | `anneeFin >= anneeDebut` sur une expérience | `experience.schema.ts` (`refine`) |
 | Années bornées à `2000..2100`, entières | schémas Zod |
 | Aucune clé inconnue dans une entité | `z.strictObject` |

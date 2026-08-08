@@ -11,7 +11,7 @@ const appelActionSchema = z.strictObject({
 })
 
 const referencePreuveSchema = z.strictObject({
-  offre: z.literal(['ingenierie-web', 'data-ia', 'seo-sea']),
+  offre: z.literal(['ingenierie-web', 'data-ia', 'sea']),
   axe: z.string().min(1),
 })
 

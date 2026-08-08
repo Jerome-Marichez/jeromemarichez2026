@@ -4,7 +4,7 @@ import type { IAxeOffre } from './axe-offre'
 import type { CleOffre } from './types'
 
 /**
- * Une offre de service (Ingénierie Web, Data & IA, SEO/SEA).
+ * Une offre de service (Ingénierie Web, Data & IA, SEA).
  *
  * `decisionPermise` est structurant : la ligne éditoriale interdit de terminer un bloc
  * de service sur une liste d'outils — il se termine sur ce que le client peut trancher

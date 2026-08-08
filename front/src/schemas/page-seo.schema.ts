@@ -18,7 +18,7 @@ export const pageSeoSchema = z.strictObject({
   description: z.string().min(50).max(160),
   /**
    * Chemin absolu de la page depuis la racine du site, sans domaine, sans paramètre et
-   * sans barre oblique finale — `/` pour l'accueil, `/services/seo-sea` sinon.
+   * sans barre oblique finale — `/` pour l'accueil, `/services/sea` sinon.
    *
    * La forme est contrainte parce que l'URL canonique en découle directement : deux
    * écritures d'un même chemin produiraient deux canoniques concurrentes pour une seule
@@ -28,7 +28,7 @@ export const pageSeoSchema = z.strictObject({
     .string()
     .regex(
       /^\/$|^\/[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)*$/,
-      'Chemin absolu en minuscules attendu, sans barre finale (ex. « / » ou « /services/seo-sea »).',
+      'Chemin absolu en minuscules attendu, sans barre finale (ex. « / » ou « /services/sea »).',
     ),
   /**
    * Le titre REMPLACE le gabarit du layout au lieu d'être suffixé par lui.
