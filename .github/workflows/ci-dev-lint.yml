@@ -1,5 +1,11 @@
 name: ci-dev-lint
-# Check rapide (PR -> dev) : lint Biome sur tout le dépôt + limite 300 lignes/fichier.
+# Check rapide (PR -> dev) : lint Biome + limite 300 lignes/fichier, et vérification
+# des types TypeScript (front + back, tests inclus).
+#
+# Le job « typecheck » est ajouté par l'issue #12 : les tests front sont compilés par
+# next/jest (SWC), qui transpile SANS vérifier les types. Sans ce job, une erreur de
+# types traverse lint + tests au vert et n'apparaît qu'au build de la PR vers main,
+# une fois le lot constitué. Il AJOUTE un contrôle, il n'en affaiblit aucun.
 on:
   pull_request:
     branches: [dev]
@@ -16,3 +22,18 @@ jobs:
         run: npx @biomejs/biome@^2.0.0 check .
       - name: Limite 300 lignes / fichier
         run: ./scripts/check-max-lines.sh
+
+  typecheck:
+    name: Types (tsc --noEmit, front + back)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+      # tsc a besoin des dépendances : les types de React, Next, Zod et Jest
+      # viennent de node_modules, pas du dépôt.
+      - name: Installation
+        run: make install
+      - name: Vérification des types
+        run: make typecheck
