@@ -7,7 +7,10 @@
 // typage : `Montant` interdit d'ÉCRIRE un chiffre sans sa mention fiscale, et cette
 // fonction interdit de l'AFFICHER sans elle — les deux sortent d'un seul et même gabarit,
 // inséparables. La fonction qui met en forme les euros n'est volontairement pas exportée :
-// il n'existe aucun moyen d'obtenir « 1 200 € » tout seul.
+// il n'existe aucun moyen d'obtenir un montant nu, détaché de sa mention.
+//
+// Aucun chiffre de la grille n'est recopié dans ce fichier, pas même en exemple : les
+// montants ne sont écrits qu'une fois, dans `content/offres/sea-tarifs.ts`.
 import type { Montant, Periodicite } from '../interfaces/types'
 
 /**
@@ -15,9 +18,9 @@ import type { Montant, Periodicite } from '../interfaces/types'
  *
  * Type marqué : seule `formaterMontant` en produit. Un composant qui déclare recevoir un
  * `MontantAffichable` ne peut donc pas se voir passer un prix écrit à la main dans du
- * JSX — la chaîne littérale `'300 à 1 200 €'` ne compile pas à cette place, faute de
- * marque. C'est ce qui étend la garantie « jamais de montant sans mention fiscale »
- * jusqu'au rendu, au lieu de l'arrêter à la donnée.
+ * JSX : une chaîne littérale ne compile pas à cette place, faute de marque. C'est ce qui
+ * étend la garantie « jamais de montant sans mention fiscale » jusqu'au rendu, au lieu de
+ * l'arrêter à la donnée.
  */
 export type MontantAffichable = string & { readonly __montantAffichable: true }
 
@@ -45,7 +48,7 @@ const LIBELLE_FORFAIT: Record<Periodicite, string> = {
 }
 
 /**
- * Groupe les milliers par espaces : `1200` → `1 200`.
+ * Groupe les milliers par espaces : `12000` → `12 000`.
  *
  * Espace ordinaire, et non fine insécable : c'est la graphie déjà employée par le contenu
  * publié (« 100 000 € » dans les preuves du parcours), et un caractère invisible se
@@ -61,7 +64,7 @@ function grouperMilliers(euros: number): string {
  * Les trois cas de la grille validée par Jérôme MARICHEZ (2026-08-08) :
  *
  * - `inclus` → « Incluse » ;
- * - `fourchette` → « 300 à 1 200 € TTC, une seule fois, selon le périmètre » ;
+ * - `fourchette` → « <basse> à <haute> € TTC, une seule fois, selon le périmètre » ;
  * - `sur-devis` → « Forfait mensuel, sur devis ».
  *
  * La mention fiscale est collée au chiffre, dans la même chaîne : elle ne peut pas être

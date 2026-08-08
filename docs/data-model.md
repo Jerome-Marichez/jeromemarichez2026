@@ -188,10 +188,13 @@ Conséquences, toutes vérifiées :
 
 Côté **rendu**, la garantie est prolongée par `front/src/utils/tarif.ts`, seul module qui
 transforme un `Montant` en texte. Il émet toujours le chiffre et sa mention d'un seul
-tenant (« 300 à 1 200 € TTC, une seule fois, selon le périmètre ») ; la fonction qui met
-en forme les euros **n'est pas exportée**, il n'existe donc aucun moyen d'obtenir un
-montant nu. Sa sortie porte un type marqué, `MontantAffichable` : un composant qui déclare
-ce type en propriété ne peut pas recevoir un prix écrit à la main dans du JSX.
+tenant — « … € TTC, une seule fois, selon le périmètre » — et la fonction qui met en forme
+les euros **n'est pas exportée** : il n'existe aucun moyen d'obtenir un montant nu. Sa
+sortie porte un type marqué, `MontantAffichable` : un composant qui déclare ce type en
+propriété ne peut pas recevoir un prix écrit à la main dans du JSX.
+
+*(Les chiffres eux-mêmes ne sont recopiés ni ici, ni dans les commentaires du code : ils
+vivent dans `front/src/content/offres/sea-tarifs.ts`, et nulle part ailleurs.)*
 
 ### 6. Un montant, une seule écriture
 

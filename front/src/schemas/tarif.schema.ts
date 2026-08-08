@@ -16,9 +16,9 @@ const periodiciteSchema = z.literal(['une-seule-fois', 'mensuel'])
  *
  * Le `refine` rejette une borne haute **inférieure ou égale** à la borne basse. La
  * consigne ne demandait que le cas inférieur ; l'égalité est refusée aussi, parce qu'une
- * fourchette dont les deux bornes coïncident n'est pas une fourchette — elle afficherait
- * « 300 à 300 € », un prix ferme déguisé en estimation. Le jour où un montant unique
- * devra être publié, il prendra sa propre variante plutôt que d'emprunter celle-ci.
+ * fourchette dont les deux bornes coïncident n'est pas une fourchette : elle afficherait
+ * deux fois le même chiffre, un prix ferme déguisé en estimation. Le jour où un montant
+ * unique devra être publié, il prendra sa propre variante plutôt que d'emprunter celle-ci.
  */
 const fourchetteSchema = z
   .strictObject({
