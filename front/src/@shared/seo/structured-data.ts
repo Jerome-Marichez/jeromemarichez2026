@@ -6,10 +6,15 @@
 // Aucun texte en dur, et surtout aucune donnée que le site ne peut pas prouver — les
 // règles de véracité du CLAUDE.md s'appliquent au JSON-LD exactement comme au texte
 // visible, alors même qu'il n'est lu que par des machines. Ne sont donc PAS émis :
-// note ou avis (`aggregateRating`, `review`), fourchette de prix (`priceRange`),
-// coordonnées (`telephone`, `email`), rue (`streetAddress`), zone desservie
-// (`areaServed`) — rien de tout cela n'est établi.
+// note ou avis (`aggregateRating`, `review`), fourchette de prix (`priceRange`), rue
+// (`streetAddress`), zone desservie (`areaServed`), horaires (`openingHours`) — rien de
+// tout cela n'est établi.
+//
+// `email` et `telephone` SONT émis depuis le 2026-08-08 : ce sont les coordonnées de
+// Jérôme MARICHEZ, déjà publiques sur ses CV, dont il a explicitement demandé la
+// publication. Elles proviennent du contenu typé, jamais d'une chaîne écrite ici.
 import { certifications, formations, identite, offres } from '@/content'
+import { telephoneVersE164 } from '@/utils/telephone'
 import type { JsonLdGraph, JsonLdNode } from '../interfaces/types'
 import { absoluteUrl, siteUrl } from './site'
 
@@ -60,6 +65,25 @@ function certificationsObtenues(): readonly JsonLdNode[] {
   }))
 }
 
+/**
+ * Langues pratiquées.
+ *
+ * `knowsLanguage` est la propriété prévue par schema.org — et la bonne place pour EF SET,
+ * qui évalue un niveau d'anglais et n'est pas un titre professionnel : le mettre dans
+ * `hasCredential` reviendrait à annoncer une certification de plus.
+ *
+ * Le niveau CECRL (« B2 ») n'est pas émis : schema.org ne définit aucune propriété pour
+ * l'exprimer sur un nœud `Language`, et l'inventer produirait une clé qu'aucun
+ * consommateur ne lit. Il reste porté par le contenu typé, pour le texte visible.
+ */
+function languesPratiquees(): readonly JsonLdNode[] {
+  return identite.langues.map((langue) => ({
+    '@type': 'Language',
+    name: langue.nom,
+    alternateName: langue.code,
+  }))
+}
+
 /** Le catalogue des trois offres, décrites par leur accroche éditoriale. */
 function catalogueOffres(): JsonLdNode {
   return {
@@ -91,7 +115,13 @@ function personne(): JsonLdNode {
     description: identite.promesse,
     url: absoluteUrl('/'),
     address: adressePublique,
+    email: identite.contact.email,
+    // schema.org attend un numéro composable tel quel, donc en E.164 : la forme lisible
+    // « 07 71 65 15 88 » n'est pas interprétable hors de France. La conversion est
+    // dérivée du contenu typé, aucun numéro n'est réécrit ici.
+    telephone: telephoneVersE164(identite.contact.telephone),
     knowsAbout: domainesCouverts(),
+    knowsLanguage: languesPratiquees(),
     hasCredential: [...diplomes(), ...certificationsObtenues()],
     // `sameAs` n'est émis que si au moins un profil public a été vérifié.
     ...(identite.profilsPublics.length > 0 ? { sameAs: identite.profilsPublics } : {}),
