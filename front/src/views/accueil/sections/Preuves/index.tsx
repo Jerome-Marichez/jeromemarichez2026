@@ -17,7 +17,7 @@ interface IPreuvesProps {
  */
 export function Preuves({ contenu, preuves }: IPreuvesProps) {
   return (
-    <Section id="preuves" lead={contenu.lead} title={contenu.titre} width="wide">
+    <Section id="preuves" lead={contenu.lead} title={contenu.titre} tone="muted" width="wide">
       <ul className={styles.grille}>
         {preuves.map((preuve) => (
           <li className={styles.item} key={preuve.cle}>

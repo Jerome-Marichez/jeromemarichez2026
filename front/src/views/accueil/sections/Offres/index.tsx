@@ -21,11 +21,12 @@ interface IOffresProps {
  */
 export function Offres({ contenu, offres }: IOffresProps) {
   return (
-    <Section id="offres" lead={contenu.lead} title={contenu.titre} tone="muted" width="wide">
+    <Section id="offres" lead={contenu.lead} title={contenu.titre} width="wide">
       <ul className={styles.grille}>
         {offres.map((offre) => (
           <li className={styles.item} key={offre.cle}>
             <Card
+              className={styles.carte}
               footer={
                 <ActionLink href={cheminOffre(offre.cle)} variant="secondary">
                   {`${contenu.libelleLien} ${offre.titre}`}

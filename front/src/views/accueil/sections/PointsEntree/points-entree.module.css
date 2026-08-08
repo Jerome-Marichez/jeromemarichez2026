@@ -1,0 +1,118 @@
+/* Points d'entrée — deux surfaces surélevées, posées sur le fond de page.
+ *
+ * Elles portent le même vocabulaire d'élévation que la chaîne (ombre franche,
+ * décalage de deux pixels), mais restent sur `--color-surface` : la profondeur
+ * bleutée est réservée à ce qui EXPLIQUE (la chaîne, le constat), pas à ce qui
+ * fait AGIR. */
+
+.grille {
+  display: grid;
+
+  /* Deux cartes côte à côte dès que 20 rem par piste tiennent dans le conteneur,
+   * l'une sous l'autre en dessous. `min()` évite qu'une piste réclame plus que le
+   * viewport à 320 px. */
+  grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+  gap: var(--space-md);
+  padding-left: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  min-width: 0;
+}
+
+.carte {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+/* `focus-within` autant que `hover` : la carte contient des liens, un visiteur au
+ * clavier doit voir la même surface se détacher qu'un visiteur à la souris. Sous
+ * `prefers-reduced-motion`, les jetons `--transition-*` valent 0s. */
+.carte:hover,
+.carte:focus-within {
+  transform: translateY(var(--elevation-lift));
+  box-shadow: var(--shadow-lg);
+}
+
+.situation {
+  font-size: var(--font-size-lg);
+}
+
+.description {
+  color: var(--color-text-muted);
+}
+
+.chemin {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.etiquette {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.etapes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding-left: 0;
+  list-style: none;
+}
+
+/* L'étape est un conteneur SANS fond : la pastille est portée par le libellé, de
+ * sorte que le trait de liaison ci-dessous se dessine à l'extérieur de la pastille
+ * et non par-dessus son fond. */
+.etape {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-width: 0;
+}
+
+.etapeLibelle {
+  padding: var(--space-3xs) var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Trait de liaison entre deux étapes. `content: ''` : purement décoratif, aucun
+ * lecteur d'écran n'a à l'annoncer — l'ordre est déjà porté par la liste ordonnée,
+ * l'information n'est donc jamais portée par le seul dessin (WCAG 1.4.1). */
+.etape:not(:last-child)::after {
+  width: var(--space-xs);
+  height: 1px;
+  background-color: var(--color-border-strong);
+  content: "";
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+
+  /* Colle les actions en bas : dans la grille, les deux cartes gardent leurs liens
+   * alignés quelle que soit la longueur de leur description. */
+  margin-top: auto;
+  padding-top: var(--space-2xs);
+}

@@ -1,0 +1,142 @@
+/* Chaîne — le motif de PROFONDEUR de la page d'accueil.
+ *
+ * La tridimensionnalité est obtenue en élévation et en couches, jamais en 3D : un
+ * dégradé de bleu profond, une ombre portée franche, et un décalage de deux pixels au
+ * survol. Aucune bibliothèque, aucun JavaScript — une 3D WebGL coûterait 150 à 600 ko
+ * et ferait de ce site la contre-démonstration de ce qu'il vend.
+ *
+ * Toutes les valeurs viennent des jetons (docs/design.md). Contrastes du dégradé et
+ * des deux couleurs de texte qui s'y posent : docs/accessibility.md. */
+
+.avertissement {
+  max-width: var(--layout-width-narrow);
+  margin-bottom: var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
+
+  /* 1 px : seule épaisseur de filet employée par le socle (voir Card, Preuves). */
+  border-left: 1px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text-muted);
+}
+
+/* Pastille annonçant le caractère illustratif du scénario. `block` : l'étiquette est
+ * une ligne à part entière, elle ne se confond pas avec le début de la phrase. */
+.avertissementLibelle {
+  display: block;
+  color: var(--color-accent);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.chaine {
+  display: grid;
+
+  /* Le nombre de colonnes se déduit de la place : quatre maillons de 15 rem tiennent
+   * dans le conteneur `wide` (80 rem), puis la grille passe à deux colonnes et à une.
+   * `min()` empêche la piste de réclamer 15 rem quand le viewport est plus étroit —
+   * c'est ce qui évite le défilement horizontal à 320 px. */
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+  gap: var(--space-md);
+  padding-left: 0;
+  list-style: none;
+}
+
+/* `grid` plutôt que `block` : la carte occupe toute la hauteur de sa rangée, les
+ * maillons restent donc alignés d'une colonne à l'autre. */
+.maillon {
+  display: grid;
+  min-width: 0;
+}
+
+.carte {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+
+  /* Le dégradé est un jeton : son angle et ses deux bornes sont décidés une seule
+   * fois, et il suit le thème sans être redéclaré ici. */
+  background-image: var(--gradient-depth);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-depth-text);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+/* Le maillon se soulève légèrement au survol. Sous `prefers-reduced-motion`, les
+ * jetons `--transition-*` valent 0s : le décalage devient instantané, donc plus rien
+ * ne s'anime — sans sélecteur universel ni `!important` (globals.css). */
+.carte:hover {
+  transform: translateY(var(--elevation-lift));
+  box-shadow: var(--shadow-xl);
+}
+
+.rang {
+  color: var(--color-depth-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.titre {
+  font-size: var(--font-size-lg);
+}
+
+.role,
+.illustration,
+.sortie {
+  color: var(--color-depth-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* La sortie ferme la carte et porte le chaînage : ce qu'elle énonce est ce dont le
+ * maillon suivant part. `margin-top: auto` la colle en bas, les sorties s'alignent
+ * donc d'une colonne à l'autre. */
+.sortie {
+  margin-top: auto;
+  padding-top: var(--space-2xs);
+  color: var(--color-depth-text);
+}
+
+.etiquette {
+  display: block;
+  color: var(--color-depth-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.rattachement {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.offres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  padding-left: 0;
+  list-style: none;
+}
+
+/* Pastille de rattachement : volontairement NON cliquable. Les trois pôles sont
+ * atteignables depuis la section « offres » et depuis les points d'entrée ; les
+ * rendre cliquables ici multiplierait des liens au libellé identique (WCAG 2.4.4). */
+.offre {
+  padding: var(--space-3xs) var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-depth-bottom);
+  color: var(--color-depth-text);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
