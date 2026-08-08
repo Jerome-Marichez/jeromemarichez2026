@@ -55,8 +55,13 @@ test-system: ## Tests système back (vrai serveur HTTP via listen(0))
 test-mutation: ## Tests de mutation (Stryker) — qualité des tests unitaires/intégration
 	cd front && npx stryker run
 	cd back && npx stryker run
+# Un MOTIF, et non un dossier : depuis Node 22, les arguments positionnels de
+# « node --test » sont des motifs de fichiers. Un chemin de dossier est alors chargé
+# comme module et lève MODULE_NOT_FOUND — que le dossier contienne des tests ou non
+# (vérifié sur Node 26). Le motif est protégé des guillemets : c'est Node qui l'étend,
+# pas le shell, dont le « ** » n'est pas récursif.
 test-acceptance: ## Tests d'acceptation / UAT (runner Node natif)
-	node --test tests/acceptance/
+	node --test "tests/acceptance/**/*.test.js"
 storybook: ## Storybook en local (http://localhost:6006) — après npx storybook@latest init
 	@if [ -d front ]; then cd front && npm run storybook; else npm run storybook; fi
 
