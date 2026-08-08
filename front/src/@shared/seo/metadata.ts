@@ -63,13 +63,14 @@ export function buildRootMetadata(): Metadata {
  * chemin mal formé échoue AU BUILD — le défaut n'atteint jamais la production.
  */
 export function buildPageMetadata(input: PageSeoInput): Metadata {
-  const { title, description, path } = pageSeoSchema.parse(input)
+  const { title, description, path, absoluteTitle } = pageSeoSchema.parse(input)
   const url = absoluteUrl(path)
   // Le gabarit est appliqué à la main pour l'Open Graph et Twitter : Next.js ne
-  // l'applique qu'à la balise `<title>`.
-  const fullTitle = applyTitleTemplate(title)
+  // l'applique qu'à la balise `<title>`. Le titre partagé reste ainsi le même dans
+  // l'onglet du navigateur et dans l'aperçu de partage.
+  const fullTitle = absoluteTitle ? title : applyTitleTemplate(title)
   return {
-    title,
+    title: absoluteTitle ? { absolute: title } : title,
     description,
     alternates: { canonical: url },
     openGraph: {

@@ -30,6 +30,16 @@ export const pageSeoSchema = z.strictObject({
       /^\/$|^\/[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)*$/,
       'Chemin absolu en minuscules attendu, sans barre finale (ex. « / » ou « /services/seo-sea »).',
     ),
+  /**
+   * Le titre REMPLACE le gabarit du layout au lieu d'être suffixé par lui.
+   *
+   * Cas de la page d'accueil : son titre porte déjà l'identité complète
+   * (« Jérôme Marichez — Ingénieur logiciel à Lille »). Le gabarit la répéterait
+   * (« … — Jérôme Marichez »), ce qui gaspille la largeur utile du résultat de
+   * recherche. Reste faux partout ailleurs : une page intérieure a tout intérêt à
+   * porter le nom du site.
+   */
+  absoluteTitle: z.boolean().default(false),
 })
 
 export type PageSeoInput = z.input<typeof pageSeoSchema>
