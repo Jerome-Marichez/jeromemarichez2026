@@ -1,12 +1,17 @@
 // accueil-sections.ts — jeromemarichez-fr
-// Les cinq sections qui déroulent la chaîne : pôle, charnière, pôle, charnière, pôle.
+// Les sections qui déroulent la chaîne : fil transverse, puis pôle, charnière, pôle,
+// charnière, pôle.
 //
 // L'ordre est le contenu. Retirer une charnière ne raccourcirait pas la page : cela
 // transformerait l'offre en catalogue.
 
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
+import { SECTION_FIL_IA } from './fil-ia'
 
 export const SECTIONS_ACCUEIL: IEditorialSection[] = [
+  // Le fil ouvre la chaîne : la méthode se lit avant les pôles, sinon le lecteur
+  // découvre l'IA au pôle 2 et la range comme une offre parmi trois.
+  SECTION_FIL_IA,
   {
     id: 'ingenierie-web',
     kind: 'pole',
@@ -65,7 +70,9 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
   {
     id: 'charniere-run',
     kind: 'charniere',
-    kicker: 'Charnière',
+    // Numérotée dans la même série que les pôles : sans numéro, un titre de charnière
+    // se lit comme un intertitre d'ambiance et le lecteur ne voit plus la chaîne.
+    kicker: 'Charnière 1 → 2',
     titre: 'On ne livre pas, on exploite',
     chapo:
       "La mise en production n'est pas la fin du projet : c'est le moment où le produit " +
@@ -85,6 +92,13 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
         texte:
           'absorbés sans incident, contrôles post-déploiement exécutés en production, ' +
           'conformité RGPD et DORA tenue en appels d’offres grands comptes.',
+      },
+      {
+        titre: 'La preuve que le lien existe',
+        texte:
+          'les règles anti-fraude n’ont pas été imaginées avant la mise en production : ' +
+          'elles sont issues de la reprise de l’historique que l’exploitation a produit. ' +
+          'Sans run, pas de matière — et donc pas de pôle 2.',
       },
     ],
   },
@@ -144,7 +158,7 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
   {
     id: 'charniere-arbitrage',
     kind: 'charniere',
-    kicker: 'Charnière',
+    kicker: 'Charnière 2 → 3',
     titre: 'Sans donnée claire, le budget brûle',
     chapo:
       'La donnée mise au propre devient la matière première des arbitrages : quel canal ' +
@@ -160,6 +174,13 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
       {
         titre: 'Réconciliation des identités',
         texte: 'agrégation multi-sources et dédoublonnage avant toute lecture de performance.',
+      },
+      {
+        titre: 'La preuve que le lien existe',
+        texte:
+          'le système d’analyse multi-sources mesure la rentabilité client dans la durée. ' +
+          'C’est sur ce chiffre-là que les budgets sont arbitrés — pas sur les métriques ' +
+          'que chaque régie produit sur elle-même.',
       },
     ],
   },
@@ -220,5 +241,48 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
       'Ce que la mesure révèle repart en construction. Et comme c’est toujours la même ' +
       'personne, l’arbitrage décidé le lundi est implémenté dans la semaine — il n’attend ' +
       'pas le devis d’un tiers.',
+  },
+  {
+    id: 'un-seul-interlocuteur',
+    kind: 'preuves',
+    kicker: 'L’objection',
+    titre: 'Un seul interlocuteur — et si je disparais ?',
+    chapo:
+      'C’est la question à poser, et elle mérite mieux qu’un haussement d’épaules. Vendre ' +
+      'un interlocuteur unique, c’est concentrer un risque : autant dire tout de suite ' +
+      'comment il est traité, plutôt que d’attendre que vous le souleviez en réunion.',
+    blocs: [
+      {
+        titre: 'Le produit n’est pas dans ma tête',
+        texte:
+          'Développement piloté par les tests, non-régression rejouée à chaque livraison, ' +
+          'tests de mutation pour vérifier que les tests eux-mêmes valent quelque chose, ' +
+          'pipelines CI/CD exécutés à chaque livraison. Une base couverte et déployable ' +
+          'automatiquement se reprend ; une base sans filet ne se reprend pas.',
+        preuve:
+          'Jest, Cypress, Playwright, mutation Stryker, Postman. Certification ISTQB Foundation.',
+      },
+      {
+        titre: 'Les spécifications sont écrites pour quelqu’un d’autre que moi',
+        texte:
+          'C’est le métier que j’ai exercé avant : recueillir un besoin auprès d’équipes ' +
+          'scientifiques et dirigeantes, puis le traduire en spécifications exploitables ' +
+          'par des prestataires qui ne connaissent pas le domaine. BPMN 2.0, cartographie ' +
+          'du système d’information, nomenclature d’événements documentée et opposable.',
+        preuve:
+          'AMOA de la startup biotech Artedrone. Serveurs MCP et plugins n8n, Make et Zapier documentés.',
+      },
+      {
+        titre: 'Le relais, je l’ai déjà passé',
+        texte:
+          'Encadrer des prestataires externes, c’est exactement l’exercice : leur donner ' +
+          'de quoi travailler sans moi. Une équipe marketing de 5 à 10 personnes et trois ' +
+          'prestataires coordonnés chez Truffle Capital, les prestataires SEA, SEO et SMA ' +
+          'encadrés chez Verhoeven Joaillier.',
+        decision:
+          'Ce que vous exigez de moi contractuellement — documentation, accès, revue de ' +
+          'reprise — et à quel moment vous voulez pouvoir le vérifier.',
+      },
+    ],
   },
 ]

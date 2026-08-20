@@ -19,6 +19,12 @@ export const HERO_ACCUEIL = {
     'Ingénieur logiciel à Lille, 9 ans. Un seul interlocuteur pour votre produit ' +
     'digital, aucune sous-traitance : celui qui cadre est celui qui code, qui mesure ' +
     'et qui exploite. Vous parlez à la personne qui fait le travail.',
+  // Le fil IA se dit dès le seuil, sinon il se découvre au pôle 2 et se lit comme une
+  // offre. Formulation tenue par les règles de véracité : l'IA instruit et produit, le
+  // test décide — jamais l'inverse.
+  methode:
+    'Je conçois, je développe et je pilote avec l’IA — Claude Code et Gemini au ' +
+    'quotidien, le test tranchant à chaque étape.',
   jetons: [
     { chiffre: '3', libelle: 'migrations sans interruption de service' },
     { chiffre: '98/100', libelle: 'Lighthouse sur la plateforme SaaS livrée' },
@@ -46,7 +52,8 @@ export const PAGE_ACCUEIL: IEditorialPage = {
     title: 'Jérôme Marichez — Ingénieur logiciel à Lille',
     description:
       'Ingénierie web, data & IA, SEA & UX : un seul interlocuteur du cadrage au run, ' +
-      'sans sous-traitance. Lille et Hauts-de-France.',
+      'sans sous-traitance. Conception, développement et pilotage avec l’IA. Lille et ' +
+      'Hauts-de-France.',
   },
   sections: SECTIONS_ACCUEIL,
 }

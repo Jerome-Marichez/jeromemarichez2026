@@ -37,6 +37,19 @@
   color: var(--encre-douce);
 }
 
+/* La ligne de méthode : filet cuivre à gauche, comme le fil transverse plus bas dans la
+   page. Elle n'est pas une accroche de plus — c'est le rappel visuel qui relie le seuil
+   à la section « Le fil ». */
+.methode {
+  max-width: 52ch;
+  padding-left: var(--e-3);
+  border-left: 2px solid var(--cuivre-vif);
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  line-height: 1.6;
+  color: var(--encre);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -104,7 +117,15 @@
 }
 
 .volume {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--e-2);
   min-width: 0;
+}
+
+.controle {
+  margin: 0;
 }
 
 /* La scène est un décor : en dessous de 1024px elle est simplement retirée du flux.

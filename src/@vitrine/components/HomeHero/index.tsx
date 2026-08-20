@@ -3,6 +3,7 @@
 
 import Link from 'next/link'
 import { ChainCanvas } from '@/@shared/components/ChainCanvas'
+import { MotionToggle } from '@/@shared/components/MotionToggle'
 import { SITE_IDENTITY } from '@/@shared/seo/site'
 import { HERO_ACCUEIL } from '../../contenu/accueil'
 import styles from './home-hero.module.css'
@@ -27,6 +28,7 @@ export function HomeHero() {
           {HERO_ACCUEIL.titre}
         </h1>
         <p className={styles.chapo}>{HERO_ACCUEIL.chapo}</p>
+        <p className={styles.methode}>{HERO_ACCUEIL.methode}</p>
 
         <p className={styles.actions}>
           <a className={styles.actionPrincipale} href={`mailto:${SITE_IDENTITY.email}`}>
@@ -49,6 +51,12 @@ export function HomeHero() {
 
       <div className={styles.volume}>
         <ChainCanvas description="Trois plaques de verre alignées dans le même axe : trois pôles, une seule chaîne." />
+        {/* Le contrôle est posé au pied de la scène, là où le mouvement se voit.
+            WCAG 2.2.2 demande un mécanisme de mise en pause : la préférence système
+            n'en est pas un, elle ne se change pas depuis la page. */}
+        <p className={styles.controle}>
+          <MotionToggle />
+        </p>
       </div>
     </section>
   )

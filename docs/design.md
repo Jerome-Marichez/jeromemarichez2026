@@ -115,6 +115,7 @@ personnalisé.
 | Geste | Où | Détail |
 |-------|-----|--------|
 | **Tracer** | les deux charnières | filet cuivre 2px, `scaleY(0)` → `scaleY(1)`, 700ms. Seul mouvement porteur de sens : la chaîne se trace |
+| **Traverser** | le fil IA | filets cuivre **horizontaux**, `scaleX(0)` → `scaleX(1)`, même durée. Perpendiculaires à ceux des charnières : la chaîne descend, le fil la coupe — la géométrie dit « ceci n'est pas une quatrième offre » |
 | **Pivoter** | la scène WebGL | rotation interpolée sur l'avancement du défilement du premier écran |
 | **Micro-états** | liens et boutons | épaisseur de soulignement, `translateY(-1px)`, 120 à 140ms — aucun déplacement de mise en page |
 

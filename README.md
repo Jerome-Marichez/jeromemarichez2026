@@ -44,6 +44,18 @@ catalogue de trois prestations qu'on pourrait acheter à trois fournisseurs diff
 La chaîne n'est crédible **que** parce que c'est la même personne aux trois postes :
 c'est l'argument de vente, pas un détail d'organisation.
 
+#### Le fil IA — l'axe transverse
+
+Un troisième type de section, le **fil**, traverse les trois pôles au lieu de s'insérer
+entre deux. Il lève une confusion que le site crée lui-même : l'IA y apparaît comme
+**offre** (pôle 2) *et* comme **méthode de production** (les trois pôles). Le fil parle
+de la seconde, en quatre étapes — concevoir, construire, livrer, piloter — et se place
+avant le pôle 1 pour que la méthode se lise avant les offres.
+
+Sa règle d'écriture est bloquante : **l'IA propose, les tests tranchent**. Le pilotage
+SEA reste attribué à la donnée et aux modèles (clustering, profilage), jamais à un agent
+autonome. Le fil ne cite aucune preuve qui ne soit déjà portée par un pôle.
+
 ### 1. Ingénierie Web
 
 L'offre socle : concevoir, développer et exploiter un produit web ou mobile de bout en
@@ -201,7 +213,7 @@ confirmée, sans année connue.
 
 | Route | Rôle |
 |-------|------|
-| `/` | Accroche, promesse d'interlocuteur unique, la chaîne complète (3 pôles + 2 charnières), preuves chiffrées, limites assumées, certifications, appel à contact |
+| `/` | Accroche, promesse d'interlocuteur unique, le fil IA transverse, la chaîne complète (3 pôles + 2 charnières), preuves chiffrées, limites assumées, certifications, appel à contact |
 | `/services/ingenierie-web` | Pôle 1 en détail |
 | `/services/data-ia` | Pôle 2 en détail |
 | `/services/sea-ux` | Pôle 3 en détail |
