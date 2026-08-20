@@ -6,10 +6,19 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background: color-mix(in srgb, var(--fond) 82%, transparent);
-  backdrop-filter: blur(12px) saturate(1.1);
-  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  /* Opaque par défaut, translucide seulement là où le flou existe réellement.
+     Sans cette précaution, le texte des sections qui défilent dessous reste lisible à
+     travers l'en-tête : la transparence ne doit jamais coûter la lisibilité du nom. */
+  background: var(--fond);
   border-bottom: 1px solid color-mix(in srgb, var(--encre) 10%, transparent);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .entete {
+    background: color-mix(in srgb, var(--fond) 78%, transparent);
+    backdrop-filter: blur(14px) saturate(1.1);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  }
 }
 
 .contenu {

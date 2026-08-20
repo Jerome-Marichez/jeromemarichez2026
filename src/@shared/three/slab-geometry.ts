@@ -1,7 +1,7 @@
 // slab-geometry.ts — jeromemarichez-fr
 // La dalle : un rectangle arrondi extrudé avec un vrai biseau.
 
-import { ExtrudeGeometry, Shape } from 'three'
+import { EdgesGeometry, ExtrudeGeometry, Shape } from 'three'
 
 const LARGEUR = 1.7
 const HAUTEUR = 2.35
@@ -48,3 +48,17 @@ export const SLAB_PLACEMENTS = [
   { position: [0.42, -0.14, -0.9], index: 1 },
   { position: [0.84, -0.28, -1.8], index: 2 },
 ] as const
+
+/**
+ * Le liseré d'une dalle : ses arêtes vives, sous forme de segments.
+ *
+ * Sans lui, une dalle vue de face n'a plus aucun contour — le Fresnel n'allume que
+ * les faces rasantes — et les trois plaques se confondent avec le fond. Le rendu
+ * filaire est quasi gratuit : quelques centaines de segments, aucun éclairage.
+ *
+ * `thresholdAngle` à 30° ne garde que les vraies arêtes et laisse tomber les
+ * facettes internes du biseau, qui feraient un grillage au lieu d'un liseré.
+ */
+export function buildSlabEdges(geometrie: ExtrudeGeometry): EdgesGeometry {
+  return new EdgesGeometry(geometrie, 30)
+}

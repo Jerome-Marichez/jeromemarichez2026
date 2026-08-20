@@ -100,6 +100,9 @@ html {
 }
 
 body {
+  /* Positionné pour que `.fond-atelier` prenne la hauteur du DOCUMENT et non celle du
+     viewport : sans cela, la trame technique s'arrête au bas du premier écran. */
+  position: relative;
   min-height: 100dvh;
   background-color: var(--fond);
   color: var(--encre);
@@ -115,11 +118,15 @@ body {
 
 /* Le fond d'atelier est un calque peint, séparé du contenu : c'est ce que le verre
    réfracte. Il est en `absolute` et non `fixed` — liquidGL ignore les éléments fixes,
-   un fond fixe ne serait jamais capturé. */
+   un fond fixe ne serait jamais capturé.
+
+   `z-index: -1` et non `0` : il doit passer sous le contenu SANS que celui-ci ait
+   besoin de son propre contexte d'empilement. Voir la règle `main` ci-dessous, qui
+   explique pourquoi ce détail décide du bon fonctionnement de liquidGL. */
 .fond-atelier {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
   background:
     repeating-linear-gradient(to right, var(--trame) 0 1px, transparent 1px 32px),
@@ -178,9 +185,17 @@ a:hover {
   border-radius: 2px;
 }
 
+/* `main` ne crée volontairement AUCUN contexte d'empilement.
+ *
+ * liquidGL pose ses canvas directement sur `document.body` : le canvas de réfraction
+ * partagé à `z-index: 0`, et un canvas miroir par lentille à `z-index de la lentille
+ * moins 1`. Pour qu'une surface de verre passe au-dessus de ces deux calques, son
+ * `z-index: 2` doit être comparé dans le contexte RACINE. Un `position: relative;
+ * z-index: 1` sur `main` enfermerait tout le contenu dans un contexte à 1, le miroir
+ * passerait par-dessus, et le texte des panneaux vitrés disparaîtrait — c'est
+ * exactement le défaut que ce commentaire empêche de réintroduire. */
 main {
-  position: relative;
-  z-index: 1;
+  position: static;
 }
 
 img,

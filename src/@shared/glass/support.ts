@@ -2,6 +2,17 @@
 // Conditions d'activation du verre réfractant.
 
 /**
+ * Résultat de la sonde WebGL, mémorisé pour la durée de la page.
+ *
+ * La sonde crée un canvas et lui demande un contexte. Un navigateur plafonne le nombre
+ * de contextes WebGL vivants (autour de la quinzaine) et **abandonne les plus anciens**
+ * quand le plafond est atteint. Sonder à chaque montage — verre réfractant d'un côté,
+ * scène de la chaîne de l'autre — consommait donc des contextes qui n'étaient jamais
+ * rendus, et finissait par faire perdre le sien à la scène.
+ */
+let sondeWebGl: boolean | undefined
+
+/**
  * Dit si le verre WebGL peut être activé sur ce poste et à cette taille d'écran.
  *
  * Le test WebGL est fait ici plutôt que laissé à liquidGL : sa propre détection
@@ -20,14 +31,24 @@ export function supportsLiquidGlass(minViewport: number): boolean {
 /**
  * Dit si un contexte WebGL est obtenable.
  *
- * Exporté parce que la scène de la chaîne pose exactement la même question : deux
- * sondes séparées créeraient deux canvas jetables et deux contextes à chaque montage.
+ * Exporté parce que la scène de la chaîne pose exactement la même question. Le contexte
+ * de sonde est **explicitement libéré** via `WEBGL_lose_context` : sans cela, chaque
+ * appel laisse un contexte vivant derrière lui.
  */
 export function hasWebGl(): boolean {
+  if (sondeWebGl !== undefined) return sondeWebGl
+  if (typeof document === 'undefined') return false
+
   try {
     const canvas = document.createElement('canvas')
-    return Boolean(canvas.getContext('webgl2') ?? canvas.getContext('webgl'))
+    const contexte = canvas.getContext('webgl2') ?? canvas.getContext('webgl')
+    sondeWebGl = Boolean(contexte)
+
+    const liberer = contexte?.getExtension('WEBGL_lose_context')
+    liberer?.loseContext()
   } catch {
-    return false
+    sondeWebGl = false
   }
+
+  return sondeWebGl
 }

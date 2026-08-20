@@ -30,6 +30,17 @@ export const MIN_GLASS_VIEWPORT = 1024
  * la plus courante de cette bibliothèque.
  */
 export const LIQUID_GL_OPTIONS = {
+  /**
+   * Ce que la lentille réfracte. **Le fond d'atelier, jamais `body`.**
+   *
+   * C'est le réglage qui décide si le site est lisible. Avec le défaut (`'body'`),
+   * liquidGL capture la page entière — texte compris — et chaque panneau affiche une
+   * copie déformée de ce qui se trouve dessous : le contenu du panneau se superpose à
+   * son propre reflet et devient illisible. En ne capturant que le calque de fond, la
+   * transparence reste visible et le texte reste net. C'est exactement l'arbitrage que
+   * ce site vend, appliqué à lui-même.
+   */
+  snapshot: '.fond-atelier',
   resolution: 1.5,
   refraction: 0.02,
   aberration: 0.04,

@@ -28,6 +28,8 @@ export const SLAB_FRAGMENT_SHADER = /* glsl */ `
   uniform vec3 uCoreColor;
   uniform float uTime;
   uniform float uIndex;
+  uniform float uCoreAlpha;
+  uniform float uEdgeAlpha;
 
   varying vec3 vNormalView;
   varying vec3 vPositionView;
@@ -37,9 +39,10 @@ export const SLAB_FRAGMENT_SHADER = /* glsl */ `
     vec3 normal = normalize(vNormalView);
     vec3 view = normalize(-vPositionView);
 
-    // Fresnel : le centre reste presque vide, l'arête s'allume. C'est le biseau de la
-    // géométrie qui rend l'effet lisible — sans lui, la dalle serait un simple voile.
-    float fresnel = pow(1.0 - clamp(dot(normal, view), 0.0, 1.0), 3.0);
+    // Fresnel : le centre reste presque vide, l'arête s'allume. Exposant 2.0 plutôt
+    // que 3.0 — à 3.0, une dalle vue de face n'allume plus que son biseau et devient
+    // invisible sur un fond clair, ce qui vide la scène de son sujet.
+    float fresnel = pow(1.0 - clamp(dot(normal, view), 0.0, 1.0), 2.0);
 
     // Bande spéculaire unique, qui glisse lentement le long de la dalle. Décalée par
     // dalle pour que les trois ne clignotent pas ensemble.
@@ -47,20 +50,24 @@ export const SLAB_FRAGMENT_SHADER = /* glsl */ `
     float bande = smoothstep(0.06, 0.0, abs(vUv.y - bandeCentre));
 
     vec3 couleur = mix(uCoreColor, uEdgeColor, fresnel);
-    couleur += bande * 0.35;
 
-    float alpha = mix(0.045, 0.55, fresnel) + bande * 0.10;
-    gl_FragColor = vec4(couleur, clamp(alpha, 0.0, 0.75));
+    float alpha = mix(uCoreAlpha, uEdgeAlpha, fresnel) + bande * 0.08;
+    gl_FragColor = vec4(couleur, clamp(alpha, 0.0, 0.85));
   }
 `
 
 /**
- * Teinte d'arête par dalle : cuivrée, neutre, froide.
+ * Opacité du corps et de l'arête.
  *
- * Les trois pôles sont codés sans être nommés — la scène n'affiche aucun texte et
- * n'est jamais la source d'une information que la page ne donne pas déjà.
+ * Deux jeux de valeurs, parce que le verre ne se lit pas pareil selon le fond : posé
+ * sur le papier clair, un voile à 4 % disparaît purement et simplement — c'est le
+ * défaut qu'on corrige ici. Sur le graphite du thème sombre, la même valeur suffit
+ * largement et monter plus haut donnerait une plaque laiteuse.
  */
-export const SLAB_EDGE_COLORS = ['#b4623a', '#9ba3aa', '#7f97a8'] as const
+export const SLAB_ALPHA = {
+  clair: { corps: 0.035, arete: 0.3 },
+  sombre: { corps: 0.03, arete: 0.34 },
+} as const
 
-/** Cœur de dalle, presque éteint : c'est l'absence de matière qui fait le verre. */
-export const SLAB_CORE_COLOR = '#c9c2b6'
+/** Teinte d'arête par dalle : la première prend le cuivre, les deux autres s'éteignent. */
+export const SLAB_EDGE_TINT = [1, 0.55, 0.3] as const
