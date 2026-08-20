@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic'
 import { useEffect, useRef, useState } from 'react'
 import { hasWebGl } from '../../glass/support'
 import { useInViewport } from '../../hooks/use-in-viewport'
-import { useReducedMotion } from '../../hooks/use-reduced-motion'
+import { useMotionPaused } from '../../hooks/use-motion-paused'
 import styles from './chain-canvas.module.css'
 import { SlabFallback } from './SlabFallback'
 
@@ -41,7 +41,7 @@ interface ChainCanvasProps {
 export function ChainCanvas({ description }: ChainCanvasProps) {
   const conteneur = useRef<HTMLDivElement>(null)
   const visible = useInViewport(conteneur)
-  const reducedMotion = useReducedMotion()
+  const fige = useMotionPaused()
   const [capable, setCapable] = useState(false)
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export function ChainCanvas({ description }: ChainCanvasProps) {
   return (
     <div aria-hidden="true" className={styles.conteneur} data-liquid-ignore ref={conteneur}>
       <span className={styles.substitut}>{description}</span>
-      {rendVolume ? <ChainScene fige={reducedMotion} /> : <SlabFallback />}
+      {rendVolume ? <ChainScene fige={fige} /> : <SlabFallback />}
     </div>
   )
 }

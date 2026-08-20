@@ -40,14 +40,9 @@
 }
 
 /* Variante vitrée : la section est posée sur le fond d'atelier, et le verre laisse
-   voir la trame se plier au niveau du biseau. La mesure du texte est resserrée à
-   46ch — un panneau de verre plus large que ça devient une vitre, pas une carte, et
-   Safari devient instable au-delà de la moitié du viewport. */
-.verre {
-  padding: var(--e-5);
-  max-width: 100%;
-}
-
+   voir la trame se plier au niveau du biseau. Le rembourrage vit dans le composant
+   `GlassSurface` — ici, seule la largeur de mesure change, le texte d'un panneau
+   pouvant occuper toute sa largeur. */
 .verre .chapo,
 .verre .blocs {
   max-width: none;

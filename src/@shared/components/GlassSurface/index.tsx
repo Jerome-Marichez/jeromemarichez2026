@@ -3,6 +3,7 @@
 
 import type { ReactNode } from 'react'
 import { GLASS_CLASS } from './glass-class'
+import styles from './glass-surface.module.css'
 
 interface GlassSurfaceProps {
   children: ReactNode
@@ -13,21 +14,30 @@ interface GlassSurfaceProps {
 }
 
 /**
- * Marque un bloc comme surface de verre.
+ * La lentille est un panneau **vide**, et le contenu est son voisin — jamais son enfant.
  *
- * Le composant ne fait qu'apposer la classe globale que liquidGL cible : c'est
- * `LiquidGlassRuntime` qui amorce le moteur, une seule fois par page. Tant qu'il n'a
- * pas tourné — et sur mobile, sans WebGL ou en mouvement réduit, où il ne tourne pas du
- * tout — le repli `backdrop-filter` de `glass-surface.css` porte seul le rendu. Le bloc
- * est donc toujours lisible, jamais dépendant du WebGL.
+ * Ce découpage n'est pas une élégance : liquidGL mute l'élément qu'il transforme en
+ * lentille. Il lui pose `opacity: 0` (liquidGL.js l. 3397), puis `pointer-events: none`
+ * (l. 3419) — et ce second réglage n'est **jamais restauré**, aucune ligne du fichier ne
+ * le remet à sa valeur d'origine. Il efface aussi `background`, `background-image` et
+ * `backdrop-filter` en styles en ligne. Faire du conteneur de contenu une lentille
+ * revient donc à confier la visibilité du texte à l'animation d'apparition de la
+ * bibliothèque, et à tuer silencieusement tout lien ou bouton qu'on y ajoutera un jour.
  *
- * Contrainte liquidGL à ne pas contourner : toutes les surfaces partagent le même
- * z-index, posé une seule fois dans `glass-surface.css`. N'y ajoutez pas de `z-index`
- * local, et ne posez pas de surface en `position: fixed` — la bibliothèque les ignore.
+ * Avec ce découpage, liquidGL ne possède qu'une div décorative et vide. Le contenu
+ * garde son opacité, ses événements de pointeur et son style.
+ *
+ * Contraintes liquidGL tenues dans `glass-surface.css` : toutes les lentilles partagent
+ * le même z-index, et aucune n'est en `position: fixed` — la bibliothèque les ignore.
  */
 export function GlassSurface({ children, className, as = 'div' }: GlassSurfaceProps) {
   const Tag = as
-  const classes = className ? `${GLASS_CLASS} ${className}` : GLASS_CLASS
+  const classes = className ? `${styles.cadre} ${className}` : styles.cadre
 
-  return <Tag className={classes}>{children}</Tag>
+  return (
+    <Tag className={classes}>
+      <div aria-hidden="true" className={GLASS_CLASS} />
+      <div className={styles.contenu}>{children}</div>
+    </Tag>
+  )
 }

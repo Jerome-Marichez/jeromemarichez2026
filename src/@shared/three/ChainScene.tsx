@@ -9,7 +9,6 @@
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
 import { Color, type Group, type ShaderMaterial } from 'three'
-import { useReducedMotion } from '../hooks/use-reduced-motion'
 import { buildSlabEdges, buildSlabGeometry, SLAB_PLACEMENTS } from './slab-geometry'
 import { SLAB_ALPHA, SLAB_EDGE_TINT, SLAB_FRAGMENT_SHADER, SLAB_VERTEX_SHADER } from './slab-shader'
 import { useScrollProgress } from './use-scroll-progress'
@@ -122,9 +121,6 @@ interface ChainSceneProps {
 }
 
 export function ChainScene({ fige = false }: ChainSceneProps) {
-  const reducedMotion = useReducedMotion()
-  const immobile = fige || reducedMotion
-
   return (
     <Canvas
       // Visée décalée sur la dalle du milieu : les trois plaques sont décalées vers
@@ -133,10 +129,10 @@ export function ChainScene({ fige = false }: ChainSceneProps) {
       dpr={[1, 1.5]}
       // `demand` fige la scène sur une seule image : c'est exactement ce qu'il faut
       // quand l'utilisateur a demandé moins de mouvement, et rien d'autre à couper.
-      frameloop={immobile ? 'demand' : 'always'}
+      frameloop={fige ? 'demand' : 'always'}
       gl={{ alpha: true, antialias: true, powerPreference: 'low-power' }}
     >
-      <Slabs fige={immobile} />
+      <Slabs fige={fige} />
     </Canvas>
   )
 }

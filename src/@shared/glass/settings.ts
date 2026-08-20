@@ -24,10 +24,14 @@ export const MIN_GLASS_VIEWPORT = 1024
 /**
  * Réglages de rendu.
  *
- * `resolution` est volontairement en dessous du défaut (2.0) : la capture couvre tout
- * le document, et sa taille en mémoire GPU croît avec le carré de ce facteur. Les
- * documents longs finissent par dépasser la limite de texture du GPU — c'est la panne
- * la plus courante de cette bibliothèque.
+ * `resolution` est très en dessous du défaut (2.0), et c'est délibéré. La capture
+ * couvre toute la hauteur de l'élément visé : la page d'accueil dépasse 9 000 px, ce
+ * qui donnerait 13 500 px de texture à 1.5 — au-delà de ce que garantissent beaucoup
+ * de GPU, et c'est la panne la plus courante de cette bibliothèque.
+ *
+ * On peut se le permettre parce qu'on ne capture PAS la page : on capture un dégradé
+ * et une trame de 32 px. Vue à travers un verre dépoli, sa netteté n'a aucune
+ * importance — alors que la mémoire, elle, en a.
  */
 export const LIQUID_GL_OPTIONS = {
   /**
@@ -41,7 +45,7 @@ export const LIQUID_GL_OPTIONS = {
    * ce site vend, appliqué à lui-même.
    */
   snapshot: '.fond-atelier',
-  resolution: 1.5,
+  resolution: 0.75,
   refraction: 0.02,
   aberration: 0.04,
   bevelDepth: 0.07,
