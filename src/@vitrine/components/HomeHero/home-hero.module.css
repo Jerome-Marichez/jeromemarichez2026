@@ -1,0 +1,123 @@
+/* home-hero.module.css — le seuil.
+ * Deux colonnes 58/42 sur desktop : le discours porte le LCP, le volume ne fait que
+ * l'accompagner et disparaît dès que la place manque. */
+
+.seuil {
+  display: grid;
+  grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
+  align-items: center;
+  gap: var(--e-6);
+  max-width: var(--largeur-page);
+  margin-inline: auto;
+  padding: var(--e-7) var(--e-4) var(--e-6);
+}
+
+.discours {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-4);
+}
+
+.situation {
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--encre-douce);
+}
+
+.titre {
+  margin: 0;
+}
+
+.chapo {
+  max-width: 52ch;
+  font-size: var(--t-1);
+  line-height: 1.45;
+  color: var(--encre-douce);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--e-4);
+}
+
+.actionPrincipale {
+  display: inline-block;
+  padding: var(--e-2) var(--e-4);
+  border-radius: var(--rayon-petit);
+  background: var(--cuivre);
+  color: var(--fond);
+  text-decoration: none;
+  font-weight: 500;
+  transition:
+    transform 140ms ease-out,
+    box-shadow 140ms ease-out;
+}
+
+.actionPrincipale:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--cuivre) 30%, transparent);
+}
+
+.actionPrincipale:active {
+  transform: translateY(0);
+  transition-duration: 80ms;
+}
+
+.actionSecondaire {
+  color: var(--encre);
+  text-underline-offset: 0.24em;
+}
+
+.jetons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-5);
+  margin: var(--e-2) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.jeton {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 16ch;
+}
+
+.chiffre {
+  font-family: var(--police-mono-pile);
+  font-weight: 500;
+  font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--cuivre);
+}
+
+.libelle {
+  font-size: var(--t--1);
+  line-height: 1.4;
+  color: var(--encre-douce);
+}
+
+.volume {
+  min-width: 0;
+}
+
+/* La scène est un décor : en dessous de 1024px elle est simplement retirée du flux.
+   Rien n'est perdu — elle ne porte aucune information que le texte ne dise déjà — et
+   le budget mobile n'a pas à payer un contexte WebGL. */
+@media (max-width: 1023px) {
+  .seuil {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: var(--e-6);
+    gap: var(--e-5);
+  }
+
+  .volume {
+    display: none;
+  }
+}

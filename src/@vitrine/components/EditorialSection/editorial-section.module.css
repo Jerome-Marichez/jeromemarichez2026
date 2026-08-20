@@ -1,0 +1,54 @@
+/* editorial-section.module.css — une section de contenu. */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-5);
+  scroll-margin-top: 6rem;
+}
+
+.entete {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-2);
+}
+
+.kicker {
+  font-family: var(--police-mono-pile);
+  font-weight: 500;
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--cuivre);
+}
+
+.titre {
+  margin: 0;
+}
+
+.chapo {
+  max-width: var(--mesure-texte);
+  font-size: var(--t-1);
+  line-height: 1.45;
+  color: var(--encre-douce);
+}
+
+.blocs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+  gap: var(--e-4);
+}
+
+/* Variante vitrée : la section est posée sur le fond d'atelier, et le verre laisse
+   voir la trame se plier au niveau du biseau. La mesure du texte est resserrée à
+   46ch — un panneau de verre plus large que ça devient une vitre, pas une carte, et
+   Safari devient instable au-delà de la moitié du viewport. */
+.verre {
+  padding: var(--e-5);
+  max-width: 100%;
+}
+
+.verre .chapo,
+.verre .blocs {
+  max-width: none;
+}

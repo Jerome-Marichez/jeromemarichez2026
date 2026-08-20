@@ -1,0 +1,90 @@
+// HomeView/index.tsx — jeromemarichez-fr
+// La page d'accueil : la chaîne complète, d'un bout à l'autre.
+
+import { LiquidGlassRuntime } from '@/@shared/components/LiquidGlassRuntime'
+import { SITE_IDENTITY } from '@/@shared/seo/site'
+import { BoundaryList } from '../../components/BoundaryList'
+import { CertificationList } from '../../components/CertificationList'
+import { ChainDiagram } from '../../components/ChainDiagram'
+import { EditorialSection } from '../../components/EditorialSection'
+import { HomeHero } from '../../components/HomeHero'
+import { ProofWall } from '../../components/ProofWall'
+import { PAGE_ACCUEIL, THESE_CHAINE } from '../../contenu/accueil'
+import { CERTIFICATIONS } from '../../contenu/certifications'
+import { LIMITES } from '../../contenu/limites'
+import { PREUVES } from '../../contenu/preuves'
+import { selectGlassSectionIds } from '../../services/glass-policy'
+import styles from './home-view.module.css'
+
+/**
+ * L'accueil est la seule page qui déroule la chaîne entière : construire, exploiter et
+ * mesurer, arbitrer. Les charnières y sont des sections à part entière — ce sont elles
+ * qui distinguent une prise en charge continue d'un catalogue de trois prestations.
+ */
+export function HomeView() {
+  const verre = selectGlassSectionIds(PAGE_ACCUEIL.sections)
+
+  return (
+    <div className={styles.page}>
+      <HomeHero />
+
+      <div className={styles.corps}>
+        <section aria-labelledby="chaine-titre" className={styles.bloc} id="chaine">
+          <p className={styles.kicker}>La thèse</p>
+          <h2 id="chaine-titre">{THESE_CHAINE.titre}</h2>
+          <p className={styles.chapo}>{THESE_CHAINE.chapo}</p>
+          <ChainDiagram />
+          <p className={styles.appui}>{THESE_CHAINE.appui}</p>
+        </section>
+
+        {PAGE_ACCUEIL.sections.map((section) => (
+          <EditorialSection glass={verre.has(section.id)} key={section.id} section={section} />
+        ))}
+
+        <section aria-labelledby="preuves-titre" className={styles.bloc} id="preuves">
+          <p className={styles.kicker}>Vérifiable</p>
+          <h2 id="preuves-titre">Ce qui est mesuré, pas ce qui est promis</h2>
+          <p className={styles.chapo}>
+            Chaque chiffre porte son contexte : où, quand, et sur quel produit. Sans cela, un
+            chiffre n'est qu'une affirmation de plus.
+          </p>
+          <ProofWall preuves={PREUVES} />
+        </section>
+
+        <section aria-labelledby="limites-titre" className={styles.bloc} id="limites">
+          <p className={styles.kicker}>Les limites</p>
+          <h2 id="limites-titre">Ce que je ne fais pas</h2>
+          <p className={styles.chapo}>
+            Un prestataire qui sait tout faire ne sait rien faire. Voici ce que je laisse à
+            d'autres, et ce que je fais à la place — c'est le bloc qui rend le reste croyable.
+          </p>
+          <BoundaryList limites={LIMITES} />
+        </section>
+
+        <section aria-labelledby="certifications-titre" className={styles.bloc} id="certifications">
+          <p className={styles.kicker}>Certifications</p>
+          <h2 id="certifications-titre">Ce qui a été évalué par quelqu'un d'autre que moi</h2>
+          <p className={styles.chapo}>
+            Aucun justificatif n'est publié en ligne à ce jour : ils sont communiqués sur demande.
+            Un lien mort sur un site qui vend de la rigueur coûterait plus cher que l'absence de
+            lien.
+          </p>
+          <CertificationList certifications={CERTIFICATIONS} />
+        </section>
+
+        <section aria-labelledby="contact-titre" className={styles.contact} id="contact">
+          <h2 id="contact-titre">Décrivez-moi votre situation</h2>
+          <p className={styles.chapo}>
+            Vous écrivez à la personne qui fera le travail. Je vous dis ce que j'en ferais — et si
+            ce n'est pas pour moi, je vous le dis aussi.
+          </p>
+          <a className={styles.action} href={`mailto:${SITE_IDENTITY.email}`}>
+            {SITE_IDENTITY.email}
+          </a>
+        </section>
+      </div>
+
+      <LiquidGlassRuntime />
+    </div>
+  )
+}

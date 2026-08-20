@@ -1,0 +1,89 @@
+/* chain-diagram.module.css — la chaîne en un écran.
+ * Les plaques sont décalées en diagonale : la lecture descend, comme la chaîne. Le
+ * décalage est supprimé sous 900px, où il ferait déborder la grille. */
+
+.chaine {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: maillon;
+}
+
+.maillon {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-3);
+}
+
+.maillon:nth-child(2) {
+  padding-left: clamp(0rem, 4vw, 3.5rem);
+}
+
+.maillon:nth-child(3) {
+  padding-left: clamp(0rem, 8vw, 7rem);
+}
+
+.plaque {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-1);
+  max-width: 34rem;
+  padding: var(--e-4);
+  border: 1px solid var(--verre-arete);
+  border-radius: var(--rayon-verre);
+  background: color-mix(in srgb, var(--fond) 55%, transparent);
+  box-shadow: inset 0 1px 0 var(--verre-lueur);
+}
+
+.rang {
+  font-family: var(--police-mono-pile);
+  font-weight: 500;
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--cuivre);
+}
+
+.nom {
+  font-size: var(--t-2);
+  margin: 0;
+}
+
+.lien {
+  color: var(--encre);
+  text-decoration-color: var(--cuivre-vif);
+}
+
+.promesse {
+  color: var(--encre-douce);
+}
+
+/* La remise est ce que le pôle transmet au suivant. Sans elle, les trois plaques
+   redeviennent trois offres posées côte à côte. */
+.remise {
+  display: flex;
+  align-items: baseline;
+  gap: var(--e-2);
+  max-width: 40rem;
+  padding-left: clamp(0rem, 4vw, 3.5rem);
+  font-size: 0.9375rem;
+  color: var(--encre-douce);
+}
+
+.fleche {
+  flex: none;
+  width: 2px;
+  height: 1.6em;
+  background: var(--cuivre-vif);
+}
+
+@media (max-width: 900px) {
+  .maillon:nth-child(2),
+  .maillon:nth-child(3),
+  .remise {
+    padding-left: 0;
+  }
+}

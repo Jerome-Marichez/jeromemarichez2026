@@ -1,0 +1,52 @@
+/* certification-list.module.css — les certifications.
+ * Aucun justificatif n'étant publié à ce jour, la liste s'affiche entièrement sans
+ * lien. Le style ne simule donc pas de lien : rien n'est souligné ni coloré en
+ * cuivre tant qu'il n'y a pas de cible réelle. */
+
+.liste {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: var(--e-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-1);
+  padding-top: var(--e-2);
+  border-top: 1px solid color-mix(in srgb, var(--encre) 12%, transparent);
+}
+
+.intitule {
+  font-family: var(--police-titre-pile);
+  font-variation-settings:
+    "SOFT" 0,
+    "WONK" 0,
+    "opsz" 18;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  line-height: 1.25;
+}
+
+.organisme {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6em;
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  letter-spacing: 0.04em;
+  color: var(--encre-douce);
+}
+
+.annee {
+  color: var(--cuivre);
+}
+
+.apport {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--encre-douce);
+}

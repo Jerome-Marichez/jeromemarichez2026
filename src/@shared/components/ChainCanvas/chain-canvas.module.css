@@ -1,0 +1,26 @@
+/* chain-canvas.module.css — réservation d'espace pour la scène WebGL.
+ * L'aspect-ratio est posé en CSS pour que la place soit tenue AVANT le chargement de
+ * la scène : sans lui, l'arrivée différée du canvas décalerait la mise en page et
+ * coûterait un CLS que ce site ne peut pas se permettre. */
+
+.conteneur {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 34rem;
+}
+
+.conteneur canvas {
+  border-radius: var(--rayon-verre);
+}
+
+/* Le substitut n'est jamais montré : le conteneur est déjà `aria-hidden`. Il ne sert
+   qu'à documenter dans le DOM ce que la scène représente, pour la relecture. */
+.substitut {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

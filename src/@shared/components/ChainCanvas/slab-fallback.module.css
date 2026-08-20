@@ -1,0 +1,27 @@
+/* slab-fallback.module.css — repli SVG des trois dalles.
+ * Les couleurs viennent des jetons : le repli suit le thème clair et sombre comme le
+ * reste, il n'a pas de palette à lui. */
+
+.repli {
+  width: 100%;
+  height: 100%;
+  color: var(--encre);
+}
+
+.groupe rect {
+  stroke-width: 1;
+}
+
+.arriere {
+  fill: color-mix(in srgb, var(--encre) 3%, transparent);
+  stroke: color-mix(in srgb, var(--encre) 14%, transparent);
+}
+
+.milieu {
+  fill: color-mix(in srgb, var(--encre) 4%, transparent);
+  stroke: color-mix(in srgb, var(--encre) 18%, transparent);
+}
+
+.avant {
+  stroke: var(--verre-arete);
+}
