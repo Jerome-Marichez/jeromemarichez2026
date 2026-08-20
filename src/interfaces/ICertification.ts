@@ -1,6 +1,7 @@
 // ICertification.ts — jeromemarichez-fr
 // Une certification affichée sur le site.
 
+import type { ICertificationLogo } from './ICertificationLogo'
 import type { PoleId } from './types'
 
 /**
@@ -21,6 +22,12 @@ export interface ICertification {
   annee?: number
   /** URL du justificatif officiel. Absente tant qu'elle n'a pas été fournie. */
   justificatif?: string
+  /**
+   * Logo de l'organisme. Absent tant que le fichier n'a pas été déposé dans `public/`
+   * **et** que son usage n'a pas été autorisé par le propriétaire de la marque : sans
+   * lui, la certification se rend en toutes lettres.
+   */
+  logo?: ICertificationLogo
   /** Pôle auquel la certification apporte sa crédibilité, ou `transverse`. */
   pole: PoleId | 'transverse'
   /**
