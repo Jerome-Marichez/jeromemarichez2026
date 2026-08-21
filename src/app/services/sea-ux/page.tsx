@@ -24,7 +24,7 @@ export default function PolePage() {
             description: PAGE_SEA_UX.meta.description,
             route: pole.route,
           }),
-          buildBreadcrumbSchema({ nom: pole.nom, route: pole.route }),
+          buildBreadcrumbSchema([{ nom: pole.nom, route: pole.route }]),
         ]}
       />
     </>

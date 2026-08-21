@@ -10,7 +10,9 @@
 
 .contenu {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  /* L'appel garde le double de la largeur d'une colonne de liens : c'est lui qu'on doit
+     lire d'abord, les trois colonnes de navigation ne sont qu'un repli. */
+  grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
   gap: var(--e-5);
   max-width: var(--largeur-page);
   margin-inline: auto;
@@ -67,6 +69,14 @@
   padding: var(--e-3) var(--e-4) var(--e-5);
   font-size: var(--t--1);
   color: var(--encre-douce);
+}
+
+/* Palier intermédiaire : à quatre colonnes, les intitulés de pôles se coupent en deux
+   avant 1024px. Deux colonnes valent mieux qu'une colonne de mots tronqués. */
+@media (max-width: 1024px) {
+  .contenu {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 720px) {

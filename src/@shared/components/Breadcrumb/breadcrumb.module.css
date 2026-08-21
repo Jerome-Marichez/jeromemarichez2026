@@ -1,0 +1,31 @@
+/* breadcrumb.module.css — fil d'Ariane.
+ * Discret par construction : c'est un repère, pas une navigation principale. */
+
+.ariane {
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  letter-spacing: 0.06em;
+  color: var(--encre-douce);
+}
+
+.liste {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.niveau {
+  display: flex;
+  align-items: baseline;
+  /* Le dernier niveau peut être un titre d'article entier : il doit pouvoir passer à la
+     ligne sans pousser la page en défilement horizontal. */
+  min-width: 0;
+}
+
+.separateur {
+  padding-inline: 0.5em;
+  color: color-mix(in srgb, var(--encre-douce) 60%, transparent);
+}

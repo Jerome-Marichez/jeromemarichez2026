@@ -59,8 +59,24 @@
   color: var(--encre-douce);
 }
 
+.navigations {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--e-1);
+  min-width: 0;
+}
+
 .navigation {
   min-width: 0;
+}
+
+/* Le blog est séparé de la chaîne par un filet vertical : c'est le seul signal qui dit,
+   sans un mot, qu'il n'appartient pas à la liste numérotée d'à côté. */
+.navigationSecondaire {
+  display: flex;
+  padding-left: var(--e-1);
+  border-left: 1px solid color-mix(in srgb, var(--encre) 14%, transparent);
 }
 
 .liste {

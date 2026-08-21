@@ -28,17 +28,44 @@ personne qui fera le travail*. Le jour où un formulaire s'impose, il faudra soi
 service tiers, soit un back séparé, soit renoncer à l'export : c'est un arbitrage à
 prendre en connaissance de cause, pas un détail de configuration.
 
+### Le blog : la seule route dynamique du site
+
+`/blog/[slug]` est le seul segment dynamique, et l'export statique en fixe les règles :
+
+- **`generateStaticParams()` est obligatoire.** Sans lui, `next build` n'a aucune page à
+  écrire pour ce segment et il échoue. La liste est dérivée des articles, jamais tenue à
+  la main : publier un article suffit à créer sa page. `dynamicParams = false` est écrit
+  noir sur blanc, pour qu'un futur passage au rendu serveur n'ouvre pas silencieusement
+  `/blog/<n-importe-quoi>`.
+- **Le sitemap devient composé.** `INDEXABLE_ROUTES` (`@shared/routes`) n'énumère que les
+  routes **fixes** ; les URL d'articles ne sont pas des routes mais des instances d'une
+  seule route, et leur nombre change à chaque publication. `@shared/seo/sitemap-entries`
+  les ajoute avec **une date par article** — et donne à `/blog` la date de son article le
+  plus récent, parce que c'est exactement ce qui la fait changer. C'est le seul module de
+  `@shared/seo` qui lit le contenu de `@vitrine` : un sitemap est par définition
+  l'inventaire du contenu publié, il n'y a pas d'autre source d'où tirer la liste.
+- **Une seule fonction compose une URL d'article** : `toArticleRoute(slug)`. Liste,
+  `canonical`, `og:url`, fil d'Ariane, JSON-LD et sitemap passent tous par elle. Dans un
+  export statique, une URL canonique fausse reste fausse jusqu'au prochain build.
+- **Un seul fil d'Ariane.** `buildBreadcrumbSchema` accepte les niveaux qui suivent
+  l'accueil — celui-ci est un invariant du site, il est posé par la fonction et ne peut
+  pas être oublié par un appelant. La même liste alimente le fil **visible**
+  (`@shared/components/Breadcrumb`) : l'affiché et le déclaré ne peuvent pas diverger.
+- **Le blog n'est pas un pôle**, et la navigation le dit : il occupe un bloc distinct de
+  la liste numérotée de la chaîne, dans l'en-tête comme dans le pied de page.
+
 ### Découpage par domaine
 
 | Domaine | Contenu |
 |---------|---------|
-| `src/@vitrine/` | Sections éditoriales : offres, parcours, preuves, certifications |
+| `src/@vitrine/` | Sections éditoriales : offres, parcours, preuves, certifications, **articles du blog** |
 | `src/@shared/` | Design system, layout, composants transverses, SEO/métadonnées |
 
-Le **contenu éditorial est de la donnée, pas du JSX** : offres, expériences et
-certifications vivent dans des structures typées (`src/interfaces/`, une entité par
-fichier, préfixe `I`) que les composants consomment. Ajouter une certification ou une
-offre ne doit pas demander de toucher au rendu.
+Le **contenu éditorial est de la donnée, pas du JSX** : offres, expériences,
+certifications et articles vivent dans des structures typées (`src/interfaces/`, une
+entité par fichier, préfixe `I`) que les composants consomment. Ajouter une certification,
+une offre ou un article ne doit pas demander de toucher au rendu. Le détail des entités
+est décrit dans [data-model](./data-model.md).
 
 ## Front (Next.js (App Router) + TypeScript)
 
