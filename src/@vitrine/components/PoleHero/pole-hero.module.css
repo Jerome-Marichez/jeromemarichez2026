@@ -31,7 +31,7 @@
   font-family: var(--police-mono-pile);
   font-size: var(--t--1);
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: var(--suivi-etiquette);
   color: var(--encre-douce);
 }
 
@@ -60,7 +60,7 @@
   padding-top: var(--e-3);
   border-top: 1px solid color-mix(in srgb, var(--encre) 12%, transparent);
   max-width: var(--mesure-texte);
-  font-size: 0.9375rem;
+  font-size: var(--t-note);
   color: var(--encre-douce);
 }
 

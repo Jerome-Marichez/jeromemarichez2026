@@ -26,6 +26,18 @@
   --fond-degrade-haut: #f7f5f0;
   --fond-degrade-bas: #ede9e0;
 
+  /* Grain de papier : une TUILE de 128 px, comme la trame en est une de 32 px. Le
+     `feTurbulence` n'est rasterisé qu'une fois, sur 128×128 px, puis répété — même
+     raisonnement que pour la trame, et pour la même raison : `.fond-atelier` est le
+     calque que liquidGL capture, et il fait plus de 9 000 px de haut sur l'accueil.
+     Deux tuiles distinctes plutôt qu'une seule inversée par un filtre : `filter` sur un
+     calque plein document forcerait une couche de compositing de la hauteur du
+     document. Ici, rien n'est promis au compositeur.
+     L'alpha moyen est volontairement sous 4 % : au-delà, le grain cesse d'être une
+     texture et devient un voile qui déplace les contrastes documentés. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23g)'/%3E%3C/svg%3E");
+  --grain-tuile: 128px;
+
   /* — Typographie — */
   --police-titre-pile: var(--police-titre), Georgia, "Times New Roman", serif;
   --police-texte-pile: var(--police-texte), system-ui, -apple-system, sans-serif;
@@ -40,21 +52,35 @@
     "DejaVu Sans Mono", "Liberation Mono", Menlo, Consolas, monospace;
 
   --t--1: 0.8125rem;
+  /* Demi-cran sous le corps. Il porte tout ce qui accompagne sans être lu en continu :
+     menus, repères de charnière, notes de bas de section. Sans lui, ces sept endroits
+     réécrivaient `0.9375rem` en dur — la source unique n'en était plus une. */
+  --t-note: 0.9375rem;
   --t-0: clamp(1rem, 0.955rem + 0.22vw, 1.125rem);
-  --t-1: clamp(1.1875rem, 1.11rem + 0.38vw, 1.4375rem);
-  --t-2: clamp(1.375rem, 1.24rem + 0.68vw, 1.75rem);
-  --t-3: clamp(1.75rem, 1.5rem + 1.25vw, 2.4375rem);
-  --t-4: clamp(2.375rem, 1.8rem + 2.9vw, 4rem);
-  --t-chiffre: clamp(2.25rem, 1.7rem + 2.6vw, 3.5rem);
+  --t-1: clamp(1.25rem, 1.16rem + 0.44vw, 1.5rem);
+  --t-2: clamp(1.4375rem, 1.29rem + 0.72vw, 1.8125rem);
+  --t-3: clamp(1.9375rem, 1.6rem + 1.75vw, 2.875rem);
+  --t-4: clamp(2.5rem, 1.72rem + 3.9vw, 4.5rem);
+  --t-chiffre: clamp(2.5rem, 1.85rem + 3.1vw, 4rem);
+
+  /* — Interlettrage — */
+  /* Une fonte de titre gagne en tenue quand elle se resserre à mesure qu'elle grandit :
+     à 72 px, l'approche dessinée pour du labeur laisse des trous entre les lettres. Les
+     étiquettes font l'inverse — capitales de 13 px, elles ont besoin d'air pour rester
+     lisibles. Trois valeurs, jamais réécrites dans un module. */
+  --suivi-display: -0.028em;
+  --suivi-titre: -0.016em;
+  --suivi-etiquette: 0.09em;
 
   /* — Rythme vertical, base 8 — */
+  --e-0: 0.25rem;
   --e-1: 0.5rem;
   --e-2: 0.75rem;
   --e-3: 1rem;
   --e-4: 1.5rem;
-  --e-5: 2.5rem;
-  --e-6: 4rem;
-  --e-7: 6.5rem;
+  --e-5: 3rem;
+  --e-6: 5rem;
+  --e-7: 8.5rem;
 
   /* — Formes — */
   --rayon-verre: 18px;
@@ -62,7 +88,20 @@
   --largeur-page: 76rem;
   --mesure-texte: 64ch;
 
+  /* — Repères d'empilement collant — */
+  /* Hauteur nominale de l'en-tête, en un seul endroit : la barre de pôle s'y accroche,
+     et les ancres s'en déduisent. Volontairement 2 à 3 px SOUS la hauteur réelle — la
+     barre passe alors sous l'en-tête plutôt que de laisser voir une bande de contenu
+     entre les deux, qui serait le seul défaut visible des deux. */
+  --hauteur-entete: 4rem;
+  --hauteur-barre-pole: 3.25rem;
+  --decalage-ancre: calc(var(--hauteur-entete) + var(--e-4));
+
   /* — Mouvement — */
+  /* Trois durées, trois échelles : le micro-état répond à la main, la pose accompagne
+     l'arrivée d'une section, le tracé raconte. Aucun module ne réécrit de durée. */
+  --duree-appui: 80ms;
+  --duree-micro: 140ms;
   --duree-poser: 420ms;
   --duree-tracer: 700ms;
   --courbe-poser: cubic-bezier(0.2, 0.6, 0.2, 1);
@@ -84,6 +123,9 @@
     --verre-lueur: rgba(255, 255, 255, 0.14);
     --fond-degrade-haut: #14181d;
     --fond-degrade-bas: #0b0e11;
+    /* Même tuile, speckles clairs : du grain noir sur un fond à 6 % de luminance ne
+       se voit pas, il ne fait qu'assombrir encore. */
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23g)'/%3E%3C/svg%3E");
   }
 }
 
@@ -136,7 +178,11 @@ body {
    mesure : un `repeating-linear-gradient` sans `background-size` est généré une fois aux
    dimensions de son élément, soit ici plus de 9 000 px de haut sur l'accueil, puis
    capturé tel quel en texture par liquidGL. Avec `background-size: 32px 32px`, le
-   navigateur ne rasterise qu'un carré de 32 px et le répète. */
+   navigateur ne rasterise qu'un carré de 32 px et le répète.
+
+   Le grain suit la MÊME règle et ne l'annule pas : c'est une quatrième tuile, de
+   128 px, posée au-dessus de la trame et sous le dégradé. Rien n'est rasterisé à la
+   hauteur du document. */
 .fond-atelier {
   position: absolute;
   inset: 0;
@@ -144,11 +190,12 @@ body {
   pointer-events: none;
   background-color: var(--fond-degrade-bas);
   background-image:
-    linear-gradient(to right, var(--trame) 0 1px, transparent 1px),
+    var(--grain), linear-gradient(to right, var(--trame) 0 1px, transparent 1px),
     linear-gradient(to bottom, var(--trame) 0 1px, transparent 1px),
     radial-gradient(1200px 900px at 22% 8%, var(--fond-degrade-haut), var(--fond-degrade-bas));
-  background-repeat: repeat, repeat, no-repeat;
+  background-repeat: repeat, repeat, repeat, no-repeat;
   background-size:
+    var(--grain-tuile) var(--grain-tuile),
     32px 32px,
     32px 32px,
     100% 100%;
@@ -165,20 +212,25 @@ h3 {
 
 h1 {
   font-size: var(--t-4);
-  line-height: 1.06;
-  letter-spacing: -0.015em;
-  max-width: 20ch;
+  line-height: 1.02;
+  letter-spacing: var(--suivi-display);
+  /* 20ch était calé sur une échelle plus petite. À 72 px, la mesure se referme d'un
+     cran : c'est le nombre de signes par ligne qui fait la tenue d'un titre, pas sa
+     largeur en pixels. */
+  max-width: 18ch;
 }
 
 h2 {
   font-size: var(--t-3);
-  line-height: 1.14;
-  max-width: 34ch;
+  line-height: 1.08;
+  letter-spacing: var(--suivi-titre);
+  max-width: 30ch;
 }
 
 h3 {
   font-size: var(--t-2);
-  line-height: 1.25;
+  line-height: 1.2;
+  letter-spacing: var(--suivi-titre);
 }
 
 p {
@@ -189,7 +241,7 @@ a {
   color: var(--cuivre);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
-  transition: text-decoration-thickness 120ms ease-out;
+  transition: text-decoration-thickness var(--duree-micro) ease-out;
 }
 
 a:hover {

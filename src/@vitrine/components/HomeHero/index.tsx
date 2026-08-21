@@ -3,6 +3,7 @@
 
 import Link from 'next/link'
 import { ChainCanvas } from '@/@shared/components/ChainCanvas'
+import { MagneticAction } from '@/@shared/components/MagneticAction'
 import { MotionToggle } from '@/@shared/components/MotionToggle'
 import { SITE_IDENTITY } from '@/@shared/seo/site'
 import { HERO_ACCUEIL } from '../../contenu/accueil'
@@ -31,9 +32,12 @@ export function HomeHero() {
         <p className={styles.methode}>{HERO_ACCUEIL.methode}</p>
 
         <p className={styles.actions}>
-          <a className={styles.actionPrincipale} href={`mailto:${SITE_IDENTITY.email}`}>
+          <MagneticAction
+            className={styles.actionPrincipale}
+            href={`mailto:${SITE_IDENTITY.email}`}
+          >
             Décrire mon besoin
-          </a>
+          </MagneticAction>
           <Link className={styles.actionSecondaire} href="#chaine">
             Voir la chaîne
           </Link>

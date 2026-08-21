@@ -2,6 +2,8 @@
 // La page d'accueil : la chaîne complète, d'un bout à l'autre.
 
 import { LiquidGlassRuntime } from '@/@shared/components/LiquidGlassRuntime'
+import { MagneticAction } from '@/@shared/components/MagneticAction'
+import { Reveal } from '@/@shared/components/Reveal'
 import { SITE_IDENTITY } from '@/@shared/seo/site'
 import { BoundaryList } from '../../components/BoundaryList'
 import { CertificationList } from '../../components/CertificationList'
@@ -29,19 +31,19 @@ export function HomeView() {
       <HomeHero />
 
       <div className={styles.corps}>
-        <section aria-labelledby="chaine-titre" className={styles.bloc} id="chaine">
+        <Reveal ariaLabelledBy="chaine-titre" as="section" className={styles.bloc} id="chaine">
           <p className={styles.kicker}>La thèse</p>
           <h2 id="chaine-titre">{THESE_CHAINE.titre}</h2>
           <p className={styles.chapo}>{THESE_CHAINE.chapo}</p>
           <ChainDiagram />
           <p className={styles.appui}>{THESE_CHAINE.appui}</p>
-        </section>
+        </Reveal>
 
         {PAGE_ACCUEIL.sections.map((section) => (
           <EditorialSection glass={verre.has(section.id)} key={section.id} section={section} />
         ))}
 
-        <section aria-labelledby="preuves-titre" className={styles.bloc} id="preuves">
+        <Reveal ariaLabelledBy="preuves-titre" as="section" className={styles.bloc} id="preuves">
           <p className={styles.kicker}>Vérifiable</p>
           <h2 id="preuves-titre">Ce qui est mesuré, pas ce qui est promis</h2>
           <p className={styles.chapo}>
@@ -49,9 +51,9 @@ export function HomeView() {
             chiffre n'est qu'une affirmation de plus.
           </p>
           <ProofWall preuves={PREUVES} />
-        </section>
+        </Reveal>
 
-        <section aria-labelledby="limites-titre" className={styles.bloc} id="limites">
+        <Reveal ariaLabelledBy="limites-titre" as="section" className={styles.bloc} id="limites">
           <p className={styles.kicker}>Les limites</p>
           <h2 id="limites-titre">Ce que je ne fais pas</h2>
           <p className={styles.chapo}>
@@ -59,9 +61,14 @@ export function HomeView() {
             d'autres, et ce que je fais à la place — c'est le bloc qui rend le reste croyable.
           </p>
           <BoundaryList limites={LIMITES} />
-        </section>
+        </Reveal>
 
-        <section aria-labelledby="certifications-titre" className={styles.bloc} id="certifications">
+        <Reveal
+          ariaLabelledBy="certifications-titre"
+          as="section"
+          className={styles.bloc}
+          id="certifications"
+        >
           <p className={styles.kicker}>Certifications</p>
           <h2 id="certifications-titre">Ce qui a été évalué par quelqu'un d'autre que moi</h2>
           <p className={styles.chapo}>
@@ -70,18 +77,18 @@ export function HomeView() {
             lien.
           </p>
           <CertificationList certifications={CERTIFICATIONS} />
-        </section>
+        </Reveal>
 
-        <section aria-labelledby="contact-titre" className={styles.contact} id="contact">
+        <Reveal ariaLabelledBy="contact-titre" as="section" className={styles.contact} id="contact">
           <h2 id="contact-titre">Décrivez-moi votre situation</h2>
           <p className={styles.chapo}>
             Vous écrivez à la personne qui fera le travail. Je vous dis ce que j'en ferais — et si
             ce n'est pas pour moi, je vous le dis aussi.
           </p>
-          <a className={styles.action} href={`mailto:${SITE_IDENTITY.email}`}>
+          <MagneticAction className={styles.action} href={`mailto:${SITE_IDENTITY.email}`}>
             {SITE_IDENTITY.email}
-          </a>
-        </section>
+          </MagneticAction>
+        </Reveal>
       </div>
 
       <LiquidGlassRuntime />

@@ -1,6 +1,7 @@
 // HingeSection/index.tsx — jeromemarichez-fr
 // Une charnière : le moment où un pôle passe la main au suivant.
 
+import { Reveal } from '@/@shared/components/Reveal'
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
 import styles from './hinge-section.module.css'
 
@@ -18,12 +19,18 @@ interface HingeSectionProps {
  * l'argument n'est tenable que parce que c'est la même personne aux trois postes.
  *
  * Les repères sont rendus en liste : ce sont des faits d'exploitation, pas du décor.
+ *
+ * La section EST la révélation, elle n'est pas enveloppée dedans : le filet qui se
+ * trace est un `::before` de `.charniere`, et il doit partir au moment où la charnière
+ * entre à l'écran. Jusqu'ici l'animation démarrait au chargement de la page, donc pour
+ * les deux charnières à la fois, largement hors de vue — un tracé achevé avant d'être
+ * regardé ne raconte rien.
  */
 export function HingeSection({ section }: HingeSectionProps) {
   const titreId = `${section.id}-titre`
 
   return (
-    <section aria-labelledby={titreId} className={styles.charniere} id={section.id}>
+    <Reveal ariaLabelledBy={titreId} as="section" className={styles.charniere} id={section.id}>
       <p className={styles.kicker}>{section.kicker}</p>
       <h2 className={styles.titre} id={titreId}>
         {section.titre}
@@ -40,6 +47,6 @@ export function HingeSection({ section }: HingeSectionProps) {
           ))}
         </ul>
       ) : null}
-    </section>
+    </Reveal>
   )
 }

@@ -22,7 +22,7 @@
   font-family: var(--police-mono-pile);
   font-size: var(--t--1);
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: var(--suivi-etiquette);
   color: var(--encre-douce);
 }
 
@@ -57,6 +57,9 @@
   gap: var(--e-4);
 }
 
+/* Apparence seule : le `transform` appartient à `MagneticAction`, qui est le seul à en
+   poser un sur un bouton d'action. Deux règles concurrentes se départageraient à
+   l'ordre du paquet CSS, ce qui n'est pas une règle. */
 .actionPrincipale {
   display: inline-block;
   padding: var(--e-2) var(--e-4);
@@ -65,19 +68,11 @@
   color: var(--fond);
   text-decoration: none;
   font-weight: 500;
-  transition:
-    transform 140ms ease-out,
-    box-shadow 140ms ease-out;
+  transition: box-shadow var(--duree-micro) ease-out;
 }
 
 .actionPrincipale:hover {
-  transform: translateY(-1px);
   box-shadow: 0 6px 18px color-mix(in srgb, var(--cuivre) 30%, transparent);
-}
-
-.actionPrincipale:active {
-  transform: translateY(0);
-  transition-duration: 80ms;
 }
 
 .actionSecondaire {
@@ -97,14 +92,14 @@
 .jeton {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--e-0);
   max-width: 16ch;
 }
 
 .chiffre {
   font-family: var(--police-mono-pile);
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: var(--t-2);
   font-variant-numeric: tabular-nums;
   line-height: 1;
   color: var(--cuivre);

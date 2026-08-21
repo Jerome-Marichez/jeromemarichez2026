@@ -1,0 +1,84 @@
+/* pole-sticky-bar.module.css — l'en-tête de pôle collant.
+ *
+ * Pas de liquidGL : la bibliothèque ignore les éléments `sticky`. Le fond est du CSS
+ * pur, et il change de nature au seuil de 1024px, exactement comme `SiteHeader`. */
+
+.barre {
+  /* Repli tant que les teintes de pôle de l'issue #44 ne sont pas posées. Un seul
+     endroit le déclare ; le reste du module ne connaît que `--teinte-pole`. */
+  --teinte-pole: var(--accent, var(--cuivre));
+
+  position: static;
+  z-index: 40;
+  border-bottom: 1px solid color-mix(in srgb, var(--teinte-pole) 34%, transparent);
+  background: color-mix(in srgb, var(--fond) 92%, transparent);
+}
+
+/* Sous 720px, l'en-tête du site passe en colonne et occupe déjà une part sérieuse de
+   l'écran : une seconde bande collante y prendrait la place de ce qu'elle annonce. La
+   barre reste donc dans le flux, utile au passage, jamais encombrante. */
+@media (min-width: 721px) {
+  .barre {
+    position: sticky;
+    /* Sous l'en-tête (z-index 50), et volontairement 2 à 3 px trop haut : la barre se
+       glisse dessous plutôt que de laisser voir une bande de contenu entre les deux. */
+    top: var(--hauteur-entete);
+  }
+}
+
+@media (min-width: 1024px) {
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .barre {
+      background: color-mix(in srgb, var(--fond) 82%, transparent);
+      backdrop-filter: blur(14px) saturate(1.1);
+      -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    }
+  }
+}
+
+.contenu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-2);
+  min-height: var(--hauteur-barre-pole);
+  max-width: var(--largeur-page);
+  margin-inline: auto;
+  padding: var(--e-1) var(--e-4);
+}
+
+.repere {
+  display: flex;
+  align-items: baseline;
+  gap: var(--e-2);
+  min-width: 0;
+}
+
+.rang {
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  font-variant-numeric: tabular-nums;
+  color: var(--teinte-pole);
+}
+
+.nom {
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: var(--suivi-etiquette);
+  color: var(--encre);
+}
+
+/* Aucun `transform` ici : il appartient à `MagneticAction`, qui est le seul à le poser
+   sur un bouton d'action. */
+.action {
+  flex: none;
+  padding: var(--e-1) var(--e-3);
+  border-radius: var(--rayon-petit);
+  background: var(--teinte-pole);
+  color: var(--fond);
+  font-size: var(--t-note);
+  font-weight: 500;
+  text-decoration: none;
+}

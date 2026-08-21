@@ -17,7 +17,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--e-4);
-  scroll-margin-top: 6rem;
+  scroll-margin-top: var(--decalage-ancre);
 }
 
 .kicker {
@@ -25,7 +25,7 @@
   font-weight: 500;
   font-size: var(--t--1);
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: var(--suivi-etiquette);
   color: var(--cuivre);
 }
 
@@ -53,9 +53,10 @@
   border: 1px solid var(--verre-arete);
   border-radius: var(--rayon-verre);
   background: color-mix(in srgb, var(--fond-creux) 60%, transparent);
-  scroll-margin-top: 6rem;
+  scroll-margin-top: var(--decalage-ancre);
 }
 
+/* Apparence seule : le `transform` appartient à `MagneticAction`. */
 .action {
   display: inline-block;
   padding: var(--e-2) var(--e-4);
@@ -64,17 +65,9 @@
   color: var(--fond);
   font-family: var(--police-mono-pile);
   text-decoration: none;
-  transition:
-    transform 140ms ease-out,
-    box-shadow 140ms ease-out;
+  transition: box-shadow var(--duree-micro) ease-out;
 }
 
 .action:hover {
-  transform: translateY(-1px);
   box-shadow: 0 6px 18px color-mix(in srgb, var(--cuivre) 30%, transparent);
-}
-
-.action:active {
-  transform: translateY(0);
-  transition-duration: 80ms;
 }

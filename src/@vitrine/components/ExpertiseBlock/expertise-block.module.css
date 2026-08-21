@@ -24,11 +24,11 @@
 .decision {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--e-0);
   max-width: 46ch;
   padding-left: var(--e-2);
   border-left: 2px solid var(--cuivre-vif);
-  font-size: 0.9375rem;
+  font-size: var(--t-note);
 }
 
 .decision {
@@ -41,6 +41,6 @@
   font-weight: 500;
   font-size: var(--t--1);
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: var(--suivi-etiquette);
   color: var(--encre-douce);
 }

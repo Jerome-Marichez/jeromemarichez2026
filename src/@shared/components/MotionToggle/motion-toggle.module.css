@@ -16,8 +16,8 @@
   letter-spacing: 0.04em;
   cursor: pointer;
   transition:
-    color 140ms ease-out,
-    border-color 140ms ease-out;
+    color var(--duree-micro) ease-out,
+    border-color var(--duree-micro) ease-out;
 }
 
 .bouton:hover {

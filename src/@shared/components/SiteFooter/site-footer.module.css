@@ -35,7 +35,7 @@
 
 .contact {
   font-family: var(--police-mono-pile);
-  font-size: 1.0625rem;
+  font-size: var(--t-0);
   width: fit-content;
 }
 
@@ -49,7 +49,7 @@
   font-family: var(--police-mono-pile);
   font-size: var(--t--1);
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: var(--suivi-etiquette);
   color: var(--encre-douce);
 }
 
@@ -60,7 +60,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: 0.9375rem;
+  font-size: var(--t-note);
 }
 
 .mentions {
