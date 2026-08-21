@@ -28,14 +28,15 @@ export const POLES_NAV: IPole[] = [
     rang: 2,
     nom: 'Data & IA',
     route: ROUTES['data-ia'],
-    promesse: "Je rends votre donnée exploitable, puis j'y branche l'IA.",
+    promesse: 'Je pars de votre métier ; la technique vient en dernier.',
     accroche:
-      'Qualité de la donnée traitée comme un prérequis, pipelines et réconciliation ' +
-      'multi-sources, apprentissage supervisé, LLM et agents en production — avec le coût ' +
-      "d'inférence, la latence et le RGPD tenus.",
+      'Faire émerger ce que votre activité sait déjà sans l’avoir formalisé : ses règles ' +
+      'de décision, ses profils de clients, ce que dit son historique. Puis la stratégie ' +
+      'data, la gouvernance et le droit — et seulement alors la solution, qui n’est pas ' +
+      'toujours de l’IA.',
     remise:
-      'Une donnée clarifiée cesse d’être un tableau de bord de plus : elle devient la matière ' +
-      'des arbitrages.',
+      'Un métier compris et une donnée gouvernée cessent d’être un tableau de bord de ' +
+      'plus : ils deviennent la matière des arbitrages.',
   },
   {
     id: 'sea-ux',

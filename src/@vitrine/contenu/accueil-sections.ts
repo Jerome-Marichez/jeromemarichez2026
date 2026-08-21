@@ -6,6 +6,7 @@
 // transformerait l'offre en catalogue.
 
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
+import { SECTION_ACCUEIL_DATA_IA } from './accueil-data-ia'
 import { SECTION_FIL_IA } from './fil-ia'
 
 export const SECTIONS_ACCUEIL: IEditorialSection[] = [
@@ -102,59 +103,10 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
       },
     ],
   },
-  {
-    id: 'data-ia',
-    kind: 'pole',
-    pole: 'data-ia',
-    kicker: 'Pôle 2 · Mettre en production',
-    titre: "La donnée d'abord, l'IA ensuite — dans le produit qui tourne",
-    chapo:
-      "L'IA que je livre tourne dans des produits vendus, avec les contraintes qui vont " +
-      "avec : coût d'inférence, latence, RGPD, disponibilité. Pas dans des notebooks. Et " +
-      'elle ne vaut rien tant que la donnée qui l’alimente n’a pas été mise au propre.',
-    blocs: [
-      {
-        titre: 'Qualité de la donnée, traitée comme un prérequis',
-        texte:
-          "Contrôles d'intégrité et de véracité dès l'ingestion, dédoublonnage, détection " +
-          "d'anomalies. Les écarts sont corrigés avant de contaminer les tableaux de bord, " +
-          'pas après. Pipelines d’ingestion, nettoyage, agrégation et réconciliation ' +
-          'multi-sources.',
-        decision: 'Sur quels chiffres vous acceptez de décider, et lesquels sont encore du bruit.',
-      },
-      {
-        titre: 'Règles métier tirées de la donnée',
-        texte:
-          'Analyse exploratoire sous Orange Data Mining, pondération et sélection des ' +
-          'variables, élimination des corrélations fortes et des variables porteuses de ' +
-          'bruit, puis règles implémentées dans le produit.',
-        preuve: 'Fraude en baisse, conversion des inscriptions en hausse, latence réduite.',
-        decision: 'Ce qui se règle par une règle métier, et ce qui mérite vraiment un modèle.',
-      },
-      {
-        titre: 'Machine learning en production',
-        texte:
-          'Modèle supervisé anticipant les échecs de dépôt vocal, en production : extraction ' +
-          'des caractéristiques du signal audio selon une méthode publiée sur arXiv par ' +
-          "l'Universitat de Barcelona, que j'ai implémentée, adaptée aux données réelles " +
-          'puis industrialisée. Entraînement TensorFlow, inférence en cloud functions, ' +
-          'versioning et monitoring.',
-        preuve: 'Routes vocales coûteuses évitées.',
-      },
-      {
-        titre: 'LLM, agents et interopérabilité',
-        texte:
-          'Claude sur Vertex AI, OpenAI, Gemini, Llama : comparaison continue et arbitrage ' +
-          'coût, latence, qualité et confidentialité par cas d’usage. Fine-tuning de Llama 3 ' +
-          "sur corpus métier pour l'application mobile Prézage, complété d'un procédé maison " +
-          "d'augmentation du contexte proche du RAG. RAG documentaire fait maison pour le " +
-          'support de niveau 1 : recherche vectorielle PostgreSQL et API OpenAI, réponses ' +
-          'ancrées sur votre documentation. Serveurs MCP et plugins n8n, Make et Zapier : ' +
-          'votre produit devient appelable par un agent ou un scénario no-code.',
-        decision: 'Quelle donnée reste chez vous, et ce que vous acceptez d’envoyer à un tiers.',
-      },
-    ],
-  },
+  // Version courte du pôle 2 : même ordre que la page dédiée — métier, stratégie
+  // data, gouvernance, solution. Extraite dans son propre fichier pour que cet ordre
+  // ne soit jamais rogné au profit de la limite de 300 lignes.
+  SECTION_ACCUEIL_DATA_IA,
   {
     id: 'charniere-arbitrage',
     kind: 'charniere',
