@@ -10,7 +10,7 @@ import type { IEditorialSection } from '@/interfaces/IEditorialSection'
 export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
   {
     id: 'natures',
-    kind: 'pole',
+    kind: 'chapitre',
     pole: 'ingenierie-web',
     kicker: 'Ce que je construis',
     titre: 'Trois natures de produit, une seule façon de les tenir',
@@ -54,7 +54,7 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
   },
   {
     id: 'cadrage',
-    kind: 'pole',
+    kind: 'chapitre',
     pole: 'ingenierie-web',
     kicker: 'Avant la première ligne',
     titre: 'Le cadrage, tenu par celui qui devra le coder',
@@ -94,7 +94,7 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
   },
   {
     id: 'technique',
-    kind: 'pole',
+    kind: 'chapitre',
     pole: 'ingenierie-web',
     kicker: 'La construction',
     titre: 'Front, back, architecture et exploitation',
@@ -138,7 +138,7 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
   },
   {
     id: 'qualite',
-    kind: 'pole',
+    kind: 'chapitre',
     pole: 'ingenierie-web',
     kicker: 'La qualité',
     titre: 'Certifiée et outillée, pas promise',

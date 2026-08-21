@@ -144,7 +144,7 @@ Trois contraintes de la bibliothèque sont tenues, et leur parade est explicite 
 |-------------------|--------|
 | Toutes les lentilles doivent partager le **même z-index** | `z-index: 2` posé une seule fois dans `glass-surface.css` ; aucun `z-index` local |
 | Les éléments `fixed` et `sticky` sont **ignorés** | L'en-tête collant utilise un `backdrop-filter` CSS, pas liquidGL |
-| Safari instable au-delà de **50 % du viewport** | Verre désactivé sous 1024px, et plafonné à 3 surfaces par page (`glass-policy.ts`) |
+| Safari instable au-delà de **50 % du viewport** | Verre désactivé sous 1024px, et plafonné par gabarit dans `glass-policy.ts` : `MAX_GLASS_ACCUEIL` (3) et `MAX_GLASS_PAGE_POLE` (3). Le plafond est passé par l'appelant, pas hérité d'une constante unique — une page de pôle compte 4 à 5 chapitres vitrables, et la troncature doit se lire dans le code plutôt que se subir |
 | Le flou coûte cher là où rien ne bouge | Sous 1024px, `backdrop-filter` et `will-change` ne sont pas posés du tout : fond translucide plat |
 | Tout ce qui n'est pas le fond fausse la capture | La scène des dalles porte `data-liquid-ignore` et n'est jamais placée derrière une surface de verre |
 | Capture plein document, coût en carré de `resolution` | `resolution: 0.75` au lieu de 2.0 par défaut. On ne capture pas la page mais un dégradé et une trame de 32px : vue à travers un verre dépoli, sa netteté n'a aucune importance — la mémoire, si |

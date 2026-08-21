@@ -6,8 +6,12 @@
 // ordre doit se lire d'un seul tenant, sans être rogné pour tenir dans un fichier qui
 // approche la limite de 300 lignes.
 //
-// Version longue : `data-ia-sections.ts`. Les deux disent la même chose dans le même
-// ordre ; l'accueil en donne la version courte, jamais une version différente.
+// Version longue : `data-sections.ts` puis `ia-sections.ts`, recollés par `data-ia.ts`.
+// Les deux disent la même chose dans le même ordre ; l'accueil en donne la version
+// courte, jamais une version différente.
+//
+// `kind: 'pole'` et non `'chapitre'` : cette section-ci EST un pôle, alors que les
+// sections de `/services/data-ia/` sont les chapitres internes d'une seule page.
 
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
 

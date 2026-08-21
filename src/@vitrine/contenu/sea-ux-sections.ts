@@ -15,7 +15,7 @@ import type { IEditorialSection } from '@/interfaces/IEditorialSection'
 export const SECTIONS_SEA_UX: IEditorialSection[] = [
   {
     id: 'cadrage-ux',
-    kind: 'pole',
+    kind: 'chapitre',
     pole: 'sea-ux',
     kicker: 'Disons-le tout de suite',
     titre: 'Je ne dessine pas vos maquettes',
@@ -51,7 +51,7 @@ export const SECTIONS_SEA_UX: IEditorialSection[] = [
   },
   {
     id: 'mesure',
-    kind: 'pole',
+    kind: 'chapitre',
     pole: 'sea-ux',
     kicker: 'La mesure',
     titre: 'Construite dans le code, pas déclarée dans une interface',
@@ -95,7 +95,7 @@ export const SECTIONS_SEA_UX: IEditorialSection[] = [
   },
   {
     id: 'conformite',
-    kind: 'pole',
+    kind: 'chapitre',
     pole: 'sea-ux',
     kicker: 'La conformité',
     titre: 'Par construction, pas en rattrapage',
@@ -123,7 +123,7 @@ export const SECTIONS_SEA_UX: IEditorialSection[] = [
   },
   {
     id: 'pilotage',
-    kind: 'pole',
+    kind: 'chapitre',
     pole: 'sea-ux',
     kicker: 'Le pilotage',
     titre: 'Arbitrer sur la rentabilité réelle, pas sur les métriques des régies',

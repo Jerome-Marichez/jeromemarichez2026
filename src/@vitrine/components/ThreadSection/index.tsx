@@ -16,7 +16,7 @@ interface ThreadSectionProps {
  * même main : il coupe la chaîne au lieu de s'y insérer. C'est la seule façon de dire
  * visuellement « ceci n'est pas une quatrième offre » sans avoir à l'écrire.
  *
- * Pas de verre ici — `selectGlassSectionIds` ne vitre que les pôles.
+ * Pas de verre ici — `selectGlassSectionIds` ne vitre que les pôles et les chapitres.
  */
 export function ThreadSection({ section }: ThreadSectionProps) {
   const titreId = `${section.id}-titre`
