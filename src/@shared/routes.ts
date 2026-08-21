@@ -14,13 +14,6 @@ export const ROUTES = {
   'sea-ux': '/services/sea-ux',
 } as const satisfies Record<'accueil' | 'blog' | PoleId, string>
 
-/** Ordre de la chaîne : construire, exploiter et mesurer, arbitrer. */
-export const POLE_ORDER = [
-  'ingenierie-web',
-  'data-ia',
-  'sea-ux',
-] as const satisfies readonly PoleId[]
-
 /**
  * Toutes les routes **fixes** indexables, dans l'ordre de priorité.
  *

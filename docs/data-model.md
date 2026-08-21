@@ -80,8 +80,9 @@ un composant :
   ou dans `og:image` sans la servir serait une affirmation fausse de plus.
 - **Pas de rattachement à un pôle, pas de tags, pas de catégories.** Avec trois articles,
   une taxonomie serait un classement sans classe. Le jour où elle s'impose, le
-  rattachement dérivera de `PoleId` et de `POLE_ORDER` — jamais d'une liste de pôles
-  recopiée dans le blog.
+  rattachement dérivera de `PoleId` et de l'ordre porté par `POLES_NAV` — jamais d'une
+  liste de pôles recopiée dans le blog. L'ordre est **la position dans `POLES_NAV`**, et
+  nulle part ailleurs : une seconde liste d'ordre finirait par contredire la première.
 - **Pas de statut `brouillon`.** Un article non publié n'est pas dans `articles.ts`.
 
 ## Où vivent les données
