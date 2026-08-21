@@ -1,5 +1,5 @@
 // ThreadSection/index.tsx — jeromemarichez-fr
-// Le fil : une méthode qui traverse les trois pôles.
+// Le fil : une méthode qui traverse tous les pôles.
 
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
 import styles from './thread-section.module.css'

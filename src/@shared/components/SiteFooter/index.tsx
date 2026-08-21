@@ -30,7 +30,7 @@ export function SiteFooter() {
         </div>
 
         <nav aria-label="Pied de page" className={styles.navigation}>
-          <p className={styles.titreNav}>Les trois pôles</p>
+          <p className={styles.titreNav}>Les quatre pôles</p>
           <ul className={styles.liens}>
             {POLES_NAV.map((pole) => (
               <li key={pole.id}>

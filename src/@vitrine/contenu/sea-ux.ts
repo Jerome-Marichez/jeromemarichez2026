@@ -1,5 +1,6 @@
 // sea-ux.ts — jeromemarichez-fr
-// Pôle 3 — SEA & UX. Métadonnées ; les sections vivent dans le fichier voisin.
+// Le pôle SEA & UX — l'une des deux suites de la donnée. Métadonnées ; les sections
+// vivent dans le fichier voisin.
 
 import type { IEditorialPage } from '@/interfaces/IEditorialPage'
 import { SECTIONS_SEA_UX } from './sea-ux-sections'

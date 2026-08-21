@@ -1,19 +1,15 @@
 // ia-sections.ts — jeromemarichez-fr
-// Les chapitres IA de la page Data & IA : la réponse technique, puis sa mise en
-// production. Le tableau se referme sur la charnière qui clôt la page.
-//
-// Scindé de l'ancien `data-ia-sections.ts`, qui atteignait 279 lignes pour un plafond dur
-// à 300. Ce n'est qu'un découpage de FICHIERS : `PoleId` est inchangé, la page rend le
-// même contenu dans le même ordre, et `data-ia.ts` recolle les deux tableaux.
+// Les chapitres de la page IA : la réponse technique, puis sa mise en production.
 //
 // Le critère de rattachement est le CONTENU, jamais le titre. Vient ici ce qui parle de
 // modèles, d'inférence, de fine-tuning, de RAG ou d'agents ; ce qui parle de collecte, de
 // gouvernance, de qualité ou de réconciliation d'identités est dans `data-sections.ts`.
 //
-// `charniere-arbitrage` n'est ni de la data ni de l'IA : c'est la sortie de page vers le
-// pôle suivant. Elle est posée en dernier ici pour que la concaténation
-// `[...SECTIONS_DATA, ...SECTIONS_IA]` rende exactement l'ordre d'avant la scission. Son
-// rattachement définitif est à trancher quand `PoleId` se scindera à son tour.
+// `charniere-arbitrage` a quitté ce fichier pour `data-sections.ts`. Elle y disait « et
+// ensuite, le pôle 3 » : posée sur la page IA, elle affirmait que le SEA & UX vient après
+// l'IA. C'est faux — ce sont les deux suites parallèles de la donnée, et la charnière
+// part de la donnée. L'IA ne passe donc la main à personne : elle est un bout de chaîne,
+// comme le SEA & UX.
 //
 // Faits sourcés dans cv-ai-engineer.md et cv-ingenieur-fullstack.md. Règles de véracité
 // du CLAUDE.md appliquées : RAG **maison** (aucun framework tiers), méthode arXiv
@@ -27,12 +23,12 @@ export const SECTIONS_IA: IEditorialSection[] = [
   {
     id: 'solution',
     kind: 'chapitre',
-    pole: 'data-ia',
+    pole: 'ia',
     kicker: 'La réponse technique',
     titre: 'La solution répond au problème — et ce n’est pas toujours de l’IA',
     chapo:
-      'C’est seulement ici que la technique arrive, et elle est arbitrée contre les trois ' +
-      'étapes précédentes : le problème métier posé au départ, la donnée réellement ' +
+      'C’est seulement ici que la technique arrive, et elle est arbitrée contre le travail ' +
+      'de la donnée : le problème métier posé au départ, la donnée réellement ' +
       'disponible, et ce que le droit autorise. Pas contre l’état de l’art.',
     blocs: [
       {
@@ -82,7 +78,7 @@ export const SECTIONS_IA: IEditorialSection[] = [
   {
     id: 'production',
     kind: 'chapitre',
-    pole: 'data-ia',
+    pole: 'ia',
     kicker: 'Et ensuite',
     titre: 'Ce qui est livré tourne, et reste explicable',
     chapo:
@@ -105,32 +101,6 @@ export const SECTIONS_IA: IEditorialSection[] = [
           'Make et Zapier : votre produit devient utilisable par un agent IA ou par un ' +
           'scénario no-code, chez vous comme chez vos propres clients.',
         decision: 'Ce que vous ouvrez à l’automatisation, et ce qui reste fermé.',
-      },
-    ],
-  },
-  {
-    id: 'charniere-arbitrage',
-    kind: 'charniere',
-    kicker: 'Charnière vers le pôle 3',
-    titre: 'Un métier compris devient un budget arbitrable',
-    chapo:
-      'Quand les règles sont écrites, les profils identifiés et la donnée gouvernée, on ne ' +
-      'regarde plus un tableau de bord de plus : on tient la matière des décisions ' +
-      'd’acquisition et de parcours. Quel canal financer, quelle étape supprimer, quelle ' +
-      'page rendre autrement. Sans elle, le SEA achète du volume et l’expérience ' +
-      'utilisateur devient une affaire de goût.',
-    blocs: [
-      {
-        titre: 'Rentabilité à long terme',
-        texte:
-          'la mesure de la valeur client dans la durée remplace le coût par clic comme ' +
-          'critère d’arbitrage.',
-      },
-      {
-        titre: 'Et ensuite',
-        texte:
-          'le pôle 3 tranche sur ces chiffres — puis implémente l’arbitrage dans le ' +
-          'produit, sans passer par un tiers.',
       },
     ],
   },

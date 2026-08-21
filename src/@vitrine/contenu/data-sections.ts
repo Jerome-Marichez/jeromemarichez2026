@@ -1,14 +1,10 @@
 // data-sections.ts — jeromemarichez-fr
-// Les chapitres DATA de la page Data & IA : métier, stratégie data, gouvernance et droit.
-//
-// Scindé de l'ancien `data-ia-sections.ts`, qui atteignait 279 lignes pour un plafond dur
-// à 300. Ce n'est qu'un découpage de FICHIERS : `PoleId` est inchangé, la page rend le
-// même contenu dans le même ordre, et `data-ia.ts` recolle les deux tableaux.
+// Les chapitres de la page Data : métier, stratégie data, gouvernance et droit.
 //
 // Le critère de rattachement est le CONTENU, jamais le titre. Vient ici ce qui parle de
 // collecte, de plan de taggage, de gouvernance, de qualité ou de réconciliation
 // d'identités ; ce qui parle de modèles, d'inférence, de fine-tuning, de RAG ou d'agents
-// est dans `ia-sections.ts`.
+// est dans `ia-sections.ts`, qui sert désormais un pôle distinct.
 //
 // L'ORDRE EST LE CONTENU : métier → stratégie data → gouvernance et droit. On part de
 // l'activité, pas d'un catalogue de technologies — la solution technique répond au
@@ -25,7 +21,7 @@ export const SECTIONS_DATA: IEditorialSection[] = [
   {
     id: 'metier',
     kind: 'chapitre',
-    pole: 'data-ia',
+    pole: 'data',
     kicker: 'Le point de départ',
     titre: 'Je commence par votre métier, pas par votre donnée',
     chapo:
@@ -87,7 +83,7 @@ export const SECTIONS_DATA: IEditorialSection[] = [
   {
     id: 'strategie-data',
     kind: 'chapitre',
-    pole: 'data-ia',
+    pole: 'data',
     kicker: 'La stratégie data',
     titre: 'Construire la stratégie data, ou s’appuyer sur celle qui existe',
     chapo:
@@ -132,7 +128,7 @@ export const SECTIONS_DATA: IEditorialSection[] = [
   {
     id: 'gouvernance',
     kind: 'chapitre',
-    pole: 'data-ia',
+    pole: 'data',
     kicker: 'Gouvernance et droit',
     titre: 'Qui possède quoi, et ce qui a le droit d’être traité',
     chapo:
@@ -170,6 +166,40 @@ export const SECTIONS_DATA: IEditorialSection[] = [
           'd’office et la comparaison se joue entre un modèle open-weight que l’on héberge ' +
           '— Llama 3 par exemple — et une règle explicite. C’est une contrainte de départ, ' +
           'pas une déception à annoncer en fin de projet.',
+      },
+    ],
+  },
+  // Cette charnière vient de `ia-sections.ts`, où elle passait la main « au pôle 3 ». Ce
+  // rattachement était faux dès que l'IA a cessé d'être une étape avant le SEA & UX : la
+  // charnière ne part pas de l'IA, elle part de la DONNÉE. Elle est donc rendue ici.
+  //
+  // Elle n'a pas encore de symétrique vers l'IA : la donnée ouvre deux suites, et une
+  // seule des deux est racontée en fin de page. C'est une asymétrie de narration, pas de
+  // modèle — la page annonce bien les deux suites dès son ouverture (`PoleHero`), et le
+  // lot de réécriture éditoriale doit écrire la charnière manquante.
+  {
+    id: 'charniere-arbitrage',
+    kind: 'charniere',
+    kicker: 'Charnière · vers le SEA & UX',
+    titre: 'Un métier compris devient un budget arbitrable',
+    chapo:
+      'Quand les règles sont écrites, les profils identifiés et la donnée gouvernée, on ne ' +
+      'regarde plus un tableau de bord de plus : on tient la matière des décisions ' +
+      'd’acquisition et de parcours. Quel canal financer, quelle étape supprimer, quelle ' +
+      'page rendre autrement. Sans elle, le SEA achète du volume et l’expérience ' +
+      'utilisateur devient une affaire de goût.',
+    blocs: [
+      {
+        titre: 'Rentabilité à long terme',
+        texte:
+          'la mesure de la valeur client dans la durée remplace le coût par clic comme ' +
+          'critère d’arbitrage.',
+      },
+      {
+        titre: 'Et ensuite',
+        texte:
+          'le pôle SEA & UX tranche sur ces chiffres — puis implémente l’arbitrage dans le ' +
+          'produit, sans passer par un tiers.',
       },
     ],
   },

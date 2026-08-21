@@ -1,5 +1,5 @@
 // PolePageView/index.tsx — jeromemarichez-fr
-// Gabarit commun aux trois pages de pôle.
+// Gabarit commun aux quatre pages de pôle.
 
 import { LiquidGlassRuntime } from '@/@shared/components/LiquidGlassRuntime'
 import type { IEditorialPage } from '@/interfaces/IEditorialPage'
@@ -14,24 +14,29 @@ import styles from './pole-page-view.module.css'
 interface PolePageViewProps {
   pole: IPole
   page: IEditorialPage
-  /** Pôle suivant dans la chaîne. Absent pour le dernier maillon. */
-  suivant?: IPole
+  /** Les pôles vers lesquels celui-ci ouvre. Vide pour un bout de chaîne. */
+  suites: IPole[]
 }
 
 /**
- * Les trois pôles partagent un gabarit strictement identique.
+ * Les quatre pôles partagent un gabarit strictement identique.
  *
- * C'est un choix éditorial, pas une économie de code : trois pages construites pareil
- * disent qu'il s'agit d'un seul métier découpé en trois temps. Trois mises en page
- * différentes auraient dit trois prestataires.
+ * C'est un choix éditorial, pas une économie de code : quatre pages construites pareil
+ * disent qu'il s'agit d'un seul métier. Quatre mises en page différentes auraient dit
+ * quatre prestataires.
+ *
+ * Le bloc de certifications ne s'affiche que si le pôle en a **une à lui**
+ * (`selectCertificationsByPole` s'en charge). Un titre « Ce qui est certifié sur ce
+ * pôle » suivi de la seule certification transverse d'anglais dirait le contraire de ce
+ * qu'il annonce : mieux vaut ne rien afficher que d'annoncer une preuve absente.
  */
-export function PolePageView({ pole, page, suivant }: PolePageViewProps) {
+export function PolePageView({ pole, page, suites }: PolePageViewProps) {
   const verre = selectGlassSectionIds(page.sections, MAX_GLASS_PAGE_POLE)
   const certifications = selectCertificationsByPole(pole.id)
 
   return (
     <div className={styles.page}>
-      <PoleHero pole={pole} suivant={suivant} />
+      <PoleHero pole={pole} suites={suites} />
 
       <div className={styles.corps}>
         {page.sections.map((section) => (

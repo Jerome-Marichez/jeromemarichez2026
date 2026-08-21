@@ -20,7 +20,7 @@ export const HERO_ACCUEIL = {
     'digital, du cadrage au run : celui qui cadre est celui qui code, qui mesure et ' +
     'qui exploite. Vous parlez à la personne qui fait le travail, et c’est elle qui ' +
     'répond de tout.',
-  // Le fil IA se dit dès le seuil, sinon il se découvre au pôle 2 et se lit comme une
+  // Le fil IA se dit dès le seuil, sinon il se découvre au pôle Data et se lit comme une
   // offre. Formulation tenue par les règles de véracité : l'IA instruit et produit, le
   // test décide — jamais l'inverse.
   methode:
@@ -35,17 +35,25 @@ export const HERO_ACCUEIL = {
   ],
 } as const
 
-/** La thèse : trois pôles, une seule chaîne, une seule personne. */
+/**
+ * La thèse : quatre pôles, une seule chaîne, une seule personne.
+ *
+ * Le texte a perdu ses comptes d'étapes en même temps que le modèle a gagné son
+ * embranchement. Il ne peut plus dire « chaque étape passe la main à la suivante » : la
+ * donnée en a deux, et on peut n'en prendre qu'une. Cette formulation-ci est le strict
+ * minimum pour que la thèse cesse de contredire le schéma qu'elle introduit ; sa
+ * réécriture complète appartient au lot éditorial.
+ */
 export const THESE_CHAINE = {
-  titre: 'Trois pôles, une seule chaîne',
+  titre: 'Quatre pôles, une seule chaîne',
   chapo:
-    "Ce ne sont pas trois offres qu'on achète séparément. C'est une prise en charge " +
-    'continue, où chaque étape passe explicitement la main à la suivante : on construit, ' +
-    'ce qui est construit se met à tourner, ce qui tourne produit de la donnée, et cette ' +
-    "donnée décide de ce qu'on modifie ensuite.",
+    "Ce ne sont pas quatre offres posées côte à côte au catalogue. C'est une prise en " +
+    'charge continue : on construit, ce qui est construit se met à tourner, ce qui tourne ' +
+    'produit de la donnée — et c’est cette donnée qui ouvre l’IA et l’arbitrage des ' +
+    'budgets et des parcours. L’une, l’autre, ou les deux.',
   appui:
-    "Cette chaîne ne tient que parce que c'est la même personne aux trois postes. " +
-    "Découpée entre trois prestataires, elle se casse à chaque jointure — et c'est " +
+    "Cette chaîne ne tient que parce que c'est la même personne à chaque poste. " +
+    "Découpée entre plusieurs prestataires, elle se casse à chaque jointure — et c'est " +
     'toujours au client de recoller les morceaux.',
 } as const
 
@@ -54,7 +62,7 @@ export const PAGE_ACCUEIL: IEditorialPage = {
   meta: {
     title: 'Jérôme Marichez — Ingénieur logiciel à Lille',
     description:
-      'Ingénierie web, data & IA, SEA & UX : un seul interlocuteur du cadrage au run, ' +
+      'Ingénierie web, data, IA, SEA & UX : un seul interlocuteur du cadrage au run, ' +
       'qui répond de tout. Conception, développement et pilotage avec l’IA. Lille et ' +
       'Hauts-de-France.',
   },

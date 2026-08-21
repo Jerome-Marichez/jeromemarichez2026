@@ -2,9 +2,9 @@
 // Le fil IA : l'axe transverse de la page d'accueil.
 //
 // Ce n'est pas un quatrième pôle et ce n'est pas une charnière. Les charnières passent
-// la main d'un pôle au suivant ; ce fil-ci traverse les trois. Il répond à une confusion
-// que le site crée lui-même : l'IA y apparaît deux fois — comme offre (pôle 2) et comme
-// méthode de production (les trois pôles). Sans cette section, le lecteur les mélange.
+// la main d'un pôle au suivant ; ce fil-ci les traverse tous. Il répond à une confusion
+// que le site crée lui-même : l'IA y apparaît deux fois — comme offre (le pôle IA) et
+// comme méthode de production (partout). Sans cette section, le lecteur les mélange.
 //
 // Véracité (CLAUDE.md) : rien ici n'est nouveau. Chaque preuve citée est déjà portée
 // par un pôle et sourcée dans les CV de référence. La seule affirmation propre à cette
@@ -16,11 +16,11 @@ import type { IEditorialSection } from '@/interfaces/IEditorialSection'
 export const SECTION_FIL_IA: IEditorialSection = {
   id: 'fil-ia',
   kind: 'fil',
-  kicker: 'Le fil · les trois pôles',
+  kicker: 'Le fil · tous les pôles',
   titre: 'Je conçois, je développe et je pilote avec l’IA',
   chapo:
     'L’IA apparaît deux fois sur ce site, et il faut les distinguer : elle est ce que je ' +
-    'livre au pôle 2, et elle est la façon dont je travaille sur les trois. Cette ' +
+    'livre au pôle IA, et elle est la façon dont je travaille sur tous. Cette ' +
     'section-ci parle de la seconde — de la première option d’architecture jusqu’à ' +
     'l’arbitrage d’un budget SEA. Une règle la tient d’un bout à l’autre : l’IA propose, ' +
     'les tests tranchent.',
@@ -50,9 +50,9 @@ export const SECTION_FIL_IA: IEditorialSection = {
     {
       titre: 'Livrer — l’IA dans le produit qui tourne',
       texte:
-        'C’est le pôle 2 : donnée mise au propre, apprentissage supervisé en production, LLM ' +
+        'C’est le pôle IA : donnée mise au propre, apprentissage supervisé en production, LLM ' +
         'et agents avec le coût d’inférence, la latence et le RGPD tenus. La méthode et ' +
-        'l’offre partagent les mêmes outils, elles ne se confondent pas — ce que le pôle 2 ' +
+        'l’offre partagent les mêmes outils, elles ne se confondent pas — ce que le pôle IA ' +
         'vend, c’est de l’IA qui tourne chez vous, pas ma manière d’écrire du code.',
       preuve:
         'Modèle supervisé en production, fine-tuning de Llama 3 sur corpus métier, RAG ' +

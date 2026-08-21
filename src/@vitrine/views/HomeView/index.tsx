@@ -19,7 +19,7 @@ import styles from './home-view.module.css'
 /**
  * L'accueil est la seule page qui déroule la chaîne entière : construire, exploiter et
  * mesurer, arbitrer. Les charnières y sont des sections à part entière — ce sont elles
- * qui distinguent une prise en charge continue d'un catalogue de trois prestations.
+ * qui distinguent une prise en charge continue d'un catalogue de prestations.
  */
 export function HomeView() {
   const verre = selectGlassSectionIds(PAGE_ACCUEIL.sections, MAX_GLASS_ACCUEIL)

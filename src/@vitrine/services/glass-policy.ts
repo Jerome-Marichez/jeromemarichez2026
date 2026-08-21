@@ -17,8 +17,11 @@ const NATURES_VITRABLES: ReadonlySet<SectionKind> = new Set<SectionKind>(['pole'
 /**
  * Plafond de surfaces vitrées sur l'accueil.
  *
- * L'accueil porte une section vitrable par pôle vendu. Le plafond y suit donc le nombre
- * de pôles, et le relever est une décision éditoriale — pas un réglage technique.
+ * Il suit le nombre de sections de pôle **réellement présentes sur la page**, pas le
+ * nombre de pôles vendus : l'accueil en porte trois alors que le site en vend quatre, le
+ * pôle IA n'ayant pas encore sa propre section d'accueil. Le relever est une décision
+ * éditoriale — elle appartient au lot qui écrira cette section, pas à un réglage
+ * technique.
  */
 export const MAX_GLASS_ACCUEIL = 3
 

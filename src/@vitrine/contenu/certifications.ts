@@ -32,7 +32,7 @@ export const CERTIFICATIONS: ICertification[] = [
     intitule: "Claude with Google Cloud's Vertex AI",
     organisme: 'Google Cloud',
     annee: 2026,
-    pole: 'data-ia',
+    pole: 'ia',
     logo: {
       fichier: '/certifications/google-cloud.svg',
       largeur: 24,

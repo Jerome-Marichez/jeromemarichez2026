@@ -72,7 +72,7 @@
 }
 
 /* Le blog est séparé de la chaîne par un filet vertical : c'est le seul signal qui dit,
-   sans un mot, qu'il n'appartient pas à la liste numérotée d'à côté. */
+   sans un mot, qu'il n'appartient pas à la liste des pôles d'à côté. */
 .navigationSecondaire {
   display: flex;
   padding-left: var(--e-1);
@@ -103,15 +103,15 @@
   background: color-mix(in srgb, var(--cuivre) 12%, transparent);
 }
 
-.rang {
+.temps {
   font-family: var(--police-mono-pile);
   font-size: var(--t--1);
   color: var(--cuivre);
 }
 
-/* Sous 720px, la numérotation des pôles suffit à dire la chaîne : les intitulés
+/* Sous 720px, le chiffre du temps suffit à situer chaque pôle : les intitulés
    passent en second plan plutôt que de forcer un menu déroulant, qui coûterait du
-   JavaScript et un piège au clavier pour trois liens. */
+   JavaScript et un piège au clavier pour quatre liens. */
 @media (max-width: 720px) {
   .contenu {
     flex-direction: column;

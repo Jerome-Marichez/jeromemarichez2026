@@ -8,8 +8,8 @@ import type { PoleId, SectionKind } from './types'
  * Une section éditoriale rendue comme un bloc de page à part entière.
  *
  * `transition` porte la **charnière** : la phrase qui passe la main à la section
- * suivante. C'est elle qui transforme trois offres empilées en une chaîne continue
- * — construire, exploiter et mesurer, arbitrer — tenue par un seul interlocuteur.
+ * suivante. C'est elle qui transforme des offres empilées en une chaîne continue —
+ * construire, exploiter et mesurer, puis décider — tenue par un seul interlocuteur.
  */
 export interface IEditorialSection {
   /** Identifiant kebab-case, sert d'ancre (`#id`) et de cible aux liens internes. */

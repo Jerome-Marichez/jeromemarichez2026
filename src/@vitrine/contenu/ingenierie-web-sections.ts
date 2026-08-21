@@ -1,5 +1,5 @@
 // ingenierie-web-sections.ts — jeromemarichez-fr
-// Pôle 1 — Construire. Site internet, produit SaaS, application mobile.
+// Le pôle Ingénierie web — le socle. Site internet, produit SaaS, application mobile.
 //
 // Faits sourcés dans cv-ingenieur-fullstack.md et cv-ai-engineer.md. Règles de
 // véracité du CLAUDE.md appliquées : ISTQB **Foundation** seulement, aucun management
@@ -80,7 +80,7 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
         texte:
           'Maquettage, catalogue de composants sous Storybook, accessibilité RGAA, WCAG et ' +
           'W3C traitée pendant la conception et non en rattrapage. Les parcours sont ' +
-          'refondus sur la mesure — c’est le pôle 3 qui fournit les chiffres.',
+          'refondus sur la mesure — c’est le pôle SEA & UX qui fournit les chiffres.',
         preuve: 'Panier moyen en hausse de 50 % après refonte des tunnels d’achat.',
       },
       {
@@ -178,7 +178,7 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
   {
     id: 'charniere-run',
     kind: 'charniere',
-    kicker: 'Charnière vers le pôle 2',
+    kicker: 'Charnière · vers la donnée',
     titre: 'La livraison n’est pas la fin, c’est le début du run',
     chapo:
       'Un produit mis en production se met à tourner, et ce qui tourne produit de la ' +
@@ -197,7 +197,7 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
       {
         titre: 'Et ensuite',
         texte:
-          'la donnée produite par le run devient la matière du pôle 2 — qualité, règles ' +
+          'la donnée produite par le run devient la matière du pôle Data — qualité, règles ' +
           'métier, modèles et IA en production.',
       },
     ],

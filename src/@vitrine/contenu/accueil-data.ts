@@ -1,25 +1,31 @@
-// accueil-data-ia.ts — jeromemarichez-fr
-// Le bloc du pôle 2 sur la page d'accueil, extrait de `accueil-sections.ts`.
+// accueil-data.ts — jeromemarichez-fr
+// Le bloc du pôle Data sur la page d'accueil, extrait de `accueil-sections.ts`.
 //
-// Extrait pour une raison de contenu autant que de taille : ce pôle porte désormais un
-// ordre — métier, stratégie data, gouvernance et droit, solution technique — et cet
-// ordre doit se lire d'un seul tenant, sans être rogné pour tenir dans un fichier qui
-// approche la limite de 300 lignes.
+// Extrait pour une raison de contenu autant que de taille : ce pôle porte un ordre —
+// métier, stratégie data, gouvernance et droit — et cet ordre doit se lire d'un seul
+// tenant, sans être rogné pour tenir dans un fichier qui approche la limite de 300
+// lignes.
 //
-// Version longue : `data-sections.ts` puis `ia-sections.ts`, recollés par `data-ia.ts`.
-// Les deux disent la même chose dans le même ordre ; l'accueil en donne la version
-// courte, jamais une version différente.
+// Version longue : `data-sections.ts`, rendue par `data.ts`. Les deux disent la même
+// chose dans le même ordre ; l'accueil en donne la version courte, jamais une version
+// différente.
 //
 // `kind: 'pole'` et non `'chapitre'` : cette section-ci EST un pôle, alors que les
-// sections de `/services/data-ia/` sont les chapitres internes d'une seule page.
+// sections de `/services/data/` sont les chapitres internes d'une seule page.
+//
+// DETTE DE NARRATION, à solder par le lot de réécriture éditoriale : le quatrième bloc
+// ci-dessous parle de la solution technique, donc du pôle IA, qui n'a pas encore sa
+// propre section d'accueil. Le passage à quatre pôles n'a pas déplacé cette prose — le
+// lot topologique ne réécrit pas le texte — mais l'accueil doit finir par raconter
+// l'embranchement qu'il annonce déjà dans son schéma.
 
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
 
-export const SECTION_ACCUEIL_DATA_IA: IEditorialSection = {
-  id: 'data-ia',
+export const SECTION_ACCUEIL_DATA: IEditorialSection = {
+  id: 'data',
   kind: 'pole',
-  pole: 'data-ia',
-  kicker: 'Pôle 2 · Comprendre',
+  pole: 'data',
+  kicker: 'Le passage · Comprendre',
   titre: 'Comprendre votre métier, puis choisir la solution',
   chapo:
     'Je ne commence pas par un modèle. Je commence par ce que votre activité sait déjà ' +

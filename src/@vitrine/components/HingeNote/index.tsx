@@ -11,7 +11,7 @@ interface HingeNoteProps {
  * Rend une charnière.
  *
  * C'est le composant le plus important du site pour ce qu'il vend : sans ces phrases,
- * les trois pôles redeviennent trois offres juxtaposées, et l'argument « c'est la même
+ * les pôles redeviennent des offres juxtaposées, et l'argument « c'est la même
  * personne du cadrage au run » tombe. Elles sont donc rendues comme des respirations
  * pleine largeur, pas comme des notes de bas de section.
  *

@@ -1,5 +1,5 @@
 // ingenierie-web.ts — jeromemarichez-fr
-// Pôle 1 — Ingénierie web. Métadonnées ; les sections vivent dans le fichier voisin
+// Le pôle Ingénierie web — le socle. Métadonnées ; les sections vivent dans le voisin
 // (limite de 300 lignes par fichier, docs/tooling.md).
 
 import type { IEditorialPage } from '@/interfaces/IEditorialPage'

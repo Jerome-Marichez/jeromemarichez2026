@@ -3,11 +3,26 @@
 // Les entités métier sont des interfaces (IXxx) dans des fichiers dédiés de ce dossier.
 // Convention : docs/architecture.md.
 
-/** Les trois pôles vendus par le site, dans l'ordre de la chaîne. */
-export type PoleId = 'ingenierie-web' | 'data-ia' | 'sea-ux'
+/** Les quatre pôles. `data` est le préalable de `ia` et de `sea-ux`. */
+export type PoleId = 'ingenierie-web' | 'data' | 'ia' | 'sea-ux'
 
-/** Rang du pôle dans la chaîne : construire, exploiter et mesurer, arbitrer. */
-export type PoleRank = 1 | 2 | 3
+/**
+ * Place dans la chaîne — PAS un ordinal.
+ * `socle`   : on commence là quand le produit est à construire.
+ * `passage` : tout ce qui suit y passe, et il se livre pour lui-même.
+ * `suite`   : ce qui s'ouvre après la donnée. Il y en a DEUX, sans ordre entre elles.
+ */
+export type PolePlace = 'socle' | 'passage' | 'suite'
+
+/**
+ * Le temps de la chaîne où le pôle intervient.
+ *
+ * Ce n'est pas non plus un ordinal : **les deux suites partagent le temps 3**, et c'est
+ * ce partage qui porte tout le sens. Numéroter les quatre pôles de 1 à 4 dirait « il les
+ * faut tous les quatre, dans cet ordre » — l'inverse exact du modèle, où l'IA et le SEA
+ * & UX s'ouvrent en parallèle et se prennent séparément ou ensemble.
+ */
+export type PoleTemps = 1 | 2 | 3
 
 /**
  * Nature d'une section éditoriale — elle commande le rendu.

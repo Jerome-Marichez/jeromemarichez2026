@@ -13,7 +13,7 @@ export const LIMITES: IBoundary[] = [
     hors: 'Aucune couche commerciale, aucun transfert de dossier',
     alaPlace:
       "Vous parlez à la personne qui écrit le code. C'est la même du cadrage au run, " +
-      'sur les trois pôles. Si la taille du projet demande un renfort — c’est rare — je ' +
+      'sur les quatre pôles. Si la taille du projet demande un renfort — c’est rare — je ' +
       'choisis le prestataire, je le cadre et j’en réponds : votre interlocuteur, lui, ' +
       'ne change pas.',
   },

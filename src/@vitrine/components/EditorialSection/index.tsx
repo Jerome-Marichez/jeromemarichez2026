@@ -27,7 +27,7 @@ export function EditorialSection({ section, glass = false }: EditorialSectionPro
   // Une charnière n'est pas une section de contenu avec un fond différent : elle a sa
   // propre grammaire — pas de blocs d'expertise, pas de verre, un filet qui se trace.
   if (section.kind === 'charniere') return <HingeSection section={section} />
-  // Un fil traverse les trois pôles au lieu de s'intercaler entre deux : il a lui aussi
+  // Un fil traverse tous les pôles au lieu de s'intercaler entre deux : il a lui aussi
   // sa grammaire propre — étapes numérotées, filet horizontal, jamais de verre.
   if (section.kind === 'fil') return <ThreadSection section={section} />
 
