@@ -1,24 +1,22 @@
-/* chain-canvas.module.css — réservation d'espace pour la scène WebGL.
- * L'aspect-ratio est posé en CSS pour que la place soit tenue AVANT le chargement de
- * la scène : sans lui, l'arrivée différée du canvas décalerait la mise en page et
- * coûterait un CLS que ce site ne peut pas se permettre. */
-
-/* `z-index: 3` : au-dessus du canvas de réfraction de liquidGL (posé sur `body` en
-   `position: fixed; z-index: 0`) et de ses canvas miroirs (z-index de la lentille
-   moins 1, donc 1). Sans lui, la scène 3D passe SOUS le calque de liquidGL et
-   disparaît dès que le verre est amorcé — alors qu'elle s'affiche parfaitement en
-   dessous de 1024px, où liquidGL ne tourne pas. Le piège est difficile à voir : la
-   scène ne casse que sur les écrans larges. */
+/* chain-canvas.module.css — réservation d'espace pour la scène des trois dalles.
+ * L'aspect-ratio est posé en CSS et non déduit du contenu : c'est lui qui tient la place
+ * exacte de la scène dès la première image, avant même que le SVG ne soit peint. La
+ * réservation date de l'époque où la scène arrivait en différé ; elle reste ici pour la
+ * même raison qu'alors — le moindre décalage de mise en page coûte un CLS que ce site ne
+ * peut pas se permettre.
+ *
+ * `z-index: 3` : au-dessus du canvas de réfraction de liquidGL (posé sur `body` en
+ * `position: fixed; z-index: 0`) et de ses canvas miroirs (z-index de la lentille moins
+ * 1, donc 1). Sans lui, la scène passe SOUS le calque de liquidGL et disparaît dès que
+ * le verre est amorcé — alors qu'elle s'affiche parfaitement en dessous de 1024px, où
+ * liquidGL ne tourne pas. Le piège est difficile à voir : la scène ne casse que sur les
+ * écrans larges. */
 .conteneur {
   position: relative;
   z-index: 3;
   width: 100%;
   aspect-ratio: 4 / 5;
   max-height: 34rem;
-}
-
-.conteneur canvas {
-  border-radius: var(--rayon-verre);
 }
 
 /* Le substitut n'est jamais montré : le conteneur est déjà `aria-hidden`. Il ne sert

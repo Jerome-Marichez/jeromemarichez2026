@@ -30,25 +30,30 @@
   overflow: clip;
   border: 1px solid var(--verre-arete);
   border-radius: var(--rayon-verre);
-  background: var(--verre-teinte);
-  backdrop-filter: blur(14px) saturate(1.15);
-  -webkit-backdrop-filter: blur(14px) saturate(1.15);
   box-shadow: inset 0 1px 0 var(--verre-lueur);
-  will-change: transform;
+  /* Fond translucide PLAT : ni flou, ni promesse au compositeur.
+     C'est le rendu par défaut, celui de tous les petits écrans — et il n'est pas un
+     pis-aller. En dessous de 1024px, liquidGL n'est jamais amorcé (voir
+     `@shared/glass/settings`) : la lentille ne se transforme donc jamais, et rien ne se
+     déplace derrière elle. Un `backdrop-filter` y refloutait une grande surface à chaque
+     image de défilement, et un `will-change: transform` promettait une couche GPU pour
+     un mouvement qui n'arrive pas — deux coûts payés pour un effet que personne ne voit
+     sur un téléphone. */
+  background: color-mix(in srgb, var(--fond) 55%, var(--verre-teinte));
 }
 
-/* Safari devient instable dès qu'une lentille dépasse la moitié du viewport, et le
-   moteur n'est de toute façon pas amorcé en dessous de 1024px (voir
-   `@shared/glass/settings`). Le panneau se contente alors du fond ci-dessus, allégé :
-   `backdrop-filter` sur un grand bloc coûte cher sur mobile pour un effet peu visible. */
-@media (max-width: 1023px) {
+/* Au-dessus du seuil, et là seulement, le verre devient un vrai verre : le flou paie sa
+   place parce que le moteur tourne et que la lentille bouge réellement. */
+@media (min-width: 1024px) {
   .glass-surface {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: var(--verre-teinte);
+    backdrop-filter: blur(14px) saturate(1.15);
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    will-change: transform;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
   .glass-surface {
     will-change: auto;
   }

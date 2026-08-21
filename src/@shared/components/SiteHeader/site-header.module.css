@@ -1,23 +1,29 @@
 /* site-header.module.css — en-tête collant.
- * Pas de liquidGL ici : la bibliothèque ignore les éléments `sticky` et `fixed`. Le
- * fond est un backdrop-filter CSS, juste à toutes les positions de défilement. */
+ * Pas de liquidGL ici : la bibliothèque ignore les éléments `sticky` et `fixed`. Le fond
+ * est donc du CSS pur — et il change de nature au seuil de 1024px. */
 
 .entete {
   position: sticky;
   top: 0;
   z-index: 50;
-  /* Opaque par défaut, translucide seulement là où le flou existe réellement.
-     Sans cette précaution, le texte des sections qui défilent dessous reste lisible à
-     travers l'en-tête : la transparence ne doit jamais coûter la lisibilité du nom. */
-  background: var(--fond);
   border-bottom: 1px solid color-mix(in srgb, var(--encre) 10%, transparent);
+  /* Fond translucide PLAT, sans flou. C'est le rendu de tous les petits écrans, et le
+     cas d'école du jank au défilement : un en-tête `sticky` pleine largeur qui porte un
+     `backdrop-filter` force le navigateur à reflouter la bande à chaque image, sur les
+     appareils qui en ont le moins les moyens.
+     92% et non 88% : sans flou pour brouiller ce qui passe dessous, il faut un peu plus
+     de matière pour que le texte des sections ne reste pas lisible à travers l'en-tête.
+     La transparence ne doit jamais coûter la lisibilité du nom. */
+  background: color-mix(in srgb, var(--fond) 92%, transparent);
 }
 
-@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-  .entete {
-    background: color-mix(in srgb, var(--fond) 88%, transparent);
-    backdrop-filter: blur(14px) saturate(1.1);
-    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+@media (min-width: 1024px) {
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .entete {
+      background: color-mix(in srgb, var(--fond) 88%, transparent);
+      backdrop-filter: blur(14px) saturate(1.1);
+      -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    }
   }
 }
 
@@ -40,10 +46,7 @@
 
 .nom {
   font-family: var(--police-titre-pile);
-  font-variation-settings:
-    "SOFT" 0,
-    "WONK" 0,
-    "opsz" 18;
+  font-variation-settings: "opsz" 18;
   font-weight: 600;
   font-size: 1.0625rem;
   line-height: 1.2;

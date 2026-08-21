@@ -10,12 +10,10 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@react-three/fiber": "^9.7.0",
     "liquid-gl": "^2.0.1",
     "next": "^16.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "three": "^0.185.1",
     "zod": "^4.0.0"
   },
   "devDependencies": {
@@ -27,7 +25,6 @@
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@types/three": "^0.185.4",
     "cypress": "^15.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^30.0.0",

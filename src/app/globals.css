@@ -29,7 +29,15 @@
   /* — Typographie — */
   --police-titre-pile: var(--police-titre), Georgia, "Times New Roman", serif;
   --police-texte-pile: var(--police-texte), system-ui, -apple-system, sans-serif;
-  --police-mono-pile: var(--police-mono), ui-monospace, "SFMono-Regular", monospace;
+  /* Pile système, aucune fonte téléchargée. Ce registre ne sert qu'aux étiquettes, aux
+     chiffres et aux rangs, tous composés en capitales espacées : à cette échelle et avec
+     cet interlettrage, le dessin propre à une fonte de labeur ne se distingue pas de
+     celui du monospace du système. `ui-monospace` prend SF Mono sur Apple, les suivants
+     couvrent le reste — tous ont les chiffres à chasse fixe, seule vraie exigence des
+     preuves chiffrées. */
+  --police-mono-pile:
+    ui-monospace, "SFMono-Regular", "SF Mono", "Cascadia Mono", "Segoe UI Mono", "Roboto Mono",
+    "DejaVu Sans Mono", "Liberation Mono", Menlo, Consolas, monospace;
 
   --t--1: 0.8125rem;
   --t-0: clamp(1rem, 0.955rem + 0.22vw, 1.125rem);
@@ -123,25 +131,34 @@ body {
    `z-index: -1` et non `0` : il doit passer sous le contenu SANS que celui-ci ait
    besoin de son propre contexte d'empilement. Voir la règle `main` ci-dessous, qui
    explique pourquoi ce détail décide du bon fonctionnement de liquidGL. */
+/* La trame est une TUILE de 32 px répétée, et non deux `repeating-linear-gradient`.
+   La différence ne se voit pas — le dessin est le même au pixel près — mais elle se
+   mesure : un `repeating-linear-gradient` sans `background-size` est généré une fois aux
+   dimensions de son élément, soit ici plus de 9 000 px de haut sur l'accueil, puis
+   capturé tel quel en texture par liquidGL. Avec `background-size: 32px 32px`, le
+   navigateur ne rasterise qu'un carré de 32 px et le répète. */
 .fond-atelier {
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background:
-    repeating-linear-gradient(to right, var(--trame) 0 1px, transparent 1px 32px),
-    repeating-linear-gradient(to bottom, var(--trame) 0 1px, transparent 1px 32px),
+  background-color: var(--fond-degrade-bas);
+  background-image:
+    linear-gradient(to right, var(--trame) 0 1px, transparent 1px),
+    linear-gradient(to bottom, var(--trame) 0 1px, transparent 1px),
     radial-gradient(1200px 900px at 22% 8%, var(--fond-degrade-haut), var(--fond-degrade-bas));
+  background-repeat: repeat, repeat, no-repeat;
+  background-size:
+    32px 32px,
+    32px 32px,
+    100% 100%;
 }
 
 h1,
 h2,
 h3 {
   font-family: var(--police-titre-pile);
-  font-variation-settings:
-    "SOFT" 0,
-    "WONK" 0,
-    "opsz" 32;
+  font-variation-settings: "opsz" 32;
   font-weight: 600;
   text-wrap: balance;
 }

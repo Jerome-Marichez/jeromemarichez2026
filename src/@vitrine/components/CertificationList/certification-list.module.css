@@ -59,10 +59,7 @@
 
 .intitule {
   font-family: var(--police-titre-pile);
-  font-variation-settings:
-    "SOFT" 0,
-    "WONK" 0,
-    "opsz" 18;
+  font-variation-settings: "opsz" 18;
   font-weight: 600;
   font-size: 1.0625rem;
   line-height: 1.25;

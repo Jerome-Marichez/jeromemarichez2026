@@ -15,8 +15,9 @@ exactement l'arbitrage que le site vend, appliqué à lui-même.
 - **Cohérence** : composants réutilisables, jetons de design centralisés dans
   [`src/app/globals.css`](../src/app/globals.css). Aucune couleur, aucun espacement,
   aucune taille en dur dans un composant.
-- **Responsive** : mobile-first. La scène WebGL et le verre réfractant sont des
-  **enrichissements desktop**, jamais des prérequis de lecture.
+- **Responsive** : mobile-first. Le verre réfractant est un **enrichissement desktop**,
+  jamais un prérequis de lecture. La scène des trois dalles, elle, est du SVG : elle
+  s'affiche partout, au même coût sur un téléphone et sur un poste de travail.
 - **Thème** : clair et sombre, via `prefers-color-scheme`. Les deux palettes sont
   complètes et vérifiées en contraste — aucune couleur n'est définie dans un seul thème.
 
@@ -29,7 +30,6 @@ système entier coûterait plus en poids et en contraintes qu'il ne ferait gagne
 |-------|-------|
 | Composants maison | `src/@shared/components/` (transverse) et `src/@vitrine/components/` (éditorial) |
 | **liquidGL** (NaughtyDuk, MIT) | Verre réfractant WebGL — voir la section dédiée ci-dessous |
-| **three** + **@react-three/fiber** | Scène 3D des trois dalles, chargée en différé |
 
 ## Stratégie de style
 
@@ -47,12 +47,15 @@ Modules ne serait jamais trouvé. Aucune autre classe globale n'est autorisée.
 |-----|---------|-------|
 | `720px` | mobile / tablette | l'en-tête passe en colonne |
 | `900px` | tablette | le décalage en diagonale du schéma de chaîne est supprimé |
-| `1024px` | desktop | **seuil d'activation** de la scène WebGL et du verre liquidGL |
+| `1024px` | desktop | **seuil d'activation** du verre liquidGL et du `backdrop-filter` |
 
 Le seuil de 1024px n'est pas esthétique : Safari devient instable dès qu'une lentille
 liquidGL dépasse la moitié du viewport — ce qui est le cas de toute carte pleine largeur
 sur mobile — et le coût GPU d'une capture plein document n'a aucune contrepartie sur un
-petit écran.
+petit écran. En dessous, le panneau se contente d'un fond translucide **plat** : ni
+`backdrop-filter`, ni `will-change`. Le moteur n'y est jamais amorcé, la lentille ne se
+transforme donc jamais — flouter une grande surface à chaque image de défilement y
+serait un coût payé pour un effet que personne ne voit.
 
 ## Jetons
 
@@ -88,14 +91,16 @@ ci-dessous sont ceux des couples texte/fond effectivement utilisés.
 
 ### Typographie
 
-Trois familles, chargées par `next/font/google` — donc auto-hébergées au build : aucune
-requête vers `fonts.googleapis.com`, rien à déclarer côté RGPD.
+Deux familles chargées par `next/font/google` — donc auto-hébergées au build : aucune
+requête vers `fonts.googleapis.com`, rien à déclarer côté RGPD. La troisième est servie
+par la pile système, pour zéro octet. C'est un budget autant qu'un parti pris : chaque
+fonte préchargée est un fichier que le navigateur va chercher avant de peindre le texte.
 
 | Rôle | Famille | Notes |
 |------|---------|-------|
-| Titres | **Fraunces** (variable) | `'SOFT' 0, 'WONK' 0` — la fantaisie est retirée, il reste une antique ferme |
+| Titres | **Fraunces** (variable) | Axe `opsz` seul. `SOFT` et `WONK` valent zéro par défaut : les demander pour les neutraliser embarquait 60 ko dans le chemin critique sans changer le rendu |
 | Corps | **Inter** (variable) | `'ss01' 1, 'cv05' 1` |
-| Annotations et chiffres | **IBM Plex Mono** | registre étiquette d'établi, `tabular-nums` sur les preuves |
+| Annotations et chiffres | **pile monospace système** | Ce registre est intégralement composé en capitales espacées, où le dessin propre à une fonte de labeur ne se distingue pas. `ui-monospace` prend SF Mono sur Apple ; tous les replis ont les chiffres à chasse fixe, seule vraie exigence des preuves |
 
 Échelle fluide en `clamp()`, base 16px : `--t--1` (13px) à `--t-4` (38→64px), plus
 `--t-chiffre` pour le mur de preuves. Mesures : 64ch sur le corps, 34ch sur les `h2`,
@@ -116,12 +121,19 @@ personnalisé.
 |-------|-----|--------|
 | **Tracer** | les deux charnières | filet cuivre 2px, `scaleY(0)` → `scaleY(1)`, 700ms. Seul mouvement porteur de sens : la chaîne se trace |
 | **Traverser** | le fil IA | filets cuivre **horizontaux**, `scaleX(0)` → `scaleX(1)`, même durée. Perpendiculaires à ceux des charnières : la chaîne descend, le fil la coupe — la géométrie dit « ceci n'est pas une quatrième offre » |
-| **Pivoter** | la scène WebGL | rotation interpolée sur l'avancement du défilement du premier écran |
+| **Dériver** | la scène des trois dalles | deux fréquences lentes qui ne se referment jamais ensemble, en `transform` seul — assez pour faire lire du volume, jamais assez pour appeler le regard |
 | **Micro-états** | liens et boutons | épaisseur de soulignement, `translateY(-1px)`, 120 à 140ms — aucun déplacement de mise en page |
 
+Seuls `transform` et `opacity` sont animés, nulle part ailleurs. Ce sont les deux
+propriétés que le compositeur traite sans repasser par la mise en page ni par le peintre,
+donc les deux seules qui tiennent 60 images par seconde sur un téléphone.
+
 Sous `prefers-reduced-motion: reduce` : les animations CSS sont coupées, la scène est
-rendue **figée** (une image, `uTime` gelé), et liquidGL **n'est pas amorcé du tout** —
-sa boucle de rendu permanente est une animation, même quand aucune lentille ne bouge.
+rendue **figée** — les dalles gardent leur pose — et liquidGL **n'est pas amorcé du
+tout**, sa boucle de rendu permanente étant une animation même quand aucune lentille ne
+bouge. Le bouton `MotionToggle` offre le même arrêt depuis la page, comme l'exige
+WCAG 2.2.2 : une préférence système n'est pas un mécanisme de mise en pause, elle ne se
+change pas depuis le site.
 
 ## Le verre liquidGL
 
@@ -133,25 +145,35 @@ Trois contraintes de la bibliothèque sont tenues, et leur parade est explicite 
 | Toutes les lentilles doivent partager le **même z-index** | `z-index: 2` posé une seule fois dans `glass-surface.css` ; aucun `z-index` local |
 | Les éléments `fixed` et `sticky` sont **ignorés** | L'en-tête collant utilise un `backdrop-filter` CSS, pas liquidGL |
 | Safari instable au-delà de **50 % du viewport** | Verre désactivé sous 1024px, et plafonné à 3 surfaces par page (`glass-policy.ts`) |
-| Les `<canvas>` sont **exclus de la capture** | La scène 3D n'est jamais placée derrière une surface de verre ; elle porte `data-liquid-ignore` |
-| Capture plein document, coût en carré de `resolution` | `resolution: 1.5` au lieu de 2.0 par défaut |
+| Le flou coûte cher là où rien ne bouge | Sous 1024px, `backdrop-filter` et `will-change` ne sont pas posés du tout : fond translucide plat |
+| Tout ce qui n'est pas le fond fausse la capture | La scène des dalles porte `data-liquid-ignore` et n'est jamais placée derrière une surface de verre |
+| Capture plein document, coût en carré de `resolution` | `resolution: 0.75` au lieu de 2.0 par défaut. On ne capture pas la page mais un dégradé et une trame de 32px : vue à travers un verre dépoli, sa netteté n'a aucune importance — la mémoire, si |
 | Aucune API de destruction | Démontage maison dans [`glass/teardown.ts`](../src/@shared/glass/teardown.ts) |
 
-Le repli `backdrop-filter` n'est pas un pis-aller : c'est le rendu **par défaut** sur
-mobile, sans WebGL et en mouvement réduit.
+Le fond translucide n'est pas un pis-aller : c'est le rendu **par défaut** sur mobile,
+sans WebGL et en mouvement réduit.
 
-## La scène WebGL
+## La scène des trois dalles
 
-Trois dalles de verre biseautées, décalées en profondeur, alignées dans le même axe :
-la thèse du site rendue en volume. Aucun texte, aucun logo, aucune particule.
+Trois dalles de verre décalées en profondeur, alignées dans le même axe : la thèse du
+site rendue en volume. Aucun texte, aucun logo, aucune particule.
 
-- **Géométrie** : `ExtrudeGeometry` avec biseau réel — c'est lui qui attrape la lumière.
-  ~600 triangles par dalle, géométrie construite une fois et partagée par les trois.
-- **Matériau** : un `ShaderMaterial` partagé, Fresnel non éclairé. **Pas** de
-  `transmission` : elle impose une passe de rendu et une cible de rendu par objet, sans
-  rapport avec le résultat cherché. Zéro lumière, zéro ombre, zéro texture.
-- **Chargement** : `next/dynamic` sans SSR, monté seulement à l'approche du viewport,
-  repli SVG inline tenant la place — donc zéro CLS et un LCP qui reste le `h1`.
-- **Dégradations** : viewport < 1024px, absence de WebGL, `saveData`, ou
-  `prefers-reduced-motion` → repli SVG ou image figée. Le conteneur est `aria-hidden` :
-  la scène ne porte aucune information que le texte ne donne déjà.
+Elle a d'abord été une scène WebGL (`three` + `@react-three/fiber`, ~235 ko gzip). Elle
+est aujourd'hui **un SVG de 1,6 ko rendu au serveur**, et le compromis n'en est pas un :
+le site vend une performance tenue, il ne pouvait pas payer un moteur 3D pour un décor.
+Ce qui est perdu — la réfraction physique, la rotation pilotée par le défilement —
+n'était lisible par personne. Ce qui est gagné se mesure au premier chargement, et la
+scène s'affiche désormais **aussi sous 1024px**, là où le WebGL n'était jamais monté.
+
+- **Forme** : trois rectangles arrondis décalés, liseré cuivre, un dégradé de lueur sur
+  la dalle de premier plan. [`ChainCanvas/SlabScene.tsx`](../src/@shared/components/ChainCanvas/SlabScene.tsx).
+- **Mouvement** : le groupe porte une dérive d'ensemble, chaque dalle la sienne. Deux
+  fréquences qui ne se referment jamais au même moment suffisent à faire lire du volume,
+  là où une seule donnerait un balancement de métronome. `transform` et `opacity`
+  uniquement.
+- **Rendu** : entièrement serveur. Le seul motif restant de rendre `ChainCanvas` côté
+  client est de lire le choix « animation figée » et de le passer à la scène. Plus de
+  chargement différé à orchestrer, plus de détection de WebGL, plus de seuil de largeur.
+- **Décor, jamais information** : le conteneur est `aria-hidden`, et la scène ne porte
+  rien que le texte de la page ne dise déjà. C'est la condition pour qu'un décor animé
+  soit acceptable sur un site qui vend de l'accessibilité tenue.

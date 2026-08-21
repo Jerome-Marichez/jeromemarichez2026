@@ -1,7 +1,6 @@
 // CertificationList/index.tsx — jeromemarichez-fr
 // Les certifications, avec ce que chacune change concrètement.
 
-import Image from 'next/image'
 import type { ICertification } from '@/interfaces/ICertification'
 import styles from './certification-list.module.css'
 
@@ -22,6 +21,15 @@ interface CertificationListProps {
  *
  * Le logo est `alt=""` : l'organisme est déjà écrit juste en dessous, et le doubler
  * ferait entendre deux fois la même chose à un lecteur d'écran.
+ *
+ * `img` natif et non `next/image`, pour deux raisons qui pointent dans le même sens :
+ * l'optimiseur ne saurait rien faire de ces fichiers — ce sont des SVG, et
+ * `/_next/image` les refuse tant que `dangerouslyAllowSVG` est à `false`, ce qu'il doit
+ * rester ; et son runtime pesait 8,7 ko gzip sur toutes les pages du site pour zéro
+ * image effectivement rendue. `width` et `hauteur` restent obligatoires côté
+ * `ICertificationLogo` : ce sont eux, et non le composant, qui réservent la place et
+ * garantissent l'absence de CLS. `loading="lazy"` parce que la grille des
+ * certifications est toujours loin sous la ligne de flottaison.
  */
 export function CertificationList({ certifications }: CertificationListProps) {
   return (
@@ -30,10 +38,12 @@ export function CertificationList({ certifications }: CertificationListProps) {
         <li className={styles.item} key={certification.intitule}>
           <span className={styles.plaque}>
             {certification.logo ? (
-              <Image
+              <img
                 alt=""
                 className={styles.logo}
+                decoding="async"
                 height={certification.logo.hauteur}
+                loading="lazy"
                 src={certification.logo.fichier}
                 width={certification.logo.largeur}
               />
