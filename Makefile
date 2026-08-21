@@ -2,7 +2,7 @@
 # Interface de commandes unique (local + CI). `make help` liste les cibles.
 
 .DEFAULT_GOAL := help
-.PHONY: help install dev build lint test test-unit test-int test-mutation
+.PHONY: help install dev build lint type-check test test-unit test-int test-mutation
 .PHONY: test-e2e
 .PHONY: test-system
 .PHONY: test-acceptance
@@ -15,6 +15,9 @@ help: ## Liste les commandes disponibles
 lint: ## Biome sur tout le dépôt + limite 300 lignes/fichier
 	npx @biomejs/biome@^2.0.0 check .
 	./scripts/check-max-lines.sh
+
+type-check: ## Vérification des types TypeScript, sans émission de fichiers
+	npx tsc --noEmit
 
 test: test-unit test-int ## Tests unitaires + intégration (rapides)
 
@@ -35,8 +38,8 @@ test-int: ## Tests d'intégration
 
 test-mutation: ## Tests de mutation (Stryker) — qualité des tests unitaires/intégration
 	npx stryker run
-test-e2e: ## Tests e2e navigateur (Cypress headless) — stack démarrée au préalable
-	npx cypress run
+test-e2e: ## Tests e2e navigateur — construit et sert l'export statique, puis Cypress headless
+	node scripts/e2e.mjs
 
 test-system: ## Tests système (vrai serveur HTTP via listen(0))
 	npx jest tests/systeme --passWithNoTests

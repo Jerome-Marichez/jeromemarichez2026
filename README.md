@@ -334,10 +334,11 @@ démarrage).
 
 ```bash
 make lint             # Biome + limite 300 lignes/fichier
+make type-check       # types TypeScript (tsc --noEmit), sans émission
 make test             # unitaires + intégration
 make test-unit        # unitaires
 make test-int         # intégration
-make test-e2e         # e2e (navigateur)
+make test-e2e         # e2e (navigateur) — construit et sert `out/`, puis Cypress
 make test-system      # système (vrai serveur HTTP)
 make test-acceptance  # acceptation / non-fonctionnels (uat/)
 make test-mutation    # mutation (Stryker)

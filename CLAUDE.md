@@ -3,17 +3,38 @@
 ## Présentation
 
 Site portfolio et vitrine de services de Jérôme Marichez, ingénieur logiciel à Lille :
-**Ingénierie Web**, **Data & IA**, **SEO/SEA**.
+**Ingénierie web**, **Data**, **IA**, **SEA & UX**.
 
 Le site raconte un parcours (ingénieur logiciel, 9 ans, passé par la chefferie de projet
-et l'AMOA) et vend trois offres qui s'appuient dessus. Promesse centrale, à faire
+et l'AMOA) et vend quatre pôles qui s'appuient dessus. Promesse centrale, à faire
 apparaître partout : **un seul interlocuteur humain pour vos projets digitaux, du cadrage
 au run** — celui qui cadre est celui qui code, mesure et exploite, et il répond de tout.
 La promesse porte sur l'**interlocuteur** et la **responsabilité**, jamais sur l'absence
 totale de tiers : sur un projet dont la taille le demande — c'est rare — Jérôme peut
 s'entourer de prestataires qu'il choisit, cadre et dont il répond.
 
-Le **périmètre éditorial complet** (les trois offres en détail, les preuves chiffrées,
+### Le modèle de l'offre — quatre pôles, un embranchement
+
+```
+Ingénierie web  →  DATA  →  ( IA  et/ou  SEA & UX )
+```
+
+*(Modèle arbitré par Jérôme MARICHEZ le 2026-08-21.)*
+
+Ce n'est **pas** une chaîne linéaire de quatre maillons, et ce ne sont **pas** quatre offres
+posées côte à côte au catalogue :
+
+- **Data est le passage obligé.** Ni IA ni SEA & UX ne se font sans elle. C'est l'argument
+  central du modèle, pas une étape administrative : sans mesure, l'IA devine et
+  l'acquisition arbitre à l'aveugle.
+- **L'embranchement est inclusif.** Un client peut prendre IA seule, SEA & UX seule, ou les
+  deux. Rien n'oblige à acheter de l'IA pour tirer parti de la donnée, et le site doit le
+  dire explicitement.
+- **IA et SEA & UX sont deux branches parallèles**, pas deux étapes successives. Aucun
+  contenu, aucun visuel, aucun libellé, aucun numéro d'ordre ne doit laisser croire que
+  l'une vient après l'autre.
+
+Le **périmètre éditorial complet** (les quatre pôles en détail, les preuves chiffrées,
 les certifications, l'arborescence des pages, les contraintes SEO / perf / a11y / RGPD)
 est décrit dans le [`README.md`](./README.md) : c'est la **source de vérité du contenu**.
 Ce fichier-ci porte les règles qui encadrent la façon de l'écrire et de le développer.
@@ -61,9 +82,11 @@ considération marketing.
   de certification ne s'invente ni ne s'approxime : tant qu'elle n'a pas été fournie par
   Jérôme, le lien reste marqué *à fournir* et la certification n'est **pas** publiée avec
   un lien mort.
-- Deux points restent **à confirmer avec Jérôme** avant mise en ligne : l'année exacte de
-  la certification Google Ads (2021 ou 2022 selon les CV) et l'existence d'une
-  certification **Microsoft Ads**.
+- Deux points de certification ont été **arbitrés par Jérôme MARICHEZ le 2026-08-20**, et
+  ne sont donc plus à rouvrir : la certification **Google Ads est datée de 2021** (le CV
+  Tracking Specialist indiquait 2022 — c'est 2021 qui fait foi), et la certification
+  **Microsoft Ads est confirmée**, sans année connue : elle s'affiche donc sans millésime.
+  `README.md` et `src/@vitrine/contenu/certifications.ts` appliquent déjà cet arbitrage.
 - Les **CV de référence** vivent dans `/Users/nicolasb/Documents/CV/`
   (`cv-ingenieur-fullstack.md`, `cv-ai-engineer.md`, `cv-tracking-specialist.md`) : en cas
   de doute sur un chiffre, une date ou un périmètre, ce sont eux qui font foi — pas la
