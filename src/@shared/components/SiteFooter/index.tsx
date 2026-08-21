@@ -3,6 +3,7 @@
 
 import Link from 'next/link'
 import { POLES_NAV } from '@/@vitrine/contenu/poles-nav'
+import { ROUTES } from '../../routes'
 import { SITE_IDENTITY } from '../../seo/site'
 import styles from './site-footer.module.css'
 
@@ -36,6 +37,18 @@ export function SiteFooter() {
                 <Link href={pole.route}>{pole.nom}</Link>
               </li>
             ))}
+          </ul>
+        </nav>
+
+        <nav aria-label="Le site" className={styles.navigation}>
+          <p className={styles.titreNav}>Le site</p>
+          <ul className={styles.liens}>
+            <li>
+              <Link href={ROUTES.accueil}>Accueil</Link>
+            </li>
+            <li>
+              <Link href={ROUTES.blog}>Blog</Link>
+            </li>
           </ul>
         </nav>
 

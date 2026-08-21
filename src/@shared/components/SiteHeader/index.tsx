@@ -29,20 +29,30 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav aria-label="Les trois pôles" className={styles.navigation}>
-          <ol className={styles.liste}>
-            {POLES_NAV.map((pole) => (
-              <li key={pole.id}>
-                <Link className={styles.lien} href={pole.route}>
-                  <span aria-hidden="true" className={styles.rang}>
-                    {pole.rang}
-                  </span>
-                  {pole.nom}
-                </Link>
-              </li>
-            ))}
-          </ol>
-        </nav>
+        <div className={styles.navigations}>
+          <nav aria-label="Les trois pôles" className={styles.navigation}>
+            <ol className={styles.liste}>
+              {POLES_NAV.map((pole) => (
+                <li key={pole.id}>
+                  <Link className={styles.lien} href={pole.route}>
+                    <span aria-hidden="true" className={styles.rang}>
+                      {pole.rang}
+                    </span>
+                    {pole.nom}
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </nav>
+
+          {/* Bloc distinct, et pas un quatrième élément de la liste numérotée : le blog
+              n'est pas une offre, et l'ajouter à la chaîne le ferait lire comme telle. */}
+          <nav aria-label="Le blog" className={styles.navigationSecondaire}>
+            <Link className={styles.lien} href={ROUTES.blog}>
+              Blog
+            </Link>
+          </nav>
+        </div>
       </div>
     </header>
   )
