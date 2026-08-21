@@ -1,13 +1,13 @@
 // src/app/layout.tsx — jeromemarichez-fr
 // pages/app ne fait QUE le routage : les sections d'écran vivent dans src/views/.
 
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
 import { SiteFooter } from '@/@shared/components/SiteFooter'
 import { SiteHeader } from '@/@shared/components/SiteHeader'
 import { SkipLink } from '@/@shared/components/SkipLink'
 import { StructuredData } from '@/@shared/components/StructuredData'
-import { SITE_IDENTITY, SITE_PROMESSE, SITE_URL } from '@/@shared/seo/site'
+import { SITE_IDENTITY, SITE_PROMESSE, SITE_THEME_COLORS, SITE_URL } from '@/@shared/seo/site'
 import { buildPersonSchema, buildProfessionalServiceSchema } from '@/@shared/seo/structured-data'
 import { FONT_VARIABLES } from '@/@shared/typography/fonts'
 import './globals.css'
@@ -21,14 +21,26 @@ export const metadata: Metadata = {
   },
   description: SITE_PROMESSE,
   authors: [{ name: SITE_IDENTITY.nom, url: SITE_URL }],
-  alternates: { canonical: '/' },
+  // Ni `alternates.canonical` ni `openGraph.url` ici : hérités, ils désignent l'accueil
+  // depuis n'importe quelle page. Chaque page pose les siens (@shared/seo/page-metadata).
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
     siteName: SITE_IDENTITY.nom,
-    url: SITE_URL,
   },
   robots: { index: true, follow: true },
+}
+
+/**
+ * `globals.css` déclare `color-scheme: light dark` : le site suit le thème du système
+ * sans bascule manuelle. `theme-color` doit donc en faire autant, sinon la barre du
+ * navigateur mobile reste sur une seule des deux ambiances.
+ */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: SITE_THEME_COLORS.clair },
+    { media: '(prefers-color-scheme: dark)', color: SITE_THEME_COLORS.sombre },
+  ],
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

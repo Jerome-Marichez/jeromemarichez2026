@@ -6,6 +6,7 @@
 // le rend d'autant plus tentant à gonfler — et d'autant plus grave à gonfler.
 
 import { SITE_IDENTITY, SITE_URL, SITE_ZONE } from './site'
+import { toAbsoluteUrl } from './urls'
 
 /** Le professionnel indépendant derrière le site. */
 export function buildPersonSchema(): Record<string, unknown> {
@@ -15,7 +16,7 @@ export function buildPersonSchema(): Record<string, unknown> {
     '@id': `${SITE_URL}/#personne`,
     name: SITE_IDENTITY.nom,
     jobTitle: SITE_IDENTITY.titre,
-    url: SITE_URL,
+    url: toAbsoluteUrl('/'),
     email: `mailto:${SITE_IDENTITY.email}`,
     address: {
       '@type': 'PostalAddress',
@@ -35,7 +36,7 @@ export function buildProfessionalServiceSchema(description: string): Record<stri
     '@id': `${SITE_URL}/#activite`,
     name: SITE_IDENTITY.nom,
     description,
-    url: SITE_URL,
+    url: toAbsoluteUrl('/'),
     founder: { '@id': `${SITE_URL}/#personne` },
     areaServed: SITE_ZONE.map((nom) => ({ '@type': 'Place', name: nom })),
   }
@@ -50,10 +51,10 @@ export function buildServiceSchema(params: {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    '@id': `${SITE_URL}${params.route}#service`,
+    '@id': `${toAbsoluteUrl(params.route)}#service`,
     name: params.nom,
     description: params.description,
-    url: `${SITE_URL}${params.route}`,
+    url: toAbsoluteUrl(params.route),
     serviceType: params.nom,
     provider: { '@id': `${SITE_URL}/#activite` },
     areaServed: SITE_ZONE.map((nom) => ({ '@type': 'Place', name: nom })),
@@ -69,8 +70,13 @@ export function buildBreadcrumbSchema(params: {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_URL },
-      { '@type': 'ListItem', position: 2, name: params.nom, item: `${SITE_URL}${params.route}` },
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: toAbsoluteUrl('/') },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: params.nom,
+        item: toAbsoluteUrl(params.route),
+      },
     ],
   }
 }

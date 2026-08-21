@@ -33,3 +33,25 @@ export const SITE_PROMESSE =
 
 /** Rayon d'intervention réellement couvert. */
 export const SITE_ZONE = ['Lille', 'Hauts-de-France', 'France'] as const
+
+/**
+ * Couleur de fond de chaque thème, reprise de `--fond` dans `src/app/globals.css`.
+ *
+ * Duplication assumée : `theme-color` et le manifeste sont lus par le navigateur avant
+ * la moindre feuille de style, donc avant qu'une variable CSS existe. Ces deux valeurs
+ * suivent `--fond` à la main si la direction artistique change.
+ */
+export const SITE_THEME_COLORS = {
+  clair: '#f2efe8',
+  sombre: '#0e1114',
+} as const
+
+/**
+ * Date de dernière révision éditoriale du site, au format `AAAA-MM-JJ`.
+ *
+ * Elle alimente `lastModified` du sitemap — le seul champ que Google lit encore. Elle
+ * est tenue à la main plutôt que dérivée de la date de build : un site reconstruit sans
+ * changement de contenu n'a pas été modifié, et l'annoncer serait un signal faux.
+ * À mettre à jour quand le contenu des pages change réellement.
+ */
+export const SITE_DERNIERE_REVISION = '2026-08-21'
