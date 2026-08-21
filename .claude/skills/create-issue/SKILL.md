@@ -1,9 +1,9 @@
 ---
 name: create-issue
-description: Crée une issue pour jeromemarichez2026 (bug, feature, documentation ou autre) en remplissant OBLIGATOIREMENT le template d'issue commun du dépôt. À utiliser pour TOUTE création d'issue, y compris celles ouvertes par /create-feat. Jamais d'issue en texte libre, jamais d'emoji.
+description: Crée une issue pour jeromemarichez-fr (bug, feature, documentation ou autre) en remplissant OBLIGATOIREMENT le template d'issue commun du dépôt. À utiliser pour TOUTE création d'issue, y compris celles ouvertes par /create-feat. Jamais d'issue en texte libre, jamais d'emoji.
 ---
 
-# Créer une issue — jeromemarichez2026 (`/create-issue`)
+# Créer une issue — jeromemarichez-fr (`/create-issue`)
 
 Toute issue du projet suit le **template commun** du dépôt :
 `.github/ISSUE_TEMPLATE/issue.md` (GitHub) ou `.gitlab/issue_templates/issue.md`

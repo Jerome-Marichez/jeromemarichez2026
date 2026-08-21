@@ -1,5 +1,5 @@
 #!/bin/bash
-# Hook PostToolUse — rappel documentation (jeromemarichez2026)
+# Hook PostToolUse — rappel documentation (jeromemarichez-fr)
 # Après toute modification de code (hors doc, config, .claude), rappelle de mettre à
 # jour le README.md et la doc docs/ impactée, conformément au CLAUDE.md.
 # Throttle : au plus un rappel par REMIND_THROTTLE_MINUTES (15 min) — sinon chaque
@@ -17,4 +17,4 @@ stamp="${TMPDIR:-/tmp}/claude-remind-docs-$(printf '%s' "${CLAUDE_PROJECT_DIR:-$
 [ -n "$(find "$stamp" -mmin -"${REMIND_THROTTLE_MINUTES:-15}" 2>/dev/null)" ] && exit 0
 touch "$stamp" 2>/dev/null
 
-jq -n --arg f "$f" '{hookSpecificOutput:{hookEventName:"PostToolUse",additionalContext:("Doc jeromemarichez2026 — tu viens de modifier " + $f + ". Conformément au CLAUDE.md, pense à mettre à jour le README.md et la doc docs/ impactée (architecture, data-model, testing, ci-cd, docker, tooling...), ou à créer une nouvelle catégorie docs/ si le changement le justifie — et dans ce cas, ajoute le lien dans le README.md ET le CLAUDE.md.")}}'
+jq -n --arg f "$f" '{hookSpecificOutput:{hookEventName:"PostToolUse",additionalContext:("Doc jeromemarichez-fr — tu viens de modifier " + $f + ". Conformément au CLAUDE.md, pense à mettre à jour le README.md et la doc docs/ impactée (architecture, data-model, testing, ci-cd, docker, tooling...), ou à créer une nouvelle catégorie docs/ si le changement le justifie — et dans ce cas, ajoute le lien dans le README.md ET le CLAUDE.md.")}}'

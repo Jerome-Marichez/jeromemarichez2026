@@ -1,9 +1,9 @@
 ---
 name: create-feat
-description: Démarre une nouvelle fonctionnalité sur jeromemarichez2026 — crée l'issue, la branche feature/<nom> depuis dev à jour, un worktree dédié, et délègue l'implémentation à un subagent dédié travaillant dans ce worktree. À utiliser au début de CHAQUE fonctionnalité (règle CLAUDE.md).
+description: Démarre une nouvelle fonctionnalité sur jeromemarichez-fr — crée l'issue, la branche feature/<nom> depuis dev à jour, un worktree dédié, et délègue l'implémentation à un subagent dédié travaillant dans ce worktree. À utiliser au début de CHAQUE fonctionnalité (règle CLAUDE.md).
 ---
 
-# Nouvelle fonctionnalité — jeromemarichez2026 (`/create-feat`)
+# Nouvelle fonctionnalité — jeromemarichez-fr (`/create-feat`)
 
 Cadre imposé par le `CLAUDE.md` : toute fonctionnalité = **une issue + une branche
 dérivée de `dev` + un worktree dédié + un subagent dédié**. Jamais de commit direct
@@ -31,7 +31,7 @@ principale reste propre et plusieurs fonctionnalités peuvent avancer en parall�
 3. **Créer la branche depuis `dev` à jour + le worktree dédié** :
    ```bash
    git fetch origin
-   git worktree add ../jeromemarichez2026-feature-<nom-court> -b feature/<nom-court-kebab> origin/dev
+   git worktree add ../jeromemarichez-fr-feature-<nom-court> -b feature/<nom-court-kebab> origin/dev
    ```
    La branche est créée directement depuis `origin/dev` et vit dans sa propre copie
    du dépôt — la copie principale n'est pas touchée.
@@ -57,7 +57,7 @@ principale reste propre et plusieurs fonctionnalités peuvent avancer en parall�
 ## Nettoyage (après merge de la PR)
 
 ```bash
-git worktree remove ../jeromemarichez2026-feature-<nom-court>
+git worktree remove ../jeromemarichez-fr-feature-<nom-court>
 git branch -d feature/<nom-court>
 ```
 

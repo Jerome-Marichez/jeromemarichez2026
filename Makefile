@@ -1,4 +1,4 @@
-# Makefile — jeromemarichez2026
+# Makefile — jeromemarichez-fr
 # Interface de commandes unique (local + CI). `make help` liste les cibles.
 
 .DEFAULT_GOAL := help
@@ -18,35 +18,29 @@ lint: ## Biome sur tout le dépôt + limite 300 lignes/fichier
 
 test: test-unit test-int ## Tests unitaires + intégration (rapides)
 
-install: ## Installe les dépendances (front + back)
-	cd front && npm install
-	cd back && npm install
+install: ## Installe les dépendances
+	npm install
 
 dev: ## Démarrage local en mode développement
-	@echo "Deux terminaux : « cd front && npm run dev » et « cd back && npm run dev » — ou make docker-up."
+	npm run dev
 
-build: ## Build de production (front + back)
-	cd front && npm run build
-	cd back && npm run build
+build: ## Build de production
+	npm run build
 
-test-unit: ## Tests unitaires (front + back)
-	cd front && npx jest tests/unitaire --passWithNoTests
-	cd back && npx jest tests/unitaire --passWithNoTests
+test-unit: ## Tests unitaires
+	npx jest tests/unitaire --passWithNoTests
 
-test-int: ## Tests d'intégration (front + back)
-	cd front && npx jest tests/integration --passWithNoTests
-	cd back && npx jest tests/integration --passWithNoTests
-
-test-e2e: ## Tests e2e navigateur (Cypress headless) — stack démarrée au préalable
-	cd front && npx cypress run
-
-test-system: ## Tests système back (vrai serveur HTTP via listen(0))
-	cd back && npx jest tests/systeme --passWithNoTests
-	@echo "Collection Postman rejouable : npx newman run back/tests/systeme/postman_collection.json (stack démarrée)"
+test-int: ## Tests d'intégration
+	npx jest tests/integration --passWithNoTests
 
 test-mutation: ## Tests de mutation (Stryker) — qualité des tests unitaires/intégration
-	cd front && npx stryker run
-	cd back && npx stryker run
+	npx stryker run
+test-e2e: ## Tests e2e navigateur — construit et sert l'export statique, puis Cypress headless
+	node scripts/e2e.mjs
+
+test-system: ## Tests système (vrai serveur HTTP via listen(0))
+	npx jest tests/systeme --passWithNoTests
+	@echo "Collection Postman rejouable : npx newman run tests/systeme/postman_collection.json (stack démarrée)"
 test-acceptance: ## Tests d'acceptation / UAT (runner Node natif)
 	node --test tests/acceptance/
 storybook: ## Storybook en local (http://localhost:6006) — après npx storybook@latest init

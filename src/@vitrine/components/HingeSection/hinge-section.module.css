@@ -1,0 +1,88 @@
+/* hinge-section.module.css — la charnière.
+ * Bande en retrait, filet cuivre vertical qui se trace à l'entrée : c'est le seul
+ * mouvement du site qui porte du sens — la chaîne se trace sous les yeux. */
+
+.charniere {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-3);
+  max-width: 60ch;
+  margin-left: clamp(0rem, 6vw, 5rem);
+  padding: var(--e-5) 0 var(--e-5) var(--e-4);
+  scroll-margin-top: 6rem;
+}
+
+.charniere::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 2px;
+  background: var(--cuivre-vif);
+  transform-origin: top;
+  animation: tracer var(--duree-tracer) var(--courbe-tracer) both;
+}
+
+.kicker {
+  font-family: var(--police-mono-pile);
+  font-weight: 500;
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--cuivre);
+}
+
+.titre {
+  margin: 0;
+}
+
+.texte {
+  font-size: var(--t-1);
+  line-height: 1.45;
+  color: var(--encre-douce);
+}
+
+.reperes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-2);
+  margin: var(--e-1) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.repere {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.6em;
+  font-size: 0.9375rem;
+}
+
+.repereTitre {
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--encre);
+}
+
+.repereTexte {
+  color: var(--encre-douce);
+}
+
+@keyframes tracer {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .charniere::before {
+    animation: none;
+  }
+}

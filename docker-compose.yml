@@ -1,22 +1,11 @@
-# docker-compose.yml — jeromemarichez2026
+# docker-compose.yml — jeromemarichez-fr
 # Stack conteneurisée : make docker-up / make logs / make docker-down.
 # Secrets et variables : .env (gitignoré) — modèle documenté dans .env.example.
 services:
-  front:
-    build: ./front
+  app:
+    build: .
     ports:
-      - "${FRONT_PORT:-3000}:3000"
-    env_file:
-      - path: .env
-        required: false
-    depends_on:
-      - back
-  back:
-    build: ./back
-    ports:
-      - "${BACK_PORT:-3001}:3001"
-    environment:
-      PORT: 3001
+      - "${APP_PORT:-3000}:80"
     env_file:
       - path: .env
         required: false

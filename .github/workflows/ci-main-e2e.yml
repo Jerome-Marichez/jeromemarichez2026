@@ -14,6 +14,7 @@ jobs:
           node-version-file: .nvmrc
       - name: Installation
         run: make install
-      # make test-e2e doit démarrer la stack (front + back) avant Cypress headless.
+      # make test-e2e construit l'export statique, le sert sur E2E_PORT, attend qu'il
+      # réponde, lance Cypress headless puis arrête le serveur (scripts/e2e.mjs).
       - name: Tests e2e
         run: make test-e2e

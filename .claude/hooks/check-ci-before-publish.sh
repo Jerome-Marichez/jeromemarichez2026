@@ -1,5 +1,5 @@
 #!/bin/bash
-# Hook PreToolUse — la pipeline fait foi avant toute publication (jeromemarichez2026)
+# Hook PreToolUse — la pipeline fait foi avant toute publication (jeromemarichez-fr)
 # Trois garde-fous :
 #   1. CONTOURNEMENTS refusés sans condition : --no-verify, [skip ci], -o ci.skip,
 #      gh pr merge --admin, gh workflow disable, gh run cancel, et toute tentative

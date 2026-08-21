@@ -1,5 +1,5 @@
 #!/bin/bash
-# Hook PreToolUse — le test précède le code (jeromemarichez2026)
+# Hook PreToolUse — le test précède le code (jeromemarichez-fr)
 # Deux règles, dans cet ordre :
 #   A. UN TEST EST ÉCRIT PAR LE DÉVELOPPEUR. Toute création/modification d'un
 #      fichier de test par l'assistant est refusée : il expose l'intention
@@ -98,4 +98,4 @@ body_hit=$(grep -rlF "${EXCL[@]}" --include='*.spec.*' --include='*.test.*' --in
   -- "$base" "$root" 2>/dev/null | head -1)
 [ -n "$body_hit" ] && exit 0
 
-ask "TEST D'ABORD — aucun test ne couvre « $base » ($f). Politique jeromemarichez2026 : (1) au moins l'un des trois niveaux — UNITAIRE, INTÉGRATION ou SYSTÈME — couvre le comportement avant que le code existe ; (2) le test est écrit par Jérôme MARICHEZ : expose l'intention (comportement attendu, cas limites, jeu de données réaliste) et le contenu proposé, attends qu'il soit posé ; (3) le code s'adapte au test — ne modifie JAMAIS l'intention d'un test pour le faire passer. Emplacements : docs/testing.md."
+ask "TEST D'ABORD — aucun test ne couvre « $base » ($f). Politique jeromemarichez-fr : (1) au moins l'un des trois niveaux — UNITAIRE, INTÉGRATION ou SYSTÈME — couvre le comportement avant que le code existe ; (2) le test est écrit par Jérôme MARICHEZ : expose l'intention (comportement attendu, cas limites, jeu de données réaliste) et le contenu proposé, attends qu'il soit posé ; (3) le code s'adapte au test — ne modifie JAMAIS l'intention d'un test pour le faire passer. Emplacements : docs/testing.md."

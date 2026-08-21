@@ -1,32 +1,30 @@
-# jeromemarichez2026
+# jeromemarichez-fr
 
 ## Présentation
 
 Site portfolio et vitrine de services de Jérôme Marichez, ingénieur logiciel à Lille :
-**Ingénierie Web**, **Data & IA**, **SEO/SEA**. Domaine visé : **jeromemarichez.fr**.
+**Ingénierie Web**, **Data & IA**, **SEO/SEA**.
 
 Le site raconte un parcours (ingénieur logiciel, 9 ans, passé par la chefferie de projet
 et l'AMOA) et vend trois offres qui s'appuient dessus. Promesse centrale, à faire
-apparaître partout : **un seul interlocuteur humain pour vos projets digitaux, aucune
-sous-traitance** — celui qui cadre est celui qui code, mesure et exploite.
+apparaître partout : **un seul interlocuteur humain pour vos projets digitaux, du cadrage
+au run** — celui qui cadre est celui qui code, mesure et exploite, et il répond de tout.
+La promesse porte sur l'**interlocuteur** et la **responsabilité**, jamais sur l'absence
+totale de tiers : sur un projet dont la taille le demande — c'est rare — Jérôme peut
+s'entourer de prestataires qu'il choisit, cadre et dont il répond.
 
 Le **périmètre éditorial complet** (les trois offres en détail, les preuves chiffrées,
 les certifications, l'arborescence des pages, les contraintes SEO / perf / a11y / RGPD)
 est décrit dans le [`README.md`](./README.md) : c'est la **source de vérité du contenu**.
 Ce fichier-ci porte les règles qui encadrent la façon de l'écrire et de le développer.
 
-**Stack** : TypeScript — front Next.js (App Router) ; back Node.js/TypeScript ; entités
-et schémas **Zod** partagés dans `shared/`.
-
-**Ce projet n'est pas un paquet npm** : rien n'y est publié sur le registre. La règle
-SemVer ci-dessous s'applique donc aux **tags et releases Git** — la mention `npm publish`
-de la règle 9 est sans objet ici.
+**Stack** : TypeScript — Next.js (App Router) (front) ; Node.js/TypeScript (back le cas
+échéant) ; **Zod** pour la validation des entrées.
 
 **Contraintes produit non négociables** : rendu statique ou ISR et métadonnées par page
 (SEO), Lighthouse ≥ 95 sur les 4 catégories, accessibilité RGAA / WCAG AA testée dans
-`tests/acceptance/uat/`, mesure d'audience conforme RGPD avec consentement. Le site est
-la démonstration de ce qu'il vend : un défaut de perf ou d'accessibilité y coûte plus
-cher qu'ailleurs.
+`uat/`, mesure d'audience conforme RGPD avec consentement. Le site est la démonstration
+de ce qu'il vend : un défaut de perf ou d'accessibilité y coûte plus cher qu'ailleurs.
 
 > Projet géré par Jérôme MARICHEZ.
 
@@ -41,6 +39,7 @@ considération marketing.
 
 | Interdit | Formulation juste |
 |----------|-------------------|
+| « aucune sous-traitance », « 0 sous-traitant », toute promesse d'**absence totale de tiers** | **Un seul interlocuteur, du cadrage au run, qui répond de tout.** Aucune couche commerciale, aucun transfert de dossier, l'interlocuteur ne change pas. Sur un projet dont la taille le demande — **c'est rare, et la rareté se dit** — des prestataires viennent en renfort : Jérôme les choisit, les cadre et en répond ; le client ne gère personne d'autre que lui. *(Règle mise à jour à la demande explicite de Jérôme MARICHEZ, issue #40.)* |
 | ISTQB niveau **Avancé** / Automatisation de test | **ISTQB Foundation** uniquement — l'Avancé n'est pas obtenu |
 | Management, lead ou mentorat de **développeurs** | Encadrement d'**équipes marketing / SEO-SEA, de prestataires externes, d'alternants et de stagiaires**. Titre réel : « Lead Tech » chez MailingVox (équipe de 2 devs + 1 PO) |
 | « en collaboration avec l'Universitat de Barcelona » | Méthode d'extraction audio **publiée sur arXiv**, qu'il a **implémentée lui-même** puis industrialisée |
@@ -124,14 +123,12 @@ Le projet suit **toujours** un modèle à deux branches permanentes :
 Référence complète : [`docs/testing.md`](./docs/testing.md). Convention d'emplacement
 **imposée** (un hook bloque toute création hors convention) :
 
-| Niveau | Côté | Emplacement | Nommage | Outil |
-|--------|------|-------------|---------|-------|
-| unitaire | front | `front/tests/unitaire/` | `*.spec.ts(x)` | Jest + React Testing Library |
-| intégration | front | `front/tests/integration/` | `*.integration.spec.ts(x)` | Jest + RTL (vraie frontière HTTP pilotée par fixtures) |
-| e2e | front | `front/tests/e2e/` | `*.cy.ts` | Cypress |
-| unitaire | back | `back/tests/unitaire/` | `*.test.ts` | Jest |
-| intégration | back | `back/tests/integration/` | `*.test.ts` | Jest + Supertest + base de test dédiée |
-| système | back | `back/tests/systeme/` | `*.test.ts` | Jest + vrai serveur HTTP (`listen(0)`) + `fetch` ; collection **Postman** rejouable |
+| Niveau | Emplacement | Nommage | Outil |
+|--------|-------------|---------|-------|
+| unitaire | `tests/unitaire/` | `*.spec.ts(x)` | Jest + React Testing Library |
+| intégration | `tests/integration/` | `*.integration.spec.ts(x)` | Jest + RTL (vraie frontière HTTP pilotée par fixtures) |
+| e2e | `tests/e2e/` | `*.cy.ts` | Cypress |
+| système | `tests/systeme/` | `*.test.ts` | Jest + vrai serveur HTTP (`listen(0)`) + `fetch` ; collection **Postman** rejouable |
 
 **Acceptation / UAT** : `tests/acceptance/` (+ `uat/{disponibilite,securite,performance,robustesse}/`),
 nommage `*.test.js|ts`, runner Node natif (`make test-acceptance`).
@@ -173,10 +170,10 @@ Règles :
 ## Versionnage — Semantic Versioning
 
 Le projet respecte **toujours** la convention **SemVer** (`MAJEUR.MINEUR.CORRECTIF`) :
-version dans `front/package.json` (point de vérité), releases taguées `vX.Y.Z`, incrément
+version dans `package.json` (point de vérité), releases taguées `vX.Y.Z`, incrément
 selon la nature du changement (rupture → majeur, fonctionnalité → mineur,
 correctif → patch). La release est **automatique** : à chaque push sur `main`, la CI
-lit la version de `front/package.json` et crée le tag `vX.Y.Z` + la release s'ils
+lit la version de `package.json` et crée le tag `vX.Y.Z` + la release s'ils
 n'existent pas encore. **Toute modification fusionnée sur `main` DOIT donc bumper la
 version dans le même commit/PR**, sinon aucune release n'est publiée. Les
 **dépendances** sont soumises à la même exigence par le hook `check-new-dependency.sh` :
@@ -210,10 +207,6 @@ indisponible) est **refusé**.
   `src/interfaces/` (un fichier par entité) et leur nom **commence toujours par `I`**
   (`IProduct`, `IUser`…). Les **alias de types purs** (unions, utilitaires) vont dans
   `src/interfaces/types.ts` — uniquement des `type`, jamais d'interface.
-- **`shared/`** : les interfaces d'entités et schémas Zod
-  **partagés entre le front et le back** vivent dans `shared/` à la racine
-  (`shared/interfaces/`, `shared/schemas/`) — **jamais de duplication** d'une même
-  entité côté front et côté back.
 - **Validation des entrées — Zod (obligatoire)** : toute entrée externe (body/query
   d'API, formulaire, webhook, variables d'environnement) est validée par un schéma
   **Zod** avant usage. Les schémas vivent dans `schemas/` (un fichier par entité,
@@ -288,3 +281,13 @@ make lint           # Biome + limite 300 lignes
 make test           # tous les niveaux de tests
 make docker-up      # stack conteneurisée
 ```
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

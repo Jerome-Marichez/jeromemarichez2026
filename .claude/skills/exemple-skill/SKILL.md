@@ -1,9 +1,9 @@
 ---
 name: exemple-skill
-description: Exemple de skill projet pour jeromemarichez2026 — à remplacer par une vraie procédure récurrente (build, déploiement, fix connu). Supprimer ce dossier si inutile.
+description: Exemple de skill projet pour jeromemarichez-fr — à remplacer par une vraie procédure récurrente (build, déploiement, fix connu). Supprimer ce dossier si inutile.
 ---
 
-# Exemple de skill — jeromemarichez2026
+# Exemple de skill — jeromemarichez-fr
 
 Un skill = une **procédure récurrente** du projet, versionnée et rejouable par
 Claude Code via `/exemple-skill`.

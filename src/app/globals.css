@@ -1,0 +1,223 @@
+/* globals.css — jeromemarichez-fr
+ *
+ * Jetons de design et base typographique. Toute valeur de couleur, d'espace ou de
+ * taille utilisée dans un module CSS vient d'ici : aucune couleur ni aucun espacement
+ * en dur dans un composant (docs/design.md).
+ *
+ * Direction « L'Établi » : papier chaud, encre graphite, un seul accent cuivre, et du
+ * verre qui laisse voir la trame technique du fond — la transparence est le sujet.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* — Couleurs, thème clair — */
+  --fond: #f2efe8;
+  --fond-creux: #e7e2d7;
+  --encre: #14171a; /* 15.67:1 sur --fond */
+  --encre-douce: #4a5157; /* 7.02:1 sur --fond */
+  --cuivre: #8f4520; /* 6.02:1 sur --fond — seul accent de texte */
+  --cuivre-vif: #b4623a; /* 3.85:1 — NON-TEXTE : filets, arêtes, traits */
+  --signal: #1f5f52; /* 6.49:1 — disponibilité, coches */
+  --trame: rgba(20, 23, 26, 0.055);
+  --verre-teinte: rgba(255, 255, 255, 0.42);
+  --verre-arete: rgba(143, 69, 32, 0.28);
+  --verre-lueur: rgba(255, 255, 255, 0.7);
+  --fond-degrade-haut: #f7f5f0;
+  --fond-degrade-bas: #ede9e0;
+
+  /* — Typographie — */
+  --police-titre-pile: var(--police-titre), Georgia, "Times New Roman", serif;
+  --police-texte-pile: var(--police-texte), system-ui, -apple-system, sans-serif;
+  /* Pile système, aucune fonte téléchargée. Ce registre ne sert qu'aux étiquettes, aux
+     chiffres et aux rangs, tous composés en capitales espacées : à cette échelle et avec
+     cet interlettrage, le dessin propre à une fonte de labeur ne se distingue pas de
+     celui du monospace du système. `ui-monospace` prend SF Mono sur Apple, les suivants
+     couvrent le reste — tous ont les chiffres à chasse fixe, seule vraie exigence des
+     preuves chiffrées. */
+  --police-mono-pile:
+    ui-monospace, "SFMono-Regular", "SF Mono", "Cascadia Mono", "Segoe UI Mono", "Roboto Mono",
+    "DejaVu Sans Mono", "Liberation Mono", Menlo, Consolas, monospace;
+
+  --t--1: 0.8125rem;
+  --t-0: clamp(1rem, 0.955rem + 0.22vw, 1.125rem);
+  --t-1: clamp(1.1875rem, 1.11rem + 0.38vw, 1.4375rem);
+  --t-2: clamp(1.375rem, 1.24rem + 0.68vw, 1.75rem);
+  --t-3: clamp(1.75rem, 1.5rem + 1.25vw, 2.4375rem);
+  --t-4: clamp(2.375rem, 1.8rem + 2.9vw, 4rem);
+  --t-chiffre: clamp(2.25rem, 1.7rem + 2.6vw, 3.5rem);
+
+  /* — Rythme vertical, base 8 — */
+  --e-1: 0.5rem;
+  --e-2: 0.75rem;
+  --e-3: 1rem;
+  --e-4: 1.5rem;
+  --e-5: 2.5rem;
+  --e-6: 4rem;
+  --e-7: 6.5rem;
+
+  /* — Formes — */
+  --rayon-verre: 18px;
+  --rayon-petit: 8px;
+  --largeur-page: 76rem;
+  --mesure-texte: 64ch;
+
+  /* — Mouvement — */
+  --duree-poser: 420ms;
+  --duree-tracer: 700ms;
+  --courbe-poser: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --courbe-tracer: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fond: #0e1114;
+    --fond-creux: #171b20;
+    --encre: #ece7de; /* 15.38:1 sur --fond */
+    --encre-douce: #9ba3aa; /* 7.41:1 sur --fond */
+    --cuivre: #e08b4c; /* 7.18:1 sur --fond */
+    --cuivre-vif: #f0a468; /* 9.21:1 */
+    --signal: #5fd1ae; /* 10.12:1 */
+    --trame: rgba(236, 231, 222, 0.06);
+    --verre-teinte: rgba(236, 231, 222, 0.07);
+    --verre-arete: rgba(224, 139, 76, 0.32);
+    --verre-lueur: rgba(255, 255, 255, 0.14);
+    --fond-degrade-haut: #14181d;
+    --fond-degrade-bas: #0b0e11;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  /* Positionné pour que `.fond-atelier` prenne la hauteur du DOCUMENT et non celle du
+     viewport : sans cela, la trame technique s'arrête au bas du premier écran. */
+  position: relative;
+  min-height: 100dvh;
+  background-color: var(--fond);
+  color: var(--encre);
+  font-family: var(--police-texte-pile);
+  font-size: var(--t-0);
+  font-feature-settings:
+    "ss01" 1,
+    "cv05" 1;
+  line-height: 1.62;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Le fond d'atelier est un calque peint, séparé du contenu : c'est ce que le verre
+   réfracte. Il est en `absolute` et non `fixed` — liquidGL ignore les éléments fixes,
+   un fond fixe ne serait jamais capturé.
+
+   `z-index: -1` et non `0` : il doit passer sous le contenu SANS que celui-ci ait
+   besoin de son propre contexte d'empilement. Voir la règle `main` ci-dessous, qui
+   explique pourquoi ce détail décide du bon fonctionnement de liquidGL. */
+/* La trame est une TUILE de 32 px répétée, et non deux `repeating-linear-gradient`.
+   La différence ne se voit pas — le dessin est le même au pixel près — mais elle se
+   mesure : un `repeating-linear-gradient` sans `background-size` est généré une fois aux
+   dimensions de son élément, soit ici plus de 9 000 px de haut sur l'accueil, puis
+   capturé tel quel en texture par liquidGL. Avec `background-size: 32px 32px`, le
+   navigateur ne rasterise qu'un carré de 32 px et le répète. */
+.fond-atelier {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--fond-degrade-bas);
+  background-image:
+    linear-gradient(to right, var(--trame) 0 1px, transparent 1px),
+    linear-gradient(to bottom, var(--trame) 0 1px, transparent 1px),
+    radial-gradient(1200px 900px at 22% 8%, var(--fond-degrade-haut), var(--fond-degrade-bas));
+  background-repeat: repeat, repeat, no-repeat;
+  background-size:
+    32px 32px,
+    32px 32px,
+    100% 100%;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--police-titre-pile);
+  font-variation-settings: "opsz" 32;
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--t-4);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  max-width: 20ch;
+}
+
+h2 {
+  font-size: var(--t-3);
+  line-height: 1.14;
+  max-width: 34ch;
+}
+
+h3 {
+  font-size: var(--t-2);
+  line-height: 1.25;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--cuivre);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: text-decoration-thickness 120ms ease-out;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--cuivre);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* `main` ne crée volontairement AUCUN contexte d'empilement.
+ *
+ * liquidGL pose ses canvas directement sur `document.body` : le canvas de réfraction
+ * partagé à `z-index: 0`, et un canvas miroir par lentille à `z-index de la lentille
+ * moins 1`. Pour qu'une surface de verre passe au-dessus de ces deux calques, son
+ * `z-index: 2` doit être comparé dans le contexte RACINE. Un `position: relative;
+ * z-index: 1` sur `main` enfermerait tout le contenu dans un contexte à 1, le miroir
+ * passerait par-dessus, et le texte des panneaux vitrés disparaîtrait — c'est
+ * exactement le défaut que ce commentaire empêche de réintroduire. */
+main {
+  position: static;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}

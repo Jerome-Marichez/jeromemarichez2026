@@ -1,0 +1,29 @@
+/* pole-page-view.module.css — gabarit commun aux trois pages de pôle.
+ * Identique pour les trois, volontairement : trois mises en page différentes
+ * diraient trois prestataires. */
+
+.page {
+  position: relative;
+}
+
+.corps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-7);
+  max-width: var(--largeur-page);
+  margin-inline: auto;
+  padding: 0 var(--e-4) var(--e-7);
+}
+
+.certifications {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-4);
+}
+
+.chapo {
+  max-width: var(--mesure-texte);
+  font-size: var(--t-1);
+  line-height: 1.45;
+  color: var(--encre-douce);
+}

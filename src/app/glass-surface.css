@@ -1,0 +1,60 @@
+/* glass-surface.css — jeromemarichez-fr
+ *
+ * La seule classe globale du site. Elle ne peut pas être un module CSS : liquidGL
+ * retrouve ses lentilles par un sélecteur littéral au montage, un nom haché ne serait
+ * jamais trouvé. Voir `@shared/components/GlassSurface/glass-class.ts`.
+ *
+ * Le panneau est un calque DÉCORATIF ET VIDE, posé derrière le contenu — jamais son
+ * conteneur. liquidGL mute l'élément dont il fait une lentille : `opacity: 0`
+ * (liquidGL.js l. 3397) puis `pointer-events: none` (l. 3419, jamais restauré), et il
+ * efface `background`, `background-image` et `backdrop-filter` en styles en ligne.
+ * Confier du texte ou un lien à cet élément revient à en confier la visibilité et la
+ * cliquabilité à la bibliothèque.
+ *
+ * Quatre contraintes de liquidGL sont tenues ici, et nulle part ailleurs :
+ *   1. toutes les lentilles partagent le MÊME z-index — posé une seule fois ci-dessous,
+ *      n'en redéclarez pas dans un module CSS de composant ;
+ *   2. aucune lentille n'est en `position: fixed` ou `sticky` — la bibliothèque les
+ *      ignore délibérément ;
+ *   3. aucune lentille ne contient de contenu, pour les raisons ci-dessus ;
+ *   4. le rendu reste correct AVANT et SANS le WebGL : le fond ci-dessous n'est pas un
+ *      pis-aller, c'est le rendu par défaut sur mobile, sans WebGL et en mouvement
+ *      réduit, où le moteur n'est jamais amorcé.
+ */
+
+.glass-surface {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: clip;
+  border: 1px solid var(--verre-arete);
+  border-radius: var(--rayon-verre);
+  box-shadow: inset 0 1px 0 var(--verre-lueur);
+  /* Fond translucide PLAT : ni flou, ni promesse au compositeur.
+     C'est le rendu par défaut, celui de tous les petits écrans — et il n'est pas un
+     pis-aller. En dessous de 1024px, liquidGL n'est jamais amorcé (voir
+     `@shared/glass/settings`) : la lentille ne se transforme donc jamais, et rien ne se
+     déplace derrière elle. Un `backdrop-filter` y refloutait une grande surface à chaque
+     image de défilement, et un `will-change: transform` promettait une couche GPU pour
+     un mouvement qui n'arrive pas — deux coûts payés pour un effet que personne ne voit
+     sur un téléphone. */
+  background: color-mix(in srgb, var(--fond) 55%, var(--verre-teinte));
+}
+
+/* Au-dessus du seuil, et là seulement, le verre devient un vrai verre : le flou paie sa
+   place parce que le moteur tourne et que la lentille bouge réellement. */
+@media (min-width: 1024px) {
+  .glass-surface {
+    background: var(--verre-teinte);
+    backdrop-filter: blur(14px) saturate(1.15);
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    will-change: transform;
+  }
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+  .glass-surface {
+    will-change: auto;
+  }
+}

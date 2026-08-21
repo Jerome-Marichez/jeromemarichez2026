@@ -1,0 +1,38 @@
+/* proof-wall.module.css — le mur de preuves. */
+
+.mur {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--e-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tuile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-1);
+  padding-top: var(--e-3);
+  border-top: 2px solid var(--cuivre-vif);
+}
+
+.chiffre {
+  font-family: var(--police-mono-pile);
+  font-weight: 500;
+  font-size: var(--t-chiffre);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--encre);
+}
+
+.libelle {
+  font-size: 1.0625rem;
+  color: var(--encre);
+}
+
+.contexte {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--encre-douce);
+}

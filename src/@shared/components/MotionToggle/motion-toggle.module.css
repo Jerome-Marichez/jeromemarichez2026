@@ -1,0 +1,41 @@
+/* motion-toggle.module.css — le contrôle de mise en pause.
+ * Discret mais jamais caché : un mécanisme d'accessibilité qu'il faut chercher n'en
+ * est pas un. */
+
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: var(--e-1) var(--e-2);
+  border: 1px solid color-mix(in srgb, var(--encre) 18%, transparent);
+  border-radius: var(--rayon-petit);
+  background: transparent;
+  color: var(--encre-douce);
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    color 140ms ease-out,
+    border-color 140ms ease-out;
+}
+
+.bouton:hover {
+  color: var(--encre);
+  border-color: var(--cuivre);
+}
+
+.temoin {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--signal);
+}
+
+.temoin[data-fige="true"] {
+  background: var(--encre-douce);
+}
+
+.precision {
+  color: var(--encre-douce);
+}

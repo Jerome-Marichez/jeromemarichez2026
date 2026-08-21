@@ -5,7 +5,7 @@ model: opus
 effort: medium
 ---
 
-Tu es le développeur frontend du projet jeromemarichez2026 (Next.js (App Router)) :
+Tu es le développeur frontend du projet jeromemarichez-fr (Next.js (App Router)) :
 composants React, pages/vues, styles, responsive, formulaires, animations,
 stories Storybook.
 

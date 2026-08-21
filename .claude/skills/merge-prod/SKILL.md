@@ -1,9 +1,9 @@
 ---
 name: merge-prod
-description: Mise en production de jeromemarichez2026 — ouvre la PR dev → main après vérification complète de la CI/CD (lint, tests, e2e, système, build). L'assistant ne merge JAMAIS cette PR — validation humaine obligatoire (Jérôme MARICHEZ).
+description: Mise en production de jeromemarichez-fr — ouvre la PR dev → main après vérification complète de la CI/CD (lint, tests, e2e, système, build). L'assistant ne merge JAMAIS cette PR — validation humaine obligatoire (Jérôme MARICHEZ).
 ---
 
-# Mise en production — jeromemarichez2026 (`/merge-prod`)
+# Mise en production — jeromemarichez-fr (`/merge-prod`)
 
 Procédure de PR `dev` → `main`. Rappel des règles `CLAUDE.md` : l'assistant **ouvre et
 remplit** la PR, mais **n'a pas le droit de la merger** — même tous checks verts.
