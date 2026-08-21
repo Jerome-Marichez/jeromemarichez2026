@@ -326,6 +326,7 @@ démarrage).
 
 ```bash
 make lint             # Biome + limite 300 lignes/fichier
+make type-check       # types TypeScript (tsc --noEmit), sans émission
 make test             # unitaires + intégration
 make test-unit        # unitaires
 make test-int         # intégration

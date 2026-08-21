@@ -2,7 +2,7 @@
 # Interface de commandes unique (local + CI). `make help` liste les cibles.
 
 .DEFAULT_GOAL := help
-.PHONY: help install dev build lint test test-unit test-int test-mutation
+.PHONY: help install dev build lint type-check test test-unit test-int test-mutation
 .PHONY: test-e2e
 .PHONY: test-system
 .PHONY: test-acceptance
@@ -15,6 +15,9 @@ help: ## Liste les commandes disponibles
 lint: ## Biome sur tout le dépôt + limite 300 lignes/fichier
 	npx @biomejs/biome@^2.0.0 check .
 	./scripts/check-max-lines.sh
+
+type-check: ## Vérification des types TypeScript, sans émission de fichiers
+	npx tsc --noEmit
 
 test: test-unit test-int ## Tests unitaires + intégration (rapides)
 
