@@ -2,25 +2,37 @@
 
 ## Vue d'ensemble
 
-Site **vitrine** : l'essentiel est du contenu éditorial rendu statiquement. Il n'y a ni
-base de données ni authentification — la seule surface dynamique est le formulaire de
-contact.
+Site **vitrine** : tout le contenu est éditorial et rendu statiquement. Il n'y a ni base
+de données, ni authentification, **ni serveur**.
 
 ```
-Visiteur ──► Pages statiques (SSG)          ── contenu des offres, parcours, certifications
-         └─► POST /api/contact (route API)  ── validation Zod ──► envoi du message
+Visiteur ──► Fichiers statiques servis par nginx  ── offres, parcours, preuves, certifications
+         └─► mailto: direct                       ── aucun formulaire, aucun traitement
 ```
 
-**Conséquence structurante** : tout ce qui peut être prérendu l'est. Une page qui exige
-du rendu serveur doit le justifier — c'est la contrainte SEO et performance du
-`README.md` qui commande, et le site est lui-même la démonstration de ce qu'il vend.
+**Conséquence structurante** : `next.config.mjs` porte `output: 'export'`. `next build`
+n'écrit pas un serveur, il écrit un site complet dans `out/`. Ce n'est pas un réglage de
+déploiement, c'est une contrainte d'architecture — elle ferme, définitivement tant qu'elle
+tient :
+
+| Fermé | Pourquoi ça n'est pas un manque ici |
+|-------|-------------------------------------|
+| Routes API (`/api/*`) | Le seul besoin identifié était le formulaire de contact — voir ci-dessous |
+| ISR et revalidation | Le contenu change quand Jérôme le réécrit, donc au build |
+| Server Actions | Même raison : aucune écriture côté serveur |
+| Optimiseur `next/image` | Les images sont optimisées au build, pas à la requête |
+
+**Le formulaire de contact est donc reporté.** L'accueil et le pied de page portent un
+`mailto:` direct, ce qui est cohérent avec la promesse du site — *vous écrivez à la
+personne qui fera le travail*. Le jour où un formulaire s'impose, il faudra soit un
+service tiers, soit un back séparé, soit renoncer à l'export : c'est un arbitrage à
+prendre en connaissance de cause, pas un détail de configuration.
 
 ### Découpage par domaine
 
 | Domaine | Contenu |
 |---------|---------|
 | `src/@vitrine/` | Sections éditoriales : offres, parcours, preuves, certifications |
-| `src/@contact/` | Formulaire, schéma Zod, service d'envoi |
 | `src/@shared/` | Design system, layout, composants transverses, SEO/métadonnées |
 
 Le **contenu éditorial est de la donnée, pas du JSX** : offres, expériences et

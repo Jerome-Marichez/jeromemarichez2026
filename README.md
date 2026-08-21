@@ -271,15 +271,17 @@ confirmée, sans année connue.
 | `/services/data-ia` | Pôle 2 en détail |
 | `/services/sea-ux` | Pôle 3 en détail |
 | `/parcours` | *(pas encore construite)* Parcours d'ingénieur et de chef de projet, formation |
-| `/contact` | *(pas encore construite)* Formulaire (validation Zod) + coordonnées directes. En attendant, l'accueil et le pied de page portent un `mailto:` direct |
+| `/contact` | *(reportée)* L'export statique ferme les routes API : un formulaire exigerait un service tiers ou un back séparé. L'accueil et le pied de page portent un `mailto:` direct, cohérent avec la promesse d'interlocuteur unique |
 
 Chaque page de service porte ses propres métadonnées SEO, ses données structurées
 (`schema.org/Service` et `ProfessionalService`) et un appel à contact contextualisé.
 
 ## ✅ Contraintes produit
 
-- **SEO** : rendu statique ou ISR par défaut, métadonnées et données structurées par
-  page, sitemap et robots générés.
+- **SEO** : **export statique intégral** (`output: 'export'`) — aucune page n'est rendue
+  à la requête. Métadonnées, `canonical` et données structurées par page, sitemap et
+  robots générés. Conséquence assumée : ni route API, ni ISR, ni Server Action
+  (voir [architecture](./docs/architecture.md)).
 - **Performance** : Lighthouse ≥ 95 sur les 4 catégories, Core Web Vitals au vert —
   le site est lui-même la démonstration de ce qui est vendu.
 - **Accessibilité** : RGAA / WCAG AA, testée et non supposée (`uat/`).

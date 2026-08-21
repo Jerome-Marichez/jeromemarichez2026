@@ -1,17 +1,21 @@
 # Dockerfile — jeromemarichez-fr
-# Image multi-stage : build complet puis runtime minimal (règle : docs/docker.md).
-# Générique front/back : `npm run build` puis `npm run start` (scripts du package.json).
+# Image multi-stage : build Next puis serveur de fichiers minimal (règle : docs/docker.md).
+#
+# Le site est en `output: 'export'` (voir next.config.mjs) : `next build` écrit un site
+# complet dans `out/`, et il n'y a plus rien à exécuter au runtime. `next start` ne
+# fonctionne pas sur une sortie exportée — l'image de runtime est donc un nginx qui sert
+# des fichiers, pas un Node qui rend des pages.
 
 FROM node:24-alpine AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM node:24-alpine AS runtime
-ENV NODE_ENV=production
-WORKDIR /app
-COPY --from=build /app ./
-EXPOSE 3000
-CMD ["npm", "run", "start"]
+FROM nginx:1.29-alpine AS runtime
+# `trailingSlash: true` fait sortir chaque route en `<route>/index.html`, que la
+# directive `index` de nginx résout nativement : aucune règle de réécriture à tenir.
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/out /usr/share/nginx/html
+EXPOSE 80

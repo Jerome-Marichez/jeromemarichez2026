@@ -3,6 +3,7 @@
 
 import type { Metadata } from 'next'
 import { StructuredData } from '@/@shared/components/StructuredData'
+import { buildPageMetadata } from '@/@shared/seo/page-metadata'
 import { buildBreadcrumbSchema, buildServiceSchema } from '@/@shared/seo/structured-data'
 import { PAGE_INGENIERIE_WEB } from '@/@vitrine/contenu/ingenierie-web'
 import { findPole } from '@/@vitrine/services/find-pole'
@@ -10,11 +11,7 @@ import { PolePageView } from '@/@vitrine/views/PolePageView'
 
 const { pole, suivant } = findPole('ingenierie-web')
 
-export const metadata: Metadata = {
-  title: PAGE_INGENIERIE_WEB.meta.title,
-  description: PAGE_INGENIERIE_WEB.meta.description,
-  alternates: { canonical: pole.route },
-}
+export const metadata: Metadata = buildPageMetadata(PAGE_INGENIERIE_WEB)
 
 export default function PolePage() {
   return (
