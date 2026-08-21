@@ -7,8 +7,11 @@ Site portfolio et vitrine de services de Jérôme Marichez, ingénieur logiciel 
 
 Le site raconte un parcours (ingénieur logiciel, 9 ans, passé par la chefferie de projet
 et l'AMOA) et vend trois offres qui s'appuient dessus. Promesse centrale, à faire
-apparaître partout : **un seul interlocuteur humain pour vos projets digitaux, aucune
-sous-traitance** — celui qui cadre est celui qui code, mesure et exploite.
+apparaître partout : **un seul interlocuteur humain pour vos projets digitaux, du cadrage
+au run** — celui qui cadre est celui qui code, mesure et exploite, et il répond de tout.
+La promesse porte sur l'**interlocuteur** et la **responsabilité**, jamais sur l'absence
+totale de tiers : sur un projet dont la taille le demande — c'est rare — Jérôme peut
+s'entourer de prestataires qu'il choisit, cadre et dont il répond.
 
 Le **périmètre éditorial complet** (les trois offres en détail, les preuves chiffrées,
 les certifications, l'arborescence des pages, les contraintes SEO / perf / a11y / RGPD)
@@ -36,6 +39,7 @@ considération marketing.
 
 | Interdit | Formulation juste |
 |----------|-------------------|
+| « aucune sous-traitance », « 0 sous-traitant », toute promesse d'**absence totale de tiers** | **Un seul interlocuteur, du cadrage au run, qui répond de tout.** Aucune couche commerciale, aucun transfert de dossier, l'interlocuteur ne change pas. Sur un projet dont la taille le demande — **c'est rare, et la rareté se dit** — des prestataires viennent en renfort : Jérôme les choisit, les cadre et en répond ; le client ne gère personne d'autre que lui. *(Règle mise à jour à la demande explicite de Jérôme MARICHEZ, issue #40.)* |
 | ISTQB niveau **Avancé** / Automatisation de test | **ISTQB Foundation** uniquement — l'Avancé n'est pas obtenu |
 | Management, lead ou mentorat de **développeurs** | Encadrement d'**équipes marketing / SEO-SEA, de prestataires externes, d'alternants et de stagiaires**. Titre réel : « Lead Tech » chez MailingVox (équipe de 2 devs + 1 PO) |
 | « en collaboration avec l'Universitat de Barcelona » | Méthode d'extraction audio **publiée sur arXiv**, qu'il a **implémentée lui-même** puis industrialisée |

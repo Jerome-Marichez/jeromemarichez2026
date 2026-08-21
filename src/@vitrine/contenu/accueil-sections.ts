@@ -8,6 +8,7 @@
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
 import { SECTION_ACCUEIL_DATA_IA } from './accueil-data-ia'
 import { SECTION_FIL_IA } from './fil-ia'
+import { SECTION_RENFORTS } from './renforts'
 
 export const SECTIONS_ACCUEIL: IEditorialSection[] = [
   // Le fil ouvre la chaîne : la méthode se lit avant les pôles, sinon le lecteur
@@ -237,4 +238,9 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
       },
     ],
   },
+  // Les deux faces d'un même risque : au-dessus, l'interlocuteur unique qui pourrait
+  // manquer ; ici, le projet qui devient trop gros pour lui. Dire la seconde après la
+  // première évite que la promesse se lise comme « personne d'autre ne travaillera sur
+  // votre projet », ce qu'elle n'a jamais eu le droit de promettre.
+  SECTION_RENFORTS,
 ]

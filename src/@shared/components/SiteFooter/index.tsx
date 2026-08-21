@@ -19,8 +19,9 @@ export function SiteFooter() {
       <div className={styles.contenu}>
         <div className={styles.appel}>
           <p className={styles.promesse}>
-            Un seul interlocuteur, du cadrage au run. Décrivez votre situation, je vous dis ce que
-            j'en ferais — et si ce n'est pas pour moi, je vous le dis aussi.
+            Un seul interlocuteur, du cadrage au run, et il répond de tout. Décrivez votre
+            situation, je vous dis ce que j'en ferais — et si ce n'est pas pour moi, je vous le dis
+            aussi.
           </p>
           <a className={styles.contact} href={`mailto:${SITE_IDENTITY.email}`}>
             {SITE_IDENTITY.email}

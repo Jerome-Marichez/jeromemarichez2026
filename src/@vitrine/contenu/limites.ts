@@ -10,10 +10,12 @@ import type { IBoundary } from '@/interfaces/IBoundary'
 
 export const LIMITES: IBoundary[] = [
   {
-    hors: 'Aucune sous-traitance, aucune couche commerciale',
+    hors: 'Aucune couche commerciale, aucun transfert de dossier',
     alaPlace:
       "Vous parlez à la personne qui écrit le code. C'est la même du cadrage au run, " +
-      "sur les trois pôles — c'est tout ce que ce site vend.",
+      'sur les trois pôles. Si la taille du projet demande un renfort — c’est rare — je ' +
+      'choisis le prestataire, je le cadre et j’en réponds : votre interlocuteur, lui, ' +
+      'ne change pas.',
   },
   {
     hors: 'Pas de cluster Kubernetes administré en propre',
