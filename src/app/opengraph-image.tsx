@@ -9,12 +9,16 @@
 // feuille de style, donc sans variable CSS à résoudre. Elles suivent `globals.css`.
 
 import { ImageResponse } from 'next/og'
+import { OG_IMAGE_ALT, OG_IMAGE_SIZE, OG_IMAGE_TYPE } from '@/@shared/seo/open-graph'
 import { SITE_IDENTITY, SITE_PROMESSE } from '@/@shared/seo/site'
 import { POLES_NAV } from '@/@vitrine/contenu/poles-nav'
 
-export const alt = `${SITE_IDENTITY.nom}, ${SITE_IDENTITY.titre.toLowerCase()} à ${SITE_IDENTITY.ville}. ${SITE_PROMESSE}`
-export const size = { width: 1200, height: 630 }
-export const contentType = 'image/png'
+// Alt, dimensions et type MIME viennent de `open-graph.ts`, qui sert aussi à décrire
+// cette image dans les métadonnées de chaque page. Les redéclarer ici les laisserait
+// diverger de ce que les réseaux sociaux croient recevoir.
+export const alt = OG_IMAGE_ALT
+export const size = OG_IMAGE_SIZE
+export const contentType = OG_IMAGE_TYPE
 
 // `output: 'export'` exige que les routes de métadonnées soient déclarées statiques.
 export const dynamic = 'force-static'

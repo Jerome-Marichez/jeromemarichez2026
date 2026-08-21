@@ -54,6 +54,49 @@ prendre en connaissance de cause, pas un détail de configuration.
 - **Le blog n'est pas un pôle**, et la navigation le dit : il occupe un bloc distinct de
   la liste numérotée de la chaîne, dans l'en-tête comme dans le pied de page.
 
+### Métadonnées : la fusion de Next est **de surface**
+
+C'est le piège le plus coûteux de l'App Router, parce qu'il est silencieux : rien
+n'échoue, ni au build ni au lint. Next fusionne les objets `metadata` des segments d'une
+route **en surface**. Un champ imbriqué — `openGraph`, `robots`, `twitter` — déclaré par
+un segment enfant **remplace intégralement** celui du layout ; il ne le complète pas.
+
+Une page qui n'exportait que son URL de partage :
+
+```ts
+openGraph: { url: page.route }   // ✗ efface og:image, og:site_name et og:locale
+```
+
+perdait donc le visuel et l'identité du site posés par `src/app/layout.tsx`. Partagée sur
+un réseau social, elle sortait en **lien nu** — sans image et sans nom de site (issue
+#60). Le défaut ne se voit pas dans le code source de la page : il ne se constate que
+dans le HTML généré.
+
+Les règles qui en découlent :
+
+- **`src/@shared/seo/open-graph.ts` porte le socle** (`SITE_OPEN_GRAPH` : `type`,
+  `locale`, `siteName`, `images`). C'est la parade recommandée par Next : sortir les
+  champs communs dans une constante et l'étaler dans chaque segment qui surcharge
+  `openGraph`.
+- **Le socle s'étale dans le constructeur commun, jamais page par page.** Les deux
+  fonctions de `@shared/seo/page-metadata` (`buildPageMetadata` et
+  `buildArticleMetadata`) écrivent `{ ...SITE_OPEN_GRAPH, url: … }`, et toutes les pages
+  passent par elles. Une route ajoutée demain hérite sans y penser — c'est la seule
+  raison pour laquelle ces constructeurs existent.
+- **Ce qui est propre à la page vient après le spread** : `url` toujours, `type:
+  'article'` et les dates pour un billet de blog.
+- **Une seule déclaration de l'image.** Alt, dimensions et type MIME vivent dans
+  `open-graph.ts` ; `src/app/opengraph-image.tsx` les importe pour dessiner la vignette.
+  L'image produite et ce que les métadonnées en annoncent ne peuvent donc pas diverger.
+- **`openGraph.images` échappe à `trailingSlash`.** Next n'applique cette règle qu'à
+  `openGraph.url` ; les images sont seulement résolues contre `metadataBase`. Le chemin
+  `/opengraph-image` tombe donc bien sur le fichier produit par l'export, qui n'a ni
+  extension ni barre finale — et que `docker/nginx.conf` doit typer à la main, faute de
+  suffixe à lire.
+- **La vérification se fait sur le HTML généré**, jamais sur le code source :
+  `make build`, puis inspecter les balises `og:` de `out/<route>/index.html`. Une page
+  de référence qui ne surcharge rien (`out/404.html`) sert de témoin.
+
 ### Découpage par domaine
 
 | Domaine | Contenu |
