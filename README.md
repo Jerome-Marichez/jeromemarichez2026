@@ -270,11 +270,19 @@ confirmée, sans année connue.
 | `/services/ingenierie-web` | Pôle 1 en détail |
 | `/services/data-ia` | Pôle 2 en détail |
 | `/services/sea-ux` | Pôle 3 en détail |
+| `/blog` | Liste des articles, du plus récent au plus ancien |
+| `/blog/<slug>` | Un article. Une page statique par article, générée au build par `generateStaticParams` |
 | `/parcours` | *(pas encore construite)* Parcours d'ingénieur et de chef de projet, formation |
 | `/contact` | *(reportée)* L'export statique ferme les routes API : un formulaire exigerait un service tiers ou un back séparé. L'accueil et le pied de page portent un `mailto:` direct, cohérent avec la promesse d'interlocuteur unique |
 
 Chaque page de service porte ses propres métadonnées SEO, ses données structurées
 (`schema.org/Service` et `ProfessionalService`) et un appel à contact contextualisé.
+
+Le **blog** n'est pas un quatrième pôle et la navigation le sépare de la chaîne : ce sont
+des notes courtes sur des décisions techniques réelles. Chaque article porte ses propres
+métadonnées, un `schema.org/BlogPosting`, un fil d'Ariane `Accueil → Blog → article` et sa
+**date** — c'est la seule partie du site dont le sitemap publie une date par page. Le
+modèle de l'entité est décrit dans [`docs/data-model.md`](./docs/data-model.md).
 
 ## ✅ Contraintes produit
 
