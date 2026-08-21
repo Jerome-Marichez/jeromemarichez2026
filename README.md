@@ -250,15 +250,25 @@ que l'absence de lien. Les millésimes ont été arbitrés par Jérôme le **202
 Google Ads en 2021 (le CV Tracking Specialist indiquait 2022) et Microsoft Ads
 confirmée, sans année connue.
 
-| Certification | Année | Lien officiel |
-|---------------|-------|---------------|
-| Claude with Google Cloud's Vertex AI | 2026 | *à fournir* |
-| ISTQB **Foundation** (niveau Avancé **non** obtenu) | 2026 | *à fournir* |
-| Google Analytics Individual Qualification (GAIQ) | 2021 | *à fournir* |
-| Google Ads | 2021 | *à fournir* |
-| Microsoft Ads | — | *à fournir* |
-| WeLoveDev — Top 5 % React | 2023 | *à fournir* |
-| EF SET — Anglais B2 (CECRL) | — | *à fournir* |
+Une certification **se montre, elle ne se commente pas** : le rendu est un logo, un
+intitulé, un millésime — pas de paragraphe d'apport. Ce que chacune change dans la
+prestation se dit dans les sections de pôle, à leur place, une fois.
+
+| Certification | Année | Lien officiel | Logo |
+|---------------|-------|---------------|------|
+| Claude with Google Cloud's Vertex AI | 2026 | *à fournir* | `google-cloud.svg` |
+| ISTQB **Foundation** (niveau Avancé **non** obtenu) | 2026 | *à fournir* | *à fournir* |
+| Google Analytics Individual Qualification (GAIQ) | 2021 | *à fournir* | `google-analytics.svg` |
+| Google Ads | 2021 | *à fournir* | `google-ads.svg` |
+| Microsoft Ads | — | *à fournir* | *à fournir* |
+| WeLoveDev — Top 5 % React | 2023 | *à fournir* | *à fournir* |
+| EF SET — Anglais B2 (CECRL) | — | *à fournir* | *à fournir* |
+
+Les logos suivent la **même règle que les justificatifs** : aucun fichier inventé, aucune
+image cassée. Tant qu'un logo manque, la certification s'affiche en toutes lettres. La
+provenance, la licence et la base d'usage de chaque fichier déposé sont consignées dans
+[`public/certifications/LISEZMOI.md`](./public/certifications/LISEZMOI.md), qui liste aussi
+ce qu'il faut réunir pour les quatre logos manquants.
 
 ---
 

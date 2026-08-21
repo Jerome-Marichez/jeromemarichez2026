@@ -1,11 +1,21 @@
 /* certification-list.module.css — les certifications.
+ *
+ * Le logo est l'élément dominant : la plaque vient en premier et tient la hauteur,
+ * l'intitulé et le millésime suivent en deux lignes courtes. Il n'y a plus de
+ * paragraphe d'apport (issue #49).
+ *
  * Aucun justificatif n'étant publié à ce jour, la liste s'affiche entièrement sans
  * lien. Le style ne simule donc pas de lien : rien n'est souligné ni coloré en
- * cuivre tant qu'il n'y a pas de cible réelle. */
+ * cuivre tant qu'il n'y a pas de cible réelle.
+ *
+ * Aucune valeur de couleur en dur : les deux qui subsistaient (`#fbfaf7` sur la plaque
+ * et `#4a5157` sur le repli) sont passées aux jetons de `globals.css`. La seconde était
+ * la valeur *claire* de `--encre-douce` figée en dur : sur une plaque qui suit le
+ * thème, elle serait devenue du gris sombre sur fond sombre. */
 
 .liste {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
   gap: var(--e-4);
   margin: 0;
   padding: 0;
@@ -20,19 +30,20 @@
   border-top: 1px solid color-mix(in srgb, var(--encre) 12%, transparent);
 }
 
-/* La plaque : hauteur fixe pour tous les organismes, sinon sept logos de ratios
-   différents transforment la grille en escalier. Le fond reste clair dans les deux
-   thèmes — les logos de marque sont dessinés pour un fond clair et les inverser
-   contreviendrait aux chartes d'usage de leurs propriétaires. */
+/* La plaque : hauteur fixe pour tous les organismes, sinon des logos de ratios
+   différents transforment la grille en escalier. C'est un creux dans le papier —
+   `--fond-creux` — donc elle suit le thème. Les logos déposés sont des glyphes d'une
+   seule couleur, dans la couleur officielle de leur marque : ils tiennent sur le fond
+   clair comme sur le fond sombre, et ne sont jamais ni recolorés ni inversés. */
 .plaque {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  height: 3rem;
+  justify-content: center;
+  min-height: 4.5rem;
   margin-bottom: var(--e-2);
-  padding: 0 var(--e-3);
+  padding: var(--e-2) var(--e-3);
   border-radius: var(--rayon-petit);
-  background: #fbfaf7;
+  background: var(--fond-creux);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--encre) 10%, transparent);
 }
 
@@ -40,47 +51,37 @@
   width: auto;
   max-width: 100%;
   height: auto;
-  max-height: 1.75rem;
+  max-height: 2.5rem;
   object-fit: contain;
 }
 
-/* Repli lisible tant qu'aucun fichier n'est déposé : le nom de l'organisme tient la
-   place exacte du futur logo, donc la mise en page ne bougera pas en l'ajoutant. */
+/* Repli tant qu'aucun fichier n'est déposé : le nom de l'organisme tient la place
+   exacte du futur logo, donc la mise en page ne bougera pas en l'ajoutant. Il passe à
+   la ligne au lieu d'être tronqué — « International Software Testing Qualifications
+   Board » coupé par une ellipse ne dit plus rien à personne. */
 .sigle {
-  overflow: hidden;
   font-family: var(--police-mono-pile);
   font-size: var(--t--1);
+  line-height: 1.35;
+  text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: #4a5157;
+  text-wrap: balance;
+  color: var(--encre-douce);
 }
 
 .intitule {
   font-family: var(--police-titre-pile);
   font-variation-settings: "opsz" 18;
   font-weight: 600;
-  font-size: 1.0625rem;
+  font-size: var(--t-0);
   line-height: 1.25;
 }
 
-.organisme {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6em;
+.annee {
   font-family: var(--police-mono-pile);
   font-size: var(--t--1);
+  font-variant-numeric: tabular-nums;
   letter-spacing: 0.04em;
-  color: var(--encre-douce);
-}
-
-.annee {
   color: var(--cuivre);
-}
-
-.apport {
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  color: var(--encre-douce);
 }
