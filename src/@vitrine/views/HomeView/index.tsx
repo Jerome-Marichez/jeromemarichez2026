@@ -13,7 +13,7 @@ import { PAGE_ACCUEIL, THESE_CHAINE } from '../../contenu/accueil'
 import { CERTIFICATIONS } from '../../contenu/certifications'
 import { LIMITES } from '../../contenu/limites'
 import { PREUVES } from '../../contenu/preuves'
-import { selectGlassSectionIds } from '../../services/glass-policy'
+import { MAX_GLASS_ACCUEIL, selectGlassSectionIds } from '../../services/glass-policy'
 import styles from './home-view.module.css'
 
 /**
@@ -22,7 +22,7 @@ import styles from './home-view.module.css'
  * qui distinguent une prise en charge continue d'un catalogue de trois prestations.
  */
 export function HomeView() {
-  const verre = selectGlassSectionIds(PAGE_ACCUEIL.sections)
+  const verre = selectGlassSectionIds(PAGE_ACCUEIL.sections, MAX_GLASS_ACCUEIL)
 
   return (
     <div className={styles.page}>

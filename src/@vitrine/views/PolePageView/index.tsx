@@ -8,7 +8,7 @@ import { CertificationList } from '../../components/CertificationList'
 import { EditorialSection } from '../../components/EditorialSection'
 import { PoleHero } from '../../components/PoleHero'
 import { selectCertificationsByPole } from '../../contenu/select-certifications'
-import { selectGlassSectionIds } from '../../services/glass-policy'
+import { MAX_GLASS_PAGE_POLE, selectGlassSectionIds } from '../../services/glass-policy'
 import styles from './pole-page-view.module.css'
 
 interface PolePageViewProps {
@@ -26,7 +26,7 @@ interface PolePageViewProps {
  * différentes auraient dit trois prestataires.
  */
 export function PolePageView({ pole, page, suivant }: PolePageViewProps) {
-  const verre = selectGlassSectionIds(page.sections)
+  const verre = selectGlassSectionIds(page.sections, MAX_GLASS_PAGE_POLE)
   const certifications = selectCertificationsByPole(pole.id)
 
   return (
