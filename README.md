@@ -35,7 +35,7 @@ continue, où chaque pôle passe explicitement la main au suivant :
 | | Pôle | Ce qu'il fait | Ce qu'il remet au suivant |
 |---|------|---------------|---------------------------|
 | 1 | **Ingénierie web** | construire le site, le SaaS, l'application mobile — et les exploiter | un produit **en production**, donc mesuré : le run fait naître le besoin de data |
-| 2 | **Data & IA** | mettre la donnée au propre, puis y brancher les modèles et les LLM | une donnée **clarifiée**, donc arbitrable |
+| 2 | **Data & IA** | comprendre le métier, bâtir ou reprendre la stratégie data, gouverner — puis choisir la solution, IA ou non | un métier **formalisé** et une donnée **gouvernée**, donc arbitrables |
 | 3 | **SEA & UX** | trancher les parcours et les budgets sur cette donnée, puis implémenter | la modification **retourne au pôle 1** — même personne, aucun transfert de dossier |
 
 Les deux jointures — appelées **charnières** dans le site — sont traitées comme des
@@ -90,39 +90,84 @@ bout. Elle mobilise toutes les compétences du parcours.
 
 ### 2. Data & IA
 
-Mettre l'IA **en production**, dans des produits vendus, avec les contraintes qui vont
-avec : coût d'inférence, latence, RGPD, disponibilité. Pas dans des notebooks.
+**L'ordre est le contenu.** Ce pôle ne part pas de la technique, il y arrive. On
+comprend d'abord le métier, on traite ensuite la stratégie data, puis la gouvernance et
+le droit — et seulement alors on choisit la solution. Toute réécriture qui remettrait la
+technique en tête viderait l'offre de son sens : la solution technique **répond** au
+problème métier posé au départ, elle ne le précède jamais, et **elle n'est pas toujours
+de l'IA**.
 
-- **LLM en production** — Claude (Vertex AI, API Anthropic), OpenAI, Gemini, Llama.
-  Context engineering, comparaison continue des modèles et arbitrage
-  **coût / latence / qualité / confidentialité** par cas d'usage.
-- **Adaptation de modèles** — fine-tuning de **Llama 3** sur corpus métier pour
-  l'application mobile *Prézage*, complété par un procédé maison d'augmentation du
-  contexte proche du RAG. Objectif métier tenu : charge de travail des prestataires
-  réduite.
-- **RAG documentaire** — réponse automatisée aux tickets de support de niveau 1 sur
-  l'ensemble des produits : recherche vectorielle PostgreSQL + API OpenAI, réponses
-  ancrées sur la documentation interne et non sur la mémoire du modèle.
+**1. Comprendre le métier — une prestation à part entière, pas une étape préparatoire.**
+
+- **Faire émerger les règles métier existantes** — celles que les équipes appliquent
+  sans les avoir formalisées : recueil auprès de ceux qui les appliquent, mise par
+  écrit, confrontation à l'historique. *Preuve : AMOA de la startup biotech Artedrone,
+  besoin recueilli auprès des équipes scientifiques et dirigeantes et traduit en
+  spécifications exploitables par des prestataires non spécialistes ; BPMN 2.0,
+  cartographie SI.*
+- **Découvrir les profils de clients** — profilage par clustering (KNN) sur les données
+  réelles, restitution visuelle pensée pour la décision.
+- **Découvrir les insights métier** — reprise de l'historique, analyse exploratoire sous
+  Orange Data Mining, pondération et sélection des variables, élimination des
+  corrélations fortes et du bruit. *Preuve : analyse de l'historique des inscriptions
+  ayant abouti à des règles anti-fraude — fraude en baisse, conversion en hausse.*
+- **Livrable propre** : ce que la donnée dit de l'activité, les règles formalisées, les
+  profils identifiés, les questions sans réponse. Le client peut s'arrêter là.
+
+**2. La stratégie data — la déployer, ou s'appuyer sur celle qui existe.**
+
+- **Quand rien n'est en place** — définition des indicateurs à partir des questions du
+  métier, plan de collecte, pipelines d'ingestion, modélisation : PostgreSQL
+  (relationnel, séries temporelles, vectoriel), MySQL, Firebase.
+- **Quand la donnée existe** — reprise de l'existant, agrégation et réconciliation
+  multi-sources, dédoublonnage des identités, contrôles d'intégrité et de véracité dès
+  l'ingestion, détection d'anomalies. La qualité est un **prérequis**, pas un correctif.
+  *Preuve : système d'analyse multi-sources conforme RGPD mesurant la rentabilité client
+  à long terme, branché sur Google Ads et Bing Ads.*
+
+**3. Gouvernance et législation — avant la technique, jamais après.**
+
+- **Qui possède quoi** — cartographie des sources et de leur propriété, ce qui peut
+  sortir de chez le client et ce qui doit y rester.
+- **Ce qui a le droit d'être collecté et traité** — RGPD, base légale, consentement
+  (CMP, déclenchement conditionnel des tags par catégorie), cadrage des traitements avec
+  le juridique. *Preuve : conformité RGPD et DORA tenue en appels d'offres grands
+  comptes (distribution, assurance, banque) ; cadrage RGPD des données clients chez un
+  e-commerçant de joaillerie.*
+- **La contrainte oriente la solution** — une donnée qui ne peut pas sortir écarte
+  d'office un service tiers et ramène l'arbitrage entre modèle open-weight hébergé et
+  règle explicite.
+
+**4. La solution technique — et pas toujours de l'IA.**
+
+- **Une règle métier suffit souvent** — moins chère à faire tourner, plus facile à
+  expliquer à un régulateur, plus simple à corriger qu'un modèle. Intégrée aux systèmes
+  existants, c'est un **livrable complet**. *Preuve : règles anti-fraude définies puis
+  implémentées dans le produit — fraude en baisse, conversion des inscriptions en
+  hausse, latence réduite ; flux commande, stock et facturation modélisés en BPMN puis
+  intégrés entre un ERP et un site marchand — survente évitée sur des pièces uniques.*
+- **Machine learning** — supervisé (classification, réseaux de neurones) ou non
+  supervisé selon ce que la donnée permet. Modèle supervisé anticipant les échecs de
+  dépôt vocal, en production (TensorFlow, inférence en cloud functions) : extraction des
+  caractéristiques du signal audio selon une méthode publiée sur **arXiv**, implémentée
+  par Jérôme lui-même, adaptée aux données réelles puis industrialisée. *Preuve : routes
+  vocales coûteuses évitées.*
+- **LLM, quand le problème est du langage** — Claude (Vertex AI, API Anthropic), OpenAI,
+  Gemini, Llama. Context engineering, comparaison continue et arbitrage
+  **coût / latence / qualité / confidentialité** par cas d'usage. Fine-tuning de
+  **Llama 3** sur corpus métier pour l'application mobile *Prézage*, complété par un
+  procédé maison d'augmentation du contexte proche du RAG. *Preuve : charge de travail
+  des prestataires réduite.*
+- **RAG documentaire, fait maison** — réponse automatisée aux tickets de support de
+  niveau 1 : recherche vectorielle PostgreSQL + API OpenAI, réponses ancrées sur la
+  documentation interne et non sur la mémoire du modèle. **Aucun framework tiers.**
 - **Agents & interopérabilité** — conception, développement **et documentation** de
   serveurs **MCP** et de plugins **n8n / Make / Zapier** : le produit devient appelable
   par un agent IA ou un scénario no-code chez le client.
-- **Machine learning** — modèle supervisé anticipant les échecs de dépôt vocal, en
-  production (TensorFlow, inférence en cloud functions) : extraction des
-  caractéristiques du signal audio selon une méthode publiée sur **arXiv** par
-  l'Universitat de Barcelona, implémentée, adaptée aux données réelles puis
-  industrialisée. Routes vocales coûteuses évitées.
-- **Data mining & règles métier** — analyse exploratoire sous Orange Data Mining,
-  pondération et sélection des variables, élimination des corrélations fortes et du
-  bruit, puis règles implémentées dans le produit. *Preuve : fraude en baisse,
-  conversion des inscriptions en hausse, latence réduite.*
-- **Data engineering** — pipelines d'ingestion, nettoyage, dédoublonnage, agrégation et
-  réconciliation multi-sources. La qualité de la donnée est traitée comme un
-  **prérequis**, pas comme un correctif : contrôles d'intégrité et de véracité dès
-  l'ingestion, détection d'anomalies.
 - **MLOps & cloud** — déploiement, versioning et monitoring de modèles, CI/CD Docker et
-  GitHub Actions, Vertex AI, Pub/Sub, Cloud Run, VM auto-scalées.
-- **Conformité** — RGPD et DORA, exigés en appels d'offres grands comptes
-  (distribution, assurance, banque).
+  GitHub Actions, Vertex AI, Pub/Sub, Cloud Run, cloud functions, VM Compute Engine
+  auto-scalées. **Pas de cluster Kubernetes administré en propre** — l'absence se dit
+  telle quelle.
 
 ### 3. SEA & UX
 
