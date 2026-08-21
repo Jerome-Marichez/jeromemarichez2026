@@ -26,10 +26,7 @@
 .promesse {
   max-width: 48ch;
   font-family: var(--police-titre-pile);
-  font-variation-settings:
-    "SOFT" 0,
-    "WONK" 0,
-    "opsz" 24;
+  font-variation-settings: "opsz" 24;
   font-size: var(--t-2);
   line-height: 1.3;
 }

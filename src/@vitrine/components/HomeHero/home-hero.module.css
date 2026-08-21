@@ -128,9 +128,11 @@
   margin: 0;
 }
 
-/* La scène est un décor : en dessous de 1024px elle est simplement retirée du flux.
-   Rien n'est perdu — elle ne porte aucune information que le texte ne dise déjà — et
-   le budget mobile n'a pas à payer un contexte WebGL. */
+/* La scène est désormais du SVG animé en `transform` seul : elle ne coûte plus de
+   contexte WebGL, donc plus rien ne justifie de la retirer aux petits écrans. Elle passe
+   sous le discours, centrée et bornée en largeur pour ne pas manger l'écran, et le
+   contrôle de mise en pause la suit — c'est lui qui doit rester atteignable partout où
+   la scène bouge. */
 @media (max-width: 1023px) {
   .seuil {
     grid-template-columns: minmax(0, 1fr);
@@ -139,6 +141,9 @@
   }
 
   .volume {
-    display: none;
+    align-items: center;
+    width: 100%;
+    max-width: 20rem;
+    margin-inline: auto;
   }
 }

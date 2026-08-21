@@ -9,10 +9,7 @@
   margin-top: var(--e-3);
   padding-left: var(--e-4);
   font-family: var(--police-titre-pile);
-  font-variation-settings:
-    "SOFT" 0,
-    "WONK" 0,
-    "opsz" 24;
+  font-variation-settings: "opsz" 24;
   font-size: var(--t-1);
   line-height: 1.4;
   color: var(--encre);
