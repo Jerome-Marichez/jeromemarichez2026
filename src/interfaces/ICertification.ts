@@ -12,6 +12,12 @@ import type { PoleId } from './types'
  *
  * `annee` est également optionnelle : mieux vaut afficher une certification sans
  * millésime qu'un millésime approximatif.
+ *
+ * L'entité ne porte **aucune prose**. Une certification se montre — logo, intitulé,
+ * millésime — elle ne se commente pas : le paragraphe d'apport qui accompagnait
+ * chacune d'elles a été retiré à la demande de Jérôme MARICHEZ (issue #49). Ce que la
+ * certification change dans la prestation se dit dans les sections de pôle, à leur
+ * place, une fois.
  */
 export interface ICertification {
   /** Intitulé exact tel qu'il figure sur le justificatif. */
@@ -30,9 +36,4 @@ export interface ICertification {
   logo?: ICertificationLogo
   /** Pôle auquel la certification apporte sa crédibilité, ou `transverse`. */
   pole: PoleId | 'transverse'
-  /**
-   * Ce que la certification change concrètement dans la prestation.
-   * Une certification sans effet énonçable est une ligne de CV, pas un argument.
-   */
-  apport: string
 }
