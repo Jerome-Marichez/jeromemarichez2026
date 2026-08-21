@@ -18,6 +18,7 @@ export const POLE_ORDER = [
   'ingenierie-web',
   'data-ia',
   'sea-ux',
+  'pole-inexistant',
 ] as const satisfies readonly PoleId[]
 
 /** Toutes les routes indexables, dans l'ordre de priorité. */
