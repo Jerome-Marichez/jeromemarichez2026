@@ -2,6 +2,7 @@
 // Ouverture d'une page de pôle : où l'on est dans la chaîne, et vers où l'on va.
 
 import Link from 'next/link'
+import { Breadcrumb } from '@/@shared/components/Breadcrumb'
 import { ROUTES } from '@/@shared/routes'
 import type { IPole } from '@/interfaces/IPole'
 import styles from './pole-hero.module.css'
@@ -19,11 +20,7 @@ interface PoleHeroProps {
 export function PoleHero({ pole, suivant }: PoleHeroProps) {
   return (
     <section aria-labelledby="pole-titre" className={styles.hero}>
-      <nav aria-label="Fil d'Ariane" className={styles.ariane}>
-        <Link href={ROUTES.accueil}>Accueil</Link>
-        <span aria-hidden="true"> / </span>
-        <span aria-current="page">{pole.nom}</span>
-      </nav>
+      <Breadcrumb fil={[{ nom: pole.nom, route: pole.route }]} />
 
       <p className={styles.rang}>
         <span aria-hidden="true" className={styles.numero}>

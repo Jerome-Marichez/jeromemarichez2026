@@ -9,12 +9,8 @@
   padding: var(--e-6) var(--e-4) var(--e-5);
 }
 
-.ariane {
-  font-family: var(--police-mono-pile);
-  font-size: var(--t--1);
-  letter-spacing: 0.06em;
-  color: var(--encre-douce);
-}
+/* Le fil d'Ariane a été extrait dans @shared/components/Breadcrumb : il est désormais
+   partagé avec les pages du blog, et ses styles sont colocalisés avec lui. */
 
 .rang {
   display: flex;

@@ -24,7 +24,7 @@ export default function PolePage() {
             description: PAGE_INGENIERIE_WEB.meta.description,
             route: pole.route,
           }),
-          buildBreadcrumbSchema({ nom: pole.nom, route: pole.route }),
+          buildBreadcrumbSchema([{ nom: pole.nom, route: pole.route }]),
         ]}
       />
     </>
