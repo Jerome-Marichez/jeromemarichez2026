@@ -128,9 +128,20 @@ chaque route en `<route>/index.html`. `serve-out.mjs` applique exactement les r�
 statique qui ignorerait cette règle ferait échouer les specs pour la mauvaise raison.
 La traversée de répertoire hors de `out/` est refusée.
 
+## Vérification des types
+
+`make type-check` exécute `tsc --noEmit` : le compilateur vérifie tout le dépôt sans
+écrire un seul fichier. Ce n'est pas un niveau de test — c'est le filet qui attrape ce
+qu'aucun test ne voit (unions fermées, `satisfies`, signatures) — mais il tourne au même
+titre qu'eux, dans le job `ci-dev-types` de toute PR vers `dev`, et il **fait échouer la
+PR**. `cypress.config.ts` et `tests/e2e` en sont exclus par `tsconfig.json` : leurs types
+Cypress chargent le `expect()` de Chai, qui écrase celui de Jest et casserait la
+compilation des tests unitaires. Cypress type-vérifie ses specs de son côté.
+
 ## Commandes
 
 ```bash
+make type-check       # types TypeScript (tsc --noEmit), sans émission de fichiers
 make test             # unitaires + intégration
 make test-unit        # unitaires (Jest)
 make test-int         # intégration (Jest)

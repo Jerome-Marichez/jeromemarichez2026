@@ -6,13 +6,22 @@ Deux familles de pipelines, alignées sur le [workflow Git](./git-workflow.md) :
 
 | Déclencheur | Workflows | Objectif |
 |-------------|-----------|----------|
-| **PR → `dev`** | `ci-dev-lint`, `ci-dev-tests` | Checks **rapides** : lint (Biome + limite 300 lignes), tests unitaires et intégration. |
+| **PR → `dev`** | `ci-dev-lint`, `ci-dev-types`, `ci-dev-tests` | Checks **rapides** : lint (Biome + limite 300 lignes), vérification des types, tests unitaires et intégration. |
 | **PR → `main`** | `ci-main-e2e`, `ci-main-system`, `ci-main-build` | Checks **complets** avant production : e2e navigateur, tests système, build. |
 
 ## Jobs
 
 - **lint** : `make lint` — Biome sur tout le dépôt + `scripts/check-max-lines.sh`
   (échec si un fichier source dépasse **300 lignes**).
+- **type-check (dev)** : `make type-check` — `tsc --noEmit`, vérification des types
+  **sans émission de fichiers**. Un type faux fait échouer la PR vers `dev`, là où il
+  n'était auparavant détecté qu'au `make build` de `ci-main-build`, au moment de la mise
+  en production. Le job est **séparé de `ci-dev-lint`** parce qu'il exécute `make install`
+  au préalable : `tsc` a besoin des types de Next, React et Jest, quand `ci-dev-lint`
+  tourne volontairement sans installation (Biome via `npx`). Le périmètre est celui de
+  `tsconfig.json` : `cypress.config.ts` et `tests/e2e` restent **exclus** — les types de
+  Cypress y chargent le `expect()` de Chai, qui écrase celui de Jest ; Cypress
+  type-vérifie ses propres specs.
 - **tests (dev)** : unitaires + intégration, front et back.
 - **e2e (main)** : `make test-e2e` — le harnais `scripts/e2e.mjs` construit l'export
   statique si `out/` manque, le sert sur `127.0.0.1:E2E_PORT` (4173 par défaut) avec les
