@@ -42,11 +42,15 @@ export const PREUVES: IProof[] = [
       'Les décisions techniques sont les miennes et je les assume en production. Chez ' +
       'MailingVox : équipe de 3, sans QA ni équipe data dédiées.',
   },
+  // Seule tuile dont le chiffre n'est pas repris d'un CV : c'est la promesse elle-même,
+  // et elle porte sur l'interlocuteur, pas sur l'absence de tiers (voir la section
+  // « renforts » de l'accueil).
   {
-    chiffre: '0',
-    libelle: 'sous-traitant',
+    chiffre: '1',
+    libelle: 'interlocuteur, du cadrage au run',
     contexte:
-      'Celui qui cadre est celui qui code, qui mesure et qui exploite. C’est la seule ' +
-      'raison pour laquelle les trois pôles tiennent ensemble.',
+      'Celui qui cadre est celui qui code, qui mesure et qui exploite. Aucune couche ' +
+      'commerciale, aucun transfert de dossier — et si un renfort devient nécessaire, ' +
+      'c’est moi qui le choisis et qui en réponds.',
   },
 ]

@@ -14,11 +14,12 @@ import { SECTIONS_ACCUEIL } from './accueil-sections'
 
 /** Le seuil : promesse, et trois chiffres pour qu'elle ne reste pas un slogan. */
 export const HERO_ACCUEIL = {
-  titre: "Je construis, j'exploite, je mesure. Seul, du cadrage au run.",
+  titre: "Je construis, j'exploite, je mesure. Le même interlocuteur, du cadrage au run.",
   chapo:
     'Ingénieur logiciel à Lille, 9 ans. Un seul interlocuteur pour votre produit ' +
-    'digital, aucune sous-traitance : celui qui cadre est celui qui code, qui mesure ' +
-    'et qui exploite. Vous parlez à la personne qui fait le travail.',
+    'digital, du cadrage au run : celui qui cadre est celui qui code, qui mesure et ' +
+    'qui exploite. Vous parlez à la personne qui fait le travail, et c’est elle qui ' +
+    'répond de tout.',
   // Le fil IA se dit dès le seuil, sinon il se découvre au pôle 2 et se lit comme une
   // offre. Formulation tenue par les règles de véracité : l'IA instruit et produit, le
   // test décide — jamais l'inverse.
@@ -28,7 +29,9 @@ export const HERO_ACCUEIL = {
   jetons: [
     { chiffre: '3', libelle: 'migrations sans interruption de service' },
     { chiffre: '98/100', libelle: 'Lighthouse sur la plateforme SaaS livrée' },
-    { chiffre: '0', libelle: 'sous-traitant' },
+    // Le troisième jeton dit la promesse, pas l'absence de tiers : ce qui est garanti,
+    // c'est un interlocuteur unique et une responsabilité unique, du cadrage au run.
+    { chiffre: '1', libelle: 'interlocuteur, du cadrage au run' },
   ],
 } as const
 
@@ -52,7 +55,7 @@ export const PAGE_ACCUEIL: IEditorialPage = {
     title: 'Jérôme Marichez — Ingénieur logiciel à Lille',
     description:
       'Ingénierie web, data & IA, SEA & UX : un seul interlocuteur du cadrage au run, ' +
-      'sans sous-traitance. Conception, développement et pilotage avec l’IA. Lille et ' +
+      'qui répond de tout. Conception, développement et pilotage avec l’IA. Lille et ' +
       'Hauts-de-France.',
   },
   sections: SECTIONS_ACCUEIL,
