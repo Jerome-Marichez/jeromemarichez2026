@@ -99,13 +99,42 @@ sous le seuil `break`). Lancer : `make test-mutation`.
 - **Couverture** : seuil défini dans la config de test — la CI échoue en dessous.
   <!-- TODO : fixer le seuil (ex. 90 %). -->
 
+## Harnais e2e — l'export statique servi en local
+
+Le site est en **export statique** (`output: 'export'`) : il n'y a ni back, ni route
+API, ni serveur applicatif. La « stack » des tests e2e se réduit donc à **servir le
+dossier `out/`**. Tout est piloté par `scripts/e2e.mjs`, appelé par `make test-e2e` —
+en local comme dans le workflow `ci-main-e2e` :
+
+1. **build si nécessaire** : `npm run build` si `out/index.html` manque ;
+2. **serveur statique** : `scripts/serve-out.mjs` sert `out/` sur `127.0.0.1:E2E_PORT`
+   (**4173** par défaut), sans aucune dépendance — `node:http` suffit ;
+3. **attente réelle** : le harnais sonde `GET /` jusqu'à obtenir une réponse HTTP
+   (30 s max). Jamais de `sleep` arbitraire ;
+4. **Cypress headless** : `npx cypress run` (les arguments passés à `scripts/e2e.mjs`
+   lui sont transmis, ex. `--spec`) ;
+5. **arrêt propre garanti** : le serveur est fermé dans un `finally` et sur
+   `SIGINT`/`SIGTERM` — aucun processus orphelin, même quand les tests échouent. Le
+   **code de sortie reste celui de Cypress** : aucun échec n'est absorbé.
+
+`cypress.config.ts` dérive son `baseUrl` du même `E2E_PORT` : le port ne peut pas
+diverger entre le serveur et le navigateur.
+
+**Résolution des URL identique à la production.** `trailingSlash: true` fait sortir
+chaque route en `<route>/index.html`. `serve-out.mjs` applique exactement les règles de
+`docker/nginx.conf` (`try_files $uri $uri/ =404`, `index index.html`,
+`error_page 404 /404.html`) : un dossier est servi par son `index.html`, un dossier sans
+`index.html` et une URL inconnue renvoient **404** avec la page `404.html`. Un serveur
+statique qui ignorerait cette règle ferait échouer les specs pour la mauvaise raison.
+La traversée de répertoire hors de `out/` est refusée.
+
 ## Commandes
 
 ```bash
 make test             # unitaires + intégration
 make test-unit        # unitaires (Jest)
 make test-int         # intégration (Jest)
-make test-e2e         # Cypress headless
+make test-e2e         # build + export statique servi + Cypress headless + arrêt du serveur
 make test-system      # système (Jest + fetch ; collection Postman rejouable)
 make test-mutation    # Stryker (score de mutation)
 make test-acceptance  # acceptation / UAT
