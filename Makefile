@@ -35,8 +35,8 @@ test-int: ## Tests d'intégration
 
 test-mutation: ## Tests de mutation (Stryker) — qualité des tests unitaires/intégration
 	npx stryker run
-test-e2e: ## Tests e2e navigateur (Cypress headless) — stack démarrée au préalable
-	npx cypress run
+test-e2e: ## Tests e2e navigateur — construit et sert l'export statique, puis Cypress headless
+	node scripts/e2e.mjs
 
 test-system: ## Tests système (vrai serveur HTTP via listen(0))
 	npx jest tests/systeme --passWithNoTests

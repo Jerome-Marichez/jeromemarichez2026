@@ -14,7 +14,12 @@ Deux familles de pipelines, alignées sur le [workflow Git](./git-workflow.md) :
 - **lint** : `make lint` — Biome sur tout le dépôt + `scripts/check-max-lines.sh`
   (échec si un fichier source dépasse **300 lignes**).
 - **tests (dev)** : unitaires + intégration, front et back.
-- **e2e (main)** : stack démarrée puis Cypress headless.
+- **e2e (main)** : `make test-e2e` — le harnais `scripts/e2e.mjs` construit l'export
+  statique si `out/` manque, le sert sur `127.0.0.1:E2E_PORT` (4173 par défaut) avec les
+  règles de résolution de `docker/nginx.conf`, **attend que le port réponde** (sonde
+  HTTP, pas de `sleep`), lance Cypress headless, puis arrête le serveur — y compris en
+  cas d'échec, sans processus orphelin. Le code de sortie du harnais est celui de
+  Cypress : aucun échec n'est absorbé. Détail : [testing](./testing.md).
 - **système (main)** : vrai serveur HTTP + client réel.
 - **build (main)** : build de production (front et back), artefacts vérifiés.
 
