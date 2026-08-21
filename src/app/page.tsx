@@ -1,5 +1,8 @@
 // src/app/page.tsx — jeromemarichez-fr
-// Squelette : remplacer par la vraie page d'accueil (composée depuis src/views/).
+// Routage seul : la page d'accueil est composée dans src/@vitrine/views/HomeView.
+
+import { HomeView } from '@/@vitrine/views/HomeView'
+
 export default function HomePage() {
-  return <h1>jeromemarichez-fr</h1>
+  return <HomeView />
 }

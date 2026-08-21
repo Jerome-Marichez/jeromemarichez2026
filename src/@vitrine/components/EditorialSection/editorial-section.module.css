@@ -1,0 +1,49 @@
+/* editorial-section.module.css — une section de contenu. */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-5);
+  scroll-margin-top: 6rem;
+}
+
+.entete {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-2);
+}
+
+.kicker {
+  font-family: var(--police-mono-pile);
+  font-weight: 500;
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--cuivre);
+}
+
+.titre {
+  margin: 0;
+}
+
+.chapo {
+  max-width: var(--mesure-texte);
+  font-size: var(--t-1);
+  line-height: 1.45;
+  color: var(--encre-douce);
+}
+
+.blocs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+  gap: var(--e-4);
+}
+
+/* Variante vitrée : la section est posée sur le fond d'atelier, et le verre laisse
+   voir la trame se plier au niveau du biseau. Le rembourrage vit dans le composant
+   `GlassSurface` — ici, seule la largeur de mesure change, le texte d'un panneau
+   pouvant occuper toute sa largeur. */
+.verre .chapo,
+.verre .blocs {
+  max-width: none;
+}

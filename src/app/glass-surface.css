@@ -1,0 +1,55 @@
+/* glass-surface.css — jeromemarichez-fr
+ *
+ * La seule classe globale du site. Elle ne peut pas être un module CSS : liquidGL
+ * retrouve ses lentilles par un sélecteur littéral au montage, un nom haché ne serait
+ * jamais trouvé. Voir `@shared/components/GlassSurface/glass-class.ts`.
+ *
+ * Le panneau est un calque DÉCORATIF ET VIDE, posé derrière le contenu — jamais son
+ * conteneur. liquidGL mute l'élément dont il fait une lentille : `opacity: 0`
+ * (liquidGL.js l. 3397) puis `pointer-events: none` (l. 3419, jamais restauré), et il
+ * efface `background`, `background-image` et `backdrop-filter` en styles en ligne.
+ * Confier du texte ou un lien à cet élément revient à en confier la visibilité et la
+ * cliquabilité à la bibliothèque.
+ *
+ * Quatre contraintes de liquidGL sont tenues ici, et nulle part ailleurs :
+ *   1. toutes les lentilles partagent le MÊME z-index — posé une seule fois ci-dessous,
+ *      n'en redéclarez pas dans un module CSS de composant ;
+ *   2. aucune lentille n'est en `position: fixed` ou `sticky` — la bibliothèque les
+ *      ignore délibérément ;
+ *   3. aucune lentille ne contient de contenu, pour les raisons ci-dessus ;
+ *   4. le rendu reste correct AVANT et SANS le WebGL : le fond ci-dessous n'est pas un
+ *      pis-aller, c'est le rendu par défaut sur mobile, sans WebGL et en mouvement
+ *      réduit, où le moteur n'est jamais amorcé.
+ */
+
+.glass-surface {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: clip;
+  border: 1px solid var(--verre-arete);
+  border-radius: var(--rayon-verre);
+  background: var(--verre-teinte);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  box-shadow: inset 0 1px 0 var(--verre-lueur);
+  will-change: transform;
+}
+
+/* Safari devient instable dès qu'une lentille dépasse la moitié du viewport, et le
+   moteur n'est de toute façon pas amorcé en dessous de 1024px (voir
+   `@shared/glass/settings`). Le panneau se contente alors du fond ci-dessus, allégé :
+   `backdrop-filter` sur un grand bloc coûte cher sur mobile pour un effet peu visible. */
+@media (max-width: 1023px) {
+  .glass-surface {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-surface {
+    will-change: auto;
+  }
+}

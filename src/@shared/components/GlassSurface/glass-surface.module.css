@@ -1,0 +1,25 @@
+/* glass-surface.module.css — le cadre et le contenu d'une surface de verre.
+ * Le panneau de verre lui-même est stylé globalement (src/app/glass-surface.css) :
+ * liquidGL le retrouve par un sélecteur littéral, un nom haché serait introuvable. */
+
+/* Pas de `z-index` ici, et surtout pas d'`isolation: isolate` : le cadre ne doit
+   créer AUCUN contexte d'empilement, sinon le z-index du panneau et celui du contenu
+   ne se compareraient plus à ceux des canvas que liquidGL pose sur `body`. */
+.cadre {
+  position: relative;
+}
+
+/* z-index 3 : au-dessus du panneau de verre (2), des canvas miroirs de liquidGL
+   (z-index de la lentille moins 1, donc 1) et du canvas de réfraction (0). C'est ce
+   qui garantit que le texte reste net et cliquable quoi que fasse la bibliothèque. */
+.contenu {
+  position: relative;
+  z-index: 3;
+  padding: var(--e-5);
+}
+
+@media (max-width: 720px) {
+  .contenu {
+    padding: var(--e-4) var(--e-3);
+  }
+}

@@ -1,11 +1,32 @@
 # Architecture
 
-<!-- TODO : compléter à mesure que le projet prend forme. -->
-
 ## Vue d'ensemble
 
-Décrire ici : les grands blocs (front React, back API, base de données), leurs
-responsabilités et les flux entre eux (schéma bienvenu).
+Site **vitrine** : l'essentiel est du contenu éditorial rendu statiquement. Il n'y a ni
+base de données ni authentification — la seule surface dynamique est le formulaire de
+contact.
+
+```
+Visiteur ──► Pages statiques (SSG)          ── contenu des offres, parcours, certifications
+         └─► POST /api/contact (route API)  ── validation Zod ──► envoi du message
+```
+
+**Conséquence structurante** : tout ce qui peut être prérendu l'est. Une page qui exige
+du rendu serveur doit le justifier — c'est la contrainte SEO et performance du
+`README.md` qui commande, et le site est lui-même la démonstration de ce qu'il vend.
+
+### Découpage par domaine
+
+| Domaine | Contenu |
+|---------|---------|
+| `src/@vitrine/` | Sections éditoriales : offres, parcours, preuves, certifications |
+| `src/@contact/` | Formulaire, schéma Zod, service d'envoi |
+| `src/@shared/` | Design system, layout, composants transverses, SEO/métadonnées |
+
+Le **contenu éditorial est de la donnée, pas du JSX** : offres, expériences et
+certifications vivent dans des structures typées (`src/interfaces/`, une entité par
+fichier, préfixe `I`) que les composants consomment. Ajouter une certification ou une
+offre ne doit pas demander de toucher au rendu.
 
 ## Front (Next.js (App Router) + TypeScript)
 
@@ -50,4 +71,9 @@ responsabilités et les flux entre eux (schéma bienvenu).
 
 | Choix | Alternatives considérées | Justification |
 |-------|--------------------------|---------------|
-| _TODO_ | | |
+| **Next.js (App Router)** | Vite + React, Astro | Rendu statique et métadonnées par page nativement, stratégie de rendu arbitrable route par route — exactement l'argument SEO vendu dans l'offre. C'est aussi la stack mise en avant sur le site : la cohérence compte. |
+| **Rendu statique (SSG) par défaut** | SSR systématique | Contenu éditorial quasi figé. Coût serveur nul, TTFB minimal, Core Web Vitals au vert sans effort d'optimisation ultérieur. |
+| **Pas de base de données** | CMS headless (Strapi), Notion API | Le contenu change quelques fois par an et n'a qu'un seul auteur. Le versionner dans le dépôt le rend relisible en revue de PR et supprime une dépendance d'exploitation. À réévaluer si la publication devient fréquente. |
+| **Contenu typé en TypeScript** | Fichiers Markdown / MDX | Les entités (offre, expérience, certification) ont une forme stricte que le typage fait respecter — un lien de certification manquant devient une erreur de compilation, pas une page publiée avec un lien mort. |
+| **Zod sur `/api/contact`** | Validation manuelle | Seule entrée externe du site, donc seule surface d'attaque : elle est validée à la frontière, type dérivé par `z.infer`. |
+| **Hébergement** | _à trancher_ | Vercel (affinité Next.js, previews par PR) ou le VPS Hetzner existant. Décision à prendre avant la première mise en production. |

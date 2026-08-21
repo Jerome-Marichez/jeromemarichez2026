@@ -1,0 +1,49 @@
+/* hinge-note.module.css — la charnière.
+ * Le filet vertical cuivre est le seul mouvement du site qui porte du sens : la
+ * chaîne se trace. Il est purement décoratif au sens accessibilité — les lecteurs
+ * d'écran n'entendent que la phrase. */
+
+.charniere {
+  position: relative;
+  max-width: 54ch;
+  margin-top: var(--e-3);
+  padding-left: var(--e-4);
+  font-family: var(--police-titre-pile);
+  font-variation-settings:
+    "SOFT" 0,
+    "WONK" 0,
+    "opsz" 24;
+  font-size: var(--t-1);
+  line-height: 1.4;
+  color: var(--encre);
+}
+
+.charniere::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 2px;
+  background: var(--cuivre-vif);
+  transform-origin: top;
+  animation: tracer var(--duree-tracer) var(--courbe-tracer) both;
+}
+
+.texte {
+  display: block;
+}
+
+@keyframes tracer {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .charniere::before {
+    animation: none;
+  }
+}

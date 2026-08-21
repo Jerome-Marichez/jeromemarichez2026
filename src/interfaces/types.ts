@@ -3,5 +3,18 @@
 // Les entités métier sont des interfaces (IXxx) dans des fichiers dédiés de ce dossier.
 // Convention : docs/architecture.md.
 
-// export type EntityId = number
-// export type Statut = 'actif' | 'inactif'
+/** Les trois pôles vendus par le site, dans l'ordre de la chaîne. */
+export type PoleId = 'ingenierie-web' | 'data-ia' | 'sea-ux'
+
+/** Rang du pôle dans la chaîne : construire, exploiter et mesurer, arbitrer. */
+export type PoleRank = 1 | 2 | 3
+
+/**
+ * Nature d'une section éditoriale.
+ * `charniere` désigne les deux sections qui passent la main d'un pôle au suivant :
+ * elles portent le récit de continuité et se rendent différemment des autres.
+ * `fil` désigne un axe transverse — une méthode qui traverse les trois pôles au lieu
+ * de s'intercaler entre deux. Un `fil` ne reçoit jamais le verre : le vitrer en ferait
+ * une quatrième offre, alors qu'il décrit la façon de tenir les trois autres.
+ */
+export type SectionKind = 'accroche' | 'pole' | 'charniere' | 'fil' | 'preuves' | 'contact'
