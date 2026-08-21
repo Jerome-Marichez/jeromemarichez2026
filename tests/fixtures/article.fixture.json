@@ -1,0 +1,93 @@
+{
+  "_lisezmoi": "Jeu de données d'articles (jeromemarichez-fr) — PAS un mock. Les vrais services (find-article, buildSitemapEntries, buildArticleSchema, formatDateFr) tournent sur ces articles réalistes ; aucune doublure de module n'est utilisée. Voir docs/testing.md et docs/data-model.md.",
+  "_cas": {
+    "articles": "Trois articles dans un ordre de déclaration volontairement différent de l'ordre chronologique : le plus récent est déclaré en deuxième position. Un tri absent ou inversé se voit immédiatement.",
+    "articleRevise": "Porte une dateRevision postérieure à sa publication — c'est la date que le sitemap et dateModified doivent publier, alors que le tri de la liste doit continuer à s'appuyer sur datePublication.",
+    "articleSeul": "Liste réduite à un article : findArticle doit rendre un tableau 'autres' vide, et la page ne propose alors aucune suite de lecture.",
+    "slugInconnu": "Slug absent de la liste : findArticle doit lever, jamais rendre undefined."
+  },
+  "articles": [
+    {
+      "slug": "premier-article",
+      "titre": "Premier article",
+      "chapo": "Le plus ancien des trois. Il ferme la liste quel que soit l'ordre de déclaration.",
+      "meta": {
+        "title": "Premier article",
+        "description": "Article de jeu de données, publié le 3 mars 2026."
+      },
+      "datePublication": "2026-03-03",
+      "sections": [
+        {
+          "id": "une-section",
+          "titre": "Une section",
+          "paragraphes": ["Un premier paragraphe.", "Un second paragraphe."]
+        }
+      ]
+    },
+    {
+      "slug": "article-le-plus-recent",
+      "titre": "Article le plus récent",
+      "chapo": "Publié en dernier, déclaré en deuxième : c'est lui qui doit ouvrir la liste.",
+      "meta": {
+        "title": "Article le plus récent",
+        "description": "Article de jeu de données, publié le 1er septembre 2026."
+      },
+      "datePublication": "2026-09-01",
+      "sections": [
+        {
+          "id": "une-section",
+          "titre": "Une section",
+          "paragraphes": ["Un paragraphe."]
+        },
+        {
+          "id": "une-autre-section",
+          "titre": "Une autre section",
+          "paragraphes": ["Un paragraphe.", "Un autre paragraphe."]
+        }
+      ]
+    },
+    {
+      "slug": "article-revise",
+      "titre": "Article révisé",
+      "chapo": "Publié entre les deux autres, révisé après. Le tri ne doit pas le remonter.",
+      "meta": {
+        "title": "Article révisé",
+        "description": "Article de jeu de données, publié le 12 juin 2026 et révisé le 20 août 2026."
+      },
+      "datePublication": "2026-06-12",
+      "dateRevision": "2026-08-20",
+      "sections": [
+        {
+          "id": "une-section",
+          "titre": "Une section",
+          "paragraphes": ["Un paragraphe."]
+        }
+      ]
+    }
+  ],
+  "articleSeul": [
+    {
+      "slug": "seul-article",
+      "titre": "Seul article",
+      "chapo": "Unique article de la liste : rien à proposer ensuite.",
+      "meta": {
+        "title": "Seul article",
+        "description": "Article de jeu de données, seul de sa liste."
+      },
+      "datePublication": "2026-01-15",
+      "sections": [
+        {
+          "id": "une-section",
+          "titre": "Une section",
+          "paragraphes": ["Un paragraphe."]
+        }
+      ]
+    }
+  ],
+  "slugInconnu": "article-qui-n-existe-pas",
+  "datesAFormater": [
+    { "iso": "2026-08-21", "attendu": "21 août 2026" },
+    { "iso": "2026-01-01", "attendu": "1 janvier 2026" },
+    { "iso": "2026-12-31", "attendu": "31 décembre 2026" }
+  ]
+}
