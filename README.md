@@ -8,7 +8,14 @@ ingénierie web, data & IA, SEA & UX.
 Le site a deux fonctions et une seule promesse. Il **raconte un parcours** — ingénieur
 logiciel, 9 ans, passé par la chefferie de projet et l'AMOA — et il **vend une chaîne à trois pôles**
 qui s'appuie dessus. La promesse : *un seul interlocuteur humain pour vos projets
-digitaux, aucune sous-traitance*. Celui qui cadre est celui qui code, mesure et exploite.
+digitaux, du cadrage au run*. Celui qui cadre est celui qui code, mesure et exploite —
+et il répond de tout.
+
+Ce que la promesse **n'engage pas** : l'absence totale de tiers. Sur un projet dont la
+taille le demande — c'est rare — Jérôme s'entoure de prestataires qu'il choisit, qu'il
+cadre et dont il répond. Le client, lui, ne gère personne d'autre que lui : aucune couche
+commerciale, aucun transfert de dossier, l'interlocuteur ne change pas. La page d'accueil
+le dit explicitement dans la section « Et si le projet dépasse une personne ? ».
 
 ---
 
@@ -17,6 +24,7 @@ digitaux, aucune sous-traitance*. Celui qui cadre est celui qui code, mesure et 
 | Ce qui est vendu | Ce qui le rend crédible |
 |------------------|-------------------------|
 | Un interlocuteur unique, pas une chaîne de prestataires | 9 ans en petite équipe ou en autonomie complète, décisions techniques assumées en production |
+| Une responsabilité unique, même quand un renfort est nécessaire | Encadrement de prestataires externes déjà exercé (équipe marketing de 5 à 10 personnes et 3 prestataires chez Truffle Capital, SEA/SEO/SMA chez Verhoeven Joaillier) et spécifications écrites pour des tiers extérieurs au domaine (AMOA Artedrone) |
 | Du conseil qui va jusqu'au run | Trois migrations majeures menées sans interruption de service |
 | De la décision simplifiée, pas des tableaux de bord de plus | Double casquette rare : développeur produit **et** pilote d'acquisition |
 | De la mesure conforme | RGPD et DORA tenus en appels d'offres grands comptes |
@@ -258,7 +266,7 @@ confirmée, sans année connue.
 
 | Route | Rôle |
 |-------|------|
-| `/` | Accroche, promesse d'interlocuteur unique, le fil IA transverse, la chaîne complète (3 pôles + 2 charnières), preuves chiffrées, limites assumées, certifications, appel à contact |
+| `/` | Accroche, promesse d'interlocuteur unique, le fil IA transverse, la chaîne complète (3 pôles + 2 charnières), preuves chiffrées, limites assumées, certifications, les deux objections traitées (« et si je disparais ? » et « et si le projet dépasse une personne ? »), appel à contact |
 | `/services/ingenierie-web` | Pôle 1 en détail |
 | `/services/data-ia` | Pôle 2 en détail |
 | `/services/sea-ux` | Pôle 3 en détail |
