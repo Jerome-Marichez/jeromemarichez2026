@@ -1,0 +1,44 @@
+/* article-card.module.css — un article dans une liste.
+ * Pas de panneau ni de bordure : un filet supérieur suffit à séparer, et la liste
+ * reste une suite de textes plutôt qu'une grille de vignettes. */
+
+.carte {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-1);
+  padding-top: var(--e-3);
+  border-top: 1px solid color-mix(in srgb, var(--encre) 12%, transparent);
+}
+
+.date {
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  letter-spacing: 0.06em;
+  color: var(--encre-douce);
+}
+
+.titre {
+  margin: 0;
+  max-width: var(--mesure-texte);
+  font-size: var(--t-2);
+  line-height: 1.25;
+}
+
+.lien {
+  color: var(--encre);
+  text-decoration: none;
+}
+
+.lien:hover,
+.lien:focus-visible {
+  color: var(--cuivre);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.chapo {
+  max-width: var(--mesure-texte);
+  font-size: var(--t-1);
+  line-height: 1.45;
+  color: var(--encre-douce);
+}
