@@ -41,45 +41,49 @@
 }
 
 .socle {
-  animation: deriver-dalle 11s var(--courbe-poser) infinite alternate;
+  animation: deriver-dalle 19s var(--courbe-poser) infinite alternate;
 }
 
 .passage {
-  animation: deriver-dalle 9s var(--courbe-poser) -3s infinite alternate;
+  animation: deriver-dalle 15s var(--courbe-poser) -5s infinite alternate;
 }
 
 /* Les deux sœurs partagent CETTE règle, entièrement. Même durée, même courbe, même
    amplitude : rien dans leur mouvement ne peut se lire comme un ordre. Seul le déphasage
    ci-dessous les désynchronise, et un déphasage n'a ni premier ni second. */
 .suite {
-  animation: deriver-dalle 8s var(--courbe-poser) infinite alternate;
+  animation: deriver-dalle 13s var(--courbe-poser) infinite alternate;
 }
 
 .suiteDecalee {
-  animation-delay: -4s;
+  animation-delay: -7s;
 }
 
 .groupe {
   transform-box: fill-box;
   transform-origin: center;
-  animation: respirer-groupe 14s var(--courbe-poser) infinite alternate;
+  animation: respirer-groupe 24s var(--courbe-poser) infinite alternate;
 }
 
-/* Les amplitudes étaient de deux à trois pixels sur treize à vingt-quatre secondes :
-   la scène ne passait pas inaperçue, elle passait INVISIBLE. Sur un portable large, une
-   dérive de 2,5 px étalée sur dix-neuf secondes se situe sous le seuil de perception du
-   mouvement — le décor coûtait son poids sans rien rendre.
-   Les valeurs sont donc relevées **à la demande explicite de Jérôme MARICHEZ** : environ
-   trois fois l'amplitude, environ moitié moins de durée. On reste dans le registre de la
-   dérive lente — rien ne traverse le cadre, rien ne clignote — mais le mouvement se voit
-   maintenant du coin de l'œil, ce qui est tout ce qu'on lui demande. Les unités
-   s'entendent dans le `viewBox` (420 × 360), pas en pixels d'écran. */
+/* Amplitudes délibérément minuscules : la scène doit se remarquer si on la regarde et
+   passer inaperçue si on lit le texte à côté. Au-delà de deux ou trois pixels, un décor
+   en périphérie du champ devient une distraction pendant la lecture du `h1`.
+   Ces valeurs ont été relevées une fois (7 × 9 px sur 8 à 11 s) pour rendre le mouvement
+   perceptible, et le résultat a été jugé mauvais à l'écran : quatre plaques qui glissent
+   de sept pixels chacune à des rythmes différents ne lisent pas comme du volume, elles
+   lisent comme un défaut d'alignement. Le mouvement se voyait, et c'est précisément
+   pour ça qu'il devenait laid. Retour aux valeurs d'origine.
+   Ce qu'il faut retenir pour la prochaine tentative : rendre cette scène vivante ne
+   passe PAS par une translation plus grande. Une dérive de dalle est un moyen d'ajouter
+   de la profondeur, pas d'attirer l'œil ; ce qui peut attirer l'œil sans casser
+   l'alignement, c'est le filet — une variation de lueur le long de la tenue, qui est
+   l'élément que la scène veut faire lire. */
 @keyframes deriver-dalle {
   from {
     transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translate3d(-7px, -9px, 0);
+    transform: translate3d(-2.5px, -3.5px, 0);
   }
 }
 
@@ -88,7 +92,7 @@
     transform: translate3d(0, 0, 0) scale(1);
   }
   to {
-    transform: translate3d(4px, 0, 0) scale(1.022);
+    transform: translate3d(1.5px, 0, 0) scale(1.008);
   }
 }
 
