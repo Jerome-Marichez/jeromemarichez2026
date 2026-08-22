@@ -2,23 +2,51 @@
 // Quelles sections reçoivent le verre réfractant, et combien au maximum.
 
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
+import type { SectionKind } from '@/interfaces/types'
 
 /**
- * Plafond de surfaces vitrées par page.
+ * Les natures de section qui peuvent recevoir le verre.
  *
- * liquidGL tient une trentaine de lentilles, mais chacune lit la même capture plein
- * document : le coût réel est celui de la texture, pas celui du nombre de panneaux. Le
- * plafond est donc là pour une raison de lecture, pas de performance — au-delà de trois
- * panneaux, l'effet cesse d'être un signal et devient un fond.
+ * `pole` sur l'accueil, `chapitre` sur une page de pôle : dans les deux cas une section
+ * de contenu à part entière. Les charnières et les fils restent en texte nu sur le fond
+ * — ce sont des respirations, et les vitrer reviendrait à les faire passer pour une
+ * offre de plus.
  */
-export const MAX_GLASS_PER_PAGE = 3
+const NATURES_VITRABLES: ReadonlySet<SectionKind> = new Set<SectionKind>(['pole', 'chapitre'])
 
 /**
- * Le verre marque les sections qui portent un pôle. Les charnières, elles, restent en
- * texte nu sur le fond : ce sont des respirations, et les vitrer reviendrait à les
- * transformer en quatrième offre.
+ * Plafond de surfaces vitrées sur l'accueil.
+ *
+ * Il suit le nombre de sections de pôle **réellement présentes sur la page**, pas le
+ * nombre de pôles vendus : l'accueil en porte trois alors que le site en vend quatre, le
+ * pôle IA n'ayant pas encore sa propre section d'accueil. Le relever est une décision
+ * éditoriale — elle appartient au lot qui écrira cette section, pas à un réglage
+ * technique.
  */
-export function selectGlassSectionIds(sections: IEditorialSection[]): Set<string> {
-  const eligibles = sections.filter((section) => section.kind === 'pole')
-  return new Set(eligibles.slice(0, MAX_GLASS_PER_PAGE).map((section) => section.id))
+export const MAX_GLASS_ACCUEIL = 3
+
+/**
+ * Plafond de surfaces vitrées sur une page de pôle.
+ *
+ * Une page de pôle compte aujourd'hui **quatre à cinq** chapitres vitrables : au-delà du
+ * plafond, les derniers sont rendus en texte nu. Ce n'est pas un accident, c'est la
+ * raison d'être du plafond — au-delà de trois panneaux, l'effet cesse d'être un signal
+ * et devient un fond. Mais la troncature n'est plus muette : elle est nommée ici, et
+ * l'appelant choisit son plafond au lieu de le subir.
+ *
+ * Le coût n'est pas la contrainte : liquidGL tient une trentaine de lentilles, et
+ * chacune lit la même capture plein document — le coût réel est celui de la texture, pas
+ * celui du nombre de panneaux. La contrainte est de lecture.
+ */
+export const MAX_GLASS_PAGE_POLE = 3
+
+/**
+ * Les identifiants des sections à vitrer, dans la limite du plafond demandé.
+ *
+ * Le plafond est un paramètre obligatoire : deux gabarits qui n'ont ni le même nombre de
+ * sections ni le même récit n'ont aucune raison de partager une constante implicite.
+ */
+export function selectGlassSectionIds(sections: IEditorialSection[], plafond: number): Set<string> {
+  const eligibles = sections.filter((section) => NATURES_VITRABLES.has(section.kind))
+  return new Set(eligibles.slice(0, plafond).map((section) => section.id))
 }

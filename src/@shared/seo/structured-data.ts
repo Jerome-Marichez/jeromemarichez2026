@@ -5,6 +5,7 @@
 // site n'affirme pas déjà. Il est lu par des moteurs, pas par des prospects, ce qui
 // le rend d'autant plus tentant à gonfler — et d'autant plus grave à gonfler.
 
+import type { IBreadcrumbItem } from '@/interfaces/IBreadcrumbItem'
 import { SITE_IDENTITY, SITE_URL, SITE_ZONE } from './site'
 import { toAbsoluteUrl } from './urls'
 
@@ -61,22 +62,99 @@ export function buildServiceSchema(params: {
   }
 }
 
-/** Fil d'Ariane d'une page de pôle. */
-export function buildBreadcrumbSchema(params: {
-  nom: string
-  route: string
-}): Record<string, unknown> {
+/**
+ * Fil d'Ariane d'une page, de deux niveaux ou plus.
+ *
+ * `fil` ne porte que les niveaux **qui suivent** l'accueil : celui-ci n'est pas un choix
+ * éditorial mais un invariant du site, et le rendre facultatif ouvrirait la porte à un
+ * fil amputé de sa racine — que Google refuse d'afficher. Le premier niveau est donc
+ * posé ici, et il ne peut pas être oublié par un appelant.
+ *
+ * La même liste alimente le fil visible (`@shared/components/Breadcrumb`), pour que
+ * l'affiché et le déclaré ne puissent pas diverger.
+ */
+export function buildBreadcrumbSchema(fil: IBreadcrumbItem[]): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Accueil', item: toAbsoluteUrl('/') },
-      {
+      ...fil.map((niveau, index) => ({
         '@type': 'ListItem',
-        position: 2,
-        name: params.nom,
-        item: toAbsoluteUrl(params.route),
-      },
+        position: index + 2,
+        name: niveau.nom,
+        item: toAbsoluteUrl(niveau.route),
+      })),
     ],
+  }
+}
+
+/**
+ * Un article du blog.
+ *
+ * `BlogPosting` plutôt qu'`Article` : c'est le sous-type exact, et l'annoncer permet à
+ * un moteur de rattacher l'article au blog qui le contient. Pas de champ `image` — le
+ * site ne sert aucune illustration d'article, et déclarer une image absente serait
+ * précisément le genre de JSON-LD gonflé que ce fichier s'interdit.
+ *
+ * `author` et `publisher` pointent les nœuds déjà publiés par le layout : la personne et
+ * l'activité sont décrites une fois pour tout le site, jamais redéclarées par page.
+ */
+export function buildArticleSchema(params: {
+  titre: string
+  chapo: string
+  route: string
+  datePublished: string
+  dateModified: string
+}): Record<string, unknown> {
+  const url = toAbsoluteUrl(params.route)
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `${url}#article`,
+    headline: params.titre,
+    description: params.chapo,
+    url,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    inLanguage: 'fr-FR',
+    datePublished: params.datePublished,
+    dateModified: params.dateModified,
+    author: { '@id': `${SITE_URL}/#personne` },
+    publisher: { '@id': `${SITE_URL}/#activite` },
+  }
+}
+
+/**
+ * Le blog lui-même, avec la liste de ses articles.
+ *
+ * Les articles n'y sont référencés que par leur `@id` et leur titre : le détail est
+ * déclaré par chaque page d'article. Recopier ici tout le contenu du billet donnerait
+ * deux descriptions du même objet, qui divergeraient à la première correction.
+ */
+export function buildBlogSchema(params: {
+  nom: string
+  description: string
+  route: string
+  articles: readonly { titre: string; route: string }[]
+}): Record<string, unknown> {
+  const url = toAbsoluteUrl(params.route)
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': `${url}#blog`,
+    name: params.nom,
+    description: params.description,
+    url,
+    inLanguage: 'fr-FR',
+    author: { '@id': `${SITE_URL}/#personne` },
+    publisher: { '@id': `${SITE_URL}/#activite` },
+    blogPost: params.articles.map((article) => ({
+      '@type': 'BlogPosting',
+      '@id': `${toAbsoluteUrl(article.route)}#article`,
+      headline: article.titre,
+      url: toAbsoluteUrl(article.route),
+    })),
   }
 }

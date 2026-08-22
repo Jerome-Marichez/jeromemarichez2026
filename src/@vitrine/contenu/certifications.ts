@@ -1,5 +1,5 @@
 // certifications.ts — jeromemarichez-fr
-// Les certifications affichées, et ce que chacune change dans la prestation.
+// Les certifications affichées : un logo, un intitulé, un millésime. Rien d'autre.
 //
 // Règles de véracité (CLAUDE.md), toutes bloquantes :
 //   — ISTQB : seul le niveau **Foundation** est détenu. Le niveau Avancé
@@ -9,6 +9,15 @@
 //   — Millésimes arbitrés par Jérôme MARICHEZ le 2026-08-20 : Google Ads en 2021
 //     (le CV Tracking Specialist indiquait 2022), et Microsoft Ads confirmée mais
 //     sans année connue — elle s'affiche donc sans millésime.
+//
+// `logo` suit exactement la même discipline que `justificatif` : il n'est renseigné
+// que pour un fichier réellement déposé dans `public/certifications/`, dont la
+// provenance et la licence sont consignées dans le LISEZMOI de ce dossier. Les quatre
+// certifications qui n'ont pas encore de fichier s'affichent en toutes lettres — c'est
+// le comportement voulu, jamais une image cassée.
+//
+// `largeur` et `hauteur` sont les dimensions intrinsèques du SVG (viewBox 24 × 24) :
+// ce sont elles, et non le CSS, qui réservent la place et garantissent l'absence de CLS.
 
 import type { ICertification } from '@/interfaces/ICertification'
 
@@ -18,61 +27,54 @@ export const CERTIFICATIONS: ICertification[] = [
     organisme: 'International Software Testing Qualifications Board',
     annee: 2026,
     pole: 'ingenierie-web',
-    apport:
-      'Un vocabulaire de recette commun et opposable. Les niveaux de test, les critères ' +
-      "d'entrée et surtout les critères d'arrêt sont écrits avant la livraison, pas " +
-      'négociés pendant.',
   },
   {
     intitule: "Claude with Google Cloud's Vertex AI",
     organisme: 'Google Cloud',
     annee: 2026,
-    pole: 'data-ia',
-    apport:
-      "L'inférence d'un grand modèle de langage servie depuis votre propre projet Google " +
-      'Cloud plutôt que depuis une API tierce, quand la confidentialité des données le ' +
-      'commande.',
+    pole: 'ia',
+    logo: {
+      fichier: '/certifications/google-cloud.svg',
+      largeur: 24,
+      hauteur: 24,
+    },
   },
   {
     intitule: 'WeLoveDev — Top 5 % React',
     organisme: 'WeLoveDev',
     annee: 2023,
     pole: 'ingenierie-web',
-    apport: 'Un niveau React évalué en conditions de test, pas déclaré sur un CV.',
   },
   {
     intitule: 'Google Analytics Individual Qualification',
     organisme: 'Google',
     annee: 2021,
     pole: 'sea-ux',
-    apport:
-      "Une lecture des rapports d'audience qui distingue ce que l'outil a réellement " +
-      "mesuré de ce qu'il a modélisé — la différence sur laquelle se prennent les " +
-      'mauvaises décisions budgétaires.',
+    logo: {
+      fichier: '/certifications/google-analytics.svg',
+      largeur: 24,
+      hauteur: 24,
+    },
   },
   {
     intitule: 'Google Ads',
     organisme: 'Google',
     annee: 2021,
     pole: 'sea-ux',
-    apport:
-      'Des campagnes arbitrées sur la donnée du produit et la rentabilité réelle, pas sur ' +
-      'les métriques natives de la régie.',
+    logo: {
+      fichier: '/certifications/google-ads.svg',
+      largeur: 24,
+      hauteur: 24,
+    },
   },
   {
     intitule: 'Microsoft Ads',
     organisme: 'Microsoft',
     pole: 'sea-ux',
-    apport:
-      "La couverture de Bing traitée sérieusement quand votre audience s'y trouve, au lieu " +
-      "d'être abandonnée par défaut.",
   },
   {
     intitule: 'EF SET — Anglais B2 (CECRL)',
     organisme: 'EF Standard English Test',
     pole: 'transverse',
-    apport:
-      'La documentation technique, les publications et les échanges avec vos partenaires ' +
-      'tenus en anglais sans intermédiaire.',
   },
 ]

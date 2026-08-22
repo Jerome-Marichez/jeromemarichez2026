@@ -1,12 +1,12 @@
 # jeromemarichez.fr
 
 Site portfolio et vitrine de services de **Jérôme Marichez**, ingénieur logiciel à Lille :
-ingénierie web, data & IA, SEA & UX.
+ingénierie web, data, IA, SEA & UX.
 
 **Stack** : TypeScript — Next.js (App Router).
 
 Le site a deux fonctions et une seule promesse. Il **raconte un parcours** — ingénieur
-logiciel, 9 ans, passé par la chefferie de projet et l'AMOA — et il **vend une chaîne à trois pôles**
+logiciel, 9 ans, passé par la chefferie de projet et l'AMOA — et il **vend une chaîne à quatre pôles**
 qui s'appuie dessus. La promesse : *un seul interlocuteur humain pour vos projets
 digitaux, du cadrage au run*. Celui qui cadre est celui qui code, mesure et exploite —
 et il répond de tout.
@@ -35,36 +35,66 @@ décision rendue possible. Chaque bloc de service se termine sur ce que le clien
 
 ---
 
-## 🧩 Les trois pôles — une chaîne, pas un catalogue
+## 🧩 Les quatre pôles — une chaîne qui s'embranche
 
-Ce ne sont **pas trois offres qu'on achète séparément**. C'est une prise en charge
-continue, où chaque pôle passe explicitement la main au suivant :
+*(Modèle arbitré par Jérôme MARICHEZ le 2026-08-21.)*
 
-| | Pôle | Ce qu'il fait | Ce qu'il remet au suivant |
-|---|------|---------------|---------------------------|
-| 1 | **Ingénierie web** | construire le site, le SaaS, l'application mobile — et les exploiter | un produit **en production**, donc mesuré : le run fait naître le besoin de data |
-| 2 | **Data & IA** | comprendre le métier, bâtir ou reprendre la stratégie data, gouverner — puis choisir la solution, IA ou non | un métier **formalisé** et une donnée **gouvernée**, donc arbitrables |
-| 3 | **SEA & UX** | trancher les parcours et les budgets sur cette donnée, puis implémenter | la modification **retourne au pôle 1** — même personne, aucun transfert de dossier |
+```
+Ingénierie web  →  DATA  →  ( IA  et/ou  SEA & UX )
+```
 
-Les deux jointures — appelées **charnières** dans le site — sont traitées comme des
-sections à part entière, avec leur propre titre. Sans elles, l'offre redevient un
-catalogue de trois prestations qu'on pourrait acheter à trois fournisseurs différents.
-La chaîne n'est crédible **que** parce que c'est la même personne aux trois postes :
-c'est l'argument de vente, pas un détail d'organisation.
+Ce ne sont **pas quatre offres posées côte à côte au catalogue**, et ce n'est pas non
+plus une file de quatre étapes qu'il faudrait toutes acheter :
 
-#### Le fil IA — l'axe transverse
+- **Data est le passage obligé.** Ni IA ni SEA & UX ne se font sans elle — sans mesure,
+  l'IA devine et l'acquisition arbitre à l'aveugle.
+- **L'embranchement est inclusif.** IA seule, SEA & UX seule, ou les deux.
+- **IA et SEA & UX sont parallèles**, jamais successives. Aucun contenu, aucun visuel,
+  aucun libellé, aucun numéro d'ordre ne doit laisser croire que l'une vient après
+  l'autre.
 
-Un troisième type de section, le **fil**, traverse les trois pôles au lieu de s'insérer
+| Place | Pôle | Ce qu'il fait |
+|-------|------|---------------|
+| socle | **Ingénierie web** | construire le site, le SaaS, l'application mobile — et les exploiter |
+| passage | **Data** | comprendre le métier, bâtir ou reprendre la stratégie data, gouverner |
+| suite | **IA** | choisir la solution — règle métier intégrée à l'existant, modèle, ou LLM |
+| suite | **SEA & UX** | trancher les parcours et les budgets sur la donnée, puis implémenter |
+
+### Les jointures — la dépendance est de matière, pas d'achat
+
+Les trois arêtes du schéma sont une **entité du modèle** (`IJointure`), pas un champ du
+pôle amont : la donnée en ouvre deux, et un pôle ne peut pas porter une seule remise
+sans en cacher une.
+
+| De → vers | Ce qui est transmis | Si le client l'a déjà |
+|-----------|---------------------|-----------------------|
+| Ingénierie web → Data | un produit en production, exploité et mesuré : c'est le run qui fabrique la donnée | on part du produit existant, il n'est pas réécrit pour avoir le droit d'être mesuré |
+| Data → IA | un métier formalisé et une donnée gouvernée | la stratégie data est reprise telle quelle, elle ne se rachète pas |
+| Data → SEA & UX | la même donnée, tournée vers l'arbitrage | on arbitre dessus dès le premier jour, et rien n'oblige à prendre l'IA |
+
+Cette seconde colonne est ce qui distingue une dépendance de **matière** — vraie et
+acceptable — d'une dépendance d'**achat**, fausse et repoussante. Elle est rendue en
+tête de chaque page de pôle, là où l'objection naît.
+
+Les **charnières** du site sont le récit de ces jointures : des sections à part entière,
+avec leur propre titre. Sans elles, l'offre redevient un catalogue de prestations qu'on
+pourrait acheter à autant de fournisseurs différents. La chaîne n'est crédible **que**
+parce que c'est la même personne à chaque poste : c'est l'argument de vente, pas un
+détail d'organisation.
+
+### Le fil IA — l’axe transverse
+
+Un troisième type de section, le **fil**, traverse tous les pôles au lieu de s'insérer
 entre deux. Il lève une confusion que le site crée lui-même : l'IA y apparaît comme
-**offre** (pôle 2) *et* comme **méthode de production** (les trois pôles). Le fil parle
-de la seconde, en quatre étapes — concevoir, construire, livrer, piloter — et se place
-avant le pôle 1 pour que la méthode se lise avant les offres.
+**offre** (le pôle IA) *et* comme **méthode de production** (partout). Le fil parle de la
+seconde, en quatre étapes — concevoir, construire, livrer, piloter — et se place avant le
+premier pôle pour que la méthode se lise avant les offres.
 
 Sa règle d'écriture est bloquante : **l'IA propose, les tests tranchent**. Le pilotage
 SEA reste attribué à la donnée et aux modèles (clustering, profilage), jamais à un agent
 autonome. Le fil ne cite aucune preuve qui ne soit déjà portée par un pôle.
 
-### 1. Ingénierie Web
+### Le socle — Ingénierie web
 
 L'offre socle : concevoir, développer et exploiter un produit web ou mobile de bout en
 bout. Elle mobilise toutes les compétences du parcours.
@@ -96,14 +126,17 @@ bout. Elle mobilise toutes les compétences du parcours.
   hooks, skills, loop, serveurs MCP internes), piloté par les tests. Vélocité
   augmentée à effectif constant.
 
-### 2. Data & IA
+### Le passage obligé — Data
 
 **L'ordre est le contenu.** Ce pôle ne part pas de la technique, il y arrive. On
 comprend d'abord le métier, on traite ensuite la stratégie data, puis la gouvernance et
-le droit — et seulement alors on choisit la solution. Toute réécriture qui remettrait la
-technique en tête viderait l'offre de son sens : la solution technique **répond** au
-problème métier posé au départ, elle ne le précède jamais, et **elle n'est pas toujours
-de l'IA**.
+le droit. Toute réécriture qui remettrait la technique en tête viderait l'offre de son
+sens.
+
+C'est aussi le pôle par lequel tout passe — et celui qui **se livre pour lui-même**. Un
+client peut s'arrêter au document produit ici, sans jamais acheter d'IA ni de SEA. Cette
+possibilité doit rester lisible partout : sans elle, le passage obligé se lit comme un
+péage.
 
 **1. Comprendre le métier — une prestation à part entière, pas une étape préparatoire.**
 
@@ -146,7 +179,13 @@ de l'IA**.
   d'office un service tiers et ramène l'arbitrage entre modèle open-weight hébergé et
   règle explicite.
 
-**4. La solution technique — et pas toujours de l'IA.**
+### Une des deux suites — IA
+
+**La solution répond au problème posé au départ, pas à l'état de l'art**, et **elle
+n'est pas toujours de l'IA**. Ce pôle s'ouvre après la donnée — sans métier formalisé ni
+donnée gouvernée, un modèle apprend l'erreur de cadrage au lieu de la corriger — mais il
+ne se prend pas forcément : le SEA & UX s'ouvre en parallèle, et rien n'oblige à acheter
+de l'IA pour tirer parti de sa donnée.
 
 - **Une règle métier suffit souvent** — moins chère à faire tourner, plus facile à
   expliquer à un régulateur, plus simple à corriger qu'un modèle. Intégrée aux systèmes
@@ -177,9 +216,10 @@ de l'IA**.
   auto-scalées. **Pas de cluster Kubernetes administré en propre** — l'absence se dit
   telle quelle.
 
-### 3. SEA & UX
+### L'autre suite — SEA & UX
 
-L'offre acquisition **et arbitrage**, tenue par un ingénieur des données. C'est ce qui
+L'offre acquisition **et arbitrage**, tenue par un ingénieur des données. Elle s'ouvre
+elle aussi après la donnée, **en parallèle de l'IA et jamais après elle**. C'est ce qui
 la différencie d'une agence : la mesure n'est pas déclarative, elle est construite dans
 le code.
 
@@ -216,7 +256,8 @@ le code.
   et des designs, heatmaps, taux de rebond, part de trafic mobile. Une étape disparaît
   parce que les chiffres le disent. *Preuve : panier moyen +50 % chez Verhoeven
   Joaillier.* Et comme c'est la même personne qui code, l'arbitrage décidé est
-  **implémenté**, pas transmis à un tiers — c'est ce qui boucle la chaîne sur le pôle 1.
+  **implémenté**, pas transmis à un tiers — c'est ce qui boucle la chaîne sur
+  l'ingénierie web.
 - **SEO technique** — stratégie de rendu Next.js par type de page, Core Web Vitals,
   Lighthouse, accessibilité — le référencement traité comme une propriété du produit.
 
@@ -250,15 +291,25 @@ que l'absence de lien. Les millésimes ont été arbitrés par Jérôme le **202
 Google Ads en 2021 (le CV Tracking Specialist indiquait 2022) et Microsoft Ads
 confirmée, sans année connue.
 
-| Certification | Année | Lien officiel |
-|---------------|-------|---------------|
-| Claude with Google Cloud's Vertex AI | 2026 | *à fournir* |
-| ISTQB **Foundation** (niveau Avancé **non** obtenu) | 2026 | *à fournir* |
-| Google Analytics Individual Qualification (GAIQ) | 2021 | *à fournir* |
-| Google Ads | 2021 | *à fournir* |
-| Microsoft Ads | — | *à fournir* |
-| WeLoveDev — Top 5 % React | 2023 | *à fournir* |
-| EF SET — Anglais B2 (CECRL) | — | *à fournir* |
+Une certification **se montre, elle ne se commente pas** : le rendu est un logo, un
+intitulé, un millésime — pas de paragraphe d'apport. Ce que chacune change dans la
+prestation se dit dans les sections de pôle, à leur place, une fois.
+
+| Certification | Année | Lien officiel | Logo |
+|---------------|-------|---------------|------|
+| Claude with Google Cloud's Vertex AI | 2026 | *à fournir* | `google-cloud.svg` |
+| ISTQB **Foundation** (niveau Avancé **non** obtenu) | 2026 | *à fournir* | *à fournir* |
+| Google Analytics Individual Qualification (GAIQ) | 2021 | *à fournir* | `google-analytics.svg` |
+| Google Ads | 2021 | *à fournir* | `google-ads.svg` |
+| Microsoft Ads | — | *à fournir* | *à fournir* |
+| WeLoveDev — Top 5 % React | 2023 | *à fournir* | *à fournir* |
+| EF SET — Anglais B2 (CECRL) | — | *à fournir* | *à fournir* |
+
+Les logos suivent la **même règle que les justificatifs** : aucun fichier inventé, aucune
+image cassée. Tant qu'un logo manque, la certification s'affiche en toutes lettres. La
+provenance, la licence et la base d'usage de chaque fichier déposé sont consignées dans
+[`public/certifications/LISEZMOI.md`](./public/certifications/LISEZMOI.md), qui liste aussi
+ce qu'il faut réunir pour les quatre logos manquants.
 
 ---
 
@@ -266,15 +317,24 @@ confirmée, sans année connue.
 
 | Route | Rôle |
 |-------|------|
-| `/` | Accroche, promesse d'interlocuteur unique, le fil IA transverse, la chaîne complète (3 pôles + 2 charnières), preuves chiffrées, limites assumées, certifications, les deux objections traitées (« et si je disparais ? » et « et si le projet dépasse une personne ? »), appel à contact |
-| `/services/ingenierie-web` | Pôle 1 en détail |
-| `/services/data-ia` | Pôle 2 en détail |
-| `/services/sea-ux` | Pôle 3 en détail |
+| `/` | Accroche, promesse d'interlocuteur unique, le fil IA transverse, le schéma de la chaîne et de son embranchement, preuves chiffrées, limites assumées, certifications, les deux objections traitées (« et si je disparais ? » et « et si le projet dépasse une personne ? »), appel à contact |
+| `/services/ingenierie-web` | Le socle en détail |
+| `/services/data` | Le passage obligé en détail |
+| `/services/ia` | Une des deux suites en détail |
+| `/services/sea-ux` | L'autre suite en détail |
+| `/blog` | Liste des articles, du plus récent au plus ancien |
+| `/blog/<slug>` | Un article. Une page statique par article, générée au build par `generateStaticParams` |
 | `/parcours` | *(pas encore construite)* Parcours d'ingénieur et de chef de projet, formation |
 | `/contact` | *(reportée)* L'export statique ferme les routes API : un formulaire exigerait un service tiers ou un back séparé. L'accueil et le pied de page portent un `mailto:` direct, cohérent avec la promesse d'interlocuteur unique |
 
 Chaque page de service porte ses propres métadonnées SEO, ses données structurées
 (`schema.org/Service` et `ProfessionalService`) et un appel à contact contextualisé.
+
+Le **blog** n'est pas un quatrième pôle et la navigation le sépare de la chaîne : ce sont
+des notes courtes sur des décisions techniques réelles. Chaque article porte ses propres
+métadonnées, un `schema.org/BlogPosting`, un fil d'Ariane `Accueil → Blog → article` et sa
+**date** — c'est la seule partie du site dont le sitemap publie une date par page. Le
+modèle de l'entité est décrit dans [`docs/data-model.md`](./docs/data-model.md).
 
 ## ✅ Contraintes produit
 
@@ -326,6 +386,7 @@ démarrage).
 
 ```bash
 make lint             # Biome + limite 300 lignes/fichier
+make type-check       # types TypeScript (tsc --noEmit), sans émission
 make test             # unitaires + intégration
 make test-unit        # unitaires
 make test-int         # intégration

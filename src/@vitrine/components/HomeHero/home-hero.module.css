@@ -9,7 +9,11 @@
   gap: var(--e-6);
   max-width: var(--largeur-page);
   margin-inline: auto;
-  padding: var(--e-7) var(--e-4) var(--e-6);
+  /* Pas `--e-7` en tête : le cran du haut de l'échelle est devenu l'écart ENTRE deux
+     sections, et il est trop large ici. Le seuil doit tenir le titre, le chapô et le
+     bouton d'action sur le premier écran d'un portable — un titre plus ample ne vaut
+     rien s'il pousse l'action en dessous. */
+  padding: var(--e-5) var(--e-4) var(--e-6);
 }
 
 .discours {
@@ -22,7 +26,7 @@
   font-family: var(--police-mono-pile);
   font-size: var(--t--1);
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: var(--suivi-etiquette);
   color: var(--encre-douce);
 }
 
@@ -37,13 +41,13 @@
   color: var(--encre-douce);
 }
 
-/* La ligne de méthode : filet cuivre à gauche, comme le fil transverse plus bas dans la
+/* La ligne de méthode : filet d'accent à gauche, comme le fil transverse plus bas dans la
    page. Elle n'est pas une accroche de plus — c'est le rappel visuel qui relie le seuil
    à la section « Le fil ». */
 .methode {
   max-width: 52ch;
   padding-left: var(--e-3);
-  border-left: 2px solid var(--cuivre-vif);
+  border-left: 2px solid var(--accent-vif);
   font-family: var(--police-mono-pile);
   font-size: var(--t--1);
   line-height: 1.6;
@@ -57,27 +61,22 @@
   gap: var(--e-4);
 }
 
+/* Apparence seule : le `transform` appartient à `MagneticAction`, qui est le seul à en
+   poser un sur un bouton d'action. Deux règles concurrentes se départageraient à
+   l'ordre du paquet CSS, ce qui n'est pas une règle. */
 .actionPrincipale {
   display: inline-block;
   padding: var(--e-2) var(--e-4);
   border-radius: var(--rayon-petit);
-  background: var(--cuivre);
+  background: var(--accent);
   color: var(--fond);
   text-decoration: none;
   font-weight: 500;
-  transition:
-    transform 140ms ease-out,
-    box-shadow 140ms ease-out;
+  transition: box-shadow var(--duree-micro) ease-out;
 }
 
 .actionPrincipale:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--cuivre) 30%, transparent);
-}
-
-.actionPrincipale:active {
-  transform: translateY(0);
-  transition-duration: 80ms;
+  box-shadow: var(--elevation-levee);
 }
 
 .actionSecondaire {
@@ -97,17 +96,17 @@
 .jeton {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--e-0);
   max-width: 16ch;
 }
 
 .chiffre {
   font-family: var(--police-mono-pile);
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: var(--t-2);
   font-variant-numeric: tabular-nums;
   line-height: 1;
-  color: var(--cuivre);
+  color: var(--accent);
 }
 
 .libelle {
@@ -132,7 +131,9 @@
    contexte WebGL, donc plus rien ne justifie de la retirer aux petits écrans. Elle passe
    sous le discours, centrée et bornée en largeur pour ne pas manger l'écran, et le
    contrôle de mise en pause la suit — c'est lui qui doit rester atteignable partout où
-   la scène bouge. */
+   la scène bouge. La borne de largeur a suivi le passage de la scène au format 7/6 :
+   la composition s'élargit au temps 3, et une borne de 20rem écrasait les deux suites
+   au point qu'on ne les distinguait plus l'une de l'autre. */
 @media (max-width: 1023px) {
   .seuil {
     grid-template-columns: minmax(0, 1fr);
@@ -143,7 +144,7 @@
   .volume {
     align-items: center;
     width: 100%;
-    max-width: 20rem;
+    max-width: 26rem;
     margin-inline: auto;
   }
 }

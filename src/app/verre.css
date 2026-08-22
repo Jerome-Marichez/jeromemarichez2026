@@ -1,0 +1,58 @@
+/* verre.css — jetons de verre et échelle d'élévation.
+ *
+ * Extrait de `globals.css` pour la même raison que `poles.css` : la limite de 300 lignes
+ * du projet. Ces jetons sont des jetons de design comme les autres.
+ *
+ * ## Pourquoi ces jetons existent
+ *
+ * `blur(14px) saturate(1.15)` était écrit en dur dans `glass-surface.css`, et deux autres
+ * modules le redupliquaient à leur façon. Les ombres du site étaient quatre littéraux
+ * différents. Tant que ces valeurs vivent dans les modules, intensifier le verre demande
+ * de retrouver toutes ses copies — et l'une d'elles est toujours oubliée, ce qui la fait
+ * décrocher visuellement du reste.
+ *
+ * ## Le voile n'est pas le flou
+ *
+ * Deux réglages indépendants font une surface de verre : le **flou** de ce qui passe
+ * derrière, et le **voile** — la part de fond opaque mélangée à la teinte. Le voile monte
+ * quand la surface doit rester lisible par-dessus n'importe quoi (les bandes collantes),
+ * et descend quand elle doit laisser voir la trame (les panneaux). D'où trois voiles, et
+ * un seul flou.
+ *
+ * ## L'échelle d'élévation
+ *
+ * Trois crans, dans l'ordre, et pas un de plus : un cran d'échelle sans emploi est un
+ * jeton mort, exactement le défaut que cette issue corrige ailleurs.
+ *
+ *   creuse → posée → levée
+ *
+ * `--elevation-creuse` est un creux DANS le papier (la plaque de logo), `--elevation-posee`
+ * la lueur d'arête d'une surface au repos, `--elevation-levee` la seule vraie ombre
+ * portée du site — celle d'une action sous la main, teintée par `--accent` pour qu'elle
+ * suive le pôle courant. Ce dernier cran est déclaré dans `poles.css` : il est dérivé de
+ * `--accent`, donc il se redéclare partout où `--accent` l'est.
+ */
+
+:root {
+  /* — Verre — */
+  --verre-flou: 14px;
+  --verre-saturation: 1.15;
+  /* Les bandes collantes saturent moins : elles couvrent toute la largeur de l'écran, et
+     ce qui passe dessous n'est pas un décor mais du texte. */
+  --verre-saturation-bande: 1.1;
+  --verre-epaisseur: 1px;
+  --verre-epaisseur-lueur: 1px;
+  /* Part de `--fond` mélangée à la teinte. Panneau : la trame doit rester visible.
+     Bandes : le texte qui défile dessous ne doit jamais se lire à travers. */
+  --verre-voile: 55%;
+  --verre-voile-bande: 88%;
+  --verre-voile-barre: 82%;
+
+  /* — Élévation — */
+  --elevation-creuse: inset 0 0 0 var(--verre-epaisseur)
+    color-mix(in srgb, var(--encre) 10%, transparent);
+  --elevation-posee: inset 0 var(--verre-epaisseur-lueur) 0 var(--verre-lueur);
+  /* `--elevation-levee` est teintée par `--accent` : elle est donc déclarée dans
+     `poles.css`, avec lui et partout où il est redéclaré — une propriété personnalisée
+     est substituée sur l'élément qui la déclare, pas sur celui qui la consomme. */
+}

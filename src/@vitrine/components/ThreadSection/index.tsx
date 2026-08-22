@@ -1,6 +1,7 @@
 // ThreadSection/index.tsx — jeromemarichez-fr
-// Le fil : une méthode qui traverse les trois pôles.
+// Le fil : une méthode qui traverse tous les pôles.
 
+import { Reveal } from '@/@shared/components/Reveal'
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
 import styles from './thread-section.module.css'
 
@@ -16,13 +17,13 @@ interface ThreadSectionProps {
  * même main : il coupe la chaîne au lieu de s'y insérer. C'est la seule façon de dire
  * visuellement « ceci n'est pas une quatrième offre » sans avoir à l'écrire.
  *
- * Pas de verre ici — `selectGlassSectionIds` ne vitre que les pôles.
+ * Pas de verre ici — `selectGlassSectionIds` ne vitre que les pôles et les chapitres.
  */
 export function ThreadSection({ section }: ThreadSectionProps) {
   const titreId = `${section.id}-titre`
 
   return (
-    <section aria-labelledby={titreId} className={styles.fil} id={section.id}>
+    <Reveal ariaLabelledBy={titreId} as="section" className={styles.fil} id={section.id}>
       <header className={styles.entete}>
         <p className={styles.kicker}>{section.kicker}</p>
         <h2 className={styles.titre} id={titreId}>
@@ -40,7 +41,7 @@ export function ThreadSection({ section }: ThreadSectionProps) {
               {String(index + 1).padStart(2, '0')}
             </span>
             <h3 className={styles.etapeTitre}>{bloc.titre}</h3>
-            <p className={styles.etapeTexte}>{bloc.texte}</p>
+            {bloc.texte ? <p className={styles.etapeTexte}>{bloc.texte}</p> : null}
             {bloc.preuve ? <p className={styles.preuve}>{bloc.preuve}</p> : null}
             {bloc.decision ? (
               <p className={styles.decision}>
@@ -51,6 +52,6 @@ export function ThreadSection({ section }: ThreadSectionProps) {
           </li>
         ))}
       </ol>
-    </section>
+    </Reveal>
   )
 }

@@ -13,11 +13,18 @@
   padding: 0 var(--e-4) var(--e-7);
 }
 
+/* La section ancrable ne porte que son identité : identifiant, marge d'ancre, et le
+   décor pour `.contact`. Elle ne se déplace JAMAIS — c'est `.corpsBloc` que `Reveal`
+   révèle. Un `transform` sur l'élément ancré décalerait la cible d'un `scrollIntoView`
+   de la hauteur de la révélation, et la section arriverait sous l'en-tête. */
 .bloc {
+  scroll-margin-top: var(--decalage-ancre);
+}
+
+.corpsBloc {
   display: flex;
   flex-direction: column;
   gap: var(--e-4);
-  scroll-margin-top: 6rem;
 }
 
 .kicker {
@@ -25,8 +32,8 @@
   font-weight: 500;
   font-size: var(--t--1);
   text-transform: uppercase;
-  letter-spacing: 0.09em;
-  color: var(--cuivre);
+  letter-spacing: var(--suivi-etiquette);
+  color: var(--accent);
 }
 
 .chapo {
@@ -45,36 +52,35 @@
 }
 
 .contact {
+  padding: var(--e-5);
+  border: var(--verre-epaisseur) solid var(--verre-arete);
+  border-radius: var(--rayon-verre);
+  /* Même voile que les panneaux de verre : le bloc de contact en dupliquait un, à
+     60 %, et aurait décroché des autres surfaces au premier réglage du verre. */
+  background: color-mix(in srgb, var(--fond-creux) var(--verre-voile), transparent);
+  box-shadow: var(--elevation-posee);
+  scroll-margin-top: var(--decalage-ancre);
+}
+
+.corpsContact {
   display: flex;
   flex-direction: column;
   gap: var(--e-3);
   align-items: flex-start;
-  padding: var(--e-5);
-  border: 1px solid var(--verre-arete);
-  border-radius: var(--rayon-verre);
-  background: color-mix(in srgb, var(--fond-creux) 60%, transparent);
-  scroll-margin-top: 6rem;
 }
 
+/* Apparence seule : le `transform` appartient à `MagneticAction`. */
 .action {
   display: inline-block;
   padding: var(--e-2) var(--e-4);
   border-radius: var(--rayon-petit);
-  background: var(--cuivre);
+  background: var(--accent);
   color: var(--fond);
   font-family: var(--police-mono-pile);
   text-decoration: none;
-  transition:
-    transform 140ms ease-out,
-    box-shadow 140ms ease-out;
+  transition: box-shadow var(--duree-micro) ease-out;
 }
 
 .action:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--cuivre) 30%, transparent);
-}
-
-.action:active {
-  transform: translateY(0);
-  transition-duration: 80ms;
+  box-shadow: var(--elevation-levee);
 }

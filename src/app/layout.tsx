@@ -7,10 +7,16 @@ import { SiteFooter } from '@/@shared/components/SiteFooter'
 import { SiteHeader } from '@/@shared/components/SiteHeader'
 import { SkipLink } from '@/@shared/components/SkipLink'
 import { StructuredData } from '@/@shared/components/StructuredData'
+import { SITE_OPEN_GRAPH } from '@/@shared/seo/open-graph'
 import { SITE_IDENTITY, SITE_PROMESSE, SITE_THEME_COLORS, SITE_URL } from '@/@shared/seo/site'
 import { buildPersonSchema, buildProfessionalServiceSchema } from '@/@shared/seo/structured-data'
 import { FONT_VARIABLES } from '@/@shared/typography/fonts'
 import './globals.css'
+// Après `globals.css`, et pas avant : les deux fichiers s'appuient sur ses jetons
+// (`--cuivre`, `--encre`, `--verre-lueur`). Ils n'en sont séparés que par la limite de
+// 300 lignes du projet.
+import './poles.css'
+import './verre.css'
 import './glass-surface.css'
 
 export const metadata: Metadata = {
@@ -23,11 +29,12 @@ export const metadata: Metadata = {
   authors: [{ name: SITE_IDENTITY.nom, url: SITE_URL }],
   // Ni `alternates.canonical` ni `openGraph.url` ici : hérités, ils désignent l'accueil
   // depuis n'importe quelle page. Chaque page pose les siens (@shared/seo/page-metadata).
-  openGraph: {
-    type: 'website',
-    locale: 'fr_FR',
-    siteName: SITE_IDENTITY.nom,
-  },
+  //
+  // Ce socle ne suffit pas à lui seul : Next fusionne les métadonnées de segments en
+  // surface, donc toute page qui exporte un `openGraph` remplace celui-ci en entier.
+  // C'est pourquoi les constructeurs de `page-metadata` l'étalent à leur tour — et
+  // pourquoi il vit dans `open-graph.ts` plutôt qu'écrit à la main ici.
+  openGraph: SITE_OPEN_GRAPH,
   robots: { index: true, follow: true },
 }
 

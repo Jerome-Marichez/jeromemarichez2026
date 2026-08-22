@@ -1,9 +1,16 @@
-/* pole-page-view.module.css — gabarit commun aux trois pages de pôle.
- * Identique pour les trois, volontairement : trois mises en page différentes
- * diraient trois prestataires. */
+/* pole-page-view.module.css — gabarit commun aux quatre pages de pôle.
+ * Identique pour les quatre, volontairement : quatre mises en page différentes
+ * diraient quatre prestataires. */
 
+/* `position: relative` sans `z-index` : la page ne crée AUCUN contexte d'empilement,
+   sinon les lentilles liquidGL qu'elle contient ne se compareraient plus aux canvas
+   posés sur `body`. Voir `glass-surface.css`. La barre de pôle, elle, porte son propre
+   z-index et ne contient pas de verre. */
 .page {
   position: relative;
+  /* Deux bandes collantes sur une page de pôle, donc deux hauteurs à déduire pour
+     qu'une ancre ne se pose pas sous elles. */
+  --decalage-ancre: calc(var(--hauteur-entete) + var(--hauteur-barre-pole) + var(--e-3));
 }
 
 .corps {
@@ -12,7 +19,7 @@
   gap: var(--e-7);
   max-width: var(--largeur-page);
   margin-inline: auto;
-  padding: 0 var(--e-4) var(--e-7);
+  padding: var(--e-6) var(--e-4) var(--e-7);
 }
 
 .certifications {

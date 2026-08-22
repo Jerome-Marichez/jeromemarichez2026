@@ -8,6 +8,8 @@
 
 import type { Metadata } from 'next'
 import type { IPageMeta } from '@/interfaces/IEditorialPage'
+import { SITE_OPEN_GRAPH } from './open-graph'
+import { SITE_IDENTITY } from './site'
 
 /**
  * Métadonnées d'une page à partir de son contenu éditorial.
@@ -17,6 +19,11 @@ import type { IPageMeta } from '@/interfaces/IEditorialPage'
  * (`%s — Jérôme Marichez`), ce qui est la forme voulue pour un partage. Les redéclarer
  * ici perdrait le nom du site.
  *
+ * `SITE_OPEN_GRAPH` est étalé en premier et ce n'est pas une précaution décorative : la
+ * fusion des métadonnées de Next est **de surface**, donc ce bloc `openGraph` écrase
+ * celui du layout au lieu de le compléter. Sans le socle, chaque page perdrait ici son
+ * `og:image`, son `og:site_name` et son `og:locale` (voir `open-graph.ts`).
+ *
  * Les URL sont relatives : `metadataBase` (layout) les résout en absolu, barre finale
  * comprise puisque `trailingSlash` est actif.
  */
@@ -25,6 +32,44 @@ export function buildPageMetadata(page: { meta: IPageMeta; route: string }): Met
     title: page.meta.title,
     description: page.meta.description,
     alternates: { canonical: page.route },
-    openGraph: { url: page.route },
+    openGraph: { ...SITE_OPEN_GRAPH, url: page.route },
+  }
+}
+
+/**
+ * Métadonnées d'un article de blog.
+ *
+ * Deux différences avec une page ordinaire, et une seule raison : un article est daté.
+ * `og:type` passe donc à `article` et la date de publication accompagne le partage —
+ * c'est ce qui permet à un agrégateur de classer le billet plutôt que de le traiter
+ * comme une page de site parmi d'autres.
+ *
+ * L'appelant fournit la route, comme pour `buildPageMetadata`, mais il la tient de
+ * `toArticleRoute(slug)` : c'est la seule façon de composer une URL d'article dans ce
+ * dépôt, donc la seule qui garantisse que `canonical` et `og:url` désignent la page
+ * réellement servie.
+ *
+ * Le socle est étalé ici aussi, pour la même raison qu'au-dessus : un article n'a aucune
+ * raison de se partager sans visuel ni nom de site. `type` est le seul champ du socle
+ * qu'il contredit — d'où sa place après le spread.
+ */
+export function buildArticleMetadata(article: {
+  meta: IPageMeta
+  route: string
+  datePublished: string
+  dateModified: string
+}): Metadata {
+  return {
+    title: article.meta.title,
+    description: article.meta.description,
+    alternates: { canonical: article.route },
+    openGraph: {
+      ...SITE_OPEN_GRAPH,
+      type: 'article',
+      url: article.route,
+      publishedTime: article.datePublished,
+      modifiedTime: article.dateModified,
+      authors: [SITE_IDENTITY.nom],
+    },
   }
 }

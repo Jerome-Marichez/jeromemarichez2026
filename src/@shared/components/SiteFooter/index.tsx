@@ -3,6 +3,7 @@
 
 import Link from 'next/link'
 import { POLES_NAV } from '@/@vitrine/contenu/poles-nav'
+import { ROUTES } from '../../routes'
 import { SITE_IDENTITY } from '../../seo/site'
 import styles from './site-footer.module.css'
 
@@ -20,8 +21,7 @@ export function SiteFooter() {
         <div className={styles.appel}>
           <p className={styles.promesse}>
             Un seul interlocuteur, du cadrage au run, et il répond de tout. Décrivez votre
-            situation, je vous dis ce que j'en ferais — et si ce n'est pas pour moi, je vous le dis
-            aussi.
+            situation, je vous dis ce que j'en ferais.
           </p>
           <a className={styles.contact} href={`mailto:${SITE_IDENTITY.email}`}>
             {SITE_IDENTITY.email}
@@ -29,13 +29,25 @@ export function SiteFooter() {
         </div>
 
         <nav aria-label="Pied de page" className={styles.navigation}>
-          <p className={styles.titreNav}>Les trois pôles</p>
+          <p className={styles.titreNav}>Les quatre pôles</p>
           <ul className={styles.liens}>
             {POLES_NAV.map((pole) => (
               <li key={pole.id}>
                 <Link href={pole.route}>{pole.nom}</Link>
               </li>
             ))}
+          </ul>
+        </nav>
+
+        <nav aria-label="Le site" className={styles.navigation}>
+          <p className={styles.titreNav}>Le site</p>
+          <ul className={styles.liens}>
+            <li>
+              <Link href={ROUTES.accueil}>Accueil</Link>
+            </li>
+            <li>
+              <Link href={ROUTES.blog}>Blog</Link>
+            </li>
           </ul>
         </nav>
 
@@ -58,7 +70,7 @@ export function SiteFooter() {
 
       <p className={styles.mentions}>
         {SITE_IDENTITY.nom} — {SITE_IDENTITY.titre} à {SITE_IDENTITY.ville}. Site conçu, développé
-        et exploité par moi-même, comme le reste.
+        et exploité par moi-même.
       </p>
     </footer>
   )
