@@ -9,11 +9,12 @@ import type { PoleId } from '@/interfaces/types'
 export const ROUTES = {
   accueil: '/',
   blog: '/blog',
+  realisations: '/realisations',
   'ingenierie-web': '/services/ingenierie-web',
   data: '/services/data',
   ia: '/services/ia',
   'sea-ux': '/services/sea-ux',
-} as const satisfies Record<'accueil' | 'blog' | PoleId, string>
+} as const satisfies Record<'accueil' | 'blog' | 'realisations' | PoleId, string>
 
 /**
  * Toutes les routes **fixes** indexables.
@@ -22,9 +23,9 @@ export const ROUTES = {
  * suites parallèles de la donnée, et un sitemap ne porte aucun ordre — c'est un
  * inventaire. Toute lecture ordonnée de cette liste serait une erreur.
  *
- * Les URL d'articles n'y figurent pas : elles ne sont pas des routes du site mais des
- * instances d'une seule route dynamique, et leur nombre change à chaque publication.
- * C'est le sitemap qui les ajoute, à partir de la liste des articles
+ * Les URL d'articles et de réalisations n'y figurent pas : ce ne sont pas des routes du
+ * site mais des instances de deux routes dynamiques, et leur nombre change à chaque
+ * publication. C'est le sitemap qui les ajoute, à partir des listes de contenu
  * (`@shared/seo/sitemap-entries`).
  */
 export const INDEXABLE_ROUTES = [
@@ -33,6 +34,7 @@ export const INDEXABLE_ROUTES = [
   ROUTES.data,
   ROUTES.ia,
   ROUTES['sea-ux'],
+  ROUTES.realisations,
   ROUTES.blog,
 ] as const
 
@@ -46,4 +48,15 @@ export const INDEXABLE_ROUTES = [
  */
 export function toArticleRoute(slug: string): string {
   return `${ROUTES.blog}/${slug}`
+}
+
+/**
+ * Route d'une réalisation à partir de son slug.
+ *
+ * Même règle que pour un article, et pour la même raison : liste, métadonnées, fil
+ * d'Ariane, JSON-LD, sitemap et renvois depuis le mur de preuves passent tous par ici.
+ * Dans un export statique, une URL canonique fausse le reste jusqu'au prochain build.
+ */
+export function toRealisationRoute(slug: string): string {
+  return `${ROUTES.realisations}/${slug}`
 }

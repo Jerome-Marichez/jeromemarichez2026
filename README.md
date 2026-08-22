@@ -322,6 +322,8 @@ ce qu'il faut réunir pour les quatre logos manquants.
 | `/services/data` | Le passage obligé en détail |
 | `/services/ia` | Une des deux suites en détail |
 | `/services/sea-ux` | L'autre suite en détail |
+| `/realisations` | Liste des réalisations, groupées par cadre d'emploi (employeur, intitulé de poste exact, période, équipe) |
+| `/realisations/<slug>` | Une réalisation. Une page statique par fiche, générée au build par `generateStaticParams` |
 | `/blog` | Liste des articles, du plus récent au plus ancien |
 | `/blog/<slug>` | Un article. Une page statique par article, générée au build par `generateStaticParams` |
 | `/parcours` | *(pas encore construite)* Parcours d'ingénieur et de chef de projet, formation |
@@ -329,6 +331,45 @@ ce qu'il faut réunir pour les quatre logos manquants.
 
 Chaque page de service porte ses propres métadonnées SEO, ses données structurées
 (`schema.org/Service` et `ProfessionalService`) et un appel à contact contextualisé.
+
+### L'espace `/realisations/` — le nom est un arbitrage de véracité
+
+**Aucune des entreprises citées sur le site n'est un client** : ce sont trois postes
+salariés — Lead Tech chez Acetelecom / MailingVox (2023-2026), Développeur Full Stack chez
+Verhoeven Joaillier (2019-2022, poste unique), Développeur web & Chef de projet digital
+chez Truffle Capital (2017-2019). Artedrone est une **participation du fonds** Truffle, pas
+un client. Nommer l'espace « cas clients » affirmerait une relation commerciale qui n'a
+jamais existé, et réécrirait des intitulés de poste que le [`CLAUDE.md`](./CLAUDE.md)
+impose de reprendre à l'identique des CV.
+
+L'espace s'appelle donc **`/realisations/`**, et **chaque fiche porte son cadre d'emploi** —
+intitulé exact, période, taille d'équipe. Le cadre est **obligatoire dans le type**
+(`IRealisationCadre`, aucun champ optionnel) : c'est le compilateur, et non la relecture,
+qui interdit qu'une fiche paraisse sans dire d'où elle vient.
+
+**Deux gabarits, et c'est structurant.** Trois fiches seulement portent un chiffre : ce
+sont les trois du mur de preuves — +50 % de panier moyen, 98/100 Lighthouse, 100 000 € de
+budget ADS/SEO **piloté**. Le mur de preuves les **lit sur la fiche** au lieu de les
+recopier (`IProof.fiche` n'accepte qu'une `IRealisationChiffree`), donc le nombre n'est
+écrit qu'une fois dans le dépôt. Les dix autres fiches sont **sans chiffre** et portent au
+mieux un résultat directionnel — « fraude en baisse », « routes vocales coûteuses
+évitées » — jamais quantifié ; deux d'entre elles n'ont aucun résultat et l'écrivent noir
+sur blanc. Même doctrine que les certifications publiées sans lien plutôt qu'avec un lien
+mort.
+
+Le rattachement aux pôles est un `readonly PoleId[]` **non contraint**. Le modèle décrit
+l'offre d'aujourd'hui, pas un historique : un type qui exigerait `data` partout forcerait à
+réétiqueter des travaux de 2017 pour satisfaire le compilateur. Deux formes portent
+l'argument — `['ingenierie-web', 'data', 'sea-ux']` **sans IA** montre qu'on n'est pas
+obligé d'acheter de l'IA, `['data']` seul que la donnée se livre pour elle-même.
+
+Une **réalisation n'est pas datée** : ce qui la situe dans le temps est la période du poste
+sous lequel elle a été menée, et cette période appartient au contenu de la fiche. Ses
+métadonnées passent donc par `buildPageMetadata`, pas par `buildArticleMetadata` qui
+exigerait une date de publication qu'il faudrait inventer. Les données structurées sont
+volontairement pauvres — `CollectionPage` + `ItemList` sur la liste, `WebPage` avec
+`isPartOf` sur la fiche : **ni `Service` ni `CreativeWork`**, aucun type qui affirmerait
+une prestation vendue ou une œuvre détenue.
 
 Le **blog** n'est pas un quatrième pôle et la navigation le sépare de la chaîne : ce sont
 des notes courtes sur des décisions techniques réelles. Chaque article porte ses propres
