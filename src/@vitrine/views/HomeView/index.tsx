@@ -1,7 +1,6 @@
 // HomeView/index.tsx — jeromemarichez-fr
 // La page d'accueil : la chaîne complète, d'un bout à l'autre.
 
-import { LiquidGlassRuntime } from '@/@shared/components/LiquidGlassRuntime'
 import { MagneticAction } from '@/@shared/components/MagneticAction'
 import { Reveal } from '@/@shared/components/Reveal'
 import { SITE_IDENTITY } from '@/@shared/seo/site'
@@ -92,8 +91,6 @@ export function HomeView() {
           </Reveal>
         </section>
       </div>
-
-      <LiquidGlassRuntime />
     </div>
   )
 }

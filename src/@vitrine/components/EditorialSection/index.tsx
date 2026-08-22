@@ -35,9 +35,9 @@ export function EditorialSection({ section, glass = false }: EditorialSectionPro
   const titreId = `${section.id}-titre`
 
   // La révélation enveloppe le CORPS, jamais la section. Quand la section est vitrée,
-  // elle se retrouve ainsi à l'intérieur de `GlassSurface`, sous un conteneur qui est
-  // déjà un contexte d'empilement : son `transform` transitoire ne peut pas déplacer la
-  // lentille liquidGL dans l'ordre de peinture. L'inverse casserait le verre.
+  // elle se retrouve ainsi DANS le panneau : c'est le texte qui se pose, le verre ne
+  // bouge pas. L'inverse ferait glisser une surface floutée sur toute sa hauteur, et le
+  // navigateur recalculerait son flou à chaque image de la transition.
   const corps = (
     <Reveal className={styles.corps}>
       <header className={styles.entete}>
