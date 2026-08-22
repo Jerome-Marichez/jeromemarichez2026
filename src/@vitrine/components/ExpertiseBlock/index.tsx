@@ -23,7 +23,7 @@ export function ExpertiseBlock({ bloc, headingLevel = 'h3' }: ExpertiseBlockProp
   return (
     <article className={styles.bloc}>
       <Heading className={styles.titre}>{bloc.titre}</Heading>
-      <p className={styles.texte}>{bloc.texte}</p>
+      {bloc.texte ? <p className={styles.texte}>{bloc.texte}</p> : null}
 
       {bloc.preuve ? (
         <p className={styles.preuve}>

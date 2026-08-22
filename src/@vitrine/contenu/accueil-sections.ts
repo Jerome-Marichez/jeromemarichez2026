@@ -25,36 +25,26 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
     kicker: 'Le socle · Construire',
     titre: 'Site internet, produit SaaS, application mobile',
     chapo:
-      "Concevoir, développer, mettre en production, puis rester pour l'exploiter. Front, back, " +
-      'donnée, qualité et run tenus par la même personne.',
+      "Concevoir, développer, mettre en production, puis rester pour l'exploiter — la même " +
+      'personne à chaque poste.',
     blocs: [
       {
         titre: 'Front et stratégie de rendu',
-        texte: 'React et Next.js côté web, Angular et Ionic pour le mobile iOS et Android.',
         preuve:
           'Lighthouse 98/100 sur la plateforme SaaS « Sms En Masse », conformité RGAA / WCAG.',
         decision: 'Quelle page se rend au build, laquelle à la requête, et ce que chacune coûte.',
       },
       {
         titre: 'Back, données et architecture',
-        texte:
-          'Node.js, API REST, cloud functions et Pub/Sub ; PostgreSQL, MySQL, Firebase, ' +
-          'entrées validées par Zod.',
         decision: "Ce qu'on découpe maintenant, ce qu'on garde monolithique, et jusqu'à quand.",
       },
       {
         titre: 'Qualité certifiée et outillée',
-        texte:
-          'Développement piloté par les tests, en IA augmentée : Claude Code et Gemini, le ' +
-          'test faisant foi.',
         preuve: 'Certification ISTQB Foundation. Non-régression rejouée à chaque livraison.',
         decision: 'Quel niveau de test vous vous autorisez à ne pas payer, et sur quoi.',
       },
       {
         titre: 'Migrations sans coupure',
-        texte:
-          "Sortir d'un socle en fin de vie sans arrêter le service ni geler la feuille de " +
-          'route.',
         preuve:
           'Trois migrations majeures, aucune interruption de service, chiffre d’affaires maintenu.',
         decision: "Ce qu'on migre ce trimestre, ce qu'on gèle, et le coût réel de l'attente.",
@@ -69,8 +59,8 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
     kicker: 'Charnière · vers la donnée',
     titre: 'On ne livre pas, on exploite',
     chapo:
-      "La mise en production n'est pas la fin du projet : c'est le run qui fait naître le " +
-      "besoin de data et d'IA.",
+      "La mise en production n'est pas la fin : c'est le run qui fait naître le besoin de data " +
+      "et d'IA.",
     blocs: [
       {
         titre: 'SLI / SLO / SLA',
@@ -103,9 +93,7 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
     kind: 'charniere',
     kicker: 'Charnière · vers l’arbitrage',
     titre: 'Sans donnée claire, le budget brûle',
-    chapo:
-      'La donnée mise au propre devient la matière des arbitrages. Sans elle, le SEA achète du ' +
-      "volume et l'UX devient une affaire de goût.",
+    chapo: "Sans donnée mise au propre, le SEA achète du volume et l'UX reste une affaire de goût.",
     blocs: [
       {
         titre: 'LTV plutôt que coût par clic',
@@ -119,8 +107,8 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
       {
         titre: 'La preuve que le lien existe',
         texte:
-          'le système d’analyse multi-sources mesure la rentabilité client dans la durée. ' +
-          'C’est sur ce chiffre-là que les budgets sont arbitrés.',
+          'le système d’analyse multi-sources mesure la rentabilité client dans la durée, et ' +
+          'les budgets s’arbitrent dessus.',
       },
     ],
   },
@@ -136,30 +124,20 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
     blocs: [
       {
         titre: 'La mesure est construite dans le code',
-        texte:
-          'GTM en conteneur web et server-side, plan de taggage opposable ; Firebase Analytics ' +
-          'et Crashlytics côté mobile.',
         decision: 'Quels événements existent, ce qu’ils portent, et qui répond de leur exactitude.',
       },
       {
         titre: 'Conformité par construction',
-        texte: 'RGPD, CMP et déclenchement conditionnel des tags par catégorie de consentement.',
         decision:
           'Ce que vous collectez, ce que vous n’avez pas le droit de collecter, et pourquoi.',
       },
       {
         titre: 'Arbitrages de parcours, pris sur la mesure',
-        texte:
-          'A/B testing des pages, heatmaps, taux de rebond : une étape disparaît parce que les ' +
-          'chiffres le disent.',
         preuve: 'Panier moyen en hausse de 50 % sur un e-commerce de joaillerie de luxe.',
         decision: 'Quelle étape du tunnel disparaît, et ce que vous gagnez à la supprimer.',
       },
       {
         titre: 'Pilotage de l’acquisition',
-        texte:
-          'Google Ads, Bing Ads, SEO, SEA et SMA ; référencement technique traité comme une ' +
-          'propriété du produit.',
         preuve:
           '100 000 € de budget ADS / SEO pilotés chez Truffle Capital, environ 25 000 € ' +
           'd’encadrement de prestataires SEA chez Verhoeven Joaillier.',
@@ -181,24 +159,18 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
       {
         titre: 'Le produit n’est pas dans ma tête',
         texte:
-          'Tests écrits avant le code, non-régression, CI/CD et mutation à chaque livraison. ' +
-          'Une base couverte se reprend.',
+          'Tests écrits avant le code, non-régression, CI/CD et mutation à chaque livraison : ' +
+          'une base couverte se reprend.',
         preuve:
           'Jest, Cypress, Playwright, mutation Stryker, Postman. Certification ISTQB Foundation.',
       },
       {
         titre: 'Les spécifications sont écrites pour quelqu’un d’autre que moi',
-        texte:
-          'Traduire un besoin en spécifications exploitables par des tiers extérieurs au ' +
-          'domaine : c’est le métier que j’exerçais avant.',
         preuve:
           'AMOA de la startup biotech Artedrone. Serveurs MCP et plugins n8n, Make et Zapier documentés.',
       },
       {
         titre: 'Le relais, je l’ai déjà passé',
-        texte:
-          'Encadrer des prestataires externes, c’est exactement l’exercice : leur donner ' +
-          'de quoi travailler sans moi.',
         preuve:
           'Une équipe marketing de 5 à 10 personnes et trois prestataires coordonnés chez ' +
           'Truffle Capital ; prestataires SEA, SEO et SMA encadrés chez Verhoeven Joaillier.',

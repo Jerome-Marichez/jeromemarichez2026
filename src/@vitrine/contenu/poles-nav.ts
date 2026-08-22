@@ -22,8 +22,8 @@ export const POLES_NAV: IPole[] = [
     route: ROUTES['ingenierie-web'],
     promesse: 'Je construis le produit, et je le fais tourner.',
     accroche:
-      'Site, produit SaaS, application mobile : de la conception au run, par une seule ' +
-      'personne, avec une qualité outillée et certifiée plutôt que promise.',
+      'Site, produit SaaS, application mobile : de la conception au run, avec une qualité ' +
+      'outillée et certifiée plutôt que promise.',
   },
   {
     id: 'data',
@@ -33,8 +33,8 @@ export const POLES_NAV: IPole[] = [
     route: ROUTES.data,
     promesse: 'Je pars de votre métier ; la technique vient en dernier.',
     accroche:
-      'Faire émerger ce que votre activité sait déjà sans l’avoir formalisé, puis la stratégie ' +
-      'data, la gouvernance et le droit. Elle se livre seule : vous pouvez vous arrêter là.',
+      'Faire émerger ce que votre activité sait déjà sans l’avoir formalisé, puis la ' +
+      'gouvernance et le droit. Elle se livre seule : vous pouvez vous arrêter là.',
   },
   {
     id: 'ia',
@@ -45,7 +45,7 @@ export const POLES_NAV: IPole[] = [
     promesse: 'La réponse n’est pas toujours un modèle, et je le dis avant d’en construire un.',
     accroche:
       'Souvent une règle métier intégrée à l’existant suffit ; sinon un modèle, ou un LLM ' +
-      'arbitré sur le coût d’inférence, la latence et la confidentialité.',
+      'arbitré sur le coût et la confidentialité.',
   },
   {
     id: 'sea-ux',
@@ -56,6 +56,6 @@ export const POLES_NAV: IPole[] = [
     promesse: 'Je ne dessine pas vos maquettes, je tranche vos parcours.',
     accroche:
       'Mesure construite dans le code, consentement conforme, rentabilité à long terme plutôt ' +
-      'que coût par clic, et des arbitrages décidés sur la donnée puis implémentés.',
+      'que coût par clic — puis les arbitrages implémentés.',
   },
 ]

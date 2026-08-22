@@ -46,11 +46,10 @@ export const THESE_CHAINE = {
   titre: 'Quatre pôles, une seule chaîne',
   chapo:
     'Pas quatre offres au catalogue : ce qui est construit tourne, ce qui tourne produit de la ' +
-    'donnée — et cette donnée ouvre l’IA et l’arbitrage des budgets et des parcours. L’une, ' +
-    'l’autre, ou les deux.',
+    'donnée — et cette donnée ouvre l’IA et l’arbitrage. L’une, l’autre, ou les deux.',
   appui:
-    'La chaîne ne tient que parce que c’est la même personne à chaque poste. Découpée entre ' +
-    'prestataires, elle casse à chaque jointure.',
+    'La chaîne ne tient que parce que c’est la même personne à chaque poste : découpée, elle ' +
+    'casse à chaque jointure.',
 } as const
 
 export const PAGE_ACCUEIL: IEditorialPage = {

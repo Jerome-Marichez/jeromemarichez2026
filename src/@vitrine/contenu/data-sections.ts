@@ -25,14 +25,11 @@ export const SECTIONS_DATA: IEditorialSection[] = [
     kicker: 'Le point de départ',
     titre: 'Je commence par votre métier, pas par votre donnée',
     chapo:
-      'Une activité qui tourne sait déjà beaucoup de choses, rarement écrites. Le mettre noir ' +
-      'sur blanc est une prestation à part entière.',
+      'Une activité qui tourne sait déjà beaucoup de choses, rarement écrites. Les mettre noir ' +
+      'sur blanc se livre pour soi.',
     blocs: [
       {
         titre: 'Faire émerger les règles qui existent déjà',
-        texte:
-          'Je recueille les règles de décision auprès de ceux qui les appliquent, puis je les ' +
-          'confronte à votre historique.',
         preuve:
           'AMOA de la startup biotech Artedrone : besoin recueilli auprès des équipes ' +
           'scientifiques et dirigeantes, traduit en spécifications exploitables par des ' +
@@ -62,9 +59,7 @@ export const SECTIONS_DATA: IEditorialSection[] = [
       },
       {
         titre: 'Cette phase se livre pour elle-même',
-        texte:
-          'Un document : règles formalisées, profils identifiés, ce que votre donnée dit de ' +
-          'votre activité. Vous pouvez vous arrêter là.',
+        texte: 'Un document : règles formalisées, profils identifiés. Vous pouvez vous arrêter là.',
         decision: 'S’il y a un problème qui mérite d’être traité par la technique — et lequel.',
       },
     ],
@@ -76,21 +71,15 @@ export const SECTIONS_DATA: IEditorialSection[] = [
     kicker: 'La stratégie data',
     titre: 'Construire la stratégie data, ou s’appuyer sur celle qui existe',
     chapo:
-      'Soit il faut décider quoi mesurer, soit la donnée existe et il s’agit d’en tirer ' +
-      'quelque chose sans tout refaire.',
+      'Soit il faut décider quoi mesurer, soit la donnée existe et il faut en tirer quelque ' +
+      'chose sans tout refaire.',
     blocs: [
       {
         titre: 'Quand rien n’est en place',
-        texte:
-          'Indicateurs, plan de collecte, pipelines d’ingestion, modélisation : PostgreSQL ' +
-          'relationnel, séries temporelles ou vectoriel, MySQL, Firebase.',
         decision: 'Ce que vous commencez à mesurer maintenant, et ce qui peut attendre six mois.',
       },
       {
         titre: 'Quand la donnée existe déjà',
-        texte:
-          'Réconciliation multi-sources et dédoublonnage selon votre modèle métier, écarts ' +
-          'corrigés dès l’ingestion.',
         preuve:
           'Système d’analyse multi-sources conforme RGPD mesurant la rentabilité client à ' +
           'long terme, branché sur Google Ads et Bing Ads.',
@@ -112,19 +101,14 @@ export const SECTIONS_DATA: IEditorialSection[] = [
     kicker: 'Gouvernance et droit',
     titre: 'Qui possède quoi, et ce qui a le droit d’être traité',
     chapo:
-      'Elle se pose avant la moindre ligne de code : sa réponse écarte des solutions entières, ' +
-      'et y répondre après coup coûte le double.',
+      'Elle se pose avant la moindre ligne de code : sa réponse écarte des solutions entières.',
     blocs: [
       {
         titre: 'Qui possède la donnée',
-        texte:
-          'Cartographie des sources et de leur propriété : à vous, à vos clients, ou à une ' +
-          'régie.',
         decision: 'Quelle donnée reste chez vous, et ce que vous acceptez d’envoyer à un tiers.',
       },
       {
         titre: 'Ce qui a le droit d’être collecté et traité',
-        texte: 'RGPD, base légale, consentement géré par une CMP, cadrage avec le juridique.',
         preuve:
           'Conformité RGPD et DORA tenue en appels d’offres grands comptes — distribution, ' +
           'assurance, banque. Cadrage RGPD des données clients chez un e-commerçant de ' +
@@ -135,8 +119,8 @@ export const SECTIONS_DATA: IEditorialSection[] = [
       {
         titre: 'La contrainte oriente la solution',
         texte:
-          'Si une donnée ne peut pas quitter votre système, le service tiers est écarté : ' +
-          'reste un modèle open-weight hébergé — Llama 3 — ou une règle explicite.',
+          'Donnée qui ne peut pas sortir de chez vous : le service tiers est écarté, reste un ' +
+          'modèle open-weight hébergé — Llama 3 — ou une règle explicite.',
       },
     ],
   },
@@ -155,7 +139,7 @@ export const SECTIONS_DATA: IEditorialSection[] = [
     titre: 'Un métier compris devient un budget arbitrable',
     chapo:
       'Règles écrites, profils identifiés, donnée gouvernée : on tient la matière des ' +
-      'arbitrages. Sans elle, le SEA achète du volume.',
+      'arbitrages.',
     blocs: [
       {
         titre: 'Rentabilité à long terme',

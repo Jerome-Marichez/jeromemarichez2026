@@ -19,14 +19,14 @@ export const LIMITES: IBoundary[] = [
   {
     hors: 'Pas de cluster Kubernetes administré en propre',
     alaPlace:
-      'Cloud Run, VM Compute Engine auto-scalées, cloud functions et Pub/Sub. Le run tourne, ' +
-      'il est mesuré, et il ne repose sur aucune compétence que je ne tiens pas.',
+      'Cloud Run, VM Compute Engine auto-scalées, cloud functions et Pub/Sub. Le run est ' +
+      'mesuré, et il tient sur les seules compétences que je maîtrise.',
   },
   {
     hors: 'Pas de framework RAG tiers',
     alaPlace:
       'RAG fait maison : recherche vectorielle PostgreSQL et API OpenAI, réponses ancrées sur ' +
-      'votre documentation interne.',
+      'votre documentation interne, pas sur la mémoire du modèle.',
   },
   {
     hors: 'Pas de création graphique ni de design d’interface',
@@ -48,15 +48,13 @@ export const LIMITES: IBoundary[] = [
   {
     hors: 'Un seul outillage de mesure mobile',
     alaPlace:
-      'Firebase Analytics et Crashlytics, et rien d’autre. Côté web : Google Tag Manager en ' +
-      'conteneur web et server-side, Measurement Protocol, Google Analytics, Matomo, gestion ' +
-      'du consentement.',
+      'Firebase Analytics et Crashlytics, et rien d’autre. Côté web : Google Tag Manager web ' +
+      'et server-side, Measurement Protocol, Google Analytics, Matomo, consentement.',
   },
   {
     hors: 'ISTQB Foundation, et rien au-delà',
     alaPlace:
-      'C’est le seul niveau que je détiens, c’est donc le seul affiché. Ce qui est outillé ' +
-      'l’est réellement : tests d’abord, Jest, Cypress, Playwright, mutation Stryker, Postman, ' +
-      'Lighthouse.',
+      'C’est le seul niveau que je détiens, c’est donc le seul affiché. Outillage réel : tests ' +
+      'd’abord, Jest, Cypress, Playwright, mutation Stryker, Postman, Lighthouse.',
   },
 ]
