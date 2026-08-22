@@ -690,3 +690,75 @@ doit le dire sans qu'un mot ait à l'expliquer.
 Le volume annoncé est **dérivé des listes sources**, jamais écrit à la main : l'accueil ne
 peut donc pas annoncer un nombre de fiches que l'espace ne tient pas. C'est la même règle
 que pour les chiffres de `preuves.ts`.
+
+## La maille de fond
+
+Le fond était un lavis radial unique, une trame de 32 px et un grain. Correct, sobre —
+et **sans matière**. C'est ce qui explique l'échec des trois tentatives de verre
+réfractant : un verre ne montre rien par lui-même, il montre **ce qu'il déforme**. Sur un
+lavis uniforme, la réfraction a été mesurée à **2 niveaux sur 255**, c'est-à-dire rien.
+
+La maille ajoute quatre lavis larges, **un par pôle**, posés en descendant : ingénierie en
+haut à gauche, donnée à droite, puis les deux suites plus bas. Le fond raconte la même
+chaîne que la page, sans qu'aucun mot ne le dise — et il donne au verre de quoi travailler.
+
+### Ce qui est repris d'ailleurs, et ce qui ne l'est pas
+
+Le **procédé** vient d'une référence dont la signature visuelle est un fond maillé pastel.
+Ses **couleurs**, non : la direction du site est « L'Établi » — papier chaud, cuivre, trame
+technique — et copier un pastel vert-jaune aurait fait perdre l'identité que tout le reste
+défend. La maille se construit donc dans les quatre teintes de pôle, déjà mesurées.
+
+### Contraintes tenues
+
+| Contrainte | Comment |
+|---|---|
+| Zéro octet téléchargé | Uniquement des `radial-gradient`. Aucune image. |
+| Aucune couche de compositing plein document | Ni `filter` ni `will-change` sur `.fond-atelier`, qui dépasse 9 000 px de haut sur l'accueil |
+| Pas de rasterisation géante | Les quatre lavis sont dimensionnés en **pixels**, jamais en pourcentage — chacun reste un disque de la taille d'un écran |
+
+### Contraste — mesuré, pas supposé
+
+L'alpha est de **5,5 %** par lavis en thème clair, **3,5 %** en sombre. La part descend en
+sombre parce que les teintes de pôle y sont choisies claires pour porter du texte : à part
+égale, la même maille y serait deux fois plus présente.
+
+Pire cas, deux lavis superposés à pleine intensité, contre le fond le plus sombre du
+dégradé :
+
+| Thème | Paire la plus défavorable | `--encre-douce` | `--encre` |
+|---|---|---|---|
+| clair | ingénierie + data | **5.70:1** (nu : 6.65) | 12.72:1 |
+| sombre | IA + SEA & UX | **6.92:1** (nu : 7.57) | 14.37:1 |
+
+Le seuil AA du texte est à 4.5:1 : les deux tiennent avec de la marge.
+
+> **Un écart relevé au passage.** Les ratios des tableaux de jetons plus haut sont mesurés
+> sur `--fond` (`#F2EFE8`), alors que le fond réellement peint est le dégradé de
+> `.fond-atelier`, qui descend à `#EDE9E0`. Les vrais ratios sont donc légèrement plus bas
+> que ceux affichés — `--encre-douce` est à 6.65:1 et non 7.02:1. Tous restent au-dessus du
+> seuil, mais la documentation est optimiste d'environ un tiers de point.
+
+## Le verre de la bande
+
+La bande avait déjà flou, saturation et un trait de lumière au ras du haut. Il lui
+manquait ce qui fait lire du **verre** plutôt qu'un fond translucide : la **pile
+d'ombres**.
+
+Trois couches, et chacune dit une chose :
+
+1. la **lumière** au ras du haut — la tranche qui prend le jour ;
+2. le **rebond** au ras du bas — la face inférieure, qui ne reçoit que ce que le papier lui
+   renvoie : plus faible, et jamais blanche ;
+3. l'**ombre portée** sous la bande — sans elle, le verre est dans le plan de la page au
+   lieu de flotter au-dessus. C'est ce décollement qui manquait.
+
+L'ombre portée est large et très diluée : une ombre courte et dense se lirait comme une
+bordure, pas comme de la distance.
+
+La **réfraction** arrive aussi sur la bande, sous le même verrou que les panneaux — Blink
+seul, Safari et Firefox exclus par une clause `not (…)` qui survit à la minification. Le
+gate est recopié plutôt que factorisé : une classe partagée entre un panneau et une bande
+obligerait l'une à porter les réglages de l'autre, et c'est exactement ce qui produit les
+traînées colorées. Elle n'a de sens que depuis que le fond porte une maille.
+
