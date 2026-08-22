@@ -59,6 +59,9 @@ export function SiteFooter() {
               <Link href={ROUTES.accueil}>Accueil</Link>
             </li>
             <li>
+              <Link href={ROUTES.realisations}>Réalisations</Link>
+            </li>
+            <li>
               <Link href={ROUTES.blog}>Blog</Link>
             </li>
           </ul>

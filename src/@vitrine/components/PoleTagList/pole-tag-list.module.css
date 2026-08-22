@@ -1,0 +1,43 @@
+/* pole-tag-list.module.css — les pôles mobilisés par une réalisation.
+ * Un filet à gauche plutôt qu'une pastille pleine : la teinte du pôle reste un repère,
+ * elle ne devient pas un bouton. Aucune couleur n'est nommée ici — `--accent` est mappé
+ * par `poles.css` à partir du `data-pole` posé sur chaque item. */
+
+.zone {
+  display: flex;
+}
+
+.liste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+}
+
+.etiquette {
+  display: inline-flex;
+  align-items: baseline;
+  padding: var(--e-0) var(--e-2);
+  border-left: 2px solid var(--accent-vif);
+  border-radius: 0 var(--rayon-petit) var(--rayon-petit) 0;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--accent);
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: background-color var(--duree-micro) ease-out;
+}
+
+.etiquette:hover,
+.etiquette:focus-visible {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}

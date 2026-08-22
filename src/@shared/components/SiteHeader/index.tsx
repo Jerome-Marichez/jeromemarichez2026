@@ -52,12 +52,24 @@ export function SiteHeader() {
             </ul>
           </nav>
 
-          {/* Bloc distinct, et pas un élément de plus dans la liste des pôles : le blog
-              n'est pas une offre, et l'ajouter à la chaîne le ferait lire comme telle. */}
-          <nav aria-label="Le blog" className={styles.navigationSecondaire}>
-            <Link className={styles.lien} href={ROUTES.blog}>
-              Blog
-            </Link>
+          {/* Bloc distinct, et pas deux éléments de plus dans la liste des pôles : ni les
+              réalisations ni le blog ne sont des offres, et les ajouter à la chaîne les
+              ferait lire comme telles. Les réalisations passent devant le blog — elles
+              montrent ce qui a été fait, ce qui est la question que se pose un visiteur
+              qui vient de lire les quatre pôles. */}
+          <nav aria-label="Réalisations et blog" className={styles.navigationSecondaire}>
+            <ul className={styles.liste}>
+              <li>
+                <Link className={styles.lien} href={ROUTES.realisations}>
+                  Réalisations
+                </Link>
+              </li>
+              <li>
+                <Link className={styles.lien} href={ROUTES.blog}>
+                  Blog
+                </Link>
+              </li>
+            </ul>
           </nav>
         </div>
       </div>

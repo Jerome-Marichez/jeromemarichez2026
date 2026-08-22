@@ -126,6 +126,83 @@ export function buildArticleSchema(params: {
 }
 
 /**
+ * La liste des réalisations, avec l'inventaire de ses fiches.
+ *
+ * `CollectionPage` et non `Blog` : ces pages ne sont pas datées et ne forment pas une
+ * publication périodique. Surtout, **ni `Service` ni `CreativeWork`** — le premier
+ * affirmerait une prestation vendue, le second une œuvre dont on détiendrait les droits.
+ * Ce sont des travaux menés sous contrat de travail : la seule chose que le JSON-LD a le
+ * droit de dire, c'est qu'il existe une page qui en fait la liste.
+ *
+ * L'`ItemList` est en `mainEntity` : elle est le sujet de la page, pas un à-côté. Chaque
+ * élément n'y porte que son nom et son URL, le détail étant déclaré par la fiche
+ * elle-même — recopier ici le contenu des fiches donnerait deux descriptions du même
+ * objet, qui divergeraient à la première correction.
+ */
+export function buildCollectionPageSchema(params: {
+  nom: string
+  description: string
+  route: string
+  elements: readonly { titre: string; route: string }[]
+}): Record<string, unknown> {
+  const url = toAbsoluteUrl(params.route)
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${url}#collection`,
+    name: params.nom,
+    description: params.description,
+    url,
+    inLanguage: 'fr-FR',
+    author: { '@id': `${SITE_URL}/#personne` },
+    publisher: { '@id': `${SITE_URL}/#activite` },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: params.elements.length,
+      itemListElement: params.elements.map((element, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: element.titre,
+        url: toAbsoluteUrl(element.route),
+      })),
+    },
+  }
+}
+
+/**
+ * Une fiche de réalisation, rattachée à la collection qui la contient.
+ *
+ * `WebPage`, le type le plus pauvre qui soit — et c'est exactement ce qu'on veut. Toute
+ * montée en spécificité affirmerait quelque chose de plus : `Service` une prestation
+ * vendue, `CreativeWork` une œuvre, `Project` une entreprise autonome. Aucune de ces trois
+ * affirmations n'est vraie d'un travail mené sous contrat de travail.
+ *
+ * `isPartOf` pointe la collection par son `@id`, ce qui suffit à un moteur pour rattacher
+ * la fiche à la liste sans que celle-ci ait à redéclarer quoi que ce soit.
+ */
+export function buildRealisationSchema(params: {
+  titre: string
+  chapo: string
+  route: string
+  collectionRoute: string
+}): Record<string, unknown> {
+  const url = toAbsoluteUrl(params.route)
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${url}#realisation`,
+    name: params.titre,
+    description: params.chapo,
+    url,
+    inLanguage: 'fr-FR',
+    isPartOf: { '@id': `${toAbsoluteUrl(params.collectionRoute)}#collection` },
+    author: { '@id': `${SITE_URL}/#personne` },
+  }
+}
+
+/**
  * Le blog lui-même, avec la liste de ses articles.
  *
  * Les articles n'y sont référencés que par leur `@id` et leur titre : le détail est

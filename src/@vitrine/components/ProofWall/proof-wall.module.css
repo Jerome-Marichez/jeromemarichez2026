@@ -36,3 +36,14 @@
   line-height: 1.5;
   color: var(--encre-douce);
 }
+
+/* Le renvoi vers la fiche est poussé en bas de tuile par `margin-top: auto` : les six
+   tuiles n'ont pas la même hauteur de contexte, et trois seulement portent un lien —
+   sans cela, les liens se retrouveraient à trois hauteurs différentes sur la même
+   ligne de grille. */
+.renvoi {
+  margin-top: auto;
+  padding-top: var(--e-1);
+  font-size: var(--t--1);
+  line-height: 1.4;
+}
