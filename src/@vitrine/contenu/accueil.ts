@@ -16,7 +16,7 @@ import { SECTIONS_ACCUEIL } from './accueil-sections'
 export const HERO_ACCUEIL = {
   titre: "Je construis, j'exploite, je mesure. Le même interlocuteur, du cadrage au run.",
   chapo:
-    'Ingénieur logiciel à Lille, 9 ans. Celui qui cadre est celui qui code, qui mesure ' +
+    'Ingénieur-conseil indépendant à Lille, 9 ans. Celui qui cadre est celui qui code, qui mesure ' +
     'et qui exploite — et c’est lui qui répond de tout.',
   // Le fil IA se dit dès le seuil, sinon il se découvre au pôle Data et se lit comme une
   // offre. Formulation tenue par les règles de véracité : l'IA instruit et produit, le
@@ -55,7 +55,7 @@ export const THESE_CHAINE = {
 export const PAGE_ACCUEIL: IEditorialPage = {
   route: '/',
   meta: {
-    title: 'Jérôme Marichez — Ingénieur logiciel à Lille',
+    title: 'Jérôme Marichez — Ingénieur-conseil indépendant à Lille',
     description:
       'Ingénierie web, data, IA, SEA & UX : un seul interlocuteur du cadrage au run, ' +
       'qui répond de tout. Conception, développement et pilotage avec l’IA. Lille et ' +

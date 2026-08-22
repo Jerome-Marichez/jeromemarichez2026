@@ -96,19 +96,33 @@
   }
 }
 
-/* Deux façons de figer, une seule règle. `paused` et non `none` : la scène garde la
-   pose où elle en était plutôt que de sauter à son image de départ — c'est ce qu'attend
-   quelqu'un qui appuie sur « Figer l'animation » en la regardant. */
-.scene[data-fige="true"] .groupe,
-.scene[data-fige="true"] .groupe > g {
-  animation-play-state: paused;
-}
-
+/* Deux façons de figer, et elles ne figent pas pareil.
+ *
+ * La préférence système d'abord : `animation: none`. Quelqu'un qui demande moins de
+ * mouvement ne demande pas une pause, il demande qu'il n'y en ait pas — la scène doit
+ * donc se poser sur son image de départ et ne plus rien devoir au hasard du moment où
+ * la page s'est chargée.
+ *
+ * L'ORDRE des deux blocs n'est pas indifférent, et il est le seul possible : le
+ * sélecteur `[data-fige]` est plus spécifique (0, 3, 1) que celui de la requête média
+ * (0, 1, 1). Écrit dans l'autre sens, c'était une spécificité descendante — Biome la
+ * relève (`lint/style/noDescendingSpecificity`), et c'est un piège réel dès qu'une
+ * troisième règle s'ajoutera entre les deux. Ne pas les réintervertir. */
 @media (prefers-reduced-motion: reduce) {
   .groupe,
   .groupe > g {
     animation: none;
   }
+}
+
+/* Le contrôle de la page ensuite : `paused` et NON `none`. La scène garde la pose où
+   elle en était plutôt que de sauter à son image de départ — c'est ce qu'attend
+   quelqu'un qui appuie sur « Figer l'animation » en la regardant. C'est le mécanisme
+   de mise en pause qu'exige WCAG 2.2.2, que la préférence système ne remplace pas :
+   elle ne se change pas depuis la page. */
+.scene[data-fige="true"] .groupe,
+.scene[data-fige="true"] .groupe > g {
+  animation-play-state: paused;
 }
 
 /* La marque du pôle, posée au bord d'attaque de sa dalle. Elle dérive AVEC elle — c'est
