@@ -66,17 +66,25 @@
   --t-note: 0.9375rem;
   --t-0: clamp(1rem, 0.955rem + 0.22vw, 1.125rem);
   --t-1: clamp(1.25rem, 1.16rem + 0.44vw, 1.5rem);
-  --t-2: clamp(1.4375rem, 1.29rem + 0.72vw, 1.8125rem);
-  --t-3: clamp(1.9375rem, 1.6rem + 1.75vw, 2.875rem);
-  --t-4: clamp(2.5rem, 1.78rem + 3.6vw, 4.25rem);
-  --t-chiffre: clamp(2.5rem, 1.85rem + 3.1vw, 4rem);
+  /* Les trois crans de titre et le cran de chiffre ont été RESSERRÉS d'environ un quart
+     au sommet de l'échelle : 68 px de `h1` sur un écran large tenaient de l'affiche, pas
+     de la page de service. Le RAPPORT entre les crans est conservé — c'est lui qui fait
+     la hiérarchie, pas l'amplitude —, et la borne basse ne bouge que de quelques pixels :
+     à 320 px, l'échelle était déjà juste, c'est en s'ouvrant qu'elle dérapait. */
+  --t-2: clamp(1.3125rem, 1.2rem + 0.6vw, 1.625rem); /* 21 → 26 px */
+  --t-3: clamp(1.625rem, 1.41rem + 1.07vw, 2.1875rem); /* 26 → 35 px */
+  --t-4: clamp(2.125rem, 1.72rem + 2.02vw, 3.25rem); /* 34 → 52 px */
+  --t-chiffre: clamp(2.125rem, 1.75rem + 1.87vw, 3.125rem); /* 34 → 50 px */
 
   /* — Interlettrage — */
   /* Une fonte de titre gagne en tenue quand elle se resserre à mesure qu'elle grandit :
-     à 72 px, l'approche dessinée pour du labeur laisse des trous entre les lettres. Les
+     à 68 px, l'approche dessinée pour du labeur laissait des trous entre les lettres. Les
      étiquettes font l'inverse — capitales de 13 px, elles ont besoin d'air pour rester
-     lisibles. Trois valeurs, jamais réécrites dans un module. */
-  --suivi-display: -0.028em;
+     lisibles. Trois valeurs, jamais réécrites dans un module.
+     `--suivi-display` remonte de -0.028 à -0.02 em avec l'échelle : l'approche négative
+     compense une taille, elle n'est pas un style. À 52 px, -0.028 em recollait les
+     lettres au lieu de refermer un trou. */
+  --suivi-display: -0.02em;
   --suivi-titre: -0.016em;
   --suivi-etiquette: 0.09em;
 
@@ -95,6 +103,10 @@
   --rayon-petit: 8px;
   --largeur-page: 76rem;
   --mesure-texte: 64ch;
+  /* Côté d'une marque dessinée — celle d'un pôle sur sa plaque, celle d'un espace
+     éditorial sur sa carte. Un seul jeton pour les six : elles forment une série, et une
+     série dont les tailles divergent n'en est plus une. */
+  --taille-glyphe: 2.25rem;
 
   /* — Repères d'empilement collant — */
   /* Hauteur nominale de l'en-tête, en un seul endroit : la barre de pôle s'y accroche,
@@ -220,14 +232,15 @@ h3 {
 
 h1 {
   font-size: var(--t-4);
-  /* 1.05 et non 1.02 : à 72 px, une jambe de « j » et l'ascendante de la ligne suivante
-     se touchent sous 1.05 dans Fraunces. Le gain d'un centième ne vaut pas ça. */
-  line-height: 1.05;
+  /* 1.08 suit la baisse de `--t-4` : le risque de collision entre une jambe de « j » et
+     l'ascendante de la ligne suivante était une propriété des 68 px, pas de Fraunces.
+     À 52 px, l'interligne peut respirer sans que le titre se disperse. */
+  line-height: 1.08;
   letter-spacing: var(--suivi-display);
-  /* 20ch était calé sur une échelle plus petite. À 72 px, la mesure se referme d'un
-     cran : c'est le nombre de signes par ligne qui fait la tenue d'un titre, pas sa
-     largeur en pixels. */
-  max-width: 18ch;
+  /* La mesure suit l'échelle en sens INVERSE de la taille : c'est le nombre de signes
+     par ligne qui fait la tenue d'un titre. 18ch était le repli d'un titre à 68 px ;
+     à 52 px, la ligne peut reprendre les 21 signes sans se rompre. */
+  max-width: 21ch;
 }
 
 h2 {

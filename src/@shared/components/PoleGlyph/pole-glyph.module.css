@@ -1,0 +1,39 @@
+/* pole-glyph.module.css — la marque d'un pôle.
+ *
+ * Trois règles, et rien d'autre. La marque ne connaît pas la couleur de son pôle : elle
+ * est tracée en `currentColor`, et `color: var(--accent)` laisse `poles.css` décider sous
+ * le `data-pole` de la plaque qui l'accueille. C'est la même mécanique que le dégradé de
+ * la scène des quatre dalles, pour la même raison — un module qui nommerait une teinte
+ * de pôle serait le dix-neuvième à devoir être touché au prochain pôle. */
+
+.glyphe {
+  flex: none;
+  width: var(--taille-glyphe);
+  height: var(--taille-glyphe);
+  color: var(--accent);
+  /* Le tracé n'est PAS du texte : c'est un décor, et il tombe sous le seuil non-texte de
+     3:1 comme les filets et les arêtes du site. `--accent` reste malgré tout au-dessus de
+     4.5:1 dans les quatre pôles et les deux thèmes — la marge est prise, pas dépensée. */
+  opacity: 0.9;
+}
+
+/* L'assise du socle : le seul trait plus épais de la série. Un socle qui aurait la même
+   épaisseur que ce qu'il porte ne se lirait pas comme une assise. */
+.appui {
+  stroke-width: 2.4;
+}
+
+/* La trame de la donnée. Le point est un tracé de longueur nulle à bout rond, donc son
+   diamètre EST son épaisseur : c'est la seule façon d'obtenir dix points sans dix
+   éléments `circle`. */
+.point {
+  stroke-width: 2.6;
+}
+
+/* La convention partagée par les deux sœurs : ce qui est écarté est tireté. Elle vaut
+   dans les deux marques, au même poids de trait — c'est ce qui les fait lire comme deux
+   décisions de rang égal, et non comme deux étapes. */
+.ecarte {
+  stroke-dasharray: 2.6 2.6;
+  opacity: 0.65;
+}
