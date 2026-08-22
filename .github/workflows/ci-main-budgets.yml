@@ -1,0 +1,39 @@
+name: ci-main-budgets
+# Check complet (PR -> main) : budgets de performance ET d'accessibilité mesurés sur les
+# pages représentatives — accueil, page de pôle, page d'article.
+#
+# Pourquoi ici : une mesure Lighthouse coûte trois passes par page (médiane) sur un
+# mobile émulé et un réseau bridé. C'est plusieurs minutes, et la variance impose la
+# répétition. La payer à chaque PR vers `dev` taxerait tout le monde pour une métrique
+# qui bouge rarement d'un commit à l'autre ; la placer sur la PR de mise en production
+# la met exactement là où la question se pose — « est-ce que ce qu'on publie tient les
+# chiffres qu'on vend ? ». C'est la convention du dépôt : `ci-dev-*` = rapide et à
+# chaque PR, `ci-main-*` = complet avant production (e2e, système, build).
+#
+# `workflow_dispatch` permet de lancer la mesure à la demande depuis `dev`, sans
+# attendre la PR de production.
+#
+# Seuils : `scripts/budgets/pages.mjs`, repris du CLAUDE.md — Lighthouse >= 95 sur les
+# quatre catégories. Règle 8 du CLAUDE.md : ce job n'a ni `continue-on-error`, ni
+# condition, ni exemption. S'il est rouge, c'est la page qu'on corrige.
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  budgets:
+    name: Budgets performance + accessibilité
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+      - name: Installation
+        run: make install
+      - name: Navigateur de mesure
+        run: npx puppeteer browsers install chrome
+      # make budgets construit l'export, le sert, mesure axe puis Lighthouse, et sort en
+      # échec en nommant la page et la catégorie fautives (scripts/budgets.mjs).
+      - name: Budgets
+        run: make budgets
