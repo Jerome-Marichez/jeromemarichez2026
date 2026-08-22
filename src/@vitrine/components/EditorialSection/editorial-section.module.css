@@ -4,7 +4,16 @@
   display: flex;
   flex-direction: column;
   gap: var(--e-5);
-  scroll-margin-top: 6rem;
+  scroll-margin-top: var(--decalage-ancre);
+}
+
+/* Le corps porte le rythme interne de la section. Il est aussi l'élément que `Reveal`
+   révèle : aucun `transform` ne doit être écrit ici, c'est le module de la révélation
+   qui en est propriétaire. */
+.corps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-5);
 }
 
 .entete {
@@ -18,7 +27,7 @@
   font-weight: 500;
   font-size: var(--t--1);
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: var(--suivi-etiquette);
   color: var(--cuivre);
 }
 

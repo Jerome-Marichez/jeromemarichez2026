@@ -8,9 +8,11 @@
   flex-direction: column;
   gap: var(--e-5);
   padding: var(--e-6) 0 var(--e-5);
-  scroll-margin-top: 6rem;
+  scroll-margin-top: var(--decalage-ancre);
 }
 
+/* Comme la charnière : le tracé part à l'entrée du fil dans l'écran, pas au chargement
+   de la page. `Reveal` pose `data-revele` sur la section elle-même. */
 .fil::before,
 .fil::after {
   content: "";
@@ -19,7 +21,17 @@
   height: 2px;
   background: var(--cuivre-vif);
   transform-origin: left;
-  animation: tracer-fil var(--duree-tracer) var(--courbe-tracer) both;
+  transition: transform var(--duree-tracer) var(--courbe-tracer);
+}
+
+.fil[data-revele="attente"]::before,
+.fil[data-revele="attente"]::after {
+  transform: scaleX(0);
+}
+
+.fil[data-fige="true"]::before,
+.fil[data-fige="true"]::after {
+  transition: none;
 }
 
 .fil::before {
@@ -42,7 +54,7 @@
   font-weight: 500;
   font-size: var(--t--1);
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: var(--suivi-etiquette);
   color: var(--cuivre);
 }
 
@@ -93,7 +105,7 @@
 
 .etapeTexte {
   margin: 0;
-  font-size: 0.9375rem;
+  font-size: var(--t-note);
   line-height: 1.55;
   color: var(--encre-douce);
 }
@@ -119,22 +131,18 @@
 .decisionLabel {
   font-family: var(--police-mono-pile);
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: var(--suivi-etiquette);
   color: var(--cuivre);
-}
-
-@keyframes tracer-fil {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .fil::before,
   .fil::after {
-    animation: none;
+    transition: none;
+  }
+
+  .fil[data-revele="attente"]::before,
+  .fil[data-revele="attente"]::after {
+    transform: none;
   }
 }

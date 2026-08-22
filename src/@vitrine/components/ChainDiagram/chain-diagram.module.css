@@ -42,7 +42,7 @@
   font-weight: 500;
   font-size: var(--t--1);
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: var(--suivi-etiquette);
   color: var(--cuivre);
 }
 
@@ -68,7 +68,7 @@
   gap: var(--e-2);
   max-width: 40rem;
   padding-left: clamp(0rem, 4vw, 3.5rem);
-  font-size: 0.9375rem;
+  font-size: var(--t-note);
   color: var(--encre-douce);
 }
 

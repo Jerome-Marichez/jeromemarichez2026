@@ -2,6 +2,7 @@
 // Une section de contenu, rendue selon sa nature.
 
 import { GlassSurface } from '@/@shared/components/GlassSurface'
+import { Reveal } from '@/@shared/components/Reveal'
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
 import { ExpertiseBlock } from '../ExpertiseBlock'
 import { HingeNote } from '../HingeNote'
@@ -33,8 +34,12 @@ export function EditorialSection({ section, glass = false }: EditorialSectionPro
 
   const titreId = `${section.id}-titre`
 
+  // La révélation enveloppe le CORPS, jamais la section. Quand la section est vitrée,
+  // elle se retrouve ainsi à l'intérieur de `GlassSurface`, sous un conteneur qui est
+  // déjà un contexte d'empilement : son `transform` transitoire ne peut pas déplacer la
+  // lentille liquidGL dans l'ordre de peinture. L'inverse casserait le verre.
   const corps = (
-    <>
+    <Reveal className={styles.corps}>
       <header className={styles.entete}>
         <p className={styles.kicker}>{section.kicker}</p>
         <h2 className={styles.titre} id={titreId}>
@@ -50,7 +55,7 @@ export function EditorialSection({ section, glass = false }: EditorialSectionPro
           ))}
         </div>
       ) : null}
-    </>
+    </Reveal>
   )
 
   return (

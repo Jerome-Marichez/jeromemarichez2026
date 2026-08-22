@@ -11,10 +11,12 @@
      cas d'école du jank au défilement : un en-tête `sticky` pleine largeur qui porte un
      `backdrop-filter` force le navigateur à reflouter la bande à chaque image, sur les
      appareils qui en ont le moins les moyens.
-     92% et non 88% : sans flou pour brouiller ce qui passe dessous, il faut un peu plus
-     de matière pour que le texte des sections ne reste pas lisible à travers l'en-tête.
-     La transparence ne doit jamais coûter la lisibilité du nom. */
-  background: color-mix(in srgb, var(--fond) 92%, transparent);
+     OPAQUE, et non translucide. Sans flou, il n'y a rien pour brouiller ce qui passe
+     dessous : un titre à fort contraste — tous les `h2` en thème sombre — reste
+     lisible à travers l'en-tête, et le défilement donne deux textes superposés. Ce
+     n'est pas de la transparence, c'est un fantôme. La transparence du site est celle
+     du verre, et le verre floute ; là où le flou n'est pas payé, la bande est pleine. */
+  background: var(--fond);
 }
 
 @media (min-width: 1024px) {
@@ -27,11 +29,17 @@
   }
 }
 
+/* Le plancher de hauteur n'est pas décoratif : `--hauteur-entete` est ce à quoi la
+   barre de pôle s'accroche. Si l'en-tête devenait plus court que son jeton, une bande
+   de contenu défilerait entre les deux — c'est le seul défaut visible de cet
+   empilement, et cette ligne l'empêche. Le jeton reste volontairement un poil sous la
+   hauteur réelle : la barre se glisse dessous plutôt que d'y laisser un jour. */
 .contenu {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--e-4);
+  min-height: var(--hauteur-entete);
   max-width: var(--largeur-page);
   margin-inline: auto;
   padding: var(--e-2) var(--e-4);
@@ -48,7 +56,7 @@
   font-family: var(--police-titre-pile);
   font-variation-settings: "opsz" 18;
   font-weight: 600;
-  font-size: 1.0625rem;
+  font-size: var(--t-0);
   line-height: 1.2;
 }
 
@@ -95,8 +103,8 @@
   border-radius: var(--rayon-petit);
   color: var(--encre);
   text-decoration: none;
-  font-size: 0.9375rem;
-  transition: background-color 140ms ease-out;
+  font-size: var(--t-note);
+  transition: background-color var(--duree-micro) ease-out;
 }
 
 .lien:hover {
@@ -120,7 +128,7 @@
   }
 
   .lien {
-    font-size: 0.875rem;
+    font-size: var(--t--1);
     padding-inline: var(--e-1);
   }
 }

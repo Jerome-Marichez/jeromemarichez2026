@@ -1,6 +1,7 @@
 // ThreadSection/index.tsx — jeromemarichez-fr
 // Le fil : une méthode qui traverse tous les pôles.
 
+import { Reveal } from '@/@shared/components/Reveal'
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
 import styles from './thread-section.module.css'
 
@@ -22,7 +23,7 @@ export function ThreadSection({ section }: ThreadSectionProps) {
   const titreId = `${section.id}-titre`
 
   return (
-    <section aria-labelledby={titreId} className={styles.fil} id={section.id}>
+    <Reveal ariaLabelledBy={titreId} as="section" className={styles.fil} id={section.id}>
       <header className={styles.entete}>
         <p className={styles.kicker}>{section.kicker}</p>
         <h2 className={styles.titre} id={titreId}>
@@ -51,6 +52,6 @@ export function ThreadSection({ section }: ThreadSectionProps) {
           </li>
         ))}
       </ol>
-    </section>
+    </Reveal>
   )
 }
