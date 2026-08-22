@@ -26,7 +26,7 @@
   font-size: var(--t-chiffre);
   font-variant-numeric: tabular-nums;
   line-height: 1;
-  color: color-mix(in srgb, var(--cuivre) 45%, transparent);
+  color: color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
 .placeTexte {
@@ -47,7 +47,7 @@
   font-variation-settings: "opsz" 28;
   font-size: var(--t-2);
   line-height: 1.3;
-  color: var(--cuivre);
+  color: var(--accent);
 }
 
 .accroche {
@@ -58,13 +58,13 @@
 }
 
 /* L'arête entrante : ce que le pôle amont remet, puis ce qui se passe quand le client
-   l'a déjà. Le liseré de cuivre à gauche la détache du récit du pôle — ce n'est pas une
+   l'a déjà. Le liseré d'accent à gauche la détache du récit du pôle — ce n'est pas une
    promesse de plus, c'est la condition d'entrée et son démenti dans la même phrase. */
 .jointure {
   max-width: var(--mesure-texte);
   padding-left: var(--e-3);
-  border-left: 2px solid var(--cuivre-vif);
-  font-size: 0.9375rem;
+  border-left: 2px solid var(--accent-vif);
+  font-size: var(--t-note);
   color: var(--encre-douce);
 }
 

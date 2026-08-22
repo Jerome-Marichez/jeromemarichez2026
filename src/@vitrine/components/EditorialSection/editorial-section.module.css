@@ -28,7 +28,7 @@
   font-size: var(--t--1);
   text-transform: uppercase;
   letter-spacing: var(--suivi-etiquette);
-  color: var(--cuivre);
+  color: var(--accent);
 }
 
 .titre {

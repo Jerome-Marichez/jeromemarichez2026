@@ -1,6 +1,8 @@
 /* expertise-block.module.css — un point d'expertise.
  * La preuve et la décision sont les deux seules lignes qu'un dirigeant pressé lira :
- * elles sont repérables au filet cuivre, sans être criées. */
+ * elles sont repérables à leur filet, sans être criées : la teinte du pôle pour la
+ * preuve, `--signal` pour la décision. Ce filet vert est le marqueur de la décision
+ * partout sur le site — c'est sa seule fonction, avec le témoin de mise en pause. */
 
 .bloc {
   display: flex;
@@ -27,7 +29,7 @@
   gap: var(--e-0);
   max-width: 46ch;
   padding-left: var(--e-2);
-  border-left: 2px solid var(--cuivre-vif);
+  border-left: 2px solid var(--accent-vif);
   font-size: var(--t-note);
 }
 

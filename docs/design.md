@@ -3,8 +3,8 @@
 Direction retenue : **« L'Établi »**. Le site est un plan de travail vu à travers des
 panneaux de verre — on voit littéralement au travers parce qu'il n'y a rien à cacher,
 ni chaîne de prestataires ni couche commerciale. Les quatre pôles ne sont pas quatre
-offres côte à côte : ce sont des plaques alignées dans le même axe, tenues par un
-liseré de cuivre.
+offres côte à côte : ce sont des plaques alignées dans le même axe, chacune tenue par
+le liseré de sa propre teinte.
 
 > **Décor à reprendre.** La scène SVG du seuil (`ChainCanvas` / `SlabScene`) dessine
 > encore **trois** dalles en file, héritées du modèle à trois pôles linéaires. Elle est
@@ -76,9 +76,9 @@ ci-dessous sont ceux des couples texte/fond effectivement utilisés.
 | `--fond-creux` | `#E7E2D7` | bandes de section en retrait | — |
 | `--encre` | `#14171A` | texte courant et titres | 15.67:1 |
 | `--encre-douce` | `#4A5157` | texte secondaire, chapôs | 7.02:1 |
-| `--cuivre` | `#8F4520` | liens, accents de texte, focus | 6.02:1 |
+| `--cuivre` | `#8F4520` | teinte de marque, et teinte du pôle « ingénierie web » | 6.02:1 |
 | `--cuivre-vif` | `#B4623A` | **non-texte uniquement** : filets, arêtes | 3.85:1 |
-| `--signal` | `#1F5F52` | disponibilité, ligne « ce que vous tranchez » | 6.49:1 |
+| `--signal` | `#1F5F52` | **la décision, et rien d'autre** — voir plus bas | 6.49:1 |
 
 ### Couleurs — thème sombre
 
@@ -91,9 +91,144 @@ ci-dessous sont ceux des couples texte/fond effectivement utilisés.
 | `--cuivre-vif` | `#F0A468` | 9.21:1 |
 | `--signal` | `#5FD1AE` | 10.12:1 |
 
-> `--cuivre-vif` en thème clair est à **3.85:1** : il passe le seuil AA des éléments
-> non textuels (3:1) mais **pas** celui du texte (4.5:1). Il ne doit jamais porter de
-> texte en thème clair.
+### Une teinte par pôle
+
+La couleur porte une **information** : le pôle qu'on est en train de lire. Le mécanisme
+tient en trois lignes, dans [`poles.css`](../src/app/poles.css) :
+
+1. une page ou une section de pôle pose `data-pole="<id>"` ;
+2. un bloc CSS mappe `--accent` et `--accent-vif` sur la teinte de ce pôle ;
+3. **aucun composant ne connaît la couleur d'un pôle** — les dix-huit modules CSS du
+   site ne consomment que `--accent` et `--accent-vif`.
+
+Hors de tout `data-pole` — accueil, blog, en-tête, pied de page — `--accent` vaut le
+cuivre : la teinte de marque, qui est aussi celle du socle.
+
+Trois endroits posent `data-pole` : la page de pôle
+([`PolePageView`](../src/@vitrine/views/PolePageView/index.tsx)), chaque maillon du
+schéma de la chaîne ([`ChainDiagram`](../src/@vitrine/components/ChainDiagram/index.tsx)),
+et chaque entrée du menu ([`SiteHeader`](../src/@shared/components/SiteHeader/index.tsx)) —
+l'en-tête devient ainsi la légende de la palette.
+
+#### Le choix des teintes
+
+Les quatre teintes sont posées en **OKLCH**, sur une seule clarté et une seule chroma par
+variante : **seule la teinte change**. C'est ce qui interdit de lire une progression là où
+il n'y en a pas — en particulier entre l'IA et le SEA & UX, qui sont deux branches
+**parallèles** de la donnée et non deux étapes successives (`CLAUDE.md`). Deux couleurs
+d'éclat différent auraient affirmé dans le pixel un ordre que le modèle nie.
+
+| Pôle | Place | Teinte OKLCH | Lecture |
+|------|-------|--------------|---------|
+| Ingénierie web | socle, temps 1 | h ≈ 45 — cuivre | inchangée : c'est la couleur de la maison |
+| Data | passage, temps 2 | h = 215 — bleu d'encre | le tronc refroidit en passant du construire au mesurer |
+| IA | suite, temps 3 | h = 300 — violet | à **+85°** du bleu de la donnée |
+| SEA & UX | suite, temps 3 | h = 130 — vert | à **−85°** du bleu de la donnée |
+
+Les deux suites sont **équidistantes** de la teinte de leur parent, à clarté et chroma
+strictement égales : la branche ne progresse pas, elle se dédouble.
+
+#### Contraste — les 16 valeurs, mesurées
+
+Luminance relative WCAG 2.x, calculée sur les valeurs sRGB effectives. **Aucune n'est
+arrondie ni estimée.**
+
+| Pôle | `--accent` clair | `--accent-vif` clair | `--accent` sombre | `--accent-vif` sombre |
+|------|------------------|----------------------|-------------------|-----------------------|
+| Ingénierie web | `#8F4520` — **6.02:1** | `#B4623A` — **3.85:1** | `#E08B4C` — **7.18:1** | `#F0A468` — **9.21:1** |
+| Data | `#00697B` — **5.53:1** | `#008AA1` — **3.55:1** | `#01B6D4` — **7.79:1** | `#48CBE7` — **9.89:1** |
+| IA | `#674D91` — **6.00:1** | `#8669B7` — **3.88:1** | `#AF8FE8` — **7.14:1** | `#C3A6F8` — **9.14:1** |
+| SEA & UX | `#48691D` — **5.52:1** | `#638937` — **3.54:1** | `#87B357` — **7.77:1** | `#9FC774` — **9.83:1** |
+
+- **`--accent` porte du texte** : seuil 4.5:1. Les huit valeurs le passent, la plus basse
+  à 5.52:1 (SEA & UX en thème clair).
+- **`--accent-vif` ne porte JAMAIS de texte** : seuil non-texte 3:1. Les quatre valeurs
+  claires sont entre 3.54:1 et 3.88:1 — au-dessus de 3:1, **sous** 4.5:1. C'est la même
+  règle que celle qui s'appliquait déjà au cuivre vif, étendue aux quatre pôles : filets,
+  arêtes, liserés, jamais un mot.
+- En thème sombre, les seize valeurs dépassent 7:1 : aucune contrainte n'y est tendue.
+
+#### Ce que la palette ne résout pas
+
+Le bleu de la donnée est la seule teinte dont la **chroma est bridée par le gamut sRGB**
+en thème clair : 0.084 au lieu des 0.110 des trois autres. Le cyan profond n'existe pas
+plus saturé à cette clarté. La conséquence est visible — la donnée paraît légèrement
+moins colorée que ses voisines sur fond clair — et elle est assumée : baisser les trois
+autres à 0.084 aurait éteint toute la palette pour aligner une seule teinte.
+
+Le **daltonisme** est la limite réelle de cette issue, et elle mérite d'être dite en
+clair. Quatre teintes à clarté et chroma égales ne peuvent pas rester toutes
+distinguables entre elles sous une vision dichromate : c'est une propriété de l'espace
+des couleurs, pas un défaut d'implémentation. Le choix a donc porté sur la paire qui
+compte le plus — les deux sœurs :
+
+| Paire | Protanopie | Deutéranopie | Tritanopie |
+|-------|-----------|--------------|------------|
+| IA / SEA & UX (retenue, h 300 / 130) | ΔE 0.199 | ΔE 0.180 | ΔE 0.024 |
+| *cyan / magenta voisins (écartée, h 210 / 320)* | *ΔE 0.061* | *ΔE 0.003* | *ΔE 0.115* |
+
+ΔE en OKLab, simulation Viénot 1999. La paire voisine — celle qui aurait le mieux dit
+« même famille chromatique » — rend les deux suites **strictement identiques** pour une
+deutéranopie, qui touche environ 5 % des hommes. La paire retenue les sépare franchement
+sur les deux formes courantes de daltonisme, et faiblement sur la tritanopie, qui touche
+moins de 0.01 % de la population. Le prix payé est un écart de teinte plus large que
+l'idéal esthétique.
+
+Dans tous les cas, **la couleur n'est jamais le seul porteur d'information** (WCAG 1.4.1) :
+chaque pôle porte aussi son nom, son libellé de place et son temps.
+
+> **À trancher par Jérôme MARICHEZ.** Si l'écart de teinte entre l'IA et le SEA & UX
+> paraît trop large à l'œil, l'alternative est documentée ci-dessus, avec son coût exact.
+
+### `--signal` : la décision, et rien d'autre
+
+`--signal` n'est pas une couleur d'ambiance. Il marque **la ligne « vous tranchez »**,
+partout où un bloc éditorial en porte une (`decision:` dans les contenus — une trentaine
+d'occurrences), et le **témoin de mise en pause** du `MotionToggle`. Trois emplois, une
+seule idée : *ici, une décision*.
+
+| Où | Forme |
+|----|-------|
+| `ExpertiseBlock` | filet vertical à gauche du bloc de décision |
+| `ThreadSection` | l'étiquette « Vous tranchez » |
+| `MotionToggle` | la pastille de l'animation active |
+
+La **ligne de preuve** ne le porte plus : elle prend `--accent`. Une couleur qui sert à
+deux choses ne sert plus à rien.
+
+### Verre et élévation
+
+Le flou du verre était écrit en dur dans trois modules, et les ombres du site étaient
+quatre littéraux différents. Tout est en jetons dans [`verre.css`](../src/app/verre.css).
+
+**Le voile n'est pas le flou.** Deux réglages indépendants font une surface de verre : le
+flou de ce qui passe derrière, et la part de fond opaque mélangée à la teinte.
+
+| Jeton | Valeur | Où |
+|-------|--------|-----|
+| `--verre-flou` | `14px` | les six surfaces floutées, au-delà de 1024px |
+| `--verre-saturation` | `1.15` | les panneaux de verre |
+| `--verre-saturation-bande` | `1.1` | les bandes collantes : ce qui passe dessous est du texte, pas un décor |
+| `--verre-epaisseur` | `1px` | l'arête d'un panneau, le filet d'une bande |
+| `--verre-epaisseur-lueur` | `1px` | la lueur haute, à l'intérieur |
+| `--verre-voile` | `55%` | panneaux : la trame doit rester visible |
+| `--verre-voile-bande` | `88%` | en-tête du site |
+| `--verre-voile-barre` | `82%` | barre de pôle |
+
+L'**échelle d'élévation** compte trois crans, dans l'ordre, et pas un de plus — un cran
+sans emploi serait un jeton mort, exactement le défaut corrigé ici :
+
+| Jeton | Sens | Où |
+|-------|------|-----|
+| `--elevation-creuse` | un creux **dans** le papier | la plaque de logo d'une certification |
+| `--elevation-posee` | posé **sur** le papier : la lueur d'arête d'une surface au repos | `.glass-surface`, les plaques de la chaîne, le bloc de contact |
+| `--elevation-levee` | **au-dessus** : la seule vraie ombre portée du site, teintée par `--accent` | une action sous la main |
+
+**Six surfaces répliquent un flou hors de liquidGL** — la bibliothèque ignore le `sticky`,
+et tout n'est pas une lentille : `SiteHeader`, `PoleStickyBar`, `ChainDiagram`,
+`HomeView` (`.contact`), `ThreadSection`, `CertificationList`. Elles consomment toutes les
+jetons ci-dessus. C'est la condition pour qu'un réglage du verre les emmène ensemble au
+lieu d'en laisser cinq derrière.
 
 ### Typographie
 
@@ -238,9 +373,9 @@ des pôles on lisait, et l'action de contact était restée en bas.
 | Une ancre ne doit pas se poser sous les bandes | `--decalage-ancre`, redéfini localement sur la page de pôle |
 
 La barre consomme **`--accent`**, la teinte du pôle courant, posée par `data-pole` sur la
-page (mécanisme de l'issue #44). Aucun composant ne connaît la couleur d'un pôle : il ne
-connaît que `--accent`. Tant que les teintes ne sont pas définies, le repli est le
-cuivre — la barre est correcte avant elles, et juste après.
+page. Aucun composant ne connaît la couleur d'un pôle : il ne connaît que `--accent`. Elle
+consomme aussi `--verre-voile-barre`, `--verre-flou` et `--verre-saturation-bande` : son
+fond n'a plus une seule valeur qui lui soit propre.
 
 ## Le verre liquidGL
 

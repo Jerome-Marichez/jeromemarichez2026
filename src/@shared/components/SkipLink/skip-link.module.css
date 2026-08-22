@@ -10,7 +10,7 @@
   border-radius: var(--rayon-petit);
   background: var(--fond);
   color: var(--encre);
-  border: 1px solid var(--cuivre);
+  border: 1px solid var(--accent);
   text-decoration: none;
   font-family: var(--police-mono-pile);
   font-size: var(--t--1);

@@ -22,7 +22,7 @@
 
 .bouton:hover {
   color: var(--encre);
-  border-color: var(--cuivre);
+  border-color: var(--accent);
 }
 
 .temoin {

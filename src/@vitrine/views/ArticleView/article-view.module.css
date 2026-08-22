@@ -41,7 +41,7 @@
   font-variation-settings: "opsz" 24;
   font-size: var(--t-2);
   line-height: 1.35;
-  color: var(--cuivre);
+  color: var(--accent);
 }
 
 .corps {

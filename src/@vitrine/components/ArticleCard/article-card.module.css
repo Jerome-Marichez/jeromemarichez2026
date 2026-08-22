@@ -31,7 +31,7 @@
 
 .lien:hover,
 .lien:focus-visible {
-  color: var(--cuivre);
+  color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 0.18em;
 }

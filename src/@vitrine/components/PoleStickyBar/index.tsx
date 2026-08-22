@@ -16,8 +16,8 @@ interface PoleStickyBarProps {
  * Cette barre répond aux deux, sans rien ajouter au discours.
  *
  * Elle prend `--accent`, la teinte du pôle courant, posée par `data-pole` sur la page
- * (mécanisme de l'issue #44). Tant que les teintes ne sont pas définies, le repli est
- * le cuivre : la barre est correcte avant elles, et juste après.
+ * (`poles.css`). Elle ne nomme aucune couleur : c'est la cascade qui décide, et la barre
+ * serait juste sur un cinquième pôle sans qu'une ligne d'ici ne bouge.
  *
  * Ce n'est **pas** une lentille de verre : liquidGL ignore délibérément les éléments
  * `sticky`, une lentille y resterait figée sur la capture initiale. Le fond suit donc

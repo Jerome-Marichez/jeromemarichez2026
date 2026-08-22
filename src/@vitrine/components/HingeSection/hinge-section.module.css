@@ -1,5 +1,5 @@
 /* hinge-section.module.css — la charnière.
- * Bande en retrait, filet cuivre vertical qui se trace à l'entrée : c'est le seul
+ * Bande en retrait, filet d'accent vertical qui se trace à l'entrée : c'est le seul
  * mouvement du site qui porte du sens — la chaîne se trace sous les yeux. */
 
 .charniere {
@@ -23,7 +23,7 @@
   inset-block: 0;
   left: 0;
   width: 2px;
-  background: var(--cuivre-vif);
+  background: var(--accent-vif);
   transform-origin: top;
   transition: transform var(--duree-tracer) var(--courbe-tracer);
 }
@@ -42,7 +42,7 @@
   font-size: var(--t--1);
   text-transform: uppercase;
   letter-spacing: var(--suivi-etiquette);
-  color: var(--cuivre);
+  color: var(--accent);
 }
 
 .titre {
