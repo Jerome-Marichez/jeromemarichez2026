@@ -54,7 +54,7 @@ export function HomeHero() {
       </div>
 
       <div className={styles.volume}>
-        <ChainCanvas description="Trois plaques de verre alignées dans le même axe : trois pôles, une seule chaîne." />
+        <ChainCanvas description="Des plaques de verre alignées dans le même axe : une seule chaîne, tenue par une seule personne." />
         {/* Le contrôle est posé au pied de la scène, là où le mouvement se voit.
             WCAG 2.2.2 demande un mécanisme de mise en pause : la préférence système
             n'en est pas un, elle ne se change pas depuis la page. */}

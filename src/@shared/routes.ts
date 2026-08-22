@@ -10,12 +10,17 @@ export const ROUTES = {
   accueil: '/',
   blog: '/blog',
   'ingenierie-web': '/services/ingenierie-web',
-  'data-ia': '/services/data-ia',
+  data: '/services/data',
+  ia: '/services/ia',
   'sea-ux': '/services/sea-ux',
 } as const satisfies Record<'accueil' | 'blog' | PoleId, string>
 
 /**
- * Toutes les routes **fixes** indexables, dans l'ordre de priorité.
+ * Toutes les routes **fixes** indexables.
+ *
+ * `ia` et `sea-ux` s'y suivent sans que cela dise quoi que ce soit : ce sont les deux
+ * suites parallèles de la donnée, et un sitemap ne porte aucun ordre — c'est un
+ * inventaire. Toute lecture ordonnée de cette liste serait une erreur.
  *
  * Les URL d'articles n'y figurent pas : elles ne sont pas des routes du site mais des
  * instances d'une seule route dynamique, et leur nombre change à chaque publication.
@@ -25,7 +30,8 @@ export const ROUTES = {
 export const INDEXABLE_ROUTES = [
   ROUTES.accueil,
   ROUTES['ingenierie-web'],
-  ROUTES['data-ia'],
+  ROUTES.data,
+  ROUTES.ia,
   ROUTES['sea-ux'],
   ROUTES.blog,
 ] as const

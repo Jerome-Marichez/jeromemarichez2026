@@ -14,9 +14,9 @@ interface HingeSectionProps {
  * transitions décoratives entre deux blocs.
  *
  * C'est ce qui distingue ce site d'un catalogue : sans elles, « ingénierie web »,
- * « data & IA » et « SEA & UX » redeviennent trois prestations qu'on pourrait acheter
- * à trois fournisseurs différents. Avec elles, l'enchaînement devient l'argument — et
- * l'argument n'est tenable que parce que c'est la même personne aux trois postes.
+ * « data », « IA » et « SEA & UX » redeviennent des prestations qu'on pourrait acheter
+ * à autant de fournisseurs différents. Avec elles, l'enchaînement devient l'argument — et
+ * l'argument n'est tenable que parce que c'est la même personne à chaque poste.
  *
  * Les repères sont rendus en liste : ce sont des faits d'exploitation, pas du décor.
  *

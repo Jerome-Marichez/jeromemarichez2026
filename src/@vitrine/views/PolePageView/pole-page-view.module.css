@@ -1,6 +1,6 @@
-/* pole-page-view.module.css — gabarit commun aux trois pages de pôle.
- * Identique pour les trois, volontairement : trois mises en page différentes
- * diraient trois prestataires. */
+/* pole-page-view.module.css — gabarit commun aux quatre pages de pôle.
+ * Identique pour les quatre, volontairement : quatre mises en page différentes
+ * diraient quatre prestataires. */
 
 /* `position: relative` sans `z-index` : la page ne crée AUCUN contexte d'empilement,
    sinon les lentilles liquidGL qu'elle contient ne se compareraient plus aux canvas

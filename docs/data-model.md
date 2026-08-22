@@ -16,7 +16,8 @@ TypeScript dans `src/@vitrine/contenu/`, et sa forme est tenue par des interface
 
 | Entité | Fichier | Rôle | Relations |
 |--------|---------|------|-----------|
-| `IPole` | `src/interfaces/IPole.ts` | Un maillon de la chaîne d'offres | `route` pointe une entrée de `ROUTES` |
+| `IPole` | `src/interfaces/IPole.ts` | Un **nœud** de la chaîne d'offres | `route` pointe une entrée de `ROUTES` |
+| **`IJointure`** | `src/interfaces/IJointure.ts` | Une **arête** : ce qu'un pôle remet au suivant, et ce qui se passe si le client l'a déjà | `amont` et `aval` référencent un `PoleId` |
 | `IEditorialPage` | `src/interfaces/IEditorialPage.ts` | Une page rédigée (accueil, page de pôle) | contient des `IEditorialSection` |
 | `IEditorialSection` | `src/interfaces/IEditorialSection.ts` | Une section de page | contient des `IEditorialBlock` ; `pole` référence un `PoleId` |
 | `IEditorialBlock` | `src/interfaces/IEditorialBlock.ts` | Un point d'expertise | — |

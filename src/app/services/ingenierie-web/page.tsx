@@ -1,5 +1,5 @@
 // src/app/services/ingenierie-web/page.tsx — jeromemarichez-fr
-// Routage seul : la page est composée par le gabarit commun aux trois pôles.
+// Routage seul : la page est composée par le gabarit commun aux quatre pôles.
 
 import type { Metadata } from 'next'
 import { StructuredData } from '@/@shared/components/StructuredData'
@@ -9,14 +9,14 @@ import { PAGE_INGENIERIE_WEB } from '@/@vitrine/contenu/ingenierie-web'
 import { findPole } from '@/@vitrine/services/find-pole'
 import { PolePageView } from '@/@vitrine/views/PolePageView'
 
-const { pole, suivant } = findPole('ingenierie-web')
+const { pole, suites } = findPole('ingenierie-web')
 
 export const metadata: Metadata = buildPageMetadata(PAGE_INGENIERIE_WEB)
 
 export default function PolePage() {
   return (
     <>
-      <PolePageView page={PAGE_INGENIERIE_WEB} pole={pole} suivant={suivant} />
+      <PolePageView page={PAGE_INGENIERIE_WEB} pole={pole} suites={suites} />
       <StructuredData
         schemas={[
           buildServiceSchema({

@@ -2,9 +2,15 @@
 
 Direction retenue : **« L'Établi »**. Le site est un plan de travail vu à travers des
 panneaux de verre — on voit littéralement au travers parce qu'il n'y a rien à cacher,
-ni chaîne de prestataires ni couche commerciale. Les trois pôles ne sont pas trois
-offres côte à côte : ce sont trois plaques alignées dans le même axe, tenues par un
+ni chaîne de prestataires ni couche commerciale. Les quatre pôles ne sont pas quatre
+offres côte à côte : ce sont des plaques alignées dans le même axe, tenues par un
 liseré de cuivre.
+
+> **Décor à reprendre.** La scène SVG du seuil (`ChainCanvas` / `SlabScene`) dessine
+> encore **trois** dalles en file, héritées du modèle à trois pôles linéaires. Elle est
+> purement décorative — `aria-hidden`, `role="presentation"`, et son texte de substitution
+> ne compte plus les pôles — mais elle ne dit pas encore l'embranchement. À reprendre avec
+> le lot de réécriture éditoriale.
 
 Le verre ne réfracte **jamais du texte**, seulement le fond d'atelier (dégradé + trame
 technique). La transparence reste visible, la lisibilité reste intacte : c'est

@@ -2,23 +2,27 @@
 // Les sections qui déroulent la chaîne : fil transverse, puis pôle, charnière, pôle,
 // charnière, pôle.
 //
+// Les charnières ne sont plus numérotées : à quatre pôles dont deux parallèles, un
+// « 2 → 3 » affirmerait une file d'étapes que le modèle n'a pas. Elles portent désormais
+// le nom de ce vers quoi elles passent la main.
+//
 // L'ordre est le contenu. Retirer une charnière ne raccourcirait pas la page : cela
 // transformerait l'offre en catalogue.
 
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
-import { SECTION_ACCUEIL_DATA_IA } from './accueil-data-ia'
+import { SECTION_ACCUEIL_DATA } from './accueil-data'
 import { SECTION_FIL_IA } from './fil-ia'
 import { SECTION_RENFORTS } from './renforts'
 
 export const SECTIONS_ACCUEIL: IEditorialSection[] = [
   // Le fil ouvre la chaîne : la méthode se lit avant les pôles, sinon le lecteur
-  // découvre l'IA au pôle 2 et la range comme une offre parmi trois.
+  // découvre l'IA au pôle Data et la range comme une offre parmi les autres.
   SECTION_FIL_IA,
   {
     id: 'ingenierie-web',
     kind: 'pole',
     pole: 'ingenierie-web',
-    kicker: 'Pôle 1 · Construire',
+    kicker: 'Le socle · Construire',
     titre: 'Site internet, produit SaaS, application mobile',
     chapo:
       "Concevoir, développer et mettre en production, puis rester pour l'exploiter. " +
@@ -72,9 +76,9 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
   {
     id: 'charniere-run',
     kind: 'charniere',
-    // Numérotée dans la même série que les pôles : sans numéro, un titre de charnière
-    // se lit comme un intertitre d'ambiance et le lecteur ne voit plus la chaîne.
-    kicker: 'Charnière 1 → 2',
+    // Nommée par ses deux extrémités, et non numérotée : à quatre pôles dont deux
+    // parallèles, « Charnière 1 → 2 » ferait croire à une file de quatre étapes.
+    kicker: 'Charnière · vers la donnée',
     titre: 'On ne livre pas, on exploite',
     chapo:
       "La mise en production n'est pas la fin du projet : c'est le moment où le produit " +
@@ -100,18 +104,18 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
         texte:
           'les règles anti-fraude n’ont pas été imaginées avant la mise en production : ' +
           'elles sont issues de la reprise de l’historique que l’exploitation a produit. ' +
-          'Sans run, pas de matière — et donc pas de pôle 2.',
+          'Sans run, pas de matière — et donc pas de pôle Data.',
       },
     ],
   },
-  // Version courte du pôle 2 : même ordre que la page dédiée — métier, stratégie
-  // data, gouvernance, solution. Extraite dans son propre fichier pour que cet ordre
-  // ne soit jamais rogné au profit de la limite de 300 lignes.
-  SECTION_ACCUEIL_DATA_IA,
+  // Version courte du pôle Data : même ordre que la page dédiée — métier, stratégie
+  // data, gouvernance. Extraite dans son propre fichier pour que cet ordre ne soit
+  // jamais rogné au profit de la limite de 300 lignes.
+  SECTION_ACCUEIL_DATA,
   {
     id: 'charniere-arbitrage',
     kind: 'charniere',
-    kicker: 'Charnière 2 → 3',
+    kicker: 'Charnière · vers l’arbitrage',
     titre: 'Sans donnée claire, le budget brûle',
     chapo:
       'La donnée mise au propre devient la matière première des arbitrages : quel canal ' +
@@ -141,7 +145,7 @@ export const SECTIONS_ACCUEIL: IEditorialSection[] = [
     id: 'sea-ux',
     kind: 'pole',
     pole: 'sea-ux',
-    kicker: 'Pôle 3 · Arbitrer',
+    kicker: 'Une suite · Arbitrer',
     titre: 'Je ne dessine pas vos maquettes, je tranche vos parcours',
     chapo:
       'Disons-le tout de suite : je ne vends pas de création graphique. Ce que je vends, ' +

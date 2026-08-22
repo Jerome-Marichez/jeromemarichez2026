@@ -29,8 +29,11 @@ export function PoleStickyBar({ pole }: PoleStickyBarProps) {
     <div className={styles.barre}>
       <div className={styles.contenu}>
         <p className={styles.repere}>
-          <span aria-hidden="true" className={styles.rang}>
-            {pole.rang}
+          {/* Le TEMPS de la chaîne, pas un rang : les deux suites portent le même.
+              Voir « 3 » sur l'IA et « 3 » sur le SEA & UX dit qu'elles sont parallèles,
+              là où « 3 » puis « 4 » aurait dit qu'il faut les deux, dans cet ordre. */}
+          <span aria-hidden="true" className={styles.temps}>
+            {pole.temps}
           </span>
           <span className={styles.nom}>{pole.nom}</span>
         </p>

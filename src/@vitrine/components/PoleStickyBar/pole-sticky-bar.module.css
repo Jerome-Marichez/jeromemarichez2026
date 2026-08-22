@@ -57,7 +57,7 @@
   min-width: 0;
 }
 
-.rang {
+.temps {
   font-family: var(--police-mono-pile);
   font-size: var(--t--1);
   font-variant-numeric: tabular-nums;

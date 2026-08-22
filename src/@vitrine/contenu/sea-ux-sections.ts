@@ -1,5 +1,5 @@
 // sea-ux-sections.ts — jeromemarichez-fr
-// Pôle 3 — Arbitrer. SEA et arbitrages d'expérience.
+// Le pôle SEA & UX — l'une des deux suites de la donnée. SEA et arbitrages d'expérience.
 //
 // Point de vigilance éditorial numéro un : rien ici ne doit laisser croire à de la
 // création graphique ou à du design d'interface. Ce qui est vendu, ce sont des
@@ -43,9 +43,10 @@ export const SECTIONS_SEA_UX: IEditorialSection[] = [
       {
         titre: 'Pourquoi ça marche',
         texte:
-          'Parce que les chiffres viennent du pôle 2 et que le code vient du pôle 1. Un ' +
+          'Parce que les chiffres viennent du pôle Data et que le code vient de ' +
+          'l’ingénierie web. Un ' +
           'arbitrage n’est utile que s’il repose sur une mesure fiable et qu’il finit ' +
-          'réellement implémenté ; ici, les trois maillons sont tenus par la même personne.',
+          'réellement implémenté ; ici, toute la chaîne est tenue par la même personne.',
       },
     ],
   },
