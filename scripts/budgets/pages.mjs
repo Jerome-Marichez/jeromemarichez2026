@@ -64,4 +64,18 @@ export const PAGES = [
     chemin: '/blog/pourquoi-ce-site-est-un-export-statique/',
     pourquoi: "gabarit d'article : corps long, typographie, fil d'Ariane, JSON-LD",
   },
+  {
+    id: 'realisations',
+    chemin: '/realisations/',
+    pourquoi:
+      "gabarit d'index de réalisations : groupes par cadre d'emploi, cartes, étiquettes de " +
+      'pôle et JSON-LD de collection',
+  },
+  {
+    id: 'realisation',
+    chemin: '/realisations/verhoeven-parcours-achat/',
+    pourquoi:
+      "gabarit de fiche : cadre d'emploi en liste de définitions, chiffre et sa portée, " +
+      'étapes numérotées, étiquettes de pôle',
+  },
 ]
