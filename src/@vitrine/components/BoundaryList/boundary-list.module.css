@@ -28,7 +28,7 @@
 
 .alaPlace {
   margin: 0;
-  font-size: 0.9375rem;
+  font-size: var(--t-note);
   line-height: 1.55;
   color: var(--encre-douce);
 }

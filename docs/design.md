@@ -102,14 +102,56 @@ fonte préchargée est un fichier que le navigateur va chercher avant de peindre
 | Corps | **Inter** (variable) | `'ss01' 1, 'cv05' 1` |
 | Annotations et chiffres | **pile monospace système** | Ce registre est intégralement composé en capitales espacées, où le dessin propre à une fonte de labeur ne se distingue pas. `ui-monospace` prend SF Mono sur Apple ; tous les replis ont les chiffres à chasse fixe, seule vraie exigence des preuves |
 
-Échelle fluide en `clamp()`, base 16px : `--t--1` (13px) à `--t-4` (38→64px), plus
-`--t-chiffre` pour le mur de preuves. Mesures : 64ch sur le corps, 34ch sur les `h2`,
-20ch sur le `h1`, 46ch dans un panneau de verre.
+Échelle fluide en `clamp()`, base 16px : `--t--1` (13px) à `--t-4` (40→68px), plus
+`--t-note` (15px) et `--t-chiffre` (40→64px) pour le mur de preuves. Mesures : 64ch sur
+le corps, 30ch sur les `h2`, 18ch sur le `h1`, 46ch dans un panneau de verre.
+
+`--t-note` n'est pas un cran de confort : sept modules écrivaient `0.9375rem` en dur —
+menus, repères de charnière, notes de bas de section. Un demi-cran manquait à l'échelle,
+et chacun le réinventait chez lui.
+
+L'**interlettrage** est un jeton, jamais une valeur locale. Une fonte de titre se
+resserre à mesure qu'elle grandit — à 68 px, l'approche dessinée pour du labeur laisse
+des trous entre les lettres ; les étiquettes font l'inverse, capitales de 13 px qui ont
+besoin d'air.
+
+| Jeton | Valeur | Où |
+|-------|--------|-----|
+| `--suivi-display` | `-0.028em` | `h1` |
+| `--suivi-titre` | `-0.016em` | `h2`, `h3` |
+| `--suivi-etiquette` | `0.09em` | kickers, rangs, tout le registre monospace en capitales |
 
 ### Espaces et formes
 
-Rythme vertical sur base 8 : `--e-1` (8px) à `--e-7` (104px). `--rayon-verre` 18px,
+Rythme vertical sur base 8 : `--e-0` (4px) à `--e-7` (136px). `--rayon-verre` 18px,
 `--rayon-petit` 8px, `--largeur-page` 76rem.
+
+Trois jetons tiennent l'empilement collant, et un seul endroit les déclare :
+
+| Jeton | Rôle |
+|-------|------|
+| `--hauteur-entete` | hauteur nominale de l'en-tête. Volontairement **2 à 3 px sous** la hauteur réelle : la barre de pôle se glisse dessous plutôt que de laisser voir une bande de contenu défiler entre les deux. `SiteHeader` pose le `min-height` correspondant, pour que l'en-tête ne puisse jamais devenir plus court que son jeton |
+| `--hauteur-barre-pole` | hauteur de l'en-tête de pôle collant |
+| `--decalage-ancre` | `scroll-margin-top` de toute section ancrable. Les pages de pôle le redéfinissent localement : deux bandes collantes, donc deux hauteurs à déduire |
+
+### Le fond d'atelier
+
+`.fond-atelier` est un calque peint, séparé du contenu — c'est ce que liquidGL capture,
+et il fait plus de 9 000 px de haut sur l'accueil. **Tout ce qu'on y pose doit être une
+tuile.** Un `repeating-linear-gradient` sans `background-size` est généré une fois aux
+dimensions de son élément, puis capturé tel quel en texture.
+
+| Calque | Tuile | Rôle |
+|--------|-------|------|
+| grain (`--grain`) | 128px | `feTurbulence` en data-URI, alpha moyen **sous 4 %**. Deux tuiles, une par thème : du grain noir sur un fond à 6 % de luminance ne se voit pas, il ne fait qu'assombrir |
+| trame | 32px | deux filets `--trame`, la grille technique |
+| dégradé | plein élément | `radial-gradient`, la lueur d'atelier |
+
+Le grain est volontairement **une tuile de plus, et pas un filtre** : `filter: invert()`
+sur ce calque pour l'adapter au thème sombre forcerait une couche de compositing de la
+hauteur du document. Sous 4 % d'alpha, aucun couple texte/fond documenté ci-dessus ne
+descend sous son seuil AA — et l'audit de contraste n'est de toute façon pas concerné,
+le calque étant un frère du contenu, pas son ancêtre.
 
 ## Mouvement
 
@@ -119,10 +161,12 @@ personnalisé.
 
 | Geste | Où | Détail |
 |-------|-----|--------|
-| **Tracer** | les deux charnières | filet cuivre 2px, `scaleY(0)` → `scaleY(1)`, 700ms. Seul mouvement porteur de sens : la chaîne se trace |
-| **Traverser** | le fil IA | filets cuivre **horizontaux**, `scaleX(0)` → `scaleX(1)`, même durée. Perpendiculaires à ceux des charnières : la chaîne descend, le fil la coupe — la géométrie dit « ceci n'est pas une quatrième offre » |
+| **Poser** | toute section qui entre dans l'écran | `opacity: 0` → `1` et `translateY(24px)` → `none`, `--duree-poser`. Porté par [`Reveal`](../src/@shared/components/Reveal/index.tsx), qui s'appuie sur `useInViewport` — voir « La révélation » ci-dessous |
+| **Tracer** | les deux charnières | filet cuivre 2px, `scaleY(0)` → `scaleY(1)`, `--duree-tracer`. Seul mouvement porteur de sens : la chaîne se trace. Déclenché à l'entrée de la charnière dans l'écran, et non au chargement de la page |
+| **Traverser** | le fil IA | filets cuivre **horizontaux**, `scaleX(0)` → `scaleX(1)`, même durée, même déclenchement. Perpendiculaires à ceux des charnières : la chaîne descend, le fil la coupe — la géométrie dit « ceci n'est pas une quatrième offre » |
 | **Dériver** | la scène des trois dalles | deux fréquences lentes qui ne se referment jamais ensemble, en `transform` seul — assez pour faire lire du volume, jamais assez pour appeler le regard |
-| **Micro-états** | liens et boutons | épaisseur de soulignement, `translateY(-1px)`, 120 à 140ms — aucun déplacement de mise en page |
+| **Aimanter** | les boutons d'action | le bouton suit le pointeur, borné à **6 px** ([`utils/aimant.ts`](../src/utils/aimant.ts)), en `transform` seul. Souris uniquement : au doigt il n'y a pas de survol, l'attraction n'arriverait qu'après l'appui. `MagneticAction` est le **seul** module autorisé à poser un `transform` sur un bouton — deux règles concurrentes se départageraient à l'ordre du paquet CSS |
+| **Micro-états** | liens et boutons | épaisseur de soulignement, `--aimant-appui: -1px` au survol, `--duree-micro` — aucun déplacement de mise en page |
 
 Seuls `transform` et `opacity` sont animés, nulle part ailleurs. Ce sont les deux
 propriétés que le compositeur traite sans repasser par la mise en page ni par le peintre,
@@ -133,7 +177,64 @@ rendue **figée** — les dalles gardent leur pose — et liquidGL **n'est pas a
 tout**, sa boucle de rendu permanente étant une animation même quand aucune lentille ne
 bouge. Le bouton `MotionToggle` offre le même arrêt depuis la page, comme l'exige
 WCAG 2.2.2 : une préférence système n'est pas un mécanisme de mise en pause, elle ne se
-change pas depuis le site.
+change pas depuis le site. Tout ce qui est encore en attente se pose alors **sans
+transition** : figer l'animation et voir douze sections glisser en réponse à son propre
+clic serait la contradiction exacte de ce que le bouton promet.
+
+### La révélation
+
+Une révélation au défilement se paie normalement de deux défauts, et [`Reveal`](../src/@shared/components/Reveal/index.tsx)
+n'en accepte aucun :
+
+- **Rien n'est masqué au rendu serveur.** L'état caché n'est armé qu'après montage. Sans
+  JavaScript — ou si l'hydratation échoue — la page reste entièrement lisible. Une
+  révélation qui laisse du contenu à `opacity: 0` n'est pas un effet, c'est une panne, et
+  elle est invisible à celui qui l'écrit.
+- **Ce qui est déjà à l'écran n'est jamais caché puis remontré.** Au montage, seul ce qui
+  est *sous la ligne de flottaison* est armé. C'est le clignotement typique des
+  révélations au défilement, et il frappe d'abord le premier écran.
+
+L'état posé ne déclare **aucun** `transform` — pas même l'identité. Un
+`translate3d(0, 0, 0)` résiduel créerait un contexte d'empilement permanent sur chaque
+section, et l'empilement des lentilles liquidGL se compare dans le contexte racine (voir
+`glass-surface.css`).
+
+**La révélation enveloppe le corps d'une section, jamais la section elle-même**, et cette
+règle paie deux fois :
+
+- une section **vitrée** se retrouve ainsi sous `GlassSurface`, à l'intérieur d'un
+  conteneur qui est déjà un contexte d'empilement : le `transform` transitoire ne peut
+  pas déplacer la lentille dans l'ordre de peinture ;
+- une section **ancrable** ne bouge pas. Un `transform` sur l'élément que vise une ancre
+  décale la cible du `scrollIntoView` de la hauteur de la révélation : la section se pose
+  ensuite 24 px plus haut, et arrive sous l'en-tête. Les cinq sections ancrables de
+  l'accueil gardent donc leur `<section>` — identifiant et `scroll-margin-top` — et la
+  révélation passe à l'intérieur.
+
+Les charnières et le fil font exception : ce sont les seules révélations qui *sont* leur
+section, parce que le filet qui se trace est un `::before` de la section. Aucun lien ne
+pointe vers leur identifiant, et un lien profond arrivant de l'extérieur est exact de
+toute façon — le navigateur défile avant que React ne monte, donc la cible est déjà à
+l'écran et la révélation ne s'arme pas.
+
+## Les bandes collantes
+
+Deux bandes s'empilent en haut d'une page de pôle : l'en-tête du site, puis
+l'**en-tête de pôle** ([`PoleStickyBar`](../src/@vitrine/components/PoleStickyBar/index.tsx)).
+Une page de pôle se lit sur plusieurs écrans ; passé le seuil, plus rien ne disait lequel
+des pôles on lisait, et l'action de contact était restée en bas.
+
+| Contrainte | Parade |
+|------------|--------|
+| liquidGL **ignore** les éléments `sticky` | Ni l'un ni l'autre n'est une lentille. Fond plat, flou CSS au-delà de 1024px seulement — même recette pour les deux |
+| Sans flou, la translucidité laisse passer un **fantôme de texte** | En dessous de 1024px, la bande est **opaque**. La transparence du site est celle du verre, et le verre floute ; là où le flou n'est pas payé, la bande est pleine |
+| L'en-tête est bien plus haut sous 720px (il passe en colonne) | La barre de pôle y reste **dans le flux**. Deux bandes collantes sur un téléphone prendraient la place de ce qu'elles annoncent |
+| Une ancre ne doit pas se poser sous les bandes | `--decalage-ancre`, redéfini localement sur la page de pôle |
+
+La barre consomme **`--accent`**, la teinte du pôle courant, posée par `data-pole` sur la
+page (mécanisme de l'issue #44). Aucun composant ne connaît la couleur d'un pôle : il ne
+connaît que `--accent`. Tant que les teintes ne sont pas définies, le repli est le
+cuivre — la barre est correcte avant elles, et juste après.
 
 ## Le verre liquidGL
 

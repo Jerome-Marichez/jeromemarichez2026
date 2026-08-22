@@ -27,12 +27,12 @@
 }
 
 .libelle {
-  font-size: 1.0625rem;
+  font-size: var(--t-0);
   color: var(--encre);
 }
 
 .contexte {
-  font-size: 0.875rem;
+  font-size: var(--t--1);
   line-height: 1.5;
   color: var(--encre-douce);
 }
