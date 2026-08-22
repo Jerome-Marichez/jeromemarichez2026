@@ -1,11 +1,13 @@
-/* slab-scene.module.css — les trois dalles de verre.
+/* slab-scene.module.css — les quatre dalles de verre et leur filet de tenue.
  * Les couleurs viennent des jetons : la scène suit le thème clair et sombre comme le
- * reste, elle n'a pas de palette à elle.
+ * reste, elle n'a pas de palette à elle. Chaque dalle porte `data-pole` dans le SVG, donc
+ * `poles.css` lui pose son propre `--accent` et son propre `--verre-arete` : aucune
+ * teinte de pôle n'est nommée ici.
  *
  * Seuls `transform` et `opacity` sont animés — voir l'en-tête de `SlabScene.tsx`. Aucune
  * de ces règles ne déclenche de mise en page ni de repeinture, ce qui est la condition
  * pour que la scène puisse s'afficher sur téléphone sans coûter une image perdue. Pas de
- * `will-change` non plus : trois rectangles animés en transform sont déjà promus par le
+ * `will-change` non plus : quatre rectangles animés en transform sont déjà promus par le
  * compositeur, l'indice ne ferait que réserver de la mémoire GPU en double. */
 
 .scene {
@@ -16,27 +18,45 @@
 
 .groupe rect {
   stroke-width: 1;
+  /* `currentColor` du dégradé se résout ICI, sur la dalle qui le référence : poser la
+     couleur du pôle sur le rect suffit à teinter sa lueur. */
+  color: var(--accent);
+  /* `--accent` plein, et non `--verre-arete` : l'arête de verre est un mélange à 28% de
+     transparent, calibré pour un liseré cuivre posé sur du verre. Appliqué aux quatre
+     teintes, il les ramène toutes au même gris — et une scène dont les quatre dalles ont
+     la même couleur ne dit plus rien du modèle. Le liseré fait 1 unité de large sur 420 :
+     il reste un trait, pas un aplat. */
+  stroke: var(--accent);
   /* Sans `fill-box`, l'origine des transformations d'un `rect` SVG est le coin du
      viewBox : chaque dalle pivoterait autour d'un point situé hors d'elle-même. */
   transform-box: fill-box;
   transform-origin: center;
 }
 
-.arriere {
-  fill: color-mix(in srgb, var(--encre) 3%, transparent);
-  stroke: color-mix(in srgb, var(--encre) 14%, transparent);
+/* L'interlocuteur unique : hors du groupe, et sans `animation` du tout. Il n'a pas de
+   `data-pole` — il prend le cuivre de la racine, qui est la couleur de la maison et non
+   celle d'un pôle. C'est la seule chose fixe de la scène, et c'est tout le propos. */
+.tenue {
+  fill: color-mix(in srgb, var(--accent-vif) 70%, transparent);
+}
+
+.socle {
   animation: deriver-dalle 19s var(--courbe-poser) infinite alternate;
 }
 
-.milieu {
-  fill: color-mix(in srgb, var(--encre) 4%, transparent);
-  stroke: color-mix(in srgb, var(--encre) 18%, transparent);
+.passage {
   animation: deriver-dalle 15s var(--courbe-poser) -5s infinite alternate;
 }
 
-.avant {
-  stroke: var(--verre-arete);
-  animation: deriver-dalle 12s var(--courbe-poser) -9s infinite alternate;
+/* Les deux sœurs partagent CETTE règle, entièrement. Même durée, même courbe, même
+   amplitude : rien dans leur mouvement ne peut se lire comme un ordre. Seul le déphasage
+   ci-dessous les désynchronise, et un déphasage n'a ni premier ni second. */
+.suite {
+  animation: deriver-dalle 13s var(--courbe-poser) infinite alternate;
+}
+
+.suiteDecalee {
+  animation-delay: -7s;
 }
 
 .groupe {

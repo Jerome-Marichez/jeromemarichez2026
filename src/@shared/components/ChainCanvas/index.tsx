@@ -1,7 +1,7 @@
 'use client'
 
 // ChainCanvas/index.tsx — jeromemarichez-fr
-// L'enveloppe de la scène des trois dalles : sa place réservée, et sa mise en pause.
+// L'enveloppe de la scène des quatre dalles : sa place réservée, et sa mise en pause.
 
 import { useMotionPaused } from '../../hooks/use-motion-paused'
 import styles from './chain-canvas.module.css'

@@ -131,7 +131,9 @@
    contexte WebGL, donc plus rien ne justifie de la retirer aux petits écrans. Elle passe
    sous le discours, centrée et bornée en largeur pour ne pas manger l'écran, et le
    contrôle de mise en pause la suit — c'est lui qui doit rester atteignable partout où
-   la scène bouge. */
+   la scène bouge. La borne de largeur a suivi le passage de la scène au format 7/6 :
+   la composition s'élargit au temps 3, et une borne de 20rem écrasait les deux suites
+   au point qu'on ne les distinguait plus l'une de l'autre. */
 @media (max-width: 1023px) {
   .seuil {
     grid-template-columns: minmax(0, 1fr);
@@ -142,7 +144,7 @@
   .volume {
     align-items: center;
     width: 100%;
-    max-width: 20rem;
+    max-width: 26rem;
     margin-inline: auto;
   }
 }

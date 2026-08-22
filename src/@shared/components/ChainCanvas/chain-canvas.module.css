@@ -1,4 +1,4 @@
-/* chain-canvas.module.css — réservation d'espace pour la scène des trois dalles.
+/* chain-canvas.module.css — réservation d'espace pour la scène des quatre dalles.
  * L'aspect-ratio est posé en CSS et non déduit du contenu : c'est lui qui tient la place
  * exacte de la scène dès la première image, avant même que le SVG ne soit peint. La
  * réservation date de l'époque où la scène arrivait en différé ; elle reste ici pour la
@@ -15,8 +15,13 @@
   position: relative;
   z-index: 3;
   width: 100%;
-  aspect-ratio: 4 / 5;
-  max-height: 34rem;
+  /* 7/6 depuis que la composition s'élargit au temps 3 : les deux suites sont écartées
+     côte à côte, elles ne tiennent plus dans un portrait 4/5. Le rapport est celui du
+     `viewBox` (420 × 360) — toute retouche de l'un doit suivre dans l'autre, sinon la
+     scène se retrouve centrée dans une boîte trop haute et la réservation ne réserve
+     plus la bonne place. */
+  aspect-ratio: 7 / 6;
+  max-height: 26rem;
 }
 
 /* Le substitut n'est jamais montré : le conteneur est déjà `aria-hidden`. Il ne sert
