@@ -1,0 +1,141 @@
+/* site-header.module.css — en-tête collant.
+ *
+ * Une bande n'est pas un panneau, et ne prend pas les mêmes jetons : `--verre-flou-bande`
+ * et `--verre-saturation-bande` floutent et saturent nettement moins que le verre des
+ * panneaux. Ce qui passe sous une bande est du TEXTE en défilement, pas un décor — au
+ * réglage d'un panneau, il en ressortirait en traînée colorée. Voir `verre.css`. */
+
+.entete {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: var(--verre-epaisseur) solid color-mix(in srgb, var(--encre) 10%, transparent);
+  /* Fond translucide PLAT, sans flou. C'est le rendu de tous les petits écrans, et le
+     cas d'école du jank au défilement : un en-tête `sticky` pleine largeur qui porte un
+     `backdrop-filter` force le navigateur à reflouter la bande à chaque image, sur les
+     appareils qui en ont le moins les moyens.
+     OPAQUE, et non translucide. Sans flou, il n'y a rien pour brouiller ce qui passe
+     dessous : un titre à fort contraste — tous les `h2` en thème sombre — reste
+     lisible à travers l'en-tête, et le défilement donne deux textes superposés. Ce
+     n'est pas de la transparence, c'est un fantôme. La transparence du site est celle
+     du verre, et le verre floute ; là où le flou n'est pas payé, la bande est pleine. */
+  background: var(--fond);
+}
+
+@media (min-width: 1024px) {
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .entete {
+      background: color-mix(in srgb, var(--fond) var(--verre-voile-bande), transparent);
+      /* Préfixe AVANT le standard : le minifieur ne garde que la dernière des deux.
+         Voir `GlassSurface/glass-surface.module.css`. */
+      -webkit-backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation-bande));
+      backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation-bande));
+    }
+  }
+}
+
+/* Le plancher de hauteur n'est pas décoratif : `--hauteur-entete` est ce à quoi la
+   barre de pôle s'accroche. Si l'en-tête devenait plus court que son jeton, une bande
+   de contenu défilerait entre les deux — c'est le seul défaut visible de cet
+   empilement, et cette ligne l'empêche. Le jeton reste volontairement un poil sous la
+   hauteur réelle : la barre se glisse dessous plutôt que d'y laisser un jour. */
+.contenu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-4);
+  min-height: var(--hauteur-entete);
+  max-width: var(--largeur-page);
+  margin-inline: auto;
+  padding: var(--e-2) var(--e-4);
+}
+
+.identite {
+  display: flex;
+  flex-direction: column;
+  color: var(--encre);
+  text-decoration: none;
+}
+
+.nom {
+  font-family: var(--police-titre-pile);
+  font-variation-settings: "opsz" 18;
+  font-weight: 600;
+  font-size: var(--t-0);
+  line-height: 1.2;
+}
+
+.role {
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  letter-spacing: 0.06em;
+  color: var(--encre-douce);
+}
+
+.navigations {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--e-1);
+  min-width: 0;
+}
+
+.navigation {
+  min-width: 0;
+}
+
+/* Les réalisations et le blog sont séparés de la chaîne par un filet vertical : c'est le
+   seul signal qui dit, sans un mot, qu'ils n'appartiennent pas à la liste des pôles d'à
+   côté. */
+.navigationSecondaire {
+  display: flex;
+  min-width: 0;
+  padding-left: var(--e-1);
+  border-left: 1px solid color-mix(in srgb, var(--encre) 14%, transparent);
+}
+
+.liste {
+  display: flex;
+  gap: var(--e-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lien {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4em;
+  padding: var(--e-1) var(--e-2);
+  border-radius: var(--rayon-petit);
+  color: var(--encre);
+  text-decoration: none;
+  font-size: var(--t-note);
+  transition: background-color var(--duree-micro) ease-out;
+}
+
+.lien:hover {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.temps {
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  color: var(--accent);
+}
+
+/* Sous 720px, le chiffre du temps suffit à situer chaque pôle : les intitulés
+   passent en second plan plutôt que de forcer un menu déroulant, qui coûterait du
+   JavaScript et un piège au clavier pour quatre liens. */
+@media (max-width: 720px) {
+  .contenu {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--e-2);
+  }
+
+  .lien {
+    font-size: var(--t--1);
+    padding-inline: var(--e-1);
+  }
+}

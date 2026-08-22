@@ -1,11 +1,12 @@
-# Makefile — jeromemarichez2026
+# Makefile — jeromemarichez-fr
 # Interface de commandes unique (local + CI). `make help` liste les cibles.
 
 .DEFAULT_GOAL := help
-.PHONY: help install dev build lint test test-unit test-int test-mutation
+.PHONY: help install dev build lint type-check test test-unit test-int test-mutation
 .PHONY: test-e2e
 .PHONY: test-system
 .PHONY: test-acceptance
+.PHONY: budgets budget-perf budget-a11y
 .PHONY: storybook storybook-build
 .PHONY: docker-up docker-down logs
 
@@ -16,39 +17,50 @@ lint: ## Biome sur tout le dépôt + limite 300 lignes/fichier
 	npx @biomejs/biome@^2.0.0 check .
 	./scripts/check-max-lines.sh
 
+type-check: ## Vérification des types TypeScript, sans émission de fichiers
+	npx tsc --noEmit
+
 test: test-unit test-int ## Tests unitaires + intégration (rapides)
 
-install: ## Installe les dépendances (front + back)
-	cd front && npm install
-	cd back && npm install
+install: ## Installe les dépendances
+	npm install
 
 dev: ## Démarrage local en mode développement
-	@echo "Deux terminaux : « cd front && npm run dev » et « cd back && npm run dev » — ou make docker-up."
+	npm run dev
 
-build: ## Build de production (front + back)
-	cd front && npm run build
-	cd back && npm run build
+build: ## Build de production
+	npm run build
 
-test-unit: ## Tests unitaires (front + back)
-	cd front && npx jest tests/unitaire --passWithNoTests
-	cd back && npx jest tests/unitaire --passWithNoTests
+test-unit: ## Tests unitaires
+	npx jest tests/unitaire --passWithNoTests
 
-test-int: ## Tests d'intégration (front + back)
-	cd front && npx jest tests/integration --passWithNoTests
-	cd back && npx jest tests/integration --passWithNoTests
-
-test-e2e: ## Tests e2e navigateur (Cypress headless) — stack démarrée au préalable
-	cd front && npx cypress run
-
-test-system: ## Tests système back (vrai serveur HTTP via listen(0))
-	cd back && npx jest tests/systeme --passWithNoTests
-	@echo "Collection Postman rejouable : npx newman run back/tests/systeme/postman_collection.json (stack démarrée)"
+test-int: ## Tests d'intégration
+	npx jest tests/integration --passWithNoTests
 
 test-mutation: ## Tests de mutation (Stryker) — qualité des tests unitaires/intégration
-	cd front && npx stryker run
-	cd back && npx stryker run
+	npx stryker run
+test-e2e: ## Tests e2e navigateur — construit et sert l'export statique, puis Cypress headless
+	node scripts/e2e.mjs
+
+test-system: ## Tests système (vrai serveur HTTP via listen(0))
+	npx jest tests/systeme --passWithNoTests
+	@echo "Collection Postman rejouable : npx newman run tests/systeme/postman_collection.json (stack démarrée)"
 test-acceptance: ## Tests d'acceptation / UAT (runner Node natif)
 	node --test tests/acceptance/
+
+# Budgets exécutables — Lighthouse >= 95 sur les 4 categories et accessibilite WCAG AA.
+# Construisent l'export statique s'il manque, le servent, mesurent, et sortent en echec
+# en nommant la page et la categorie fautives. Seuils : scripts/budgets/pages.mjs.
+# Prerequis local : npx puppeteer browsers install chrome (une fois).
+budgets: ## Budgets perf + accessibilite sur les pages representatives
+	node scripts/budgets.mjs
+
+budget-perf: ## Budget de performance seul (Lighthouse, mobile bride)
+	node scripts/budgets.mjs perf
+
+budget-a11y: ## Budget d'accessibilite seul (axe-core) — rapide
+	node scripts/budgets.mjs a11y
+
 storybook: ## Storybook en local (http://localhost:6006) — après npx storybook@latest init
 	@if [ -d front ]; then cd front && npm run storybook; else npm run storybook; fi
 

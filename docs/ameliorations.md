@@ -5,25 +5,80 @@ le bénéfice attendu et l'effort estimé.
 
 | # | Amélioration | Bénéfice | Effort | Statut |
 |---|--------------|----------|--------|--------|
-| 1 | **Premier test d'acceptation** — `make test-acceptance` échoue tant que `tests/acceptance/` ne contient que des `.gitkeep` (`node --test` sur un dossier sans fichier de test lève `MODULE_NOT_FOUND`) | La cible UAT devient exécutable et la CI cesse d'être rouge sur ce job | faible | **à faire par Jérôme** (règle : les tests sont écrits par lui) |
-| 2 | Trancher l'hébergement (front Vercel + back Cloud Run, ou tout sur le VPS Hetzner) et câbler le déploiement | Mise en production possible | moyen | proposé |
-| 3 | Initialiser Storybook (`npx storybook@latest init`) | Catalogue de composants, démo vivante de l'exigence front vendue | faible | proposé |
-| 4 | Récupérer les URLs officielles des certifications et les câbler dans les données de contenu | Certifications cliquables et vérifiables — exigence du `README.md` | faible | **bloqué : URLs à fournir** |
-| 5 | Budget de performance vérifié en CI (Lighthouse CI sur les pages clés) | La promesse « Lighthouse ≥ 95 » est tenue par un contrôle, pas par une intention | moyen | proposé |
+| 1 | Compression du HTML en production (`gzip` dans `docker/nginx.conf`) | Budget de performance mobile : premier levier, de loin | faible | **fait** (issue #76) — 80/81/82 → 96/97/97 |
+| 2 | Stratégie de chargement des polices (sous-ensemble, `preload`, `size-adjust`) | LCP mobile | moyen | proposé — **c'est là que se joue désormais la marge** (voir plus bas) |
+| 3 | Réduction du JavaScript inutilisé (~153 Kio) et du JavaScript hérité (~43 Kio) | Budget de performance mobile | moyen | proposé |
+| 4 | Préchargement RSC de toutes les routes de pôle depuis l'accueil | Bande passante mobile après le LCP | faible | proposé |
 
-## Correctifs appliqués au socle généré
+## Budget de performance — diagnostic du 2026-08-22
 
-Trois défauts du générateur `bootstrap-claudecode-typescript` ont été corrigés
-localement à l'initialisation. **Ils sont à remonter au dépôt du bootstrap** : les deux
-premiers touchent tout projet en layout `front-back`.
+Les budgets sont devenus exécutables (`make budgets`, voir [testing](./testing.md)). Leur
+première exécution rapporte **80 / 81 / 82** en performance mobile, contre un seuil de
+**95**. Le seuil n'a pas été touché : ce qui suit est ce qu'il faut corriger.
 
-| Défaut | Symptôme | Correctif local |
-|--------|----------|-----------------|
-| `biome.json` excluait `!.next` / `!dist` sans `**/` | En `front-back`, les artefacts sont dans `front/.next` et `back/dist` : après un `make build`, `make lint` remontait **8 590 erreurs** sur du code généré | Patterns passés en `!**/.next`, `!**/dist`, `!**/build`, `!**/coverage`, `!**/node_modules` |
-| Fichiers générés par Next.js non exclus | Next régénère `next-env.d.ts` et réécrit `front/tsconfig.json` dans son propre style (double quotes, points-virgules) — Biome les refusait, donc `make lint` cassait dès qu'un `make build` ou `make dev` avait tourné, **CI comprise** | `!front/next-env.d.ts` et `!front/tsconfig.json` ajoutés aux exclusions |
-| `console.log` de démarrage du back vs règle `noConsole: error` | Le back généré ne passait pas son propre lint | `biome-ignore` ciblé et justifié sur cette seule ligne (en conteneur, stdout est le canal de log) — la règle reste active partout ailleurs |
+Le profil des trois pages est identique et sans ambiguïté :
 
-Reste non corrigé, à signaler aussi : `biome.json` fige `$schema` en **2.5.2** alors que
-la contrainte `^2.0.0` résout aujourd'hui **2.5.7** — deux `infos` à chaque lint, dans
-tous les projets générés. Le point de vérité est `BIOME_SCHEMA_VERSION` dans
-`scripts/bootstrap.sh`.
+| Métrique | Accueil | Pôle |
+|----------|---------|------|
+| First Contentful Paint | 1,7 s | 1,4 s |
+| Speed Index | 1,7 s | 1,4 s |
+| Total Blocking Time | 20 ms | 20 ms |
+| Cumulative Layout Shift | 0 | 0 |
+| **Largest Contentful Paint** | **5,3 s** | **5,0 s** |
+
+Tout est excellent sauf le LCP, et le LCP arrive **3,5 s après** un premier rendu déjà
+rapide. Ce n'est donc ni du JavaScript bloquant (TBT à 20 ms) ni de la mise en page
+(CLS à 0) : c'est du **transfert**.
+
+Le relevé réseau le confirme :
+
+- le document HTML de l'accueil pèse **120 Kio**, servi **sans compression** ;
+- deux polices `woff2` de **67 Kio** et **49 Kio** s'y ajoutent sur le chemin critique ;
+- sur le lien bridé (1638 kbps, soit environ 200 Kio/s), ces 236 Kio coûtent à eux seuls
+  plus d'une seconde et retardent le rendu du texte principal.
+
+**Ce n'est pas un artefact du harnais de mesure.** `docker/nginx.conf` ne déclare aucune
+directive `gzip`, et l'image `nginx:alpine` la laisse commentée par défaut. La production
+sert donc, elle aussi, 120 Kio de HTML non compressé. Un HTML de cette taille se comprime
+autour de 20 Kio : c'est le premier levier, et c'est une correction de configuration de
+service, pas de code applicatif.
+
+Ce correctif touche la configuration de production (`docker/nginx.conf`, et
+`scripts/serve-out.mjs` pour que la mesure reste fidèle à ce que sert nginx). Il sort du
+périmètre du lot qui a rendu les budgets exécutables, et fait l'objet d'un lot distinct —
+c'est justement le budget qui l'a mis au jour, le jour de sa mise en service.
+
+En profil **desktop** non bridé, les mêmes pages sortent à **99 / 100 / 100 / 100** : le
+site n'est pas lent dans l'absolu, il l'est sur un mobile en 4G médiocre. C'est le cas
+qui compte, et c'est celui que le budget mesure.
+
+## Résultat — compression activée le 2026-08-22 (issue #76)
+
+Le diagnostic ci-dessus est confirmé jusqu'au bout : c'était bien du transfert, et rien
+d'autre. `gzip` déclaré dans `docker/nginx.conf` — réglages et justifications dans
+[docker](./docker.md#compression) — suffit à faire passer les trois pages.
+
+| Page | Perf avant | Perf après | A11y | Bonnes prat. | SEO |
+|------|-----------|-----------|------|--------------|-----|
+| accueil | 80 | **96** | 100 | 100 | 100 |
+| `/services/ingenierie-web/` | 81 | **97** | 100 | 100 | 100 |
+| article de blog | 82 | **97** | 100 | 100 | 100 |
+
+L'`index.html` de l'accueil passe de **119 998 à 22 215 octets sur le fil — 81 % de
+moins**. Aucune ligne de code applicatif n'a bougé, aucun composant n'a été supprimé,
+aucune police n'a été touchée : le site était correctement construit, il était mal
+servi. C'est le genre de défaut qu'aucune revue de code ne trouve et qu'une mesure
+trouve le premier jour.
+
+**Ce que la mesure ne dit pas encore.** Le budget est tenu, mais la marge de l'accueil
+est d'**un point**. Les deux `woff2` du chemin critique (67 et 49 Kio) n'ont pas bougé —
+ils sont déjà compressés à la source et le gzip ne les touche pas, à dessein. Ils
+restent donc le premier poste du chemin critique, et c'est la piste 2 qui porte la
+marge suivante, pas la piste 3.
+
+Les polices n'ont **pas** été retouchées ici, et c'est délibéré : Fraunces et Inter sont
+un choix de design documenté dans [design](./design.md#typographie), déjà réduit au
+strict nécessaire (variable, sous-ensemble latin, axe `opsz` seul depuis le retrait de
+`SOFT` et `WONK`, registre monospace confié à la pile système). Alléger davantage
+suppose d'arbitrer sur le dessin — `preload` sélectif, `size-adjust`, sous-ensemble de
+glyphes — et cet arbitrage revient à Jérôme MARICHEZ, pas à un lot de performance.

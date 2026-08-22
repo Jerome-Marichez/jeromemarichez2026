@@ -1,0 +1,150 @@
+/* home-hero.module.css — le seuil.
+ * Deux colonnes 58/42 sur desktop : le discours porte le LCP, le volume ne fait que
+ * l'accompagner et disparaît dès que la place manque. */
+
+.seuil {
+  display: grid;
+  grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
+  align-items: center;
+  gap: var(--e-6);
+  max-width: var(--largeur-page);
+  margin-inline: auto;
+  /* Pas `--e-7` en tête : le cran du haut de l'échelle est devenu l'écart ENTRE deux
+     sections, et il est trop large ici. Le seuil doit tenir le titre, le chapô et le
+     bouton d'action sur le premier écran d'un portable — un titre plus ample ne vaut
+     rien s'il pousse l'action en dessous. */
+  padding: var(--e-5) var(--e-4) var(--e-6);
+}
+
+.discours {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-4);
+}
+
+.situation {
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: var(--suivi-etiquette);
+  color: var(--encre-douce);
+}
+
+.titre {
+  margin: 0;
+}
+
+.chapo {
+  max-width: 52ch;
+  font-size: var(--t-1);
+  line-height: 1.45;
+  color: var(--encre-douce);
+}
+
+/* La ligne de méthode : filet d'accent à gauche, comme le fil transverse plus bas dans la
+   page. Elle n'est pas une accroche de plus — c'est le rappel visuel qui relie le seuil
+   à la section « Le fil ». */
+.methode {
+  max-width: 52ch;
+  padding-left: var(--e-3);
+  border-left: 2px solid var(--accent-vif);
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  line-height: 1.6;
+  color: var(--encre);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--e-4);
+}
+
+/* Apparence seule : le `transform` appartient à `MagneticAction`, qui est le seul à en
+   poser un sur un bouton d'action. Deux règles concurrentes se départageraient à
+   l'ordre du paquet CSS, ce qui n'est pas une règle. */
+.actionPrincipale {
+  display: inline-block;
+  padding: var(--e-2) var(--e-4);
+  border-radius: var(--rayon-petit);
+  background: var(--accent);
+  color: var(--fond);
+  text-decoration: none;
+  font-weight: 500;
+  transition: box-shadow var(--duree-micro) ease-out;
+}
+
+.actionPrincipale:hover {
+  box-shadow: var(--elevation-levee);
+}
+
+.actionSecondaire {
+  color: var(--encre);
+  text-underline-offset: 0.24em;
+}
+
+.jetons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-5);
+  margin: var(--e-2) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.jeton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-0);
+  max-width: 16ch;
+}
+
+.chiffre {
+  font-family: var(--police-mono-pile);
+  font-weight: 500;
+  font-size: var(--t-2);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.libelle {
+  font-size: var(--t--1);
+  line-height: 1.4;
+  color: var(--encre-douce);
+}
+
+.volume {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--e-2);
+  min-width: 0;
+}
+
+.controle {
+  margin: 0;
+}
+
+/* La scène est désormais du SVG animé en `transform` seul : elle ne coûte plus de
+   contexte WebGL, donc plus rien ne justifie de la retirer aux petits écrans. Elle passe
+   sous le discours, centrée et bornée en largeur pour ne pas manger l'écran, et le
+   contrôle de mise en pause la suit — c'est lui qui doit rester atteignable partout où
+   la scène bouge. La borne de largeur a suivi le passage de la scène au format 7/6 :
+   la composition s'élargit au temps 3, et une borne de 20rem écrasait les deux suites
+   au point qu'on ne les distinguait plus l'une de l'autre. */
+@media (max-width: 1023px) {
+  .seuil {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: var(--e-6);
+    gap: var(--e-5);
+  }
+
+  .volume {
+    align-items: center;
+    width: 100%;
+    max-width: 26rem;
+    margin-inline: auto;
+  }
+}

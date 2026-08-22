@@ -1,0 +1,35 @@
+/* pole-page-view.module.css — gabarit commun aux quatre pages de pôle.
+ * Identique pour les quatre, volontairement : quatre mises en page différentes
+ * diraient quatre prestataires. */
+
+/* La page ne porte plus qu'une variable. Le `position: relative` qui l'accompagnait
+   n'existait que pour documenter une contrainte d'empilement de liquidGL : rien ne se
+   positionne contre elle, et un positionnement inerte finit toujours par être pris pour
+   une intention. */
+.page {
+  /* Deux bandes collantes sur une page de pôle, donc deux hauteurs à déduire pour
+     qu'une ancre ne se pose pas sous elles. */
+  --decalage-ancre: calc(var(--hauteur-entete) + var(--hauteur-barre-pole) + var(--e-3));
+}
+
+.corps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-7);
+  max-width: var(--largeur-page);
+  margin-inline: auto;
+  padding: var(--e-6) var(--e-4) var(--e-7);
+}
+
+.certifications {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-4);
+}
+
+.chapo {
+  max-width: var(--mesure-texte);
+  font-size: var(--t-1);
+  line-height: 1.45;
+  color: var(--encre-douce);
+}

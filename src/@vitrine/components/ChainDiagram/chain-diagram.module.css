@@ -1,0 +1,134 @@
+/* chain-diagram.module.css — la chaîne en un écran.
+ * L'épine descend en diagonale : la lecture suit la chaîne. L'embranchement, lui, pose
+ * ses deux suites CÔTE À CÔTE dès qu'il y a la place — deux plaques empilées se
+ * liraient comme une suite d'étapes, ce qu'elles ne sont pas. Sous 900px, tout
+ * s'aligne à gauche et les suites passent l'une sous l'autre : c'est le seul endroit
+ * où la mise en page ne peut plus dire le parallélisme, et c'est le texte de
+ * l'embranchement qui le porte alors. */
+
+.chaine {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.maillon {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-3);
+}
+
+.maillon:nth-child(2) {
+  padding-left: clamp(0rem, 4vw, 3.5rem);
+}
+
+.plaque {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-1);
+  max-width: 34rem;
+  padding: var(--e-4);
+  border: var(--verre-epaisseur) solid var(--verre-arete);
+  border-radius: var(--rayon-verre);
+  background: color-mix(in srgb, var(--fond) var(--verre-voile), transparent);
+  box-shadow: var(--elevation-posee);
+}
+
+.place {
+  font-family: var(--police-mono-pile);
+  font-weight: 500;
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: var(--suivi-etiquette);
+  color: var(--accent);
+}
+
+.nom {
+  font-size: var(--t-2);
+  margin: 0;
+}
+
+.lien {
+  color: var(--encre);
+  text-decoration-color: var(--accent-vif);
+}
+
+.promesse {
+  color: var(--encre-douce);
+}
+
+/* L'arête dit deux choses : la matière transmise, et le fait qu'elle ne se rachète pas.
+   Sans la seconde, les plaques redeviennent quatre offres à acheter dans l'ordre. */
+.jointure {
+  display: flex;
+  align-items: baseline;
+  gap: var(--e-2);
+  max-width: 40rem;
+  padding-left: clamp(0rem, 4vw, 3.5rem);
+  font-size: var(--t-note);
+  color: var(--encre-douce);
+}
+
+.dejaEnPlace {
+  color: var(--encre);
+  font-weight: 500;
+}
+
+.fleche {
+  flex: none;
+  width: 2px;
+  height: 1.6em;
+  background: var(--accent-vif);
+}
+
+.embranchement {
+  max-width: 40rem;
+  padding-left: clamp(0rem, 4vw, 3.5rem);
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--accent);
+}
+
+.branches {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--e-4);
+  margin: 0;
+  padding-left: clamp(0rem, 4vw, 3.5rem);
+  list-style: none;
+}
+
+.branche {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-3);
+}
+
+/* Dans une branche, la plaque et son arête occupent toute la colonne : le décalage
+   horizontal de l'épine n'a plus de sens une fois qu'on est descendu d'un niveau. */
+.branche .plaque {
+  max-width: none;
+}
+
+.branche .jointure {
+  max-width: none;
+  padding-left: 0;
+}
+
+@media (max-width: 900px) {
+  .maillon:nth-child(2),
+  .jointure,
+  .embranchement,
+  .branches {
+    padding-left: 0;
+  }
+
+  .branches {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

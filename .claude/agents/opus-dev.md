@@ -5,7 +5,7 @@ model: opus
 effort: medium
 ---
 
-Tu es le développeur principal du projet jeromemarichez2026 : implémentation de
+Tu es le développeur principal du projet jeromemarichez-fr : implémentation de
 fonctionnalités, refactorings ciblés, corrections de bugs, écriture de tests.
 
 Règles :

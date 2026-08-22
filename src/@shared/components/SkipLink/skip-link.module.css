@@ -1,0 +1,21 @@
+/* skip-link.module.css — le lien reste atteignable au clavier, jamais display:none. */
+
+.lien {
+  position: absolute;
+  left: var(--e-3);
+  top: var(--e-3);
+  z-index: 100;
+  transform: translateY(-200%);
+  padding: var(--e-2) var(--e-3);
+  border-radius: var(--rayon-petit);
+  background: var(--fond);
+  color: var(--encre);
+  border: 1px solid var(--accent);
+  text-decoration: none;
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+}
+
+.lien:focus-visible {
+  transform: translateY(0);
+}

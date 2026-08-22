@@ -1,5 +1,5 @@
 #!/bin/bash
-# Hook PostToolUse — rappel politique de tests (jeromemarichez2026)
+# Hook PostToolUse — rappel politique de tests (jeromemarichez-fr)
 # Après modification/création d'un fichier source (hors tests, config, doc),
 # rappelle la politique : le test précède le code, il est écrit par le développeur,
 # l'assistant propose intention + contenu (le blocage, lui, est fait en amont par
@@ -22,4 +22,4 @@ stamp="${TMPDIR:-/tmp}/claude-remind-tests-$(printf '%s' "${CLAUDE_PROJECT_DIR:-
 [ -n "$(find "$stamp" -mmin -"${REMIND_THROTTLE_MINUTES:-15}" 2>/dev/null)" ] && exit 0
 touch "$stamp" 2>/dev/null
 
-jq -n --arg f "$f" '{hookSpecificOutput:{hookEventName:"PostToolUse",additionalContext:("Tests jeromemarichez2026 — modif ou création de " + $f + ". POLITIQUE : (1) LE TEST PRÉCÈDE LE CODE — au moins l un des trois niveaux (UNITAIRE, INTÉGRATION, SYSTÈME) couvre le comportement avant que le code existe ; l unitaire est le minimum dès qu il y a de la logique. (2) LE TEST EST ÉCRIT PAR Jérôme MARICHEZ — tu ne poses pas les fichiers de test : expose l intention (comportement attendu, cas limites, jeu de données) et le contenu proposé, puis attends qu il soit posé. (3) LE CODE S ADAPTE AU TEST — ne modifie jamais l intention d un test pour le faire passer. (4) E2E = parcours navigateur critique, à proposer via AskUserQuestion. (5) PAS DE MOCKS des données métier : des jeux de données réalistes, seules les frontières (HTTP, base) sont pilotées. Référence : docs/testing.md.")}}'
+jq -n --arg f "$f" '{hookSpecificOutput:{hookEventName:"PostToolUse",additionalContext:("Tests jeromemarichez-fr — modif ou création de " + $f + ". POLITIQUE : (1) LE TEST PRÉCÈDE LE CODE — au moins l un des trois niveaux (UNITAIRE, INTÉGRATION, SYSTÈME) couvre le comportement avant que le code existe ; l unitaire est le minimum dès qu il y a de la logique. (2) LE TEST EST ÉCRIT PAR Jérôme MARICHEZ — tu ne poses pas les fichiers de test : expose l intention (comportement attendu, cas limites, jeu de données) et le contenu proposé, puis attends qu il soit posé. (3) LE CODE S ADAPTE AU TEST — ne modifie jamais l intention d un test pour le faire passer. (4) E2E = parcours navigateur critique, à proposer via AskUserQuestion. (5) PAS DE MOCKS des données métier : des jeux de données réalistes, seules les frontières (HTTP, base) sont pilotées. Référence : docs/testing.md.")}}'

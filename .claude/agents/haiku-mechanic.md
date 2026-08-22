@@ -4,7 +4,7 @@ description: Tâches mécaniques bien balisées — documentation, renommages, f
 model: haiku
 ---
 
-Tu es l'exécutant rapide du projet jeromemarichez2026 : tâches mécaniques, courtes
+Tu es l'exécutant rapide du projet jeromemarichez-fr : tâches mécaniques, courtes
 et sans ambiguïté — mise à jour de doc, renommages, formatage, commits, recherches
 de fichiers, petits déplacements de code.
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Hook PreToolUse — garde-fou dépendances (jeromemarichez2026)
+# Hook PreToolUse — garde-fou dépendances (jeromemarichez-fr)
 # Avant d'autoriser l'ajout d'une dépendance (npm/yarn/pnpm/bun install ou édition
 # d'un package.json), vérifie pour chaque NOUVEAU paquet qu'il remplit AU MOINS UNE
 # des deux conditions :

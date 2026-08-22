@@ -1,0 +1,39 @@
+/* reveal.module.css — la section se pose.
+ *
+ * `transform` et `opacity`, rien d'autre : ce sont les deux propriétés que le
+ * compositeur traite sans repasser par la mise en page ni par le peintre.
+ *
+ * L'état posé ne déclare AUCUN `transform`, pas même l'identité. Un
+ * `translate3d(0, 0, 0)` laissé en place créerait sur chaque section un contexte
+ * d'empilement et une couche de compositing PERMANENTS, pour une animation qui ne dure
+ * que le temps de l'arrivée — sur l'accueil, cela fait une douzaine de couches promises
+ * au GPU jusqu'à la fin de la visite. L'interpolation vers `none` est celle de la
+ * matrice identité : l'animation est la même, et tout disparaît à l'arrivée. */
+
+.revelation {
+  transition:
+    opacity var(--duree-poser) var(--courbe-poser),
+    transform var(--duree-tracer) var(--courbe-tracer);
+}
+
+.revelation[data-revele="attente"] {
+  opacity: 0;
+  transform: translate3d(0, var(--e-4), 0);
+}
+
+.revelation[data-fige="true"] {
+  transition: none;
+}
+
+/* Deuxième garde, indépendante du JavaScript : même si l'état « attente » était armé,
+   il ne masquerait rien sous mouvement réduit. */
+@media (prefers-reduced-motion: reduce) {
+  .revelation {
+    transition: none;
+  }
+
+  .revelation[data-revele="attente"] {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,115 @@
+/* verre.css — jetons de verre et échelle d'élévation.
+ *
+ * Extrait de `globals.css` pour la même raison que `poles.css` : la limite de 300 lignes
+ * du projet. Ces jetons sont des jetons de design comme les autres.
+ *
+ * ## Pourquoi ces jetons existent
+ *
+ * `blur(14px) saturate(1.15)` était écrit en dur dans `glass-surface.css`, et deux autres
+ * modules le redupliquaient à leur façon. Les ombres du site étaient quatre littéraux
+ * différents. Tant que ces valeurs vivent dans les modules, intensifier le verre demande
+ * de retrouver toutes ses copies — et l'une d'elles est toujours oubliée, ce qui la fait
+ * décrocher visuellement du reste.
+ *
+ * ## Panneau ou bande : deux verres, pas un
+ *
+ * Le suffixe dit la surface, et l'absence de suffixe dit le panneau :
+ *
+ *   `--verre-flou` / `--verre-saturation`              → les panneaux
+ *   `--verre-flou-bande` / `--verre-saturation-bande`  → l'en-tête et la barre de pôle
+ *
+ * Les deux ne peuvent pas partager un réglage. Un panneau est posé sur un décor et doit
+ * s'y enfoncer : il floute fort et sature fort, c'est ce qui fait lire du verre épais.
+ * Une bande collante couvre toute la largeur de l'écran et ce qui passe dessous est du
+ * **texte** : au même réglage, elle le transformerait en traînée colorée. Elle floute
+ * moins, sature à peine, et compense par un voile plus opaque.
+ *
+ * ## Le voile n'est pas le flou
+ *
+ * Deux réglages indépendants font une surface de verre : le **flou** de ce qui passe
+ * derrière, et le **voile** — la part de fond opaque mélangée à la teinte. Le voile monte
+ * quand la surface doit rester lisible par-dessus n'importe quoi (les bandes collantes),
+ * et descend quand elle doit laisser voir la trame (les panneaux).
+ *
+ * ## Le relief d'un panneau
+ *
+ * Un panneau de verre d'Apple n'est pas un rectangle flouté : c'est un flou fort, une
+ * **arête spéculaire** claire en haut — la lumière prise par la tranche — un **rebond**
+ * plus faible en bas, et une **ombre portée basse** qui le décolle du papier de quelques
+ * millimètres. Les trois sont ici, et le panneau les compose lui-même : aucun d'eux
+ * n'est une ombre de l'échelle d'élévation, ce sont des propriétés du matériau.
+ *
+ * ## L'échelle d'élévation
+ *
+ * Trois crans, dans l'ordre, et pas un de plus : un cran d'échelle sans emploi est un
+ * jeton mort.
+ *
+ *   creuse → posée → levée
+ *
+ * `--elevation-creuse` est un creux DANS le papier (la plaque de logo), `--elevation-posee`
+ * la lueur d'arête d'une surface au repos, `--elevation-levee` la seule vraie ombre
+ * portée du site — celle d'une action sous la main, teintée par `--accent` pour qu'elle
+ * suive le pôle courant. Ce dernier cran est déclaré dans `poles.css` : il est dérivé de
+ * `--accent`, donc il se redéclare partout où `--accent` l'est.
+ */
+
+:root {
+  /* — Verre : les panneaux — */
+  /* 22px et non 14 : en dessous, le verre se lit comme un calque translucide posé sur la
+     trame, pas comme une épaisseur. C'est le seuil à partir duquel la trame de 32px
+     cesse d'être une grille lisible et devient une lueur. */
+  --verre-flou: 22px;
+  /* 1.7 est la « vibrancy » : ce qui passe derrière le verre en ressort plus coloré
+     qu'il n'entre. C'est ce réglage, plus que le flou, qui distingue un verre d'Apple
+     d'un simple dépoli — et il n'a de sens que sur un fond qui porte de la couleur. */
+  --verre-saturation: 1.7;
+
+  /* — Verre : les bandes collantes — */
+  --verre-flou-bande: 14px;
+  --verre-saturation-bande: 1.1;
+
+  /* — Verre : la tranche — */
+  --verre-epaisseur: 1px;
+  --verre-epaisseur-lueur: 1px;
+  /* Part de `--accent` lavée dans le haut du panneau. Le verre prend la couleur du pôle
+     qu'il porte, comme un filtre coloré prend celle de sa teinture — pas une bordure de
+     plus, une teinte dans la masse. La part est fixée ici, la couleur est assemblée dans
+     le module : `color-mix()` résout `--accent` sur l'élément qui l'écrit, donc sur le
+     panneau, où `data-pole` a déjà fait son effet. */
+  --verre-teinte-part: 8%;
+  /* Le rebond bas : la lumière du papier qui remonte sous la tranche. Toujours plus
+     faible que `--verre-lueur`, sinon le panneau se lit comme un cadre et non comme une
+     plaque éclairée par le haut. */
+  --verre-rebond: rgba(255, 255, 255, 0.3);
+  /* Ombre portée basse et très étalée, décalée vers le bas seulement : le panneau flotte
+     de peu. Un rayon court et sombre en ferait une carte, pas une plaque de verre. */
+  --verre-ombre: 0 22px 45px -30px color-mix(in srgb, var(--encre) 55%, transparent);
+
+  /* Part de `--fond` mélangée à la teinte. Panneau : la trame doit rester visible.
+     Bandes : le texte qui défile dessous ne doit jamais se lire à travers. */
+  --verre-voile: 55%;
+  --verre-voile-bande: 88%;
+  --verre-voile-barre: 82%;
+
+  /* — Élévation — */
+  --elevation-creuse: inset 0 0 0 var(--verre-epaisseur)
+    color-mix(in srgb, var(--encre) 10%, transparent);
+  --elevation-posee: inset 0 var(--verre-epaisseur-lueur) 0 var(--verre-lueur);
+  /* `--elevation-levee` est teintée par `--accent` : elle est donc déclarée dans
+     `poles.css`, avec lui et partout où il est redéclaré — une propriété personnalisée
+     est substituée sur l'élément qui la déclare, pas sur celui qui la consomme. */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Le rebond descend d'un tiers : sur un fond à 6 % de luminance, la même valeur
+       dessinerait un liseré blanc franc au bas du panneau. */
+    --verre-rebond: rgba(255, 255, 255, 0.1);
+    /* La teinte monte : `--accent` est plus clair en thème sombre, il faut en mettre
+       davantage pour que le panneau porte encore la couleur de son pôle. */
+    --verre-teinte-part: 13%;
+    /* `--encre` est CLAIRE en thème sombre : la reprendre ici dessinerait un halo au
+       lieu d'une ombre. L'ombre d'un panneau sombre est un noir franc, très dilué. */
+    --verre-ombre: 0 22px 45px -28px rgb(0 0 0 / 0.75);
+  }
+}

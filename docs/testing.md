@@ -5,15 +5,13 @@ Les tests **conditionnent la fusion** d'une PR vers `dev` (voir le
 
 ## Niveaux de tests
 
-| Niveau | Côté | Objet | Outil | Emplacement / nommage |
-|--------|------|-------|-------|-----------------------|
-| **unitaire** | front | composants, hooks, logique pure | **Jest + React Testing Library** | `front/tests/unitaire/**/*.spec.ts(x)` |
-| **intégration** | front | plusieurs unités ensemble (composant ↔ service ↔ vraie frontière HTTP pilotée par fixtures) | **Jest + RTL** (+ MSW à la frontière réseau) | `front/tests/integration/**/*.integration.spec.ts(x)` |
-| **e2e** | front | parcours **navigateur** contre l'app réelle (front + back) | **Cypress** | `front/tests/e2e/**/*.cy.ts` |
-| **unitaire** | back | services, validation, logique métier pure | **Jest** | `back/tests/unitaire/**/*.test.ts` |
-| **intégration** | back | routes → services → repositories → **base de test dédiée** | **Jest + Supertest** | `back/tests/integration/**/*.test.ts` |
-| **système** | back | **vrai serveur HTTP** (`app.listen(0)`, port éphémère) appelé par un client réel (`fetch`) — bout en bout **sans navigateur** | **Jest + fetch** | `back/tests/systeme/**/*.test.ts` |
-| **système API (rejouable)** | back | validation documentée de l'API de bout en bout | **Postman** (collection versionnée) | `back/tests/systeme/postman_collection.json` |
+| Niveau | Objet | Outil | Emplacement / nommage |
+|--------|-------|-------|-----------------------|
+| **unitaire** | composants, hooks, logique pure | **Jest + React Testing Library** | `tests/unitaire/**/*.spec.ts(x)` |
+| **intégration** | plusieurs unités ensemble (composant ↔ service ↔ vraie frontière HTTP pilotée par fixtures) | **Jest + RTL** (+ MSW à la frontière réseau) | `tests/integration/**/*.integration.spec.ts(x)` |
+| **e2e** | parcours **navigateur** contre l'app réelle | **Cypress** | `tests/e2e/**/*.cy.ts` |
+| **système** | **vrai serveur HTTP** (`listen(0)`, port éphémère) appelé par un client réel (`fetch`) — bout en bout **sans navigateur** | **Jest + fetch** | `tests/systeme/**/*.test.ts` |
+| **système API (rejouable)** | validation documentée de l'API de bout en bout | **Postman** (collection versionnée) | `tests/systeme/postman_collection.json` |
 
 **Acceptation / non-fonctionnel** : parcours métier de bout en bout **et** volets
 **UAT** (disponibilité, sécurité, performance, robustesse) sur la stack réellement
@@ -64,7 +62,7 @@ réalistes**, versionnés :
 
 | | Emplacement | Nommage |
 |---|---|---|
-| Jeux de données | `front/tests/fixtures/`, `back/tests/fixtures/` | `<entite>.fixture.json` |
+| Jeux de données | `tests/fixtures/` | `<entite>.fixture.json` |
 
 **Interdit** (refusé par le hook `.claude/hooks/check-test-doubles.sh`) :
 `jest.mock`, `vi.mock`, `jest.unstable_mockModule`, un dossier `__mocks__/`,
@@ -101,14 +99,120 @@ sous le seuil `break`). Lancer : `make test-mutation`.
 - **Couverture** : seuil défini dans la config de test — la CI échoue en dessous.
   <!-- TODO : fixer le seuil (ex. 90 %). -->
 
+## Harnais statique — l'export servi en local
+
+Le site est en **export statique** (`output: 'export'`) : il n'y a ni back, ni route
+API, ni serveur applicatif. La « stack » se réduit donc à **servir le dossier `out/`**.
+`scripts/harnais-statique.mjs` porte cette mécanique **une seule fois**, pour les tests
+e2e (`scripts/e2e.mjs`) comme pour les budgets (`scripts/budgets.mjs`) : deux harnais
+concurrents finiraient par diverger sur le port, la sonde ou le nettoyage, et c'est
+toujours le second qui laisse un serveur orphelin en CI.
+
+`make test-e2e`, en local comme dans le workflow `ci-main-e2e` :
+
+1. **build si nécessaire** : `npm run build` si `out/index.html` manque ;
+2. **serveur statique** : `scripts/serve-out.mjs` sert `out/` sur `127.0.0.1:E2E_PORT`
+   (**4173** par défaut), sans aucune dépendance — `node:http` suffit ;
+3. **attente réelle** : le harnais sonde `GET /` jusqu'à obtenir une réponse HTTP
+   (30 s max). Jamais de `sleep` arbitraire ;
+4. **Cypress headless** : `npx cypress run` (les arguments passés à `scripts/e2e.mjs`
+   lui sont transmis, ex. `--spec`) ;
+5. **arrêt propre garanti** : le serveur est fermé dans un `finally` et sur
+   `SIGINT`/`SIGTERM` — aucun processus orphelin, même quand les tests échouent. Le
+   **code de sortie reste celui de Cypress** : aucun échec n'est absorbé.
+
+`cypress.config.ts` dérive son `baseUrl` du même `E2E_PORT` : le port ne peut pas
+diverger entre le serveur et le navigateur.
+
+**Résolution des URL identique à la production.** `trailingSlash: true` fait sortir
+chaque route en `<route>/index.html`. `serve-out.mjs` applique exactement les règles de
+`docker/nginx.conf` (`try_files $uri $uri/ =404`, `index index.html`,
+`error_page 404 /404.html`) : un dossier est servi par son `index.html`, un dossier sans
+`index.html` et une URL inconnue renvoient **404** avec la page `404.html`. Un serveur
+statique qui ignorerait cette règle ferait échouer les specs pour la mauvaise raison.
+La traversée de répertoire hors de `out/` est refusée.
+
+## Budgets exécutables — performance et accessibilité
+
+Le `CLAUDE.md` pose deux contraintes produit non négociables : **Lighthouse ≥ 95 sur les
+quatre catégories** et **accessibilité WCAG AA**. Elles étaient écrites, elles ne sont
+plus seulement écrites : `make budgets` échoue quand le site descend sous le seuil, et
+dit **quelle page** sur **quelle catégorie**.
+
+Ce ne sont pas des tests au sens des quatre niveaux ci-dessus : ils ne décrivent pas un
+comportement attendu du code, ils mesurent une propriété du site rendu. Ils vivent donc
+dans `scripts/budgets/`, pas dans `tests/`.
+
+```bash
+make budgets       # accessibilité + performance
+make budget-a11y   # axe-core seul — rapide (~2 min)
+make budget-perf   # Lighthouse seul — lent (3 passes x 3 pages)
+```
+
+Prérequis local, une fois : `npx puppeteer browsers install chrome`.
+
+### Ce qui est mesuré, et pourquoi
+
+**Trois pages, trois gabarits** (`scripts/budgets/pages.mjs`) : l'accueil (scène animée,
+verre — le gabarit le plus lourd), une page de pôle (sections, preuves, palette dédiée)
+et une page d'article (corps long, typographie, fil d'Ariane, JSON-LD). Mesurer le seul
+accueil ne dit rien des deux autres, et c'est là que les régressions se logent.
+
+**Profil de mesure : mobile émulé, réseau bridé « slow 4G », CPU ×4.** C'est le profil
+par défaut de PageSpeed Insights, et le cas sur lequel un prospect jugera le site. Un
+profil desktop sans bridage donnerait des scores flatteurs qui ne protègent de rien — sur
+ce site, l'écart entre les deux profils est de **dix-sept points** (voir plus bas).
+
+**Médiane de trois passes.** Lighthouse varie de quelques points d'une exécution à
+l'autre. Un budget qui échoue au hasard une fois sur cinq se fait désactiver en une
+semaine ; la médiane le rend crédible. `BUDGET_PASSES` permet de réduire le nombre de
+passes en local pour itérer vite — jamais en CI.
+
+**Un seul Chrome pour toute la campagne** : Lighthouse s'y connecte par le port de
+débogage, axe par l'API puppeteer. Deux navigateurs mesureraient deux sites.
+
+### Première exécution — 2026-08-22
+
+Mesuré sur l'export de `dev` (commit `596aafd`), médiane de 3 passes, profil mobile.
+
+| Page | Perf | A11y | Bonnes prat. | SEO |
+|------|------|------|--------------|-----|
+| accueil | **80** ✗ | 100 ✓ | 100 ✓ | 100 ✓ |
+| pôle `ingenierie-web` | **81** ✗ | 100 ✓ | 100 ✓ | 100 ✓ |
+| article | **82** ✗ | 100 ✓ | 100 ✓ | 100 ✓ |
+
+axe-core : **0 violation** sur les trois pages, à tous les impacts.
+
+**Le budget de performance n'est pas tenu.** Il n'a pas été abaissé pour autant : c'est
+la page qu'on corrige, jamais le seuil (règle 8 du `CLAUDE.md`). Le diagnostic est
+consigné dans [`ameliorations.md`](./ameliorations.md).
+
+Pour situer : en profil **desktop** non bridé, les mêmes pages sortent à **99 / 100 / 100
+/ 100**. Le site n'est donc pas lent dans l'absolu — il l'est sur un mobile en 4G
+médiocre, ce qui est précisément le cas qui compte.
+
+## Vérification des types
+
+`make type-check` exécute `tsc --noEmit` : le compilateur vérifie tout le dépôt sans
+écrire un seul fichier. Ce n'est pas un niveau de test — c'est le filet qui attrape ce
+qu'aucun test ne voit (unions fermées, `satisfies`, signatures) — mais il tourne au même
+titre qu'eux, dans le job `ci-dev-types` de toute PR vers `dev`, et il **fait échouer la
+PR**. `cypress.config.ts` et `tests/e2e` en sont exclus par `tsconfig.json` : leurs types
+Cypress chargent le `expect()` de Chai, qui écrase celui de Jest et casserait la
+compilation des tests unitaires. Cypress type-vérifie ses specs de son côté.
+
 ## Commandes
 
 ```bash
+make type-check       # types TypeScript (tsc --noEmit), sans émission de fichiers
 make test             # unitaires + intégration
 make test-unit        # unitaires (Jest)
 make test-int         # intégration (Jest)
-make test-e2e         # Cypress headless
+make test-e2e         # build + export statique servi + Cypress headless + arrêt du serveur
 make test-system      # système (Jest + fetch ; collection Postman rejouable)
 make test-mutation    # Stryker (score de mutation)
 make test-acceptance  # acceptation / UAT
+make budgets          # budgets perf (Lighthouse) + accessibilité (axe) sur 3 gabarits
+make budget-perf      # budget de performance seul
+make budget-a11y      # budget d'accessibilité seul
 ```

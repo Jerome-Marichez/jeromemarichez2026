@@ -1,0 +1,180 @@
+/* realisation-view.module.css — une fiche de réalisation.
+ * Une seule colonne, mesurée sur le texte, comme un article : la fiche se lit en continu.
+ * Aucun panneau de verre — l'effet distingue des offres (docs/design.md), et une
+ * réalisation n'en est pas une. */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-6);
+  max-width: var(--largeur-page);
+  margin-inline: auto;
+  padding: var(--e-6) var(--e-4) var(--e-7);
+}
+
+.fiche {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-5);
+}
+
+.entete {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-3);
+}
+
+.titre {
+  margin: 0;
+  max-width: 22ch;
+}
+
+.chapo {
+  max-width: var(--mesure-texte);
+  font-family: var(--police-titre-pile);
+  font-variation-settings: "opsz" 24;
+  font-size: var(--t-2);
+  line-height: 1.35;
+  color: var(--accent);
+}
+
+/* Le chiffre est encadré par un filet à gauche, du même dessin que les étiquettes de
+   pôle : c'est une citation dans le texte, pas une bannière. La portée est composée
+   plus petite, mais elle n'est pas grise sur grise — c'est elle qui empêche le chiffre
+   d'être élargi, elle doit se lire. */
+.chiffre {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-1);
+  max-width: var(--mesure-texte);
+  margin: 0;
+  padding: var(--e-3) var(--e-4);
+  border-left: 2px solid var(--accent-vif);
+  border-radius: 0 var(--rayon-petit) var(--rayon-petit) 0;
+  background: color-mix(in srgb, var(--fond-creux) 60%, transparent);
+}
+
+.nombre {
+  font-family: var(--police-mono-pile);
+  font-weight: 500;
+  font-size: var(--t-chiffre);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--encre);
+}
+
+.mesure {
+  font-size: var(--t-0);
+  color: var(--encre);
+}
+
+.portee {
+  font-size: var(--t-note);
+  line-height: 1.55;
+  color: var(--encre-douce);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-2);
+}
+
+.sousTitre {
+  margin: 0;
+  max-width: var(--mesure-texte);
+  font-size: var(--t-2);
+  line-height: 1.25;
+}
+
+.paragraphe {
+  max-width: var(--mesure-texte);
+  font-size: var(--t-0);
+  line-height: 1.65;
+}
+
+.etapes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: etape;
+}
+
+/* Le numéro est décoratif — la liste est déjà un `<ol>`, et son ordre est annoncé par
+   le balisage. Le rendre en `::before` évite de le répéter dans le texte du titre, où
+   un lecteur d'écran l'entendrait deux fois. */
+.etape {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-1);
+  counter-increment: etape;
+  padding-left: var(--e-4);
+  position: relative;
+}
+
+.etape::before {
+  content: counter(etape);
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  color: var(--accent);
+}
+
+.titreEtape {
+  margin: 0;
+  max-width: var(--mesure-texte);
+  font-size: var(--t-1);
+  line-height: 1.3;
+}
+
+/* La décision ferme la fiche : c'est la seule section qui reprend la teinte du site,
+   parce que c'est la seule qui s'adresse au lecteur plutôt qu'à l'histoire. */
+.decision {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-2);
+  padding-top: var(--e-4);
+  border-top: 2px solid var(--accent-vif);
+}
+
+.tranche {
+  max-width: var(--mesure-texte);
+  font-size: var(--t-1);
+  line-height: 1.5;
+  color: var(--encre);
+}
+
+.ensuite {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-4);
+  padding-top: var(--e-5);
+  border-top: 1px solid color-mix(in srgb, var(--encre) 12%, transparent);
+}
+
+.titreEnsuite {
+  margin: 0;
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: var(--suivi-etiquette);
+  color: var(--encre-douce);
+}
+
+.liste {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.retour {
+  font-size: var(--t-note);
+}

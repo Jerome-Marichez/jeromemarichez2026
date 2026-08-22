@@ -1,5 +1,5 @@
 #!/bin/bash
-# Hook UserPromptSubmit — routage de modèles (jeromemarichez2026)
+# Hook UserPromptSubmit — routage de modèles (jeromemarichez-fr)
 # Classifie la demande (architecture / développement / mécanique) par heuristique
 # FR/EN et RECOMMANDE le subagent adapté (.claude/agents/ : opus-architect,
 # opus-dev, opus-frontend s'il existe, haiku-mechanic). Conception et garde-fous : docs/model-routing.md.

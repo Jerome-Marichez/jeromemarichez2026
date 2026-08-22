@@ -23,14 +23,15 @@
   "files": {
     "includes": [
       "**",
-      "!**/node_modules",
-      "!**/.next",
-      "!**/dist",
-      "!**/build",
-      "!**/coverage",
+      "!node_modules",
+      "!.next",
+      "!out",
+      "!dist",
+      "!build",
+      "!coverage",
+      "!.claude/worktrees",
       "!**/postman_collection.json",
-      "!front/next-env.d.ts",
-      "!front/tsconfig.json"
+      "!next-env.d.ts"
     ]
   },
   "overrides": [

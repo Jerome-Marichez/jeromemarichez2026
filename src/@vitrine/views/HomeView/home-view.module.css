@@ -1,0 +1,86 @@
+/* home-view.module.css — enchaînement des sections de l'accueil. */
+
+.page {
+  position: relative;
+}
+
+.corps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-7);
+  max-width: var(--largeur-page);
+  margin-inline: auto;
+  padding: 0 var(--e-4) var(--e-7);
+}
+
+/* La section ancrable ne porte que son identité : identifiant, marge d'ancre, et le
+   décor pour `.contact`. Elle ne se déplace JAMAIS — c'est `.corpsBloc` que `Reveal`
+   révèle. Un `transform` sur l'élément ancré décalerait la cible d'un `scrollIntoView`
+   de la hauteur de la révélation, et la section arriverait sous l'en-tête. */
+.bloc {
+  scroll-margin-top: var(--decalage-ancre);
+}
+
+.corpsBloc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-4);
+}
+
+.kicker {
+  font-family: var(--police-mono-pile);
+  font-weight: 500;
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: var(--suivi-etiquette);
+  color: var(--accent);
+}
+
+.chapo {
+  max-width: var(--mesure-texte);
+  font-size: var(--t-1);
+  line-height: 1.45;
+  color: var(--encre-douce);
+}
+
+.appui {
+  max-width: var(--mesure-texte);
+  font-family: var(--police-titre-pile);
+  font-variation-settings: "opsz" 24;
+  font-size: var(--t-2);
+  line-height: 1.3;
+}
+
+.contact {
+  padding: var(--e-5);
+  border: var(--verre-epaisseur) solid var(--verre-arete);
+  border-radius: var(--rayon-verre);
+  /* Même voile que les panneaux de verre : le bloc de contact en dupliquait un, à
+     60 %, et aurait décroché des autres surfaces au premier réglage du verre. */
+  background: color-mix(in srgb, var(--fond-creux) var(--verre-voile), transparent);
+  box-shadow: var(--elevation-posee);
+  scroll-margin-top: var(--decalage-ancre);
+}
+
+.corpsContact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-3);
+  align-items: flex-start;
+}
+
+/* Apparence seule : le `transform` appartient à `MagneticAction`. */
+.action {
+  display: inline-block;
+  padding: var(--e-2) var(--e-4);
+  border-radius: var(--rayon-petit);
+  background: var(--accent);
+  color: var(--fond);
+  font-family: var(--police-mono-pile);
+  text-decoration: none;
+  transition: box-shadow var(--duree-micro) ease-out;
+}
+
+.action:hover {
+  box-shadow: var(--elevation-levee);
+}

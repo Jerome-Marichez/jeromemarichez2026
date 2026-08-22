@@ -1,5 +1,5 @@
 #!/bin/bash
-# Hook PreToolUse — pas de mocks, des jeux de données (jeromemarichez2026)
+# Hook PreToolUse — pas de mocks, des jeux de données (jeromemarichez-fr)
 # Refuse toute DOUBLURE DE MODULE (jest.mock, vi.mock, __mocks__, sinon.stub,
 # mockResolvedValue, proxyquire, moduleNameMapper vers un mock…) : un test qui
 # remplace la logique métier par une doublure ne prouve rien. Les services réels

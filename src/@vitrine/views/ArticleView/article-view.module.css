@@ -1,0 +1,100 @@
+/* article-view.module.css — un article.
+ * La seule page du site qui se lit en continu : tout y est réglé sur la longueur de
+ * ligne, y compris les titres. */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-6);
+  max-width: var(--largeur-page);
+  margin-inline: auto;
+  padding: var(--e-6) var(--e-4) var(--e-7);
+}
+
+.article {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-5);
+}
+
+.entete {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-3);
+}
+
+.date {
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  letter-spacing: 0.06em;
+  color: var(--encre-douce);
+}
+
+.titre {
+  margin: 0;
+  max-width: 24ch;
+}
+
+.chapo {
+  max-width: var(--mesure-texte);
+  font-family: var(--police-titre-pile);
+  font-variation-settings: "opsz" 24;
+  font-size: var(--t-2);
+  line-height: 1.35;
+  color: var(--accent);
+}
+
+.corps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-5);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-2);
+}
+
+.sousTitre {
+  margin: 0;
+  max-width: var(--mesure-texte);
+  font-size: var(--t-2);
+  line-height: 1.25;
+}
+
+.paragraphe {
+  max-width: var(--mesure-texte);
+  font-size: var(--t-0);
+  line-height: 1.65;
+}
+
+.ensuite {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-4);
+  padding-top: var(--e-5);
+  border-top: 1px solid color-mix(in srgb, var(--encre) 12%, transparent);
+}
+
+.titreEnsuite {
+  margin: 0;
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: var(--suivi-etiquette);
+  color: var(--encre-douce);
+}
+
+.liste {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.retour {
+  font-size: var(--t-note);
+}

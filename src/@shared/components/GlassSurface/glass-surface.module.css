@@ -1,0 +1,103 @@
+/* glass-surface.module.css — un panneau de verre, et le contenu qu'il porte.
+ *
+ * Le contenu est DANS le verre. Le panneau n'est plus un calque décoratif posé derrière
+ * lui : il est son conteneur, il se dimensionne sur lui, et le rembourrage est le sien.
+ *
+ * Tout ce fichier est du CSS. Il n'y a rien à amorcer, rien à charger, rien à démonter :
+ * le verre est là au premier octet de HTML servi, identique avec et sans JavaScript, et
+ * il ne dépend d'aucun seuil de largeur. C'est ce qui permet de le donner à TOUT LE
+ * MONDE — Safari, Firefox, les téléphones, un lecteur sans JavaScript — au lieu de le
+ * réserver aux navigateurs capables d'un effet supplémentaire.
+ */
+
+.panneau {
+  position: relative;
+  border: var(--verre-epaisseur) solid var(--verre-arete);
+  border-radius: var(--rayon-verre);
+  /* Deux couches. Le lavis d'accent tient dans le HAUT du panneau et s'éteint avant la
+     moitié : une teinte uniforme se lirait comme un fond coloré, alors qu'une teinte qui
+     décroît se lit comme de la lumière prise par la tranche supérieure. Sous lui, le
+     voile — la part de papier opaque qui garantit le contraste du texte. */
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--accent) var(--verre-teinte-part), transparent),
+      transparent 55%
+    ),
+    color-mix(in srgb, var(--fond) var(--verre-voile), var(--verre-teinte));
+  box-shadow: var(--verre-ombre);
+}
+
+/* Là où le flou existe — c'est-à-dire partout sauf sur de très vieux moteurs — le voile
+   opaque cède la place au flou : c'est lui qui garantit alors la lisibilité du texte, en
+   effaçant la trame au lieu de la couvrir.
+
+   **Le préfixe se déclare AVANT la propriété standard, jamais après.** Les deux sont la
+   même propriété aux yeux du minifieur, qui n'en garde qu'une : la dernière écrite. Dans
+   l'autre ordre, le CSS livré ne contenait plus que `-webkit-backdrop-filter` — que
+   Blink ne reconnaît plus et que Firefox n'a jamais reconnu. Le fond translucide restait,
+   lui : le site servait donc à Chrome et à Firefox une surface transparente SANS flou,
+   c'est-à-dire le fantôme de texte que tout le reste de ce projet s'applique à éviter.
+   Le défaut ne se voit pas en développement, où rien n'est minifié — seulement dans
+   l'export. */
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .panneau {
+    background:
+      linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--accent) var(--verre-teinte-part), transparent),
+        transparent 55%
+      ),
+      var(--verre-teinte);
+    -webkit-backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation));
+    backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation));
+  }
+}
+
+/* L'arête spéculaire.
+ *
+ * Un `box-shadow: inset 0 1px 0` poserait un trait d'épaisseur CONSTANTE sur toute la
+ * largeur, y compris dans les angles arrondis où il n'a rien à faire. Ici, un dégradé
+ * masqué en anneau : vif en haut, éteint au milieu, et un rebond plus faible en bas —
+ * la lumière vient d'au-dessus, la tranche basse ne fait que renvoyer le papier.
+ *
+ * `mask-composite: exclude` évide le centre : il ne reste que la couronne d'un pixel,
+ * qui suit exactement `border-radius: inherit`. */
+.panneau::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: var(--verre-epaisseur-lueur);
+  border-radius: inherit;
+  background: linear-gradient(
+    to bottom,
+    var(--verre-lueur),
+    transparent 38%,
+    transparent 64%,
+    var(--verre-rebond)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* `position: relative` sans `z-index`, et c'est suffisant : à z-index égal, deux
+   éléments positionnés se peignent dans l'ordre de l'arbre, et `::before` précède le
+   contenu. Le texte passe donc au-dessus de l'arête sans qu'aucun cran d'empilement
+   n'ait à être déclaré, ni tenu à jour ailleurs. */
+.contenu {
+  position: relative;
+  padding: var(--e-5);
+}
+
+@media (max-width: 720px) {
+  .contenu {
+    padding: var(--e-4) var(--e-3);
+  }
+}

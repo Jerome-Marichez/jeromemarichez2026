@@ -1,0 +1,85 @@
+/* pole-sticky-bar.module.css — l'en-tête de pôle collant.
+ *
+ * Même recette que `SiteHeader`, et aux mêmes jetons de bande : opaque tant que le flou
+ * n'est pas payé, translucide et floutée au-delà du seuil. Deux bandes qui s'empilent
+ * doivent se ressembler, sinon l'empilement se lit comme un défaut. */
+
+.barre {
+  position: static;
+  z-index: 40;
+  border-bottom: var(--verre-epaisseur) solid color-mix(in srgb, var(--accent) 34%, transparent);
+  /* Opaque tant que le flou n'est pas là, pour la même raison que `SiteHeader` : sans
+     flou, la translucidité ne fait que laisser passer un fantôme de texte. */
+  background: var(--fond);
+}
+
+/* Sous 720px, l'en-tête du site passe en colonne et occupe déjà une part sérieuse de
+   l'écran : une seconde bande collante y prendrait la place de ce qu'elle annonce. La
+   barre reste donc dans le flux, utile au passage, jamais encombrante. */
+@media (min-width: 721px) {
+  .barre {
+    position: sticky;
+    /* Sous l'en-tête (z-index 50), et volontairement 2 à 3 px trop haut : la barre se
+       glisse dessous plutôt que de laisser voir une bande de contenu entre les deux. */
+    top: var(--hauteur-entete);
+  }
+}
+
+@media (min-width: 1024px) {
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .barre {
+      background: color-mix(in srgb, var(--fond) var(--verre-voile-barre), transparent);
+      /* Préfixe AVANT le standard : le minifieur ne garde que la dernière des deux.
+         Voir `GlassSurface/glass-surface.module.css`. */
+      -webkit-backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation-bande));
+      backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation-bande));
+    }
+  }
+}
+
+.contenu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-2);
+  min-height: var(--hauteur-barre-pole);
+  max-width: var(--largeur-page);
+  margin-inline: auto;
+  padding: var(--e-1) var(--e-4);
+}
+
+.repere {
+  display: flex;
+  align-items: baseline;
+  gap: var(--e-2);
+  min-width: 0;
+}
+
+.temps {
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+
+.nom {
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: var(--suivi-etiquette);
+  color: var(--encre);
+}
+
+/* Aucun `transform` ici : il appartient à `MagneticAction`, qui est le seul à le poser
+   sur un bouton d'action. */
+.action {
+  flex: none;
+  padding: var(--e-1) var(--e-3);
+  border-radius: var(--rayon-petit);
+  background: var(--accent);
+  color: var(--fond);
+  font-size: var(--t-note);
+  font-weight: 500;
+  text-decoration: none;
+}

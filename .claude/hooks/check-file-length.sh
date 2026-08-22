@@ -1,5 +1,5 @@
 #!/bin/bash
-# Hook PostToolUse — garde-fou 300 lignes max par fichier source (jeromemarichez2026)
+# Hook PostToolUse — garde-fou 300 lignes max par fichier source (jeromemarichez-fr)
 # Après un Write/Edit sur un fichier .ts/.tsx/.js/.jsx (hors tests, config, généré),
 # injecte un rappel si le fichier dépasse 300 lignes : extraire, jamais contourner.
 # Le même seuil est vérifié en CI par scripts/check-max-lines.sh.

@@ -1,0 +1,49 @@
+/* proof-wall.module.css — le mur de preuves. */
+
+.mur {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--e-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tuile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-1);
+  padding-top: var(--e-3);
+  border-top: 2px solid var(--accent-vif);
+}
+
+.chiffre {
+  font-family: var(--police-mono-pile);
+  font-weight: 500;
+  font-size: var(--t-chiffre);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--encre);
+}
+
+.libelle {
+  font-size: var(--t-0);
+  color: var(--encre);
+}
+
+.contexte {
+  font-size: var(--t--1);
+  line-height: 1.5;
+  color: var(--encre-douce);
+}
+
+/* Le renvoi vers la fiche est poussé en bas de tuile par `margin-top: auto` : les six
+   tuiles n'ont pas la même hauteur de contexte, et trois seulement portent un lien —
+   sans cela, les liens se retrouveraient à trois hauteurs différentes sur la même
+   ligne de grille. */
+.renvoi {
+  margin-top: auto;
+  padding-top: var(--e-1);
+  font-size: var(--t--1);
+  line-height: 1.4;
+}

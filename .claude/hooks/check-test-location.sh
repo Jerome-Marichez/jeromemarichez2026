@@ -1,5 +1,5 @@
 #!/bin/bash
-# Hook PreToolUse — garde-fou structure des dossiers de tests (jeromemarichez2026)
+# Hook PreToolUse — garde-fou structure des dossiers de tests (jeromemarichez-fr)
 # Bloque la CREATION (Write) d'un fichier de test hors de la convention :
 #   front/tests/unitaire/**/*.spec.ts(x)            (jamais *.integration.spec.*)
 #   front/tests/integration/**/*.integration.spec.ts(x)
