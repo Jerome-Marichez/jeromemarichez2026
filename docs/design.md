@@ -3,14 +3,10 @@
 Direction retenue : **« L'Établi »**. Le site est un plan de travail vu à travers des
 panneaux de verre — on voit littéralement au travers parce qu'il n'y a rien à cacher,
 ni chaîne de prestataires ni couche commerciale. Les quatre pôles ne sont pas quatre
-offres côte à côte : ce sont des plaques alignées dans le même axe, chacune tenue par
-le liseré de sa propre teinte.
-
-> **Décor à reprendre.** La scène SVG du seuil (`ChainCanvas` / `SlabScene`) dessine
-> encore **trois** dalles en file, héritées du modèle à trois pôles linéaires. Elle est
-> purement décorative — `aria-hidden`, `role="presentation"`, et son texte de substitution
-> ne compte plus les pôles — mais elle ne dit pas encore l'embranchement. À reprendre avec
-> le lot de réécriture éditoriale.
+offres côte à côte au catalogue, et ce n'est pas non plus une file de quatre maillons :
+ce sont des plaques teintées chacune par sa propre teinte, dont les deux dernières —
+l'IA et le SEA & UX — sont écartées **côte à côte**, à égalité. Un seul filet vertical
+les traverse toutes : l'interlocuteur unique.
 
 Le verre ne réfracte **jamais du texte**, seulement le fond d'atelier (dégradé + trame
 technique). La transparence reste visible, la lisibilité reste intacte : c'est
@@ -22,7 +18,7 @@ exactement l'arbitrage que le site vend, appliqué à lui-même.
   [`src/app/globals.css`](../src/app/globals.css). Aucune couleur, aucun espacement,
   aucune taille en dur dans un composant.
 - **Responsive** : mobile-first. Le verre réfractant est un **enrichissement desktop**,
-  jamais un prérequis de lecture. La scène des trois dalles, elle, est du SVG : elle
+  jamais un prérequis de lecture. La scène des quatre dalles, elle, est du SVG : elle
   s'affiche partout, au même coût sur un téléphone et sur un poste de travail.
 - **Thème** : clair et sombre, via `prefers-color-scheme`. Les deux palettes sont
   complètes et vérifiées en contraste — aucune couleur n'est définie dans un seul thème.
@@ -305,7 +301,7 @@ personnalisé.
 | **Poser** | toute section qui entre dans l'écran | `opacity: 0` → `1` et `translateY(24px)` → `none`, `--duree-poser`. Porté par [`Reveal`](../src/@shared/components/Reveal/index.tsx), qui s'appuie sur `useInViewport` — voir « La révélation » ci-dessous |
 | **Tracer** | les deux charnières | filet cuivre 2px, `scaleY(0)` → `scaleY(1)`, `--duree-tracer`. Seul mouvement porteur de sens : la chaîne se trace. Déclenché à l'entrée de la charnière dans l'écran, et non au chargement de la page |
 | **Traverser** | le fil IA | filets cuivre **horizontaux**, `scaleX(0)` → `scaleX(1)`, même durée, même déclenchement. Perpendiculaires à ceux des charnières : la chaîne descend, le fil la coupe — la géométrie dit « ceci n'est pas une quatrième offre » |
-| **Dériver** | la scène des trois dalles | deux fréquences lentes qui ne se referment jamais ensemble, en `transform` seul — assez pour faire lire du volume, jamais assez pour appeler le regard |
+| **Dériver** | la scène des quatre dalles | deux fréquences lentes qui ne se referment jamais ensemble, en `transform` seul — assez pour faire lire du volume, jamais assez pour appeler le regard. Le filet de tenue en est **exclu** : ce qui tient ne dérive pas |
 | **Aimanter** | les boutons d'action | le bouton suit le pointeur, borné à **6 px** ([`utils/aimant.ts`](../src/utils/aimant.ts)), en `transform` seul. Souris uniquement : au doigt il n'y a pas de survol, l'attraction n'arriverait qu'après l'appui. `MagneticAction` est le **seul** module autorisé à poser un `transform` sur un bouton — deux règles concurrentes se départageraient à l'ordre du paquet CSS |
 | **Micro-états** | liens et boutons | épaisseur de soulignement, `--aimant-appui: -1px` au survol, `--duree-micro` — aucun déplacement de mise en page |
 
@@ -395,24 +391,54 @@ Trois contraintes de la bibliothèque sont tenues, et leur parade est explicite 
 Le fond translucide n'est pas un pis-aller : c'est le rendu **par défaut** sur mobile,
 sans WebGL et en mouvement réduit.
 
-## La scène des trois dalles
+## La scène des quatre dalles
 
-Trois dalles de verre décalées en profondeur, alignées dans le même axe : la thèse du
-site rendue en volume. Aucun texte, aucun logo, aucune particule.
+Quatre dalles de verre teintées et **un filet vertical qui les traverse toutes** : le
+modèle de l'offre rendu en volume. Aucun texte, aucun logo, aucune particule.
+
+La topologie est celle du `CLAUDE.md`, pas une composition libre :
+
+```
+  ┌───────────────┐      ingénierie web — temps 1, dans l'axe
+  └───────────────┘
+  ┌───────────────┐      data — temps 2, dans l'axe, décalée
+  └───────────────┘
+┌─────────┐ ┌─────────┐  IA  et  SEA & UX — temps 3, écartées côte à côte
+└─────────┘ └─────────┘
+        (un filet vertical descend derrière les quatre)
+```
+
+**Le point qui décide de tout** : les deux dalles du temps 3 sont des **sœurs**, jamais
+une quatrième puis une cinquième étape. Même largeur, même hauteur, même dégradé, même
+classe CSS, même durée d'animation ; seul un décalage vertical de 12 unités casse la
+symétrie mécanique, et un décalage n'a ni premier ni second. Toute retouche de la scène
+doit préserver cette égalité — c'est l'argument que le site vend.
+
+Le **filet de tenue** est l'interlocuteur unique. Il est le seul élément **non animé** de
+la scène, et le seul à ne porter aucun `data-pole` : il prend le cuivre de la racine, qui
+est la couleur de la maison et non celle d'un pôle. Il descend derrière les quatre dalles
+et ressort dans l'écart qui sépare les deux sœurs, là où on le lit le mieux.
 
 Elle a d'abord été une scène WebGL (`three` + `@react-three/fiber`, ~235 ko gzip). Elle
-est aujourd'hui **un SVG de 1,6 ko rendu au serveur**, et le compromis n'en est pas un :
-le site vend une performance tenue, il ne pouvait pas payer un moteur 3D pour un décor.
-Ce qui est perdu — la réfraction physique, la rotation pilotée par le défilement —
+est aujourd'hui **un SVG d'environ 1,7 ko rendu au serveur**, et le compromis n'en est pas
+un : le site vend une performance tenue, il ne pouvait pas payer un moteur 3D pour un
+décor. Ce qui est perdu — la réfraction physique, la rotation pilotée par le défilement —
 n'était lisible par personne. Ce qui est gagné se mesure au premier chargement, et la
 scène s'affiche désormais **aussi sous 1024px**, là où le WebGL n'était jamais monté.
 
-- **Forme** : trois rectangles arrondis décalés, liseré cuivre, un dégradé de lueur sur
-  la dalle de premier plan. [`ChainCanvas/SlabScene.tsx`](../src/@shared/components/ChainCanvas/SlabScene.tsx).
+- **Forme** : `viewBox="0 0 420 360"`, quatre rectangles arrondis et un filet de 2
+  unités. [`ChainCanvas/SlabScene.tsx`](../src/@shared/components/ChainCanvas/SlabScene.tsx).
+  Le rapport 7/6 se retrouve tel quel dans `chain-canvas.module.css` : les deux valeurs
+  se suivent, sinon la réservation d'espace cesse de réserver la bonne place.
+- **Teintes** : chaque dalle porte son `data-pole` dans le SVG, et `poles.css` lui pose
+  `--accent` et `--verre-arete` dessous. **Aucune teinte de pôle n'est nommée dans le
+  module CSS de la scène.** Un seul `<linearGradient>` sert les quatre dalles : son
+  `currentColor` se résout sur l'élément qui *référence* le dégradé, pas sur le `<defs>`,
+  donc chaque dalle le teinte avec son propre accent.
 - **Mouvement** : le groupe porte une dérive d'ensemble, chaque dalle la sienne. Deux
   fréquences qui ne se referment jamais au même moment suffisent à faire lire du volume,
   là où une seule donnerait un balancement de métronome. `transform` et `opacity`
-  uniquement.
+  uniquement. Le filet de tenue est hors du groupe animé et n'a pas d'animation propre.
 - **Rendu** : entièrement serveur. Le seul motif restant de rendre `ChainCanvas` côté
   client est de lire le choix « animation figée » et de le passer à la scène. Plus de
   chargement différé à orchestrer, plus de détection de WebGL, plus de seuil de largeur.
