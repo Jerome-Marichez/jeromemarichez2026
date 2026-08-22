@@ -77,5 +77,56 @@ de la mesure au sens de la règle 8 du `CLAUDE.md`. L'inverse (harnais en clair,
 production compressée) condamne un site qui va bien. Toute évolution des réglages
 commence donc par `docker/nginx.conf`.
 
+## Contrôles automatisés de l'image
+
+`docker/nginx.conf` **décide du comportement du site en production** : résolution des
+routes, statut d'erreur, compression. Longtemps rien ne l'a vérifié — une faute de
+frappe dans une directive passait toute la CI au vert et ne se manifestait qu'au premier
+`docker compose up`. Le cas nominal est le pire : la compression vaut **15 points de
+performance mobile**, et un site qui cesse de compresser reste un site qui répond 200.
+
+Deux contrôles, volontairement séparés parce que leur coût n'est pas le même.
+
+| Cible | Ce qu'elle fait | Durée | Où elle tourne |
+|-------|-----------------|-------|----------------|
+| `make nginx-check` | Monte `docker/nginx.conf` là où le Dockerfile le copie et lance **`nginx -t`** dans `nginx:1.29-alpine`. | ~10 s | **Toute PR → `dev`** (`ci-dev-nginx`) |
+| `make docker-smoke` | **Construit l'image**, rejoue `nginx -t` **dedans**, la démarre et l'interroge en HTTP. | ~4 min | **PR → `main`** (`ci-main-docker`), plus `workflow_dispatch` |
+
+### `nginx -t` teste bien le fichier du dépôt
+
+Le point mérite d'être dit, parce que c'est l'erreur qui rendrait le contrôle décoratif :
+`nginx -t` charge `/etc/nginx/nginx.conf`, qui fait `include /etc/nginx/conf.d/*.conf`.
+Le script monte le fichier versionné **à la place** du `default.conf` livré par l'image —
+c'est donc bien `docker/nginx.conf`, dans le contexte `http` réel de l'image, et pas la
+configuration par défaut. La version de nginx n'est pas recopiée dans le script : elle
+est **lue dans le `Dockerfile`**, une directive pouvant être valide sur une version et
+pas sur une autre.
+
+### La fumée HTTP : la syntaxe ne prouve pas l'effet
+
+Une configuration syntaxiquement valide peut ne rien faire. `make docker-smoke` pose donc
+à l'image les trois questions que la configuration prétend savoir répondre :
+
+| Assertion | Ce qu'elle protège |
+|-----------|--------------------|
+| `GET /` → **200** | `index` + `try_files` résolvent `<route>/index.html` (`trailingSlash: true`) |
+| `GET /url-absente/` → **404** | `error_page 404 /404.html` sert la page **sans** transformer le statut en 200 |
+| `Content-Encoding: gzip` sur le HTML | les six directives de compression **s'appliquent** — les 15 points |
+| `Vary: Accept-Encoding` | un cache intermédiaire ne servira pas du gzip à un client qui n'en veut pas |
+
+C'est l'assertion gzip qui justifie d'aller jusqu'au conteneur démarré : un
+`gzip_types` mal placé reste valide pour `nginx -t`, mais un `Content-Encoding` absent ne
+se discute pas.
+
+Le conteneur est attendu par **sonde HTTP**, jamais par un `sleep` arbitraire, et retiré
+par un `trap` — y compris en cas d'échec, sans conteneur orphelin.
+
+### `.dockerignore`
+
+Le `Dockerfile` fait `npm ci` **puis** `COPY . .`. Sans `.dockerignore`, le
+`node_modules` de la machine hôte écrase celui que `npm ci` vient d'installer : sur un
+poste macOS, les binaires natifs copiés dans l'image Linux ne sont pas les bons. La CI ne
+voyait pas le défaut (checkout vierge) — un poste de développement, si.
+
 <!-- TODO : ajouter ici les services d'infrastructure (base de données, cache…)
      au fur et à mesure, avec leurs volumes. -->

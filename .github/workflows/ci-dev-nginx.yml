@@ -1,0 +1,14 @@
+name: ci-dev-nginx
+# Check rapide (PR -> dev) : la configuration nginx de production passe `nginx -t`.
+# Aucun build applicatif — un pull d'image et un test de syntaxe, ~10 s.
+on:
+  pull_request:
+    branches: [dev]
+jobs:
+  nginx:
+    name: Configuration nginx (nginx -t)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Validation de docker/nginx.conf
+        run: ./scripts/nginx-check.sh

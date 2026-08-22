@@ -6,8 +6,8 @@ Deux familles de pipelines, alignées sur le [workflow Git](./git-workflow.md) :
 
 | Déclencheur | Workflows | Objectif |
 |-------------|-----------|----------|
-| **PR → `dev`** | `ci-dev-lint`, `ci-dev-types`, `ci-dev-tests`, `ci-dev-a11y` | Checks **rapides** : lint (Biome + limite 300 lignes), vérification des types, tests unitaires et intégration, contrôle d'accessibilité (axe). |
-| **PR → `main`** | `ci-main-e2e`, `ci-main-system`, `ci-main-build`, `ci-main-budgets` | Checks **complets** avant production : e2e navigateur, tests système, build, budgets Lighthouse + axe. |
+| **PR → `dev`** | `ci-dev-lint`, `ci-dev-types`, `ci-dev-tests`, `ci-dev-a11y`, `ci-dev-nginx` | Checks **rapides** : lint (Biome + limite 300 lignes), vérification des types, tests unitaires et intégration, contrôle d'accessibilité (axe), validation de la configuration nginx de production. |
+| **PR → `main`** | `ci-main-e2e`, `ci-main-system`, `ci-main-build`, `ci-main-budgets`, `ci-main-docker` | Checks **complets** avant production : e2e navigateur, tests système, build, budgets Lighthouse + axe, construction de l'image Docker et fumée HTTP. |
 
 ## Jobs
 
@@ -45,6 +45,22 @@ Deux familles de pipelines, alignées sur le [workflow Git](./git-workflow.md) :
   les chiffres qu'on vend ?* Un `workflow_dispatch` permet de le lancer à la demande
   depuis `dev` sans attendre la PR de production. Seuils : `scripts/budgets/pages.mjs`,
   repris du `CLAUDE.md`. Détail : [testing](./testing.md).
+- **nginx (dev)** : `make nginx-check` — monte `docker/nginx.conf` là où le
+  `Dockerfile` le copie et lance **`nginx -t`** dans l'image `nginx:1.29-alpine`. Placé
+  sur `dev` **parce qu'il est rapide** : aucun build applicatif, un pull d'image et un
+  test de syntaxe, ~10 s. Ce fichier décidait jusqu'ici du comportement de production
+  sans qu'aucun contrôle ne le lise — une directive mal orthographiée passait toute la CI
+  au vert et n'éclatait qu'au premier `docker compose up`. Un défaut qui ne se voit qu'en
+  production coûte trop cher pour attendre la PR de mise en production. Détail :
+  [docker](./docker.md).
+- **docker (main)** : `make docker-smoke` — **construit l'image**, rejoue `nginx -t`
+  dedans, la démarre et vérifie les trois promesses de la configuration : `GET /` → 200,
+  URL absente → 404, `Content-Encoding: gzip` sur le HTML (plus `Vary`). Placé sur `main`
+  **parce qu'il est lent** : l'image refait `npm ci` + `next build`, ~4 min, soit le
+  double de `ci-dev-tests` pour une surface qui bouge rarement. La syntaxe, elle, est
+  déjà couverte sur `dev` — ce job ajoute la seule chose que `nginx -t` ne sait pas dire :
+  que les directives **agissent**. Un `workflow_dispatch` permet de le lancer à la demande
+  depuis `dev`.
 - **système (main)** : vrai serveur HTTP + client réel.
 - **build (main)** : build de production (front et back), artefacts vérifiés.
 
