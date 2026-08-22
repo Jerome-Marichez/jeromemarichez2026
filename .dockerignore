@@ -1,0 +1,18 @@
+# .dockerignore — jeromemarichez-fr
+# Le Dockerfile fait `npm ci` *puis* `COPY . .` : sans cette liste, le `node_modules`
+# de la machine hôte écrase celui que `npm ci` vient d'installer dans l'image. Sur un
+# poste macOS, les binaires natifs sont alors ceux d'un autre système que l'image
+# Linux — le build casse ou, pire, réussit avec des dépendances qui ne sont pas celles
+# du `package-lock.json`. Le reste (artefacts, historique git) ne fait qu'alourdir le
+# contexte envoyé au démon.
+node_modules
+.next
+out
+coverage
+dist
+build
+.git
+.github
+cypress
+storybook-static
+*.log
