@@ -27,17 +27,14 @@ export const SECTIONS_IA: IEditorialSection[] = [
     kicker: 'La réponse technique',
     titre: 'La solution répond au problème — et ce n’est pas toujours de l’IA',
     chapo:
-      'C’est seulement ici que la technique arrive, et elle est arbitrée contre le travail ' +
-      'de la donnée : le problème métier posé au départ, la donnée réellement ' +
-      'disponible, et ce que le droit autorise. Pas contre l’état de l’art.',
+      'La technique n’arrive qu’ici, arbitrée contre le problème métier, la donnée disponible ' +
+      'et ce que le droit autorise. Pas contre l’état de l’art.',
     blocs: [
       {
         titre: 'Souvent, une règle métier suffit',
         texte:
-          'Une règle explicite est moins chère à faire tourner, plus facile à expliquer à ' +
-          'un régulateur et plus simple à corriger qu’un modèle. Quand elle suffit, je le ' +
-          'dis, et je l’intègre dans vos systèmes existants au lieu d’ajouter une brique ' +
-          'de plus. C’est un livrable complet, pas un lot de consolation.',
+          'Moins chère, plus facile à expliquer à un régulateur, plus simple à corriger qu’un ' +
+          'modèle. Quand elle suffit, je le dis.',
         preuve:
           'Règles anti-fraude définies puis implémentées dans le produit par la même ' +
           'personne : fraude en baisse, conversion des inscriptions en hausse, latence ' +
@@ -50,26 +47,19 @@ export const SECTIONS_IA: IEditorialSection[] = [
       {
         titre: 'Un modèle, quand la règle ne tient plus',
         texte:
-          'Apprentissage supervisé — classification, réseaux de neurones — ou non ' +
-          'supervisé, selon ce que la donnée permet. Exemple livré : un modèle supervisé ' +
-          'anticipant les échecs de dépôt vocal, qui évite d’emprunter une route coûteuse ' +
-          'quand l’échec est probable. La méthode d’extraction des caractéristiques du ' +
-          'signal audio est publiée sur arXiv ; je l’ai implémentée moi-même, adaptée aux ' +
-          'données réelles, validée, puis industrialisée. Entraînement TensorFlow, ' +
-          'inférence en cloud functions.',
+          'Apprentissage supervisé ou non supervisé, selon ce que la donnée permet. La méthode ' +
+          'd’extraction des caractéristiques du signal audio est publiée sur arXiv ; je l’ai ' +
+          'implémentée moi-même, puis industrialisée. TensorFlow, inférence en cloud ' +
+          'functions.',
         preuve: 'Routes vocales coûteuses évitées.',
       },
       {
         titre: 'Un LLM, quand le problème est du langage',
         texte:
-          'Claude sur Vertex AI et par l’API Anthropic, OpenAI, Gemini, Llama : comparés ' +
-          'en continu et arbitrés cas d’usage par cas d’usage sur quatre axes — coût ' +
-          'd’inférence, latence, qualité attendue, confidentialité. Fine-tuning de Llama 3 ' +
-          'sur corpus métier pour l’application mobile Prézage, complété d’un procédé ' +
-          'maison d’augmentation du contexte proche du RAG. RAG documentaire pour le ' +
-          'support de niveau 1 : recherche vectorielle PostgreSQL et API OpenAI, réponses ' +
-          'ancrées sur votre documentation interne et non sur la mémoire du modèle. Aucun ' +
-          'framework tiers — la chaîne est écrite, donc lisible et corrigeable.',
+          'Claude sur Vertex AI et par l’API Anthropic, OpenAI, Gemini, Llama, arbitrés sur le ' +
+          'coût d’inférence, la latence, la qualité et la confidentialité. Fine-tuning de ' +
+          'Llama 3 pour l’application mobile Prézage, RAG documentaire fait maison, aucun ' +
+          'framework tiers.',
         preuve: 'Charge de travail des prestataires réduite.',
         decision: 'Modèle hébergé ou service tiers, et ce que chacun vous coûte par mois.',
       },
@@ -82,24 +72,21 @@ export const SECTIONS_IA: IEditorialSection[] = [
     kicker: 'Et ensuite',
     titre: 'Ce qui est livré tourne, et reste explicable',
     chapo:
-      'Une solution qui ne survit pas à six mois d’exploitation n’a pas résolu le ' +
-      'problème, elle l’a déplacé. Le déploiement, la surveillance et la conformité font ' +
-      'donc partie du même lot, tenus par la même personne.',
+      'Une solution qui ne survit pas à six mois d’exploitation a déplacé le problème. ' +
+      'Déploiement, surveillance et conformité sont dans le même lot.',
     blocs: [
       {
         titre: 'Déploiement et surveillance',
         texte:
-          'Déploiement, versioning et monitoring des modèles, CI/CD Docker et GitHub ' +
-          'Actions, Vertex AI, Pub/Sub, Cloud Run, cloud functions, VM Compute Engine ' +
-          'auto-scalées. Pas de cluster Kubernetes administré en propre : je m’en tiens à ' +
-          'ce que je sais exploiter seul, et je le dis avant le devis plutôt qu’après.',
+          'Versioning et monitoring des modèles, CI/CD Docker et GitHub Actions, Vertex AI, ' +
+          'Pub/Sub, Cloud Run, VM auto-scalées. Pas de cluster Kubernetes administré en ' +
+          'propre.',
       },
       {
         titre: 'Rendre votre produit appelable',
         texte:
-          'Conception, développement et documentation de serveurs MCP et de plugins n8n, ' +
-          'Make et Zapier : votre produit devient utilisable par un agent IA ou par un ' +
-          'scénario no-code, chez vous comme chez vos propres clients.',
+          'Serveurs MCP et plugins n8n, Make et Zapier : votre produit devient appelable par ' +
+          'un agent ou un scénario no-code.',
         decision: 'Ce que vous ouvrez à l’automatisation, et ce qui reste fermé.',
       },
     ],
