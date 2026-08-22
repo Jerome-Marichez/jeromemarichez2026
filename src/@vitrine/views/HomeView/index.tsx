@@ -9,7 +9,9 @@ import { CertificationList } from '../../components/CertificationList'
 import { ChainDiagram } from '../../components/ChainDiagram'
 import { EditorialSection } from '../../components/EditorialSection'
 import { HomeHero } from '../../components/HomeHero'
+import { PoleEntries } from '../../components/PoleEntries'
 import { ProofWall } from '../../components/ProofWall'
+import { SpaceEntries } from '../../components/SpaceEntries'
 import { PAGE_ACCUEIL, THESE_CHAINE } from '../../contenu/accueil'
 import { CERTIFICATIONS } from '../../contenu/certifications'
 import { LIMITES } from '../../contenu/limites'
@@ -37,6 +39,17 @@ export function HomeView() {
             <p className={styles.chapo}>{THESE_CHAINE.chapo}</p>
             <ChainDiagram />
             <p className={styles.appui}>{THESE_CHAINE.appui}</p>
+          </Reveal>
+        </section>
+
+        {/* Les portes, juste après la thèse : le visiteur vient de lire ce qu'est la
+            chaîne, c'est le moment où il veut y entrer. Plus bas, il aurait dû traverser
+            tout le fil pour trouver un lien. */}
+        <section aria-labelledby="poles-titre" className={styles.bloc} id="poles">
+          <Reveal className={styles.corpsBloc}>
+            <p className={styles.kicker}>Les quatre pôles</p>
+            <h2 id="poles-titre">Par où vous entrez</h2>
+            <PoleEntries />
           </Reveal>
         </section>
 
@@ -75,6 +88,14 @@ export function HomeView() {
               Aucun justificatif n'est publié en ligne à ce jour : ils sont communiqués sur demande.
             </p>
             <CertificationList certifications={CERTIFICATIONS} />
+          </Reveal>
+        </section>
+
+        <section aria-labelledby="espaces-titre" className={styles.bloc} id="espaces">
+          <Reveal className={styles.corpsBloc}>
+            <p className={styles.kicker}>Pour aller voir</p>
+            <h2 id="espaces-titre">Le travail, et les arbitrages</h2>
+            <SpaceEntries />
           </Reveal>
         </section>
 

@@ -49,9 +49,14 @@ site, et aucune n'est autorisée.
 |-----|---------|-------|
 | `720px` | mobile / tablette | l'en-tête passe en colonne ; la barre de pôle repasse dans le flux ; le rembourrage des panneaux de verre se resserre |
 | `900px` | tablette | le décalage en diagonale du schéma de chaîne est supprimé |
-| `1024px` | desktop | flou des **bandes collantes** uniquement ; le pied de page passe de deux à quatre colonnes |
+| `1024px` | desktop | flou des **bandes collantes** ; **réfraction** des panneaux (Blink seul) ; le pied de page passe de deux à quatre colonnes |
 
-**Le verre des panneaux n'a plus de seuil.** Il en avait un — 1024px — pour deux raisons
+**Le flou des panneaux n'a plus de seuil ; leur réfraction en a un.** Les deux ne se
+confondent pas : le flou est le verre lui-même et il est servi partout, la réfraction est
+un enrichissement desktop qui coûtait un point de budget sur mobile pour un écart de
+2/255 — voir « La réfraction » plus bas.
+
+**Le flou des panneaux, donc, n'a plus de seuil.** Il en avait un — 1024px — pour deux raisons
 qui appartenaient toutes deux à liquidGL : Safari devenait instable dès qu'une lentille
 dépassait la moitié du viewport, et le flou promettait une couche GPU pour un mouvement
 qui n'arrivait jamais sur un petit écran. La bibliothèque partie, il ne reste qu'un
@@ -265,7 +270,7 @@ fonte préchargée est un fichier que le navigateur va chercher avant de peindre
 | Corps | **Inter** (variable) | `'ss01' 1, 'cv05' 1` |
 | Annotations et chiffres | **pile monospace système** | Ce registre est intégralement composé en capitales espacées, où le dessin propre à une fonte de labeur ne se distingue pas. `ui-monospace` prend SF Mono sur Apple ; tous les replis ont les chiffres à chasse fixe, seule vraie exigence des preuves |
 
-Échelle fluide en `clamp()`, base 16px : `--t--1` (13px) à `--t-4` (40→68px), plus
+Échelle fluide en `clamp()`, base 16px : `--t--1` (13px) à `--t-4` (34→52px), plus
 `--t-note` (15px) et `--t-chiffre` (40→64px) pour le mur de preuves. Mesures : 64ch sur
 le corps, 30ch sur les `h2`, 18ch sur le `h1`, 46ch dans un panneau de verre.
 
@@ -444,6 +449,7 @@ trois `z-index` qui l'accompagnaient ont disparu avec la bibliothèque qui les e
 | lavis d'`--accent`, éteint avant la moitié | le verre prend la couleur du pôle qu'il porte. Une teinte uniforme se lirait comme un fond coloré ; une teinte qui décroît se lit comme de la lumière prise par la tranche haute |
 | arête spéculaire (`::before` masqué en anneau) | vive en haut, éteinte au milieu, rebond faible en bas. Elle suit le `border-radius`, ce qu'un `box-shadow: inset` ne sait pas faire |
 | `--verre-ombre`, basse et très étalée | le panneau flotte de peu. Un rayon court et sombre en ferait une carte |
+| réfraction SVG (`--verre-refraction`), ≥ 1024px, Blink seul | l'épaisseur prend une **forme** : au ras de l'arête, le verre va chercher son image un peu plus loin vers le dedans. Mesurée à 2/255 sur ce fond — voir « La réfraction » |
 | repli `@supports` | là où `backdrop-filter` manque, le voile opaque `--verre-voile` reprend la garantie de contraste du texte |
 
 Le plafond de panneaux par page (`glass-policy.ts` : 3 sur l'accueil, 3 sur une page de
@@ -468,17 +474,121 @@ de 1164 × 282 px :
 Rendre cela présentable demandait un `!important` sur huit propriétés en ligne. Ce n'est
 plus consommer une bibliothèque, c'est la combattre.
 
-**La réfraction a ensuite été réimplémentée en propre** — `feDisplacementMap` sur
-`backdrop-filter`, la même technique que la bibliothèque, en ~30 lignes de SVG et sans
-dépendance. Elle a été écartée aussi, pour une raison qui vaut pour les deux : **le fond
-de ce site n'a rien à courber.** Un lavis quasi uniforme et une trame à 5,5 % d'alpha ne
-produisent aucune déformation lisible ; il n'en restait que des artefacts en losange dans
-les quatre angles, là où les deux rampes du déplacement se croisent. C'est le même
-arbitrage que celui qui a fait passer la scène du seuil de WebGL à SVG : *ce qui est perdu
-n'était lisible par personne*.
-
 Ce que le site vend étant la performance tenue, un effet payé 33 ko et visible d'un seul
-navigateur, sur un fond qui ne l'exprime pas, ne se défend pas.
+navigateur ne se défend pas **sous cette forme**. La technique, elle, se défend : elle a
+été réimplémentée en propre, et c'est l'objet de la section suivante.
+
+### La réfraction : ce qu'elle coûte, ce qu'elle rend
+
+**`feImage` + `feDisplacementMap`, deux primitives, zéro dépendance** — la même technique
+que `liquid-glass-react`, en ~30 lignes de SVG rendues au serveur
+([`GlassRefraction`](../src/@shared/components/GlassRefraction/index.tsx)). Le filtre est
+déclaré une fois par la mise en page racine ; les panneaux le consomment par le jeton
+`--verre-refraction`, jamais en écrivant `url(#…)` dans un module.
+
+**Les artefacts en losange du premier essai ont disparu par construction, pas par
+réglage.** La carte de déplacement pose un **plateau neutre au centre** — l'effet ne vit
+que sur ~10 % de chaque bord, le seul endroit où un vrai verre courbe ce qu'il y a
+derrière — et **échantillonne toujours vers l'intérieur** aux quatre bords. Aucun pixel ne
+va donc chercher hors de la région du filtre, ce qui rend la frange impossible plutôt
+qu'improbable. Vérifié sur damier haute fréquence jusqu'à six fois l'amplitude retenue.
+
+#### Ce que la mesure dit, et elle est têtue
+
+Écart pixel entre un panneau réfractant et le même panneau simplement flouté, sur le fond
+réel, panneau de 1164 × 282 px :
+
+| Configuration | Écart max | Moyenne |
+|---|---|---|
+| réfraction **avant** le flou, région élargie | **2 / 255** | 0,302 |
+| réfraction **après** le flou | 1 / 255 | 0,001 |
+| réfraction seule, sans flou | 17 / 255 | 1,954 |
+
+**2 sur 255 est sous le seuil de perception**, et c'est arithmétiquement inévitable : la
+trame du fond est à 5,5 % d'alpha avec un pas de 32px ; floutée à 22px elle ne pèse plus
+que ~0,4 niveau, et le lavis radial varie de ~10 niveaux sur 1000px. **Un déplacement ne
+crée pas du contraste qui n'existe pas.**
+
+Un piège mérite d'être noté, parce qu'il aurait fait livrer l'inverse de ce qu'on croyait :
+la variante qui « faisait le plus d'effet » (7/255) donnait **exactement les mêmes chiffres
+avec un filtre identité**, qui ne fait rien. Ces sept niveaux n'étaient pas de la
+réfraction mais le `blur(22px)` qui se dégradait faute de matière près des bords — la
+version « visible » **abîmait** le verre. D'où la région élargie à 40 % de la boîte : il
+faut au moins trois écarts-types de flou de matière autour du panneau.
+
+#### Ce qu'elle coûte, et où elle est donc coupée
+
+Lighthouse, mobile bridé, seuil ≥ 95 :
+
+| Accueil | Perf |
+|---|---|
+| sans réfraction | 96 |
+| réfraction sur toutes les largeurs | **95** — tout le reste de marge |
+| réfraction ≥ 1024px (livré) | **96** — la marge est rendue |
+
+Le seuil rend le point, et il faut dire pourquoi sans se payer de mots : **le budget est
+mesuré en mobile bridé, donc il ne mesure plus la réfraction du tout.** Le coût d'un point
+reste réel en desktop Blink. Ce que le seuil supprime, c'est de le faire payer à chaque
+visiteur sur téléphone pour un effet qui, à ~350px de large, a encore moins à montrer que
+les 2/255 du desktop.
+
+Un point de budget pour un effet à 2/255, c'est trop cher, et **un budget pile sur le
+seuil échoue en CI au tirage au sort**. La réfraction est donc **desktop seulement
+(≥ 1024px)** : c'est déjà la règle posée en tête de ce document — le verre réfractant est
+un enrichissement, jamais un prérequis de lecture. Sur un téléphone le panneau fait ~350px,
+la rampe de 10 % n'y couvre plus que 35px, et il y a encore moins à voir qu'en desktop.
+**Le seuil ne concerne que la réfraction** : le flou, lui, n'a plus de seuil et reste sur
+tous les téléphones — c'est le gain du lot précédent, il n'est pas repris.
+
+#### Le test de moteur, et pourquoi il existe
+
+La réfraction est servie **à Blink seulement**, derrière un test de moteur explicite —
+**la seule entorse de ce genre dans le projet**, et elle est assumée :
+
+```css
+@supports (backdrop-filter: url("#verre-refraction")) and
+  (not (-webkit-backdrop-filter: blur(1px))) and
+  (not (-moz-appearance: none))
+```
+
+`@supports` ne teste que la **grammaire**, jamais l'implémentation. WebKit et Gecko peuvent
+accepter `backdrop-filter: url(…)` puis ne rien en faire — et une déclaration acceptée
+**remplace** celle du dessus : ils perdraient leur flou, c'est-à-dire tout leur verre.
+
+On ne peut pas s'en remettre à l'ordre des déclarations, et c'est un **défaut mesuré sur le
+CSS livré** : Lightning CSS **synthétise le préfixe** — il écrit
+`-webkit-backdrop-filter: url(…)` à l'intérieur du bloc — **et élargit la condition** en
+`(-webkit-backdrop-filter: url(…)) or (backdrop-filter: url(…))`. Écrire le préfixe avant,
+après ou pas du tout n'y change rien, et sur Safari 18+ les deux formes sont des alias.
+C'est la **même famille que le bug de production déjà corrigé** (le minifieur ne gardant
+que la dernière des deux formes), par une autre porte — et il ne se voit pas en `next dev`,
+où rien n'est minifié.
+
+Les deux sondes sont choisies pour être **vérifiables des deux côtés**, pas pour leur
+exotisme. `-webkit-backdrop-filter` écarte WebKit : Blink y répond `false` (mesuré), et
+Safari y répond **forcément** `true` — c'est la propriété même par laquelle le site lui
+livre son flou aujourd'hui ; s'il y répondait `false`, il n'aurait déjà aucun verre.
+L'exclusion de Safari n'est donc pas une supposition sur un moteur, elle est **forcée par
+une propriété dont le site dépend déjà**. `-moz-appearance` écarte Gecko, `false` dans
+Blink (mesuré).
+
+**Le rendu de Safari et de Firefox reste raisonné et non observé** — l'automation Safari
+est désactivée sur le poste et Firefox n'y est pas installé. C'est précisément pourquoi le
+gate est construit ainsi : l'incertitude porte sur ce que ces moteurs *feraient* d'un
+`url()`, et le gate fait en sorte qu'ils n'y soient jamais confrontés. Ils gardent
+exactement le verre d'aujourd'hui.
+
+Vérifié sur le CSS livré et sur la page rendue : à 412px le panneau calcule
+`blur(22px) saturate(1.7)`, à 1280px `url("#verre-refraction") blur(22px) saturate(1.7)`.
+
+**Ce qui permettrait de le retirer** : que `backdrop-filter: url()` soit rendu par les trois
+moteurs, ou qu'un `@supports` sache tester le rendu et non la seule syntaxe.
+
+`prefers-reduced-motion` et le `MotionToggle` coupent la réfraction et gardent le flou :
+elle ne bouge pas d'elle-même, mais le compositeur la recalcule à chaque image où le fond
+défile derrière le panneau. Les deux gardes sont indépendantes — requête média sans
+JavaScript d'un côté, attribut publié sur `<html>` par
+[`MotionState`](../src/@shared/components/MotionState/index.tsx) de l'autre (WCAG 2.2.2).
 
 ## La scène des quatre dalles
 
@@ -534,3 +644,49 @@ scène s'affiche désormais **aussi sous 1024px**, là où le WebGL n'était jam
 - **Décor, jamais information** : le conteneur est `aria-hidden`, et la scène ne porte
   rien que le texte de la page ne dise déjà. C'est la condition pour qu'un décor animé
   soit acceptable sur un site qui vend de l'accessibilité tenue.
+
+## Les entrées de l'accueil
+
+L'accueil déroulait sa chaîne dans le fil du texte : on y entrait en lisant, ou par le
+menu. Un visiteur qui scanne ne trouvait aucune porte. Deux composants la lui donnent, et
+leur **disposition porte le modèle** plutôt que de le décrire.
+
+### `PoleEntries` — les quatre pôles
+
+Quatre plaques alignées à égalité diraient un catalogue, ce que le site refuse d'être. La
+grille rend donc la chaîne réelle : **Ingénierie web** puis **Data** en pleine largeur —
+le socle, puis le passage obligé — et **IA** et **SEA & UX** partageant une rangée,
+côte à côte. Les deux suites partagent une ligne parce qu'elles partagent un temps ;
+les empiler aurait réintroduit l'ordre que le modèle nie.
+
+Chaque plaque porte `data-pole` : sa marque et son filet prennent `--accent` sans qu'aucune
+règle du composant ne nomme une couleur.
+
+### `PoleGlyph` — des marques produites, jamais trouvées
+
+Le site n'a **aucune photographie utilisable** — ni portrait, ni capture de projet
+autorisée, ni logo client. Tout visuel est donc construit, en SVG rendu au serveur :
+quatre marques pèsent moins de 700 octets dans le document, là où la moindre image
+matricielle ferait tomber un budget qui ne tient qu'à un point.
+
+**Aucune de ces marques ne simule une donnée.** Un pictogramme qui mimerait un graphique —
+courbe qui monte, barres qui progressent — afficherait un chiffre inventé, ce que les
+règles de véracité interdisent. Ce sont des **figures de structure**, pas des
+visualisations.
+
+L'IA n'est pas dessinée par le nœud à trois entrées, c'est-à-dire le neurone : c'est le
+cliché attendu, et il dirait quelque chose de faux, puisque ce pôle promet que « la
+réponse n'est pas toujours un modèle ». Sa marque est un embranchement dont une branche
+est retenue et l'autre écartée — la promesse, littéralement. Les deux sœurs partagent la
+même grammaire de trait, même poids et même nombre de tracés : deux figures de décision de
+rang égal.
+
+### `SpaceEntries` — les deux espaces éditoriaux
+
+Registre volontairement **plus sobre** que celui des pôles : un filet à gauche plutôt
+qu'une plaque encadrée. Un espace ne se vend pas, il déplie — et la hiérarchie visuelle
+doit le dire sans qu'un mot ait à l'expliquer.
+
+Le volume annoncé est **dérivé des listes sources**, jamais écrit à la main : l'accueil ne
+peut donc pas annoncer un nombre de fiches que l'espace ne tient pas. C'est la même règle
+que pour les chiffres de `preuves.ts`.

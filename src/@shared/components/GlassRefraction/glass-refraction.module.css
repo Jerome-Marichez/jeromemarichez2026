@@ -1,0 +1,18 @@
+/* glass-refraction.module.css — le porte-filtre.
+ *
+ * Ce `<svg>` ne dessine rien : il ne transporte qu'un `<filter>` que le CSS référence.
+ * Il doit néanmoins rester dans le rendu — un `display: none` empêche certains moteurs
+ * de résoudre la référence — d'où une boîte de zéro pixel sortie du flux plutôt qu'un
+ * élément masqué.
+ *
+ * `globals.css` donne `display: block` et `max-width: 100%` à tout `svg` : sans la
+ * taille nulle explicite, celui-ci occuperait la largeur de page et pousserait le
+ * contenu de sa hauteur par défaut. */
+
+.defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}

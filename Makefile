@@ -8,7 +8,7 @@
 .PHONY: test-acceptance
 .PHONY: budgets budget-perf budget-a11y
 .PHONY: storybook storybook-build
-.PHONY: docker-up docker-down logs
+.PHONY: docker-up docker-down logs nginx-check docker-smoke
 
 help: ## Liste les commandes disponibles
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
@@ -74,3 +74,9 @@ docker-down: ## Arrêt des conteneurs
 
 logs: ## Logs agrégés des conteneurs
 	docker compose logs -f
+
+nginx-check: ## Valide docker/nginx.conf avec le vrai nginx (nginx -t) — rapide
+	./scripts/nginx-check.sh
+
+docker-smoke: ## Construit l'image de production et vérifie qu'elle sert le site
+	./scripts/docker-smoke.sh
