@@ -19,37 +19,31 @@ export const JOINTURES: IJointure[] = [
     amont: 'ingenierie-web',
     aval: 'data',
     matiere:
-      'Un produit en production, exploité et mesuré : c’est le run qui fabrique la ' +
-      'donnée, jamais l’inverse. Les règles anti-fraude que j’ai implémentées ne sont pas ' +
-      'nées d’une intuition, mais de la reprise de l’historique que l’exploitation avait ' +
-      'produit.',
+      'Un produit en production, exploité et mesuré : c’est le run qui fabrique la donnée, ' +
+      'jamais l’inverse.',
     siDejaEnPlace:
-      'Si votre produit tourne déjà, on part de lui. Je ne le réécris pas pour avoir le ' +
-      'droit de le mesurer : l’ingénierie web n’est pas un préalable à vous facturer, ' +
-      'c’est simplement l’endroit d’où la donnée vient.',
+      'Si votre produit tourne déjà, on part de lui. L’ingénierie web n’est pas un préalable à ' +
+      'vous facturer, c’est l’endroit d’où la donnée vient.',
   },
   {
     amont: 'data',
     aval: 'ia',
     matiere:
-      'Un métier formalisé et une donnée gouvernée : les règles de décision écrites, ce ' +
-      'que dit réellement l’historique, et ce qui a le droit d’être traité. Sans ça, un ' +
-      'modèle apprend l’erreur de cadrage au lieu de la corriger.',
+      'Un métier formalisé et une donnée gouvernée. Sans ça, un modèle apprend l’erreur de ' +
+      'cadrage au lieu de la corriger.',
     siDejaEnPlace:
-      'Si votre stratégie data tient déjà, on la reprend telle quelle et on va droit à la ' +
-      'solution. Le pôle data se livre pour lui-même — il ne se rachète pas pour avoir ' +
-      'accès à l’IA.',
+      'Si votre stratégie data tient déjà, on la reprend telle quelle. Le pôle data se livre ' +
+      'pour lui-même — il ne se rachète pas pour accéder à l’IA.',
   },
   {
     amont: 'data',
     aval: 'sea-ux',
     matiere:
-      'La même donnée gouvernée, tournée vers l’arbitrage : quel canal financer, quelle ' +
-      'étape du parcours supprimer, quelle page rendre autrement. Sans elle, le SEA achète ' +
-      'du volume et l’UX redevient une affaire de goût.',
+      'La même donnée gouvernée, tournée vers l’arbitrage. Sans elle, le SEA achète du volume ' +
+      'et l’UX redevient une affaire de goût.',
     siDejaEnPlace:
-      'Si la mesure est en place et qu’elle est fiable, on arbitre dessus dès le premier ' +
-      'jour. Et rien n’oblige à prendre l’IA pour tirer parti de la donnée : les deux ' +
-      'suites se prennent séparément ou ensemble.',
+      'Si la mesure est fiable, on arbitre dessus dès le premier jour. Rien n’oblige à prendre ' +
+      'l’IA pour tirer parti de la donnée : les deux suites se prennent séparément ou ' +
+      'ensemble.',
   },
 ]

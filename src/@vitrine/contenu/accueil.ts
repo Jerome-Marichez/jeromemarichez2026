@@ -16,10 +16,8 @@ import { SECTIONS_ACCUEIL } from './accueil-sections'
 export const HERO_ACCUEIL = {
   titre: "Je construis, j'exploite, je mesure. Le même interlocuteur, du cadrage au run.",
   chapo:
-    'Ingénieur logiciel à Lille, 9 ans. Un seul interlocuteur pour votre produit ' +
-    'digital, du cadrage au run : celui qui cadre est celui qui code, qui mesure et ' +
-    'qui exploite. Vous parlez à la personne qui fait le travail, et c’est elle qui ' +
-    'répond de tout.',
+    'Ingénieur logiciel à Lille, 9 ans. Celui qui cadre est celui qui code, qui mesure ' +
+    'et qui exploite — et c’est lui qui répond de tout.',
   // Le fil IA se dit dès le seuil, sinon il se découvre au pôle Data et se lit comme une
   // offre. Formulation tenue par les règles de véracité : l'IA instruit et produit, le
   // test décide — jamais l'inverse.
@@ -47,14 +45,12 @@ export const HERO_ACCUEIL = {
 export const THESE_CHAINE = {
   titre: 'Quatre pôles, une seule chaîne',
   chapo:
-    "Ce ne sont pas quatre offres posées côte à côte au catalogue. C'est une prise en " +
-    'charge continue : on construit, ce qui est construit se met à tourner, ce qui tourne ' +
-    'produit de la donnée — et c’est cette donnée qui ouvre l’IA et l’arbitrage des ' +
-    'budgets et des parcours. L’une, l’autre, ou les deux.',
+    'Pas quatre offres au catalogue : ce qui est construit tourne, ce qui tourne produit de la ' +
+    'donnée — et cette donnée ouvre l’IA et l’arbitrage des budgets et des parcours. L’une, ' +
+    'l’autre, ou les deux.',
   appui:
-    "Cette chaîne ne tient que parce que c'est la même personne à chaque poste. " +
-    "Découpée entre plusieurs prestataires, elle se casse à chaque jointure — et c'est " +
-    'toujours au client de recoller les morceaux.',
+    'La chaîne ne tient que parce que c’est la même personne à chaque poste. Découpée entre ' +
+    'prestataires, elle casse à chaque jointure.',
 } as const
 
 export const PAGE_ACCUEIL: IEditorialPage = {
