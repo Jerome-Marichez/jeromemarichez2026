@@ -3,6 +3,8 @@
 
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
+import { GlassRefraction } from '@/@shared/components/GlassRefraction'
+import { MotionState } from '@/@shared/components/MotionState'
 import { SiteFooter } from '@/@shared/components/SiteFooter'
 import { SiteHeader } from '@/@shared/components/SiteHeader'
 import { SkipLink } from '@/@shared/components/SkipLink'
@@ -55,6 +57,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <SkipLink />
         <div aria-hidden="true" className="fond-atelier" />
+        {/* Le filtre de réfraction est déclaré une fois pour toute la page : c'est du
+            balisage inerte, référencé par le CSS des panneaux. Il est posé APRÈS le fond
+            d'atelier et avant tout ce qui porte du verre, comme le fond lui-même — la
+            règle de ce document est que ce qui est peint derrière est déclaré avant. */}
+        <GlassRefraction />
+        {/* Reflète « animation figée » sur `<html>`, pour que les gardes CSS des surfaces
+            de verre puissent le lire sans qu'aucune d'elles ne devienne cliente. */}
+        <MotionState />
         <SiteHeader />
         <main id="contenu">{children}</main>
         <SiteFooter />

@@ -24,6 +24,17 @@
  * **texte** : au même réglage, elle le transformerait en traînée colorée. Elle floute
  * moins, sature à peine, et compense par un voile plus opaque.
  *
+ * ## La réfraction n'est pas le flou non plus
+ *
+ * Un flou dit « il y a une épaisseur entre le fond et moi ». Une **réfraction** dit « et
+ * cette épaisseur a une forme » : au ras de l'arête, un vrai verre va chercher son image
+ * un peu plus loin vers le dedans. `--verre-refraction` porte la référence au filtre SVG
+ * qui le fait (`@shared/components/GlassRefraction`) : le module CSS n'écrit donc jamais
+ * `url(#…)`, il consomme un jeton comme pour tout le reste.
+ *
+ * Le jeton ne s'applique qu'aux **panneaux**. Une bande collante passe sur du texte, et
+ * courber du texte est exactement le fantôme que le voile et le flou servent à éviter.
+ *
  * ## Le voile n'est pas le flou
  *
  * Deux réglages indépendants font une surface de verre : le **flou** de ce qui passe
@@ -63,6 +74,10 @@
      qu'il n'entre. C'est ce réglage, plus que le flou, qui distingue un verre d'Apple
      d'un simple dépoli — et il n'a de sens que sur un fond qui porte de la couleur. */
   --verre-saturation: 1.7;
+  /* Référence au filtre SVG de réfraction, posé une fois par la mise en page racine.
+     L'identifiant vit ici et nulle part ailleurs : un module qui écrirait `url(#…)` en
+     dur ferait de cette chaîne une valeur en dur de plus. */
+  --verre-refraction: url("#verre-refraction");
 
   /* — Verre : les bandes collantes — */
   --verre-flou-bande: 14px;
