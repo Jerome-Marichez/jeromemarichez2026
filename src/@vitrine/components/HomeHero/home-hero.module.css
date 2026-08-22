@@ -72,16 +72,62 @@
   color: var(--fond);
   text-decoration: none;
   font-weight: 500;
+  /* La couronne, sur un fond PLEIN. L'action principale garde son aplat d'accent : c'est
+     le seul élément du seuil dont le contraste texte/fond est critique, et un fond
+     translucide le rendrait dépendant de ce qui passe derrière. Ce qu'elle prend du
+     verre, c'est sa lumière — un trait vif au ras du haut, un rebond plus faible au ras
+     du bas. Deux traits d'un pixel suffisent à faire lire une épaisseur ; c'est ce que
+     fait Apple sur ses boutons pleins, et ça ne coûte pas un point de contraste. */
+  box-shadow:
+    var(--elevation-posee),
+    inset 0 calc(-1 * var(--verre-epaisseur-lueur)) 0 var(--verre-rebond);
   transition: box-shadow var(--duree-micro) ease-out;
 }
 
+/* Au survol, l'ombre portée s'ajoute — la couronne ne disparaît pas. Réécrire
+   `box-shadow` sans la reprendre éteindrait la lumière au moment précis où la main
+   arrive, c'est-à-dire à l'inverse de ce qu'on attend d'une surface éclairée. */
 .actionPrincipale:hover {
-  box-shadow: var(--elevation-levee);
+  box-shadow:
+    var(--elevation-posee),
+    inset 0 calc(-1 * var(--verre-epaisseur-lueur)) 0 var(--verre-rebond),
+    var(--elevation-levee);
 }
 
+/* L'action secondaire devient une pastille de verre : c'est elle, et non l'action
+   principale, qui peut porter la translucidité — son texte est en `--encre` sur le fond
+   de la page, donc son contraste ne dépend pas du verre.
+   Le flou et la couronne restent derrière `@supports` : là où `backdrop-filter` n'existe
+   pas, la pastille garde un fond opaque et reste parfaitement lisible. */
 .actionSecondaire {
+  display: inline-block;
+  padding: var(--e-2) var(--e-4);
+  border: var(--verre-epaisseur) solid var(--verre-arete);
+  border-radius: var(--rayon-petit);
+  background: color-mix(in srgb, var(--fond) var(--verre-voile-barre), transparent);
   color: var(--encre);
+  text-decoration: none;
   text-underline-offset: 0.24em;
+  transition: box-shadow var(--duree-micro) ease-out;
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .actionSecondaire {
+    /* Préfixe AVANT le standard : le minifieur ne garde que la dernière des deux.
+       Voir `GlassSurface/glass-surface.module.css`. */
+    -webkit-backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation));
+    backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation));
+    box-shadow:
+      var(--elevation-posee),
+      inset 0 calc(-1 * var(--verre-epaisseur-lueur)) 0 var(--verre-rebond);
+  }
+}
+
+.actionSecondaire:hover {
+  box-shadow:
+    var(--elevation-posee),
+    inset 0 calc(-1 * var(--verre-epaisseur-lueur)) 0 var(--verre-rebond),
+    var(--elevation-levee);
 }
 
 .jetons {

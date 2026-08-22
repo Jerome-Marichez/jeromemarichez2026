@@ -99,16 +99,16 @@
 /* Deux façons de figer, une seule règle. `paused` et non `none` : la scène garde la
    pose où elle en était plutôt que de sauter à son image de départ — c'est ce qu'attend
    quelqu'un qui appuie sur « Figer l'animation » en la regardant. */
-.scene[data-fige="true"] .groupe,
-.scene[data-fige="true"] .groupe > g {
-  animation-play-state: paused;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .groupe,
   .groupe > g {
     animation: none;
   }
+}
+
+.scene[data-fige="true"] .groupe,
+.scene[data-fige="true"] .groupe > g {
+  animation-play-state: paused;
 }
 
 /* La marque du pôle, posée au bord d'attaque de sa dalle. Elle dérive AVEC elle — c'est
