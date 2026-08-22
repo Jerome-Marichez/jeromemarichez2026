@@ -43,6 +43,26 @@
      document. Ici, rien n'est promis au compositeur.
      L'alpha moyen est volontairement sous 4 % : au-delà, le grain cesse d'être une
      texture et devient un voile qui déplace les contrastes documentés. */
+  /* — La maille de fond — */
+  /* Quatre lavis larges, un par pôle, posés en descendant : ingénierie en haut à gauche,
+     donnée à droite, puis les deux suites plus bas. Le fond raconte donc la même chaîne
+     que la page, sans qu'aucun mot ne le dise.
+
+     Ce n'est PAS de la décoration. Un verre ne montre rien par lui-même — il montre ce
+     qu'il déforme. Sur un lavis uniforme, la réfraction du verre a été mesurée à 2
+     niveaux sur 255, c'est-à-dire rien. La maille est ce qui lui donne enfin de la
+     matière à courber, et c'est pour ça qu'elle arrive avec le verre de la bande.
+
+     L'alpha est délibérément TRÈS bas — de l'ordre du grain, sous 6 %. Au-delà, la
+     maille cesse d'être une lumière et devient un fond coloré : elle déplacerait les
+     ratios de contraste documentés, et le texte du site est posé dessus. La vérification
+     est mesurée, pas supposée : voir `docs/design.md`. */
+  --maille-part: 5.5%;
+  --maille-a: color-mix(in srgb, var(--pole-ingenierie-web) var(--maille-part), transparent);
+  --maille-b: color-mix(in srgb, var(--pole-data) var(--maille-part), transparent);
+  --maille-c: color-mix(in srgb, var(--pole-ia) var(--maille-part), transparent);
+  --maille-d: color-mix(in srgb, var(--pole-sea-ux) var(--maille-part), transparent);
+
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23g)'/%3E%3C/svg%3E");
   --grain-tuile: 128px;
 
@@ -148,6 +168,11 @@
     --verre-lueur: rgba(255, 255, 255, 0.14);
     --fond-degrade-haut: #14181d;
     --fond-degrade-bas: #0b0e11;
+    /* La maille descend en thème sombre, et ce n'est pas une préférence : les teintes de
+       pôle y sont choisies claires pour porter du texte sur un fond à 6 % de luminance —
+       `--pole-data` passe de #00697b à #01b6d4. À part égale, la même maille y serait
+       deux fois plus présente et virerait au fond coloré. */
+    --maille-part: 3.5%;
     /* Même tuile, speckles clairs : du grain noir sur un fond à 6 % de luminance ne
        se voit pas, il ne fait qu'assombrir encore. */
     --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23g)'/%3E%3C/svg%3E");
@@ -217,12 +242,24 @@ body {
   background-image:
     var(--grain), linear-gradient(to right, var(--trame) 0 1px, transparent 1px),
     linear-gradient(to bottom, var(--trame) 0 1px, transparent 1px),
+    /* La maille : quatre lavis en TAILLE FIXE, jamais en pourcentage. `.fond-atelier`
+       fait plus de 9 000 px de haut sur l'accueil — un `radial-gradient` dimensionné en
+       pourcentage y serait rasterisé à cette hauteur. En pixels, chacun reste un disque
+       de la taille d'un écran, et leur position en pourcentage suffit à les répartir. */
+    radial-gradient(1100px 800px at 12% 4%, var(--maille-a), transparent),
+    radial-gradient(1000px 750px at 88% 14%, var(--maille-b), transparent),
+    radial-gradient(900px 700px at 8% 34%, var(--maille-c), transparent),
+    radial-gradient(950px 700px at 92% 46%, var(--maille-d), transparent),
     radial-gradient(1200px 900px at 22% 8%, var(--fond-degrade-haut), var(--fond-degrade-bas));
-  background-repeat: repeat, repeat, repeat, no-repeat;
+  background-repeat: repeat, repeat, repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
   background-size:
     var(--grain-tuile) var(--grain-tuile),
     32px 32px,
     32px 32px,
+    1100px 800px,
+    1000px 750px,
+    900px 700px,
+    950px 700px,
     100% 100%;
 }
 
