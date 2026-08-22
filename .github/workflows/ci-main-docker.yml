@@ -5,7 +5,7 @@ name: ci-main-docker
 # 200 sur l'accueil, 404 sur une URL absente, HTML servi en gzip.
 on:
   pull_request:
-    branches: [main]
+    branches: [main, dev]   # TEMPORAIRE (PR #83) : `dev` sert a demontrer le job.
   workflow_dispatch:
 jobs:
   docker:
