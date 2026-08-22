@@ -42,7 +42,7 @@ export function HingeSection({ section }: HingeSectionProps) {
           {section.blocs.map((bloc) => (
             <li className={styles.repere} key={bloc.titre}>
               <span className={styles.repereTitre}>{bloc.titre}</span>
-              <span className={styles.repereTexte}>{bloc.texte}</span>
+              {bloc.texte ? <span className={styles.repereTexte}>{bloc.texte}</span> : null}
             </li>
           ))}
         </ul>

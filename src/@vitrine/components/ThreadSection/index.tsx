@@ -41,7 +41,7 @@ export function ThreadSection({ section }: ThreadSectionProps) {
               {String(index + 1).padStart(2, '0')}
             </span>
             <h3 className={styles.etapeTitre}>{bloc.titre}</h3>
-            <p className={styles.etapeTexte}>{bloc.texte}</p>
+            {bloc.texte ? <p className={styles.etapeTexte}>{bloc.texte}</p> : null}
             {bloc.preuve ? <p className={styles.preuve}>{bloc.preuve}</p> : null}
             {bloc.decision ? (
               <p className={styles.decision}>

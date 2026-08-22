@@ -20,20 +20,14 @@ export const SECTION_FIL_IA: IEditorialSection = {
   titre: 'Je conçois, je développe et je pilote avec l’IA',
   chapo:
     'L’IA est ce que je livre au pôle IA, et la façon dont je travaille sur tous. Ici, la ' +
-    'seconde : l’IA propose, les tests tranchent.',
+    'seconde : elle propose, les tests tranchent.',
   blocs: [
     {
       titre: 'Concevoir — instruire les options, pas les recevoir',
-      texte:
-        'L’IA instruit : plusieurs scénarios, leurs coûts, leurs angles morts. La décision ' +
-        'reste la mienne et s’écrit noir sur blanc.',
       decision: 'Le scénario d’architecture retenu, ceux qui ont été écartés, et sur quel critère.',
     },
     {
       titre: 'Construire — Claude Code et Gemini, pilotés par les tests',
-      texte:
-        'Agents, hooks, skills et serveurs MCP internes, le test écrit avant et rejoué après ' +
-        'la génération.',
       preuve:
         'Jest, Cypress, Playwright, mutation Stryker. Certification ISTQB Foundation. Ce ' +
         'site est construit ainsi, de bout en bout.',
@@ -50,7 +44,6 @@ export const SECTION_FIL_IA: IEditorialSection = {
     },
     {
       titre: 'Piloter — le SEA et l’UX décidés sur ce que la donnée dit',
-      texte: 'La même donnée sert à trancher, puis la même personne implémente l’arbitrage.',
       preuve:
         'Panier moyen en hausse de 50 % sur un e-commerce de joaillerie, 100 000 € de budget ' +
         'ADS / SEO pilotés.',

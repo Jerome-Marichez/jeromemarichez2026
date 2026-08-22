@@ -27,14 +27,11 @@ export const SECTIONS_IA: IEditorialSection[] = [
     kicker: 'La réponse technique',
     titre: 'La solution répond au problème — et ce n’est pas toujours de l’IA',
     chapo:
-      'La technique n’arrive qu’ici, arbitrée contre le problème métier, la donnée disponible ' +
-      'et ce que le droit autorise. Pas contre l’état de l’art.',
+      'La technique n’arrive qu’ici, arbitrée contre le problème métier et ce que le droit ' +
+      'autorise. Pas contre l’état de l’art.',
     blocs: [
       {
         titre: 'Souvent, une règle métier suffit',
-        texte:
-          'Moins chère, plus facile à expliquer à un régulateur, plus simple à corriger qu’un ' +
-          'modèle. Quand elle suffit, je le dis.',
         preuve:
           'Règles anti-fraude définies puis implémentées dans le produit par la même ' +
           'personne : fraude en baisse, conversion des inscriptions en hausse, latence ' +
@@ -47,19 +44,16 @@ export const SECTIONS_IA: IEditorialSection[] = [
       {
         titre: 'Un modèle, quand la règle ne tient plus',
         texte:
-          'Apprentissage supervisé ou non supervisé, selon ce que la donnée permet. La méthode ' +
-          'd’extraction des caractéristiques du signal audio est publiée sur arXiv ; je l’ai ' +
-          'implémentée moi-même, puis industrialisée. TensorFlow, inférence en cloud ' +
+          'La méthode d’extraction des caractéristiques du signal audio est publiée sur arXiv ' +
+          '; je l’ai implémentée moi-même, puis industrialisée. TensorFlow, inférence en cloud ' +
           'functions.',
         preuve: 'Routes vocales coûteuses évitées.',
       },
       {
         titre: 'Un LLM, quand le problème est du langage',
         texte:
-          'Claude sur Vertex AI et par l’API Anthropic, OpenAI, Gemini, Llama, arbitrés sur le ' +
-          'coût d’inférence, la latence, la qualité et la confidentialité. Fine-tuning de ' +
-          'Llama 3 pour l’application mobile Prézage, RAG documentaire fait maison, aucun ' +
-          'framework tiers.',
+          'Claude sur Vertex AI, OpenAI, Gemini, Llama. Fine-tuning de Llama 3 pour ' +
+          'l’application mobile Prézage, RAG documentaire fait maison, aucun framework tiers.',
         preuve: 'Charge de travail des prestataires réduite.',
         decision: 'Modèle hébergé ou service tiers, et ce que chacun vous coûte par mois.',
       },
@@ -72,15 +66,14 @@ export const SECTIONS_IA: IEditorialSection[] = [
     kicker: 'Et ensuite',
     titre: 'Ce qui est livré tourne, et reste explicable',
     chapo:
-      'Une solution qui ne survit pas à six mois d’exploitation a déplacé le problème. ' +
-      'Déploiement, surveillance et conformité sont dans le même lot.',
+      'Une solution qui ne survit pas à six mois d’exploitation a déplacé le problème, pas ' +
+      'résolu.',
     blocs: [
       {
         titre: 'Déploiement et surveillance',
         texte:
-          'Versioning et monitoring des modèles, CI/CD Docker et GitHub Actions, Vertex AI, ' +
-          'Pub/Sub, Cloud Run, VM auto-scalées. Pas de cluster Kubernetes administré en ' +
-          'propre.',
+          'Versioning et monitoring des modèles, Vertex AI, Pub/Sub, Cloud Run, VM ' +
+          'auto-scalées. Pas de cluster Kubernetes administré en propre.',
       },
       {
         titre: 'Rendre votre produit appelable',

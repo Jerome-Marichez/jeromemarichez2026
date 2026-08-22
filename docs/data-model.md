@@ -29,6 +29,45 @@ TypeScript dans `src/@vitrine/contenu/`, et sa forme est tenue par des interface
 | `IBlogIndex` | `src/interfaces/IBlogIndex.ts` | L'en-tête éditoriale de `/blog` | — |
 | `IBreadcrumbItem` | `src/interfaces/IBreadcrumbItem.ts` | Un niveau de fil d'Ariane | lu par le rendu **et** par le JSON-LD |
 
+## Le bloc éditorial (`IEditorialBlock`)
+
+C'est l'unité la plus fine du site : un point d'expertise à l'intérieur d'une section.
+
+| Champ | Type | Obligatoire | Rôle |
+|-------|------|-------------|------|
+| `titre` | `string` | oui | Intitulé court du point d'expertise |
+| `texte` | `string` | **non** | Corps du bloc, une à trois phrases |
+| `preuve` | `string` | non | Preuve chiffrée réelle (montant, pourcentage, durée, contrainte tenue) |
+| `decision` | `string` | non | Ce que le client peut trancher grâce à ce point |
+
+### Pourquoi `texte` est optionnel
+
+Trois champs sur quatre sont facultatifs, mais pas pour la même raison. `preuve` et
+`decision` le sont parce que le type ne peut pas garantir qu'une preuve existe : leur
+absence est un **signal de relecture**, pas un état souhaitable.
+
+`texte` l'est pour la raison inverse. Quand un bloc porte déjà un titre, une preuve
+chiffrée et une décision, le paragraphe redit en prose ce que les trois autres
+établissent — et c'est le seul des quatre qui n'apporte rien à un dirigeant pressé
+(issue #45). Dans ce cas précis, il s'omet.
+
+### Contraintes d'intégrité
+
+Aucune n'est vérifiée à l'exécution : elles sont tenues par la relecture.
+
+- **Un bloc dépourvu de `preuve` et de `decision` garde son `texte`.** Sans lui, il ne
+  reste qu'un titre orphelin. Les repères des charnières sont exactement ce cas.
+- **Un `texte` supprimé ne transfère jamais sa charge.** Si le paragraphe portait un fait
+  qui n'existe nulle part ailleurs, ce fait se **déplace** dans `preuve` ou `decision` ; il
+  ne se jette pas, et le champ d'accueil ne s'élargit pas pour l'absorber.
+- **Les bornes de véracité restent dans le paragraphe qui les porte.** « ISTQB Foundation
+  est le seul niveau que je détiens », « pas de cluster Kubernetes administré en propre »,
+  « RAG fait maison, aucun framework tiers », « pas d'autre outillage mobile revendiqué » :
+  ces phrases sont la raison d'être de leur bloc, jamais du remplissage.
+- **Les trois composants de rendu ne produisent pas de paragraphe vide.**
+  `ExpertiseBlock`, `HingeSection` et `ThreadSection` conditionnent l'élément à la
+  présence de la valeur.
+
 ## L'article (`IArticle`)
 
 C'est la seule entité **datée** du site, et c'est ce qui la distingue du reste du

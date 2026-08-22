@@ -22,8 +22,8 @@ export const JOINTURES: IJointure[] = [
       'Un produit en production, exploité et mesuré : c’est le run qui fabrique la donnée, ' +
       'jamais l’inverse.',
     siDejaEnPlace:
-      'Si votre produit tourne déjà, on part de lui. L’ingénierie web n’est pas un préalable à ' +
-      'vous facturer, c’est l’endroit d’où la donnée vient.',
+      'Si votre produit tourne déjà, on part de lui : l’ingénierie web n’est pas un préalable ' +
+      'à vous facturer.',
   },
   {
     amont: 'data',
@@ -32,18 +32,16 @@ export const JOINTURES: IJointure[] = [
       'Un métier formalisé et une donnée gouvernée. Sans ça, un modèle apprend l’erreur de ' +
       'cadrage au lieu de la corriger.',
     siDejaEnPlace:
-      'Si votre stratégie data tient déjà, on la reprend telle quelle. Le pôle data se livre ' +
-      'pour lui-même — il ne se rachète pas pour accéder à l’IA.',
+      'Si votre stratégie data tient déjà, on la reprend telle quelle : le pôle data ne se ' +
+      'rachète pas pour accéder à l’IA.',
   },
   {
     amont: 'data',
     aval: 'sea-ux',
     matiere:
-      'La même donnée gouvernée, tournée vers l’arbitrage. Sans elle, le SEA achète du volume ' +
-      'et l’UX redevient une affaire de goût.',
+      'La même donnée gouvernée, tournée vers l’arbitrage. Sans elle, le SEA achète du volume.',
     siDejaEnPlace:
       'Si la mesure est fiable, on arbitre dessus dès le premier jour. Rien n’oblige à prendre ' +
-      'l’IA pour tirer parti de la donnée : les deux suites se prennent séparément ou ' +
-      'ensemble.',
+      'l’IA : les deux suites se prennent séparément ou ensemble.',
   },
 ]

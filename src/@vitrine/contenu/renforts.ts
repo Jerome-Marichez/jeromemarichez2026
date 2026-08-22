@@ -27,7 +27,7 @@ export const SECTION_RENFORTS: IEditorialSection = {
       titre: 'C’est rare, et la rareté se dit',
       texte:
         'La très grande majorité des projets tient sur une personne du cadrage au run. Le ' +
-        'renfort se déclenche quand le volume dépasserait ce que je peux tenir.',
+        'renfort se déclenche quand le volume dépasse ce que je peux tenir.',
       decision:
         'À quel moment vous préférez un renfort plutôt qu’un délai — l’arbitrage est le vôtre.',
     },
@@ -35,16 +35,14 @@ export const SECTION_RENFORTS: IEditorialSection = {
       titre: 'Choisis, cadrés, et sous ma responsabilité',
       texte:
         'Un renfort travaille sur mes spécifications, dans mon dépôt, avec les mêmes tests. Je ' +
-        'réponds de ce qui est livré, y compris de ce que je n’ai pas tapé moi-même.',
+        'réponds de ce qui est livré, y compris de ce que je n’ai pas tapé.',
       preuve:
         'AMOA de la startup biotech Artedrone : spécifications écrites pour des tiers ' +
         'extérieurs au domaine, BPMN 2.0 et cartographie du système d’information.',
     },
     {
       titre: 'Vous ne gérez personne d’autre que moi',
-      texte:
-        'Pas de chef de projet intermédiaire, pas de second contrat. Je porte le planning, le ' +
-        'budget et la qualité du renfort.',
+      texte: 'Je porte le planning, le budget et la qualité du renfort.',
       preuve:
         'Environ 25 000 € d’encadrement de prestataires SEA, SEO et SMA chez Verhoeven ' +
         'Joaillier : périmètre, budget et qualité sont restés de mon côté.',

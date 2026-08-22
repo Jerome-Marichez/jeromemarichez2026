@@ -15,14 +15,11 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
     kicker: 'Ce que je construis',
     titre: 'Trois natures de produit, une seule façon de les tenir',
     chapo:
-      "Un site, un produit SaaS et une application mobile n'ont ni le même cycle de vie, ni " +
-      'les mêmes contraintes. Je les ai menés tous les trois, de la conception au run.',
+      'Trois natures de produit, trois jeux de contraintes. Je les ai menés tous les trois, de ' +
+      'la conception au run.',
     blocs: [
       {
         titre: 'Site internet',
-        texte:
-          'Vitrine, e-commerce ou site institutionnel : référencement et performance se ' +
-          'décident au moment de choisir la stratégie de rendu.',
         preuve:
           'Sites du fonds Truffle Capital et de ses participations (truffle.com, ' +
           'truffle100.fr, artedrone.fr), de la conception à l’exploitation.',
@@ -30,9 +27,6 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
       },
       {
         titre: 'Produit SaaS',
-        texte:
-          'Montée en charge, disponibilité contractuelle, conformité exigée en appel d’offres. ' +
-          'Plateforme BtoB « Sms En Masse » conçue et réalisée de bout en bout.',
         preuve: 'Conformité RGPD et DORA tenue en appels d’offres distribution, assurance, banque.',
         decision: 'Ce que vous internalisez, et ce que vous continuez de louer à un tiers.',
       },
@@ -54,14 +48,11 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
     kicker: 'Avant la première ligne',
     titre: 'Le cadrage, tenu par celui qui devra le coder',
     chapo:
-      'Neuf ans dont deux en double casquette technique et pilotage. Je traduis le besoin en ' +
-      'spécifications en sachant ce que chaque ligne coûtera.',
+      'Neuf ans dont deux en double casquette technique et pilotage : je chiffre ce que chaque ' +
+      'ligne de spécification coûtera.',
     blocs: [
       {
         titre: 'Recueil du besoin et spécifications',
-        texte:
-          'Modélisation des flux en BPMN 2.0, cartographie du système d’information, ' +
-          'matrice de risques, recette et tests d’acceptation.',
         preuve:
           'AMOA de la startup biotech Artedrone ; intégration de l’ERP M3 Soft et ' +
           'synchronisation boutique physique / e-commerce, survente évitée sur des pièces uniques.',
@@ -69,9 +60,6 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
       },
       {
         titre: 'Interfaces et parcours',
-        texte:
-          'Maquettage, catalogue de composants sous Storybook, accessibilité RGAA, WCAG et W3C ' +
-          'traitée pendant la conception.',
         preuve: 'Panier moyen en hausse de 50 % après refonte des tunnels d’achat.',
       },
       {
@@ -90,14 +78,11 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
     kicker: 'La construction',
     titre: 'Front, back, architecture et exploitation',
     chapo:
-      'La même personne décide de la stratégie de rendu, du modèle de données et du ' +
-      'déploiement : les trois conséquences sont connues en même temps.',
+      'Rendu, modèle de données et déploiement décidés par la même personne : les trois ' +
+      'conséquences sont connues ensemble.',
     blocs: [
       {
         titre: 'Front-end',
-        texte:
-          'React et Next.js, rendu différencié par type de page — CSR, SSR, SSG, ISR. Angular, ' +
-          'Ionic, Redux, Zustand, React Query, Tailwind, Material UI.',
         preuve: 'Lighthouse 98/100, conformité RGAA / WCAG tenue en parallèle.',
       },
       {
@@ -110,9 +95,8 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
       {
         titre: 'Architecture et exploitation',
         texte:
-          'Monolithe ou microservices arbitré explicitement. Docker, CI/CD GitHub Actions, ' +
-          'Cloud Run, VM Compute Engine auto-scalées, Pub/Sub, Vercel, Apache, Nginx et Linux. ' +
-          'Pas de cluster Kubernetes administré en propre.',
+          'Docker, CI/CD GitHub Actions, Cloud Run, VM Compute Engine auto-scalées, Pub/Sub, ' +
+          'Vercel, Apache, Nginx et Linux. Pas de cluster Kubernetes administré en propre.',
         preuve:
           'SLI / SLO / SLA définis et suivis, PCA et PRA testés par exercices de bascule, ' +
           'déploiements sans interruption de service.',
@@ -127,29 +111,22 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
     kicker: 'La qualité',
     titre: 'Certifiée et outillée, pas promise',
     chapo:
-      'Chez MailingVox, il n’y avait ni QA ni équipe data : la qualité a été ' +
-      'industrialisée parce qu’elle ne pouvait venir de personne d’autre.',
+      'Chez MailingVox, ni QA ni équipe data : la qualité a été industrialisée parce qu’elle ' +
+      'ne pouvait venir de personne d’autre.',
     blocs: [
       {
         titre: 'ISTQB Foundation',
         texte:
-          'Un vocabulaire de recette commun et opposable : critères d’entrée et d’arrêt écrits ' +
-          'avant la livraison. C’est le seul niveau que je détiens, et c’est donc le seul que ' +
-          'j’affiche.',
+          'Critères d’entrée et d’arrêt écrits avant la livraison. C’est le seul niveau que je ' +
+          'détiens, et c’est donc le seul que j’affiche.',
         decision: 'À partir de quand une version est livrable — et qui le dit.',
       },
       {
         titre: 'Développement piloté par les tests, en IA augmentée',
-        texte:
-          'Claude Code et Gemini au quotidien : agents, hooks, skills et serveurs MCP ' +
-          'internes, le test faisant foi.',
         preuve: 'Vélocité augmentée à effectif constant.',
       },
       {
         titre: 'Outillage réellement en place',
-        texte:
-          'Jest, Cypress, Playwright, mutation Stryker, Postman, Lighthouse. Recette des ' +
-          'parcours critiques, non-régression à chaque livraison, charge sur les pics d’envoi.',
         decision: 'Quel niveau de test vous vous autorisez à ne pas payer, et sur quel périmètre.',
       },
     ],
@@ -160,8 +137,8 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
     kicker: 'Charnière · vers la donnée',
     titre: 'La livraison n’est pas la fin, c’est le début du run',
     chapo:
-      'Ce qui tourne produit de la donnée. C’est ce moment précis qui fait naître le besoin de ' +
-      'data et d’IA — pas une mode, et pas avant que le produit existe.',
+      'Ce qui tourne produit de la donnée : c’est ce moment-là qui fait naître le besoin de ' +
+      'data et d’IA.',
     blocs: [
       {
         titre: 'Contrôles post-déploiement',
