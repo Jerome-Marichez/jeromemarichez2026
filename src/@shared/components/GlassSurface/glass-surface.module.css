@@ -54,6 +54,91 @@
   }
 }
 
+/* La réfraction, en plus du flou.
+ *
+ * Le déplacement est écrit AVANT le flou. L'ordre inverse ne produit rien : une surface
+ * déjà floutée est uniforme, et on ne courbe pas ce qui n'a plus de dessin. Mesuré sur le
+ * fond réel : 1 niveau sur 255 dans l'autre sens.
+ *
+ * Ce que cela donne ici est documenté dans `docs/design.md`, chiffres à l'appui : le fond
+ * du site n'a presque rien à courber, et l'écart mesuré plafonne à 2 niveaux sur 255.
+ *
+ * ## Pourquoi un test de MOTEUR, seule entorse de ce genre dans le projet
+ *
+ * `@supports` ne teste que la GRAMMAIRE, jamais l'implémentation. `url()` dans
+ * `backdrop-filter` n'est rendu que par Blink, mais WebKit et Gecko peuvent très bien
+ * accepter la déclaration puis ne rien en faire — et une déclaration acceptée REMPLACE
+ * celle du dessus. Ils perdraient alors leur flou, c'est-à-dire tout leur verre.
+ *
+ * L'ordre des déclarations ne peut pas servir de garde-fou, et c'est le point mesuré :
+ * Lightning CSS **synthétise le préfixe** et écrit, dans le CSS livré,
+ * `-webkit-backdrop-filter: url(…) …` à l'intérieur de ce bloc — puis **élargit la
+ * condition** en `(-webkit-backdrop-filter: url(…)) or (backdrop-filter: url(…))`. Écrire
+ * le préfixe avant, après, ou pas du tout n'y change rien, et sur Safari 18+ les deux
+ * formes sont de toute façon des alias : la dernière écrite gagne. C'est la même famille
+ * que le bug de production corrigé plus haut dans ce fichier, par une autre porte.
+ *
+ * D'où ce test de moteur, assumé comme tel. Les deux sondes sont choisies pour être
+ * **vérifiables des deux côtés**, et non pour leur exotisme :
+ *
+ *   `not (-webkit-backdrop-filter: blur(1px))` écarte WebKit. Blink y répond `false`
+ *   (mesuré), et Safari y répond forcément `true` — c'est exactement la propriété dont ce
+ *   fichier se sert plus haut pour lui livrer son flou. Si Safari y répondait `false`, il
+ *   n'aurait déjà aucun verre.
+ *
+ *   `not (-moz-appearance: none)` écarte Gecko. `false` dans Blink (mesuré).
+ *
+ * Le gate ne protège donc pas d'un défaut de grammaire mais d'un défaut de RENDU, que
+ * rien en CSS ne sait interroger.
+ *
+ * **Ce qui permettrait de le retirer** : que `backdrop-filter: url()` soit rendu par les
+ * trois moteurs, ou qu'un `@supports` sache tester le rendu et non la seule syntaxe. À ce
+ * moment-là, les deux `not (…)` sautent et la première condition suffit.
+ *
+ * ## Pourquoi 1024px
+ *
+ * La réfraction est un **enrichissement desktop**, jamais un prérequis de lecture — c'est
+ * la règle posée par `docs/design.md`. Le seuil ne concerne QUE la réfraction : le flou,
+ * lui, n'a plus de seuil depuis le lot précédent et reste sur tous les téléphones.
+ *
+ * Deux raisons. L'effet a été dessiné et mesuré sur un panneau de 1164 × 282 px ; sur un
+ * téléphone le même panneau fait ~350 px de large, la rampe de 10 % n'y couvre plus que
+ * 35 px, et il y a encore moins à voir que les 2/255 mesurés en desktop. Et un
+ * `backdrop-filter` portant un filtre SVG coûte au compositeur : sur l'accueil mesuré en
+ * mobile bridé, il prenait le dernier point de marge du budget (96 → 95, seuil 95). Payer
+ * le budget de tout le monde pour un effet que personne ne voit sur téléphone ne se
+ * défend pas. */
+@media (min-width: 1024px) {
+  @supports (backdrop-filter: url("#verre-refraction")) and
+    (not (-webkit-backdrop-filter: blur(1px))) and
+    (not (-moz-appearance: none)) {
+    .panneau {
+      backdrop-filter: var(--verre-refraction) blur(var(--verre-flou))
+        saturate(var(--verre-saturation));
+    }
+  }
+}
+
+/* Mouvement coupé : la réfraction tombe, le verre reste.
+ *
+ * Elle ne bouge pas d'elle-même, mais elle est recalculée par le compositeur à chaque
+ * image où le fond défile derrière le panneau. La couper, c'est rendre l'arête
+ * strictement immobile pendant le défilement, et rendre au passage le travail par image
+ * qu'elle demande.
+ *
+ * Deux gardes, comme partout ailleurs sur ce site : la préférence système en requête
+ * média — donc sans JavaScript — et le contrôle de la page, publié sur `<html>` par
+ * `MotionState` (WCAG 2.2.2). Aucune des deux ne dépend de l'autre. */
+@media (prefers-reduced-motion: reduce) {
+  .panneau {
+    backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation));
+  }
+}
+
+:global(html[data-fige="true"]) .panneau {
+  backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation));
+}
+
 /* L'arête spéculaire.
  *
  * Un `box-shadow: inset 0 1px 0` poserait un trait d'épaisseur CONSTANTE sur toute la
