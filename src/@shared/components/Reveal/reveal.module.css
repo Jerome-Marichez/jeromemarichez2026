@@ -3,11 +3,12 @@
  * `transform` et `opacity`, rien d'autre : ce sont les deux propriétés que le
  * compositeur traite sans repasser par la mise en page ni par le peintre.
  *
- * L'état posé ne déclare AUCUN `transform`. Ce n'est pas une économie : un
- * `translate3d(0, 0, 0)` laissé en place créerait un contexte d'empilement permanent
- * sur chaque section, et l'empilement des lentilles liquidGL se compare dans le
- * contexte racine (voir `glass-surface.css`). L'interpolation vers `none` est celle de
- * la matrice identité — l'animation est la même, le contexte disparaît à l'arrivée. */
+ * L'état posé ne déclare AUCUN `transform`, pas même l'identité. Un
+ * `translate3d(0, 0, 0)` laissé en place créerait sur chaque section un contexte
+ * d'empilement et une couche de compositing PERMANENTS, pour une animation qui ne dure
+ * que le temps de l'arrivée — sur l'accueil, cela fait une douzaine de couches promises
+ * au GPU jusqu'à la fin de la visite. L'interpolation vers `none` est celle de la
+ * matrice identité : l'animation est la même, et tout disparaît à l'arrivée. */
 
 .revelation {
   transition:

@@ -1,7 +1,8 @@
 /* pole-sticky-bar.module.css — l'en-tête de pôle collant.
  *
- * Pas de liquidGL : la bibliothèque ignore les éléments `sticky`. Le fond est du CSS
- * pur, et il change de nature au seuil de 1024px, exactement comme `SiteHeader`. */
+ * Même recette que `SiteHeader`, et aux mêmes jetons de bande : opaque tant que le flou
+ * n'est pas payé, translucide et floutée au-delà du seuil. Deux bandes qui s'empilent
+ * doivent se ressembler, sinon l'empilement se lit comme un défaut. */
 
 .barre {
   position: static;
@@ -28,8 +29,10 @@
   @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
     .barre {
       background: color-mix(in srgb, var(--fond) var(--verre-voile-barre), transparent);
-      backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation-bande));
-      -webkit-backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation-bande));
+      /* Préfixe AVANT le standard : le minifieur ne garde que la dernière des deux.
+         Voir `GlassSurface/glass-surface.module.css`. */
+      -webkit-backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation-bande));
+      backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation-bande));
     }
   }
 }

@@ -43,10 +43,10 @@ interface RevealProps {
  *
  * **On enveloppe le corps d'une section, pas la section.** Une section ancrée qui porte
  * un `transform` décale la cible d'un `scrollIntoView` de la hauteur de la révélation :
- * elle se pose ensuite 24 px plus haut et arrive sous l'en-tête. Et une section vitrée
- * doit garder son `transform` à l'INTÉRIEUR de `GlassSurface`, sous un conteneur qui est
- * déjà un contexte d'empilement — sinon la lentille liquidGL change d'ordre de peinture.
- * Voir `docs/design.md`, section « La révélation ».
+ * elle se pose ensuite 24 px plus haut et arrive sous l'en-tête. Une section vitrée y
+ * gagne aussi : la révélation joue à l'intérieur du panneau, sur son contenu, pendant
+ * que le verre reste immobile — un panneau qui glisserait entraînerait son flou avec
+ * lui. Voir `docs/design.md`, section « La révélation ».
  */
 export function Reveal({ children, as = 'div', className, id, ariaLabelledBy }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)

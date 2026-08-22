@@ -34,9 +34,11 @@ export const MAX_GLASS_ACCUEIL = 3
  * et devient un fond. Mais la troncature n'est plus muette : elle est nommée ici, et
  * l'appelant choisit son plafond au lieu de le subir.
  *
- * Le coût n'est pas la contrainte : liquidGL tient une trentaine de lentilles, et
- * chacune lit la même capture plein document — le coût réel est celui de la texture, pas
- * celui du nombre de panneaux. La contrainte est de lecture.
+ * Le plafond est de LECTURE, et il le reste. Un panneau ne coûte plus rien à monter — le
+ * verre est du CSS, il n'y a ni moteur ni capture — mais un `backdrop-filter` reste une
+ * surface que le navigateur refloute quand ce qui passe derrière change. Ni l'une ni
+ * l'autre de ces raisons ne fixerait le plafond à trois : c'est la lecture qui le fixe,
+ * parce qu'au-delà de trois panneaux, l'effet cesse d'être un signal et devient un fond.
  */
 export const MAX_GLASS_PAGE_POLE = 3
 
