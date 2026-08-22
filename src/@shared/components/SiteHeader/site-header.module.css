@@ -38,7 +38,37 @@
          lumière du site, et le bas, déjà tenu par `border-bottom`.
          C'est ce liseré qui manquait pour que la bande se lise comme du verre et non
          comme un fond translucide : sans lui, rien ne marque l'épaisseur. */
-      box-shadow: inset 0 var(--verre-epaisseur-lueur) 0 var(--verre-lueur);
+      /* La PILE d'ombres, et c'est elle qui fait lire du verre plutôt qu'un fond
+         translucide. Un seul trait de lumière marquait l'épaisseur ; trois couches
+         disent la matière :
+           1. la lumière au ras du haut — la tranche qui prend le jour ;
+           2. le rebond au ras du bas — la face inférieure, qui ne reçoit que ce que le
+              papier lui renvoie, donc plus faible et jamais blanche ;
+           3. l'ombre portée SOUS la bande — sans elle, le verre est dans le plan de la
+              page au lieu de flotter au-dessus, et c'est ce décollement qui manquait.
+         L'ombre portée est large et très diluée : une ombre courte et dense lirait
+         comme une bordure, pas comme de la distance. */
+      box-shadow:
+        inset 0 var(--verre-epaisseur-lueur) 0 var(--verre-lueur),
+        inset 0 calc(-1 * var(--verre-epaisseur-lueur)) 0 var(--verre-rebond),
+        0 10px 30px -22px color-mix(in srgb, var(--encre) 60%, transparent);
+    }
+  }
+
+  /* La réfraction sur la bande, sous le MÊME verrou que les panneaux — Blink seul.
+     Le gate est recopié plutôt que factorisé : une classe partagée entre un panneau et
+     une bande obligerait l'une des deux à porter les réglages de l'autre, et c'est
+     exactement ce qui produit les traînées colorées quand les valeurs d'un panneau
+     tombent sur une bande.
+     Elle n'a de sens que depuis que le fond porte une maille : sur le lavis uniforme
+     d'avant, la réfraction a été mesurée à 2 niveaux sur 255 — invisible. Ce qu'elle
+     courbe désormais, ce sont les lavis de pôle qui passent dessous au défilement. */
+  @supports (backdrop-filter: url("#verre-refraction")) and
+    (not (-webkit-backdrop-filter: blur(1px))) and
+    (not (-moz-appearance: none)) {
+    .entete {
+      backdrop-filter: var(--verre-refraction) blur(var(--verre-flou-bande))
+        saturate(var(--verre-saturation-bande));
     }
   }
 }
