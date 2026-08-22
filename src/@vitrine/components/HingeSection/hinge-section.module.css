@@ -32,6 +32,10 @@
   transform: scaleY(0);
 }
 
+.charniere[data-fige="true"]::before {
+  transition: none;
+}
+
 .kicker {
   font-family: var(--police-mono-pile);
   font-weight: 500;

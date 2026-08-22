@@ -11,7 +11,9 @@
   position: static;
   z-index: 40;
   border-bottom: 1px solid color-mix(in srgb, var(--teinte-pole) 34%, transparent);
-  background: color-mix(in srgb, var(--fond) 92%, transparent);
+  /* Opaque tant que le flou n'est pas là, pour la même raison que `SiteHeader` : sans
+     flou, la translucidité ne fait que laisser passer un fantôme de texte. */
+  background: var(--fond);
 }
 
 /* Sous 720px, l'en-tête du site passe en colonne et occupe déjà une part sérieuse de

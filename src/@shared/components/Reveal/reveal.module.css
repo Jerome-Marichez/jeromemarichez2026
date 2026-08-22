@@ -20,6 +20,10 @@
   transform: translate3d(0, var(--e-4), 0);
 }
 
+.revelation[data-fige="true"] {
+  transition: none;
+}
+
 /* Deuxième garde, indépendante du JavaScript : même si l'état « attente » était armé,
    il ne masquerait rien sous mouvement réduit. */
 @media (prefers-reduced-motion: reduce) {

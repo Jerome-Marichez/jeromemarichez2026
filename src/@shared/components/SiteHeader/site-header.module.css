@@ -11,10 +11,12 @@
      cas d'école du jank au défilement : un en-tête `sticky` pleine largeur qui porte un
      `backdrop-filter` force le navigateur à reflouter la bande à chaque image, sur les
      appareils qui en ont le moins les moyens.
-     92% et non 88% : sans flou pour brouiller ce qui passe dessous, il faut un peu plus
-     de matière pour que le texte des sections ne reste pas lisible à travers l'en-tête.
-     La transparence ne doit jamais coûter la lisibilité du nom. */
-  background: color-mix(in srgb, var(--fond) 92%, transparent);
+     OPAQUE, et non translucide. Sans flou, il n'y a rien pour brouiller ce qui passe
+     dessous : un titre à fort contraste — tous les `h2` en thème sombre — reste
+     lisible à travers l'en-tête, et le défilement donne deux textes superposés. Ce
+     n'est pas de la transparence, c'est un fantôme. La transparence du site est celle
+     du verre, et le verre floute ; là où le flou n'est pas payé, la bande est pleine. */
+  background: var(--fond);
 }
 
 @media (min-width: 1024px) {

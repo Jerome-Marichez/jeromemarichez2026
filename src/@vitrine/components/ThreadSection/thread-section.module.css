@@ -29,6 +29,11 @@
   transform: scaleX(0);
 }
 
+.fil[data-fige="true"]::before,
+.fil[data-fige="true"]::after {
+  transition: none;
+}
+
 .fil::before {
   top: 0;
 }

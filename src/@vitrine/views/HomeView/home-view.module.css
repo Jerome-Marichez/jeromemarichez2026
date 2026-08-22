@@ -13,11 +13,18 @@
   padding: 0 var(--e-4) var(--e-7);
 }
 
+/* La section ancrable ne porte que son identité : identifiant, marge d'ancre, et le
+   décor pour `.contact`. Elle ne se déplace JAMAIS — c'est `.corpsBloc` que `Reveal`
+   révèle. Un `transform` sur l'élément ancré décalerait la cible d'un `scrollIntoView`
+   de la hauteur de la révélation, et la section arriverait sous l'en-tête. */
 .bloc {
+  scroll-margin-top: var(--decalage-ancre);
+}
+
+.corpsBloc {
   display: flex;
   flex-direction: column;
   gap: var(--e-4);
-  scroll-margin-top: var(--decalage-ancre);
 }
 
 .kicker {
@@ -45,15 +52,18 @@
 }
 
 .contact {
-  display: flex;
-  flex-direction: column;
-  gap: var(--e-3);
-  align-items: flex-start;
   padding: var(--e-5);
   border: 1px solid var(--verre-arete);
   border-radius: var(--rayon-verre);
   background: color-mix(in srgb, var(--fond-creux) 60%, transparent);
   scroll-margin-top: var(--decalage-ancre);
+}
+
+.corpsContact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-3);
+  align-items: flex-start;
 }
 
 /* Apparence seule : le `transform` appartient à `MagneticAction`. */

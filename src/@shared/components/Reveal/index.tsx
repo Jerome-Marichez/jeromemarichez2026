@@ -10,7 +10,10 @@ import styles from './reveal.module.css'
 
 interface RevealProps {
   children: ReactNode
-  /** Balise rendue. La révélation prend la place de la section plutôt que de l'envelopper. */
+  /**
+   * Balise rendue. `section` est réservé aux charnières et au fil, dont le filet qui se
+   * trace est un `::before` de la section : eux seuls *sont* leur révélation.
+   */
   as?: 'div' | 'section'
   /** Classes de mise en page de l'appelant. Elles ne doivent jamais poser de `transform`. */
   className?: string
@@ -37,6 +40,13 @@ interface RevealProps {
  * **et** le `MotionToggle` de la page (WCAG 2.2.2), et le module CSS repose la même
  * garde sous `prefers-reduced-motion` — un état caché ne doit jamais dépendre du seul
  * JavaScript pour se lever.
+ *
+ * **On enveloppe le corps d'une section, pas la section.** Une section ancrée qui porte
+ * un `transform` décale la cible d'un `scrollIntoView` de la hauteur de la révélation :
+ * elle se pose ensuite 24 px plus haut et arrive sous l'en-tête. Et une section vitrée
+ * doit garder son `transform` à l'INTÉRIEUR de `GlassSurface`, sous un conteneur qui est
+ * déjà un contexte d'empilement — sinon la lentille liquidGL change d'ordre de peinture.
+ * Voir `docs/design.md`, section « La révélation ».
  */
 export function Reveal({ children, as = 'div', className, id, ariaLabelledBy }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
@@ -57,6 +67,11 @@ export function Reveal({ children, as = 'div', className, id, ariaLabelledBy }: 
     <Tag
       aria-labelledby={ariaLabelledBy}
       className={classes}
+      // Posé UNIQUEMENT quand le mouvement est coupé — même convention que
+      // `SlabScene`. Il coupe la transition, sans quoi une personne qui vient de figer
+      // l'animation verrait, en réponse à son clic, toutes les sections encore en
+      // attente se poser en glissant.
+      data-fige={fige ? 'true' : undefined}
       data-revele={arme && !fige && !vu ? 'attente' : 'pose'}
       id={id}
       ref={ref}

@@ -9,7 +9,11 @@
   gap: var(--e-6);
   max-width: var(--largeur-page);
   margin-inline: auto;
-  padding: var(--e-7) var(--e-4) var(--e-6);
+  /* Pas `--e-7` en tête : le cran du haut de l'échelle est devenu l'écart ENTRE deux
+     sections, et il est trop large ici. Le seuil doit tenir le titre, le chapô et le
+     bouton d'action sur le premier écran d'un portable — un titre plus ample ne vaut
+     rien s'il pousse l'action en dessous. */
+  padding: var(--e-5) var(--e-4) var(--e-6);
 }
 
 .discours {
