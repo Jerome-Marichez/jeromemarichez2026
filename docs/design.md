@@ -270,7 +270,7 @@ fonte préchargée est un fichier que le navigateur va chercher avant de peindre
 | Corps | **Inter** (variable) | `'ss01' 1, 'cv05' 1` |
 | Annotations et chiffres | **pile monospace système** | Ce registre est intégralement composé en capitales espacées, où le dessin propre à une fonte de labeur ne se distingue pas. `ui-monospace` prend SF Mono sur Apple ; tous les replis ont les chiffres à chasse fixe, seule vraie exigence des preuves |
 
-Échelle fluide en `clamp()`, base 16px : `--t--1` (13px) à `--t-4` (40→68px), plus
+Échelle fluide en `clamp()`, base 16px : `--t--1` (13px) à `--t-4` (34→52px), plus
 `--t-note` (15px) et `--t-chiffre` (40→64px) pour le mur de preuves. Mesures : 64ch sur
 le corps, 30ch sur les `h2`, 18ch sur le `h1`, 46ch dans un panneau de verre.
 
@@ -644,3 +644,49 @@ scène s'affiche désormais **aussi sous 1024px**, là où le WebGL n'était jam
 - **Décor, jamais information** : le conteneur est `aria-hidden`, et la scène ne porte
   rien que le texte de la page ne dise déjà. C'est la condition pour qu'un décor animé
   soit acceptable sur un site qui vend de l'accessibilité tenue.
+
+## Les entrées de l'accueil
+
+L'accueil déroulait sa chaîne dans le fil du texte : on y entrait en lisant, ou par le
+menu. Un visiteur qui scanne ne trouvait aucune porte. Deux composants la lui donnent, et
+leur **disposition porte le modèle** plutôt que de le décrire.
+
+### `PoleEntries` — les quatre pôles
+
+Quatre plaques alignées à égalité diraient un catalogue, ce que le site refuse d'être. La
+grille rend donc la chaîne réelle : **Ingénierie web** puis **Data** en pleine largeur —
+le socle, puis le passage obligé — et **IA** et **SEA & UX** partageant une rangée,
+côte à côte. Les deux suites partagent une ligne parce qu'elles partagent un temps ;
+les empiler aurait réintroduit l'ordre que le modèle nie.
+
+Chaque plaque porte `data-pole` : sa marque et son filet prennent `--accent` sans qu'aucune
+règle du composant ne nomme une couleur.
+
+### `PoleGlyph` — des marques produites, jamais trouvées
+
+Le site n'a **aucune photographie utilisable** — ni portrait, ni capture de projet
+autorisée, ni logo client. Tout visuel est donc construit, en SVG rendu au serveur :
+quatre marques pèsent moins de 700 octets dans le document, là où la moindre image
+matricielle ferait tomber un budget qui ne tient qu'à un point.
+
+**Aucune de ces marques ne simule une donnée.** Un pictogramme qui mimerait un graphique —
+courbe qui monte, barres qui progressent — afficherait un chiffre inventé, ce que les
+règles de véracité interdisent. Ce sont des **figures de structure**, pas des
+visualisations.
+
+L'IA n'est pas dessinée par le nœud à trois entrées, c'est-à-dire le neurone : c'est le
+cliché attendu, et il dirait quelque chose de faux, puisque ce pôle promet que « la
+réponse n'est pas toujours un modèle ». Sa marque est un embranchement dont une branche
+est retenue et l'autre écartée — la promesse, littéralement. Les deux sœurs partagent la
+même grammaire de trait, même poids et même nombre de tracés : deux figures de décision de
+rang égal.
+
+### `SpaceEntries` — les deux espaces éditoriaux
+
+Registre volontairement **plus sobre** que celui des pôles : un filet à gauche plutôt
+qu'une plaque encadrée. Un espace ne se vend pas, il déplie — et la hiérarchie visuelle
+doit le dire sans qu'un mot ait à l'expliquer.
+
+Le volume annoncé est **dérivé des listes sources**, jamais écrit à la main : l'accueil ne
+peut donc pas annoncer un nombre de fiches que l'espace ne tient pas. C'est la même règle
+que pour les chiffres de `preuves.ts`.
