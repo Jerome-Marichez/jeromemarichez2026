@@ -90,7 +90,15 @@ Deux contrôles, volontairement séparés parce que leur coût n'est pas le mêm
 | Cible | Ce qu'elle fait | Durée | Où elle tourne |
 |-------|-----------------|-------|----------------|
 | `make nginx-check` | Monte `docker/nginx.conf` là où le Dockerfile le copie et lance **`nginx -t`** dans `nginx:1.29-alpine`. | ~10 s | **Toute PR → `dev`** (`ci-dev-nginx`) |
-| `make docker-smoke` | **Construit l'image**, rejoue `nginx -t` **dedans**, la démarre et l'interroge en HTTP. | ~4 min | **PR → `main`** (`ci-main-docker`), plus `workflow_dispatch` |
+| `make docker-smoke` | **Construit l'image**, rejoue `nginx -t` **dedans**, la démarre et l'interroge en HTTP. | ~50 s | **Toute PR → `dev`** (`ci-dev-docker`), plus `workflow_dispatch` |
+
+Le placement du second a été **décidé sur mesure, pas sur intuition** : estimé à quatre
+minutes, il en prend cinquante secondes (`npm ci` + `next build` dans une image sans
+cache), soit **moins que le contrôle d'accessibilité déjà placé sur `dev`**. Le critère
+du dépôt est la durée ; à ce prix-là, faire attendre la PR de production n'a plus de
+justification. Le premier contrôle reste malgré tout utile : il tient en 10 s **sans
+build applicatif**, donc il répond encore quand `npm ci` est cassé — il sépare « la
+configuration nginx est fausse » de « l'application ne construit pas ».
 
 ### `nginx -t` teste bien le fichier du dépôt
 

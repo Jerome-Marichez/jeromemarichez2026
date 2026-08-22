@@ -1,0 +1,22 @@
+name: ci-dev-docker
+# Check (PR -> dev) : l'image de production se construit ET sert le site.
+# Construit l'image (`npm ci` + `next build` dedans), rejoue `nginx -t` dans l'image
+# construite, la démarre et vérifie les promesses de docker/nginx.conf :
+# 200 sur l'accueil, 404 sur une URL absente, HTML servi en gzip avec `Vary`.
+#
+# Sur `dev` et pas sur `main` : le job a été **mesuré** à ~50 s (run 32588657423), soit
+# moins que le contrôle d'accessibilité déjà placé sur `dev`. Le critère du dépôt est la
+# durée, pas la nature du contrôle — et un défaut de configuration nginx est précisément
+# de ceux qui ne doivent pas atteindre `main`.
+on:
+  pull_request:
+    branches: [dev]
+  workflow_dispatch:
+jobs:
+  docker:
+    name: Image Docker (build + fumée HTTP)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build de l'image et fumée HTTP
+        run: ./scripts/docker-smoke.sh
