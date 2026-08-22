@@ -19,10 +19,10 @@ interface PoleStickyBarProps {
  * (`poles.css`). Elle ne nomme aucune couleur : c'est la cascade qui décide, et la barre
  * serait juste sur un cinquième pôle sans qu'une ligne d'ici ne bouge.
  *
- * Ce n'est **pas** une lentille de verre : liquidGL ignore délibérément les éléments
- * `sticky`, une lentille y resterait figée sur la capture initiale. Le fond suit donc
- * exactement la recette de `SiteHeader` — translucide plat partout, flou au-delà du
- * seuil de 1024px seulement.
+ * Son fond suit exactement la recette de `SiteHeader`, aux mêmes jetons de bande :
+ * opaque partout, translucide et floutée au-delà de 1024px. Deux bandes qui s'empilent
+ * l'une sous l'autre doivent se ressembler — sinon l'empilement se lit comme un défaut
+ * plutôt que comme une intention.
  */
 export function PoleStickyBar({ pole }: PoleStickyBarProps) {
   return (
