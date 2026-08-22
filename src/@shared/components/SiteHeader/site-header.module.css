@@ -84,10 +84,12 @@
   min-width: 0;
 }
 
-/* Le blog est séparé de la chaîne par un filet vertical : c'est le seul signal qui dit,
-   sans un mot, qu'il n'appartient pas à la liste des pôles d'à côté. */
+/* Les réalisations et le blog sont séparés de la chaîne par un filet vertical : c'est le
+   seul signal qui dit, sans un mot, qu'ils n'appartiennent pas à la liste des pôles d'à
+   côté. */
 .navigationSecondaire {
   display: flex;
+  min-width: 0;
   padding-left: var(--e-1);
   border-left: 1px solid color-mix(in srgb, var(--encre) 14%, transparent);
 }
