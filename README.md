@@ -1,6 +1,6 @@
 # jeromemarichez.fr
 
-Site portfolio et vitrine de services de **Jérôme Marichez**, ingénieur logiciel à Lille :
+Site portfolio et vitrine de services de **Jérôme Marichez**, ingénieur-conseil indépendant à Lille :
 ingénierie web, data, IA, SEA & UX.
 
 **Stack** : TypeScript — Next.js (App Router).

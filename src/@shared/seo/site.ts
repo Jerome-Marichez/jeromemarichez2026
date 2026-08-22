@@ -7,7 +7,7 @@ export const SITE_URL = 'https://jeromemarichez.fr'
 /** Identité publiée. Reprise à l'identique des CV de référence. */
 export const SITE_IDENTITY = {
   nom: 'Jérôme Marichez',
-  titre: 'Ingénieur logiciel',
+  titre: 'Ingénieur-conseil indépendant',
   ville: 'Lille',
   region: 'Hauts-de-France',
   pays: 'FR',

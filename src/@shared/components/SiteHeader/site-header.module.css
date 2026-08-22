@@ -30,6 +30,15 @@
          Voir `GlassSurface/glass-surface.module.css`. */
       -webkit-backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation-bande));
       backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation-bande));
+      /* La couronne spéculaire, réduite à ce qu'une BANDE peut en porter : un seul trait
+         de lumière au ras du haut. Le panneau de verre a un anneau complet, masqué et
+         suivant ses angles ; une bande pleine largeur n'a pas d'angle, et ses côtés
+         sortent du champ — un anneau y dessinerait deux traits verticaux qui ne
+         correspondent à aucune tranche. Reste le haut, qui est justement d'où vient la
+         lumière du site, et le bas, déjà tenu par `border-bottom`.
+         C'est ce liseré qui manquait pour que la bande se lise comme du verre et non
+         comme un fond translucide : sans lui, rien ne marque l'épaisseur. */
+      box-shadow: inset 0 var(--verre-epaisseur-lueur) 0 var(--verre-lueur);
     }
   }
 }
