@@ -61,13 +61,13 @@ describe("fumee — l'export statique est servi et navigable", () => {
     }
   })
 
-  it("resout une route sans barre finale vers son index.html", () => {
+  it('resout une route sans barre finale vers son index.html', () => {
     cy.request('/services/data').its('status').should('eq', 200)
     cy.visit('/services/data/')
     cy.get('h1').should('be.visible')
   })
 
-  it("renvoie un vrai 404 sur une URL inconnue", () => {
+  it('renvoie un vrai 404 sur une URL inconnue', () => {
     cy.request({ url: '/page-inexistante/', failOnStatusCode: false })
       .its('status')
       .should('eq', 404)
