@@ -57,8 +57,8 @@ export function PolePageView({ pole, page, suites }: PolePageViewProps) {
           >
             <h2 id="certifications-titre">Ce qui est certifié sur ce pôle</h2>
             <p className={styles.chapo}>
-              Une certification ne remplace pas une réalisation. Elle dit seulement que la méthode a
-              été évaluée par quelqu'un d'autre que moi.
+              Une certification ne remplace pas une réalisation : elle dit seulement que la méthode
+              a été évaluée par un tiers.
             </p>
             <CertificationList certifications={certifications} />
           </Reveal>

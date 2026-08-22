@@ -22,9 +22,8 @@ export const POLES_NAV: IPole[] = [
     route: ROUTES['ingenierie-web'],
     promesse: 'Je construis le produit, et je le fais tourner.',
     accroche:
-      'Site, produit SaaS, application mobile : conception, développement, mise en production ' +
-      'et exploitation. Une seule personne du cadrage au run, avec une qualité outillée et ' +
-      'certifiée plutôt que promise.',
+      'Site, produit SaaS, application mobile : de la conception au run, par une seule ' +
+      'personne, avec une qualité outillée et certifiée plutôt que promise.',
   },
   {
     id: 'data',
@@ -34,10 +33,8 @@ export const POLES_NAV: IPole[] = [
     route: ROUTES.data,
     promesse: 'Je pars de votre métier ; la technique vient en dernier.',
     accroche:
-      'Faire émerger ce que votre activité sait déjà sans l’avoir formalisé : ses règles ' +
-      'de décision, ses profils de clients, ce que dit son historique. Puis la stratégie ' +
-      'data, la gouvernance et le droit. C’est une prestation à part entière : elle se ' +
-      'livre, et vous pouvez vous arrêter là.',
+      'Faire émerger ce que votre activité sait déjà sans l’avoir formalisé, puis la stratégie ' +
+      'data, la gouvernance et le droit. Elle se livre seule : vous pouvez vous arrêter là.',
   },
   {
     id: 'ia',
@@ -47,10 +44,8 @@ export const POLES_NAV: IPole[] = [
     route: ROUTES.ia,
     promesse: 'La réponse n’est pas toujours un modèle, et je le dis avant d’en construire un.',
     accroche:
-      'Souvent, une règle métier intégrée à vos systèmes existants suffit — et c’est un ' +
-      'livrable complet. Sinon, un modèle supervisé ou non supervisé ; et si le problème ' +
-      'est du langage, un LLM arbitré sur le coût d’inférence, la latence, la qualité et ' +
-      'la confidentialité.',
+      'Souvent une règle métier intégrée à l’existant suffit ; sinon un modèle, ou un LLM ' +
+      'arbitré sur le coût d’inférence, la latence et la confidentialité.',
   },
   {
     id: 'sea-ux',
@@ -60,8 +55,7 @@ export const POLES_NAV: IPole[] = [
     route: ROUTES['sea-ux'],
     promesse: 'Je ne dessine pas vos maquettes, je tranche vos parcours.',
     accroche:
-      'Mesure construite dans le code, conformité du consentement, rentabilité à long terme ' +
-      'plutôt que coût par clic, et des arbitrages de parcours décidés sur la donnée — puis ' +
-      'implémentés par la même personne.',
+      'Mesure construite dans le code, consentement conforme, rentabilité à long terme plutôt ' +
+      'que coût par clic, et des arbitrages décidés sur la donnée puis implémentés.',
   },
 ]

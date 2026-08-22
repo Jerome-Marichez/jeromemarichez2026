@@ -21,8 +21,7 @@ export function SiteFooter() {
         <div className={styles.appel}>
           <p className={styles.promesse}>
             Un seul interlocuteur, du cadrage au run, et il répond de tout. Décrivez votre
-            situation, je vous dis ce que j'en ferais — et si ce n'est pas pour moi, je vous le dis
-            aussi.
+            situation, je vous dis ce que j'en ferais.
           </p>
           <a className={styles.contact} href={`mailto:${SITE_IDENTITY.email}`}>
             {SITE_IDENTITY.email}
@@ -71,7 +70,7 @@ export function SiteFooter() {
 
       <p className={styles.mentions}>
         {SITE_IDENTITY.nom} — {SITE_IDENTITY.titre} à {SITE_IDENTITY.ville}. Site conçu, développé
-        et exploité par moi-même, comme le reste.
+        et exploité par moi-même.
       </p>
     </footer>
   )

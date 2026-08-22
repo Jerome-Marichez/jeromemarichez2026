@@ -28,18 +28,14 @@ export const SECTION_ACCUEIL_DATA: IEditorialSection = {
   kicker: 'Le passage · Comprendre',
   titre: 'Comprendre votre métier, puis choisir la solution',
   chapo:
-    'Je ne commence pas par un modèle. Je commence par ce que votre activité sait déjà ' +
-    'sans l’avoir écrit : ses règles de décision, ses profils de clients, ce que raconte ' +
-    'son historique. La stratégie data, la gouvernance et la technique en découlent, dans ' +
-    'cet ordre — et la réponse n’est pas toujours de l’IA.',
+    'Je ne commence pas par un modèle, mais par ce que votre activité sait déjà sans l’avoir ' +
+    'écrit. La réponse n’est pas toujours de l’IA.',
   blocs: [
     {
       titre: 'Découvrir ce que votre métier sait déjà',
       texte:
-        'Insights métier tirés de l’historique, profils de clients dégagés par clustering ' +
-        '(KNN), règles de décision appliquées par vos équipes sans avoir jamais été ' +
-        'formalisées. C’est une prestation à part entière : elle se livre, et vous pouvez ' +
-        'vous arrêter là.',
+        'Insights métier, profils de clients par clustering (KNN), règles formalisées. Vous ' +
+        'pouvez vous arrêter là.',
       preuve:
         'AMOA de la startup biotech Artedrone : besoin recueilli auprès des équipes ' +
         'scientifiques et dirigeantes, traduit en spécifications exploitables par des ' +
@@ -51,10 +47,8 @@ export const SECTION_ACCUEIL_DATA: IEditorialSection = {
     {
       titre: 'La stratégie data : la déployer ou s’appuyer sur l’existante',
       texte:
-        'Quand rien n’est en place, on décide quoi mesurer à partir des questions du ' +
-        'métier. Quand la donnée existe, on la reprend : agrégation et réconciliation ' +
-        'multi-sources, dédoublonnage, contrôles d’intégrité et de véracité dès ' +
-        'l’ingestion.',
+        'Décider quoi mesurer quand rien n’existe ; reprendre et réconcilier quand la donnée ' +
+        'est là.',
       preuve:
         'Système d’analyse multi-sources conforme RGPD mesurant la rentabilité client à ' +
         'long terme, branché sur Google Ads et Bing Ads.',
@@ -62,11 +56,7 @@ export const SECTION_ACCUEIL_DATA: IEditorialSection = {
     },
     {
       titre: 'Gouvernance et droit, avant la technique',
-      texte:
-        'Qui possède quoi, ce qui a le droit d’être collecté et traité, ce qui doit rester ' +
-        'chez vous. RGPD, base légale, consentement géré par une CMP, cadrage des ' +
-        'traitements avec le juridique. La réponse écarte des solutions entières : mieux ' +
-        'vaut la connaître avant de construire.',
+      texte: 'Qui possède quoi, ce qui a le droit d’être traité, ce qui doit rester chez vous.',
       preuve:
         'Conformité RGPD et DORA tenue en appels d’offres grands comptes — distribution, ' +
         'assurance, banque.',
@@ -75,12 +65,8 @@ export const SECTION_ACCUEIL_DATA: IEditorialSection = {
     {
       titre: 'La solution répond au problème posé au départ',
       texte:
-        'Souvent, une règle métier intégrée à vos systèmes existants suffit — et c’est un ' +
-        'livrable complet. Sinon, un modèle supervisé ou non supervisé ; et si le problème ' +
-        'est du langage, un LLM arbitré sur le coût d’inférence, la latence, la qualité et ' +
-        'la confidentialité : Claude sur Vertex AI, OpenAI, Gemini, fine-tuning de Llama 3 ' +
-        'pour l’application mobile Prézage, RAG documentaire fait maison sur recherche ' +
-        'vectorielle PostgreSQL.',
+        'Souvent une règle métier intégrée à l’existant suffit ; sinon un modèle, ou un LLM si ' +
+        'le problème est du langage.',
       preuve:
         'Règles anti-fraude implémentées dans le produit : fraude en baisse, conversion ' +
         'des inscriptions en hausse. Modèle supervisé anticipant les échecs de dépôt ' +

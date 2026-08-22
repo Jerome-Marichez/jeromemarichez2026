@@ -50,8 +50,7 @@ export function HomeView() {
             <p className={styles.kicker}>Vérifiable</p>
             <h2 id="preuves-titre">Ce qui est mesuré, pas ce qui est promis</h2>
             <p className={styles.chapo}>
-              Chaque chiffre porte son contexte : où, quand, et sur quel produit. Sans cela, un
-              chiffre n'est qu'une affirmation de plus.
+              Chaque chiffre porte son contexte : où, quand, et sur quel produit.
             </p>
             <ProofWall preuves={PREUVES} />
           </Reveal>
@@ -63,7 +62,7 @@ export function HomeView() {
             <h2 id="limites-titre">Ce que je ne fais pas</h2>
             <p className={styles.chapo}>
               Un prestataire qui sait tout faire ne sait rien faire. Voici ce que je laisse à
-              d'autres, et ce que je fais à la place — c'est le bloc qui rend le reste croyable.
+              d'autres, et ce que je fais à la place.
             </p>
             <BoundaryList limites={LIMITES} />
           </Reveal>
@@ -75,8 +74,6 @@ export function HomeView() {
             <h2 id="certifications-titre">Ce qui a été évalué par quelqu'un d'autre que moi</h2>
             <p className={styles.chapo}>
               Aucun justificatif n'est publié en ligne à ce jour : ils sont communiqués sur demande.
-              Un lien mort sur un site qui vend de la rigueur coûterait plus cher que l'absence de
-              lien.
             </p>
             <CertificationList certifications={CERTIFICATIONS} />
           </Reveal>
@@ -86,8 +83,8 @@ export function HomeView() {
           <Reveal className={styles.corpsContact}>
             <h2 id="contact-titre">Décrivez-moi votre situation</h2>
             <p className={styles.chapo}>
-              Vous écrivez à la personne qui fera le travail. Je vous dis ce que j'en ferais — et si
-              ce n'est pas pour moi, je vous le dis aussi.
+              Vous écrivez à la personne qui fera le travail. Si ce n'est pas pour moi, je vous le
+              dis aussi.
             </p>
             <MagneticAction className={styles.action} href={`mailto:${SITE_IDENTITY.email}`}>
               {SITE_IDENTITY.email}
