@@ -1,6 +1,9 @@
 /* site-header.module.css — en-tête collant.
- * Pas de liquidGL ici : la bibliothèque ignore les éléments `sticky` et `fixed`. Le fond
- * est donc du CSS pur — et il change de nature au seuil de 1024px. */
+ *
+ * Une bande n'est pas un panneau, et ne prend pas les mêmes jetons : `--verre-flou-bande`
+ * et `--verre-saturation-bande` floutent et saturent nettement moins que le verre des
+ * panneaux. Ce qui passe sous une bande est du TEXTE en défilement, pas un décor — au
+ * réglage d'un panneau, il en ressortirait en traînée colorée. Voir `verre.css`. */
 
 .entete {
   position: sticky;
@@ -23,8 +26,10 @@
   @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
     .entete {
       background: color-mix(in srgb, var(--fond) var(--verre-voile-bande), transparent);
-      backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation-bande));
-      -webkit-backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation-bande));
+      /* Préfixe AVANT le standard : le minifieur ne garde que la dernière des deux.
+         Voir `GlassSurface/glass-surface.module.css`. */
+      -webkit-backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation-bande));
+      backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation-bande));
     }
   }
 }

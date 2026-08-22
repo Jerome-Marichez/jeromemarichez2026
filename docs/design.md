@@ -31,33 +31,40 @@ système entier coûterait plus en poids et en contraintes qu'il ne ferait gagne
 | Choix | Notes |
 |-------|-------|
 | Composants maison | `src/@shared/components/` (transverse) et `src/@vitrine/components/` (éditorial) |
-| **liquidGL** (NaughtyDuk, MIT) | Verre réfractant WebGL — voir la section dédiée ci-dessous |
+
+**Aucune dépendance d'effet visuel.** Le verre est du CSS — voir « Le verre » plus bas
+pour les deux bibliothèques essayées et écartées, et pourquoi.
 
 ## Stratégie de style
 
 **CSS Modules** : un `*.module.css` co-localisé avec chaque composant, classes en
-français, valeurs issues des jetons.
-
-**Une seule exception**, documentée et bornée : la classe `.glass-surface`
-([`src/app/glass-surface.css`](../src/app/glass-surface.css)) est **globale**. liquidGL
-retrouve ses lentilles par un sélecteur CSS littéral au montage — un nom haché par CSS
-Modules ne serait jamais trouvé. Aucune autre classe globale n'est autorisée.
+français, valeurs issues des jetons. **Sans exception** : la classe globale
+`.glass-surface` a disparu avec liquidGL, qui retrouvait ses lentilles par un sélecteur
+littéral et n'aurait jamais lu un nom haché. Plus aucune classe globale n'existe sur le
+site, et aucune n'est autorisée.
 
 ## Breakpoints
 
 | Nom | Largeur | Usage |
 |-----|---------|-------|
-| `720px` | mobile / tablette | l'en-tête passe en colonne |
+| `720px` | mobile / tablette | l'en-tête passe en colonne ; la barre de pôle repasse dans le flux ; le rembourrage des panneaux de verre se resserre |
 | `900px` | tablette | le décalage en diagonale du schéma de chaîne est supprimé |
-| `1024px` | desktop | **seuil d'activation** du verre liquidGL et du `backdrop-filter` |
+| `1024px` | desktop | flou des **bandes collantes** uniquement ; le pied de page passe de deux à quatre colonnes |
 
-Le seuil de 1024px n'est pas esthétique : Safari devient instable dès qu'une lentille
-liquidGL dépasse la moitié du viewport — ce qui est le cas de toute carte pleine largeur
-sur mobile — et le coût GPU d'une capture plein document n'a aucune contrepartie sur un
-petit écran. En dessous, le panneau se contente d'un fond translucide **plat** : ni
-`backdrop-filter`, ni `will-change`. Le moteur n'y est jamais amorcé, la lentille ne se
-transforme donc jamais — flouter une grande surface à chaque image de défilement y
-serait un coût payé pour un effet que personne ne voit.
+**Le verre des panneaux n'a plus de seuil.** Il en avait un — 1024px — pour deux raisons
+qui appartenaient toutes deux à liquidGL : Safari devenait instable dès qu'une lentille
+dépassait la moitié du viewport, et le flou promettait une couche GPU pour un mouvement
+qui n'arrivait jamais sur un petit écran. La bibliothèque partie, il ne reste qu'un
+`backdrop-filter` sur une surface **immobile**, que le navigateur compose une fois. Les
+téléphones l'ont donc désormais, et c'est le gain le plus visible de ce lot : le verre
+était jusqu'ici absent pour la majorité des visiteurs.
+
+Les **bandes collantes** gardent le seuil, pour une raison qui n'a rien à voir avec
+liquidGL : une bande `sticky` pleine largeur est reflouée à **chaque image de
+défilement**, puisque ce qui passe dessous change en permanence. C'est le cas d'école du
+jank au défilement, sur les appareils qui en ont le moins les moyens. Sous 1024px les
+deux bandes sont donc **opaques** — jamais translucides sans flou, ce qui laisserait
+passer un fantôme de texte.
 
 ## Jetons
 
@@ -200,14 +207,23 @@ quatre littéraux différents. Tout est en jetons dans [`verre.css`](../src/app/
 **Le voile n'est pas le flou.** Deux réglages indépendants font une surface de verre : le
 flou de ce qui passe derrière, et la part de fond opaque mélangée à la teinte.
 
+**Le suffixe dit la surface, et l'absence de suffixe dit le panneau.** Un panneau et une
+bande ne peuvent pas partager un réglage : un panneau est posé sur un décor et doit s'y
+enfoncer, une bande couvre l'écran et ce qui passe dessous est du **texte**. Au réglage
+d'un panneau, ce texte ressortirait en traînée colorée sous l'en-tête.
+
 | Jeton | Valeur | Où |
 |-------|--------|-----|
-| `--verre-flou` | `14px` | les six surfaces floutées, au-delà de 1024px |
-| `--verre-saturation` | `1.15` | les panneaux de verre |
-| `--verre-saturation-bande` | `1.1` | les bandes collantes : ce qui passe dessous est du texte, pas un décor |
+| `--verre-flou` | `22px` | les panneaux, à toutes les largeurs. En dessous de 22px, le verre se lit comme un calque translucide posé sur la trame, pas comme une épaisseur |
+| `--verre-saturation` | `1.7` | les panneaux. C'est la « vibrancy » : ce qui passe derrière ressort plus coloré qu'il n'entre — le réglage qui distingue un verre d'Apple d'un simple dépoli |
+| `--verre-flou-bande` | `14px` | les deux bandes collantes, au-delà de 1024px |
+| `--verre-saturation-bande` | `1.1` | les bandes : ce qui passe dessous est du texte, pas un décor |
+| `--verre-teinte-part` | `8%` (clair) / `13%` (sombre) | part d'`--accent` lavée dans le **haut** du panneau, éteinte avant la moitié. Le verre prend la couleur du pôle qu'il porte |
 | `--verre-epaisseur` | `1px` | l'arête d'un panneau, le filet d'une bande |
-| `--verre-epaisseur-lueur` | `1px` | la lueur haute, à l'intérieur |
-| `--verre-voile` | `55%` | panneaux : la trame doit rester visible |
+| `--verre-epaisseur-lueur` | `1px` | l'arête spéculaire, à l'intérieur |
+| `--verre-rebond` | `rgba(255,255,255,.3)` / `.1` en sombre | la lumière du papier qui remonte sous la tranche basse. Toujours plus faible que `--verre-lueur`, sinon le panneau se lit comme un cadre |
+| `--verre-ombre` | `0 22px 45px -30px` | ombre basse et très étalée : le panneau flotte de peu. Un rayon court et sombre en ferait une carte |
+| `--verre-voile` | `55%` | panneaux **sans** `backdrop-filter` : la trame doit rester visible |
 | `--verre-voile-bande` | `88%` | en-tête du site |
 | `--verre-voile-barre` | `82%` | barre de pôle |
 
@@ -217,14 +233,24 @@ sans emploi serait un jeton mort, exactement le défaut corrigé ici :
 | Jeton | Sens | Où |
 |-------|------|-----|
 | `--elevation-creuse` | un creux **dans** le papier | la plaque de logo d'une certification |
-| `--elevation-posee` | posé **sur** le papier : la lueur d'arête d'une surface au repos | `.glass-surface`, les plaques de la chaîne, le bloc de contact |
+| `--elevation-posee` | posé **sur** le papier : la lueur d'arête d'une surface au repos | les plaques de la chaîne, le bloc de contact |
 | `--elevation-levee` | **au-dessus** : la seule vraie ombre portée du site, teintée par `--accent` | une action sous la main |
 
-**Six surfaces répliquent un flou hors de liquidGL** — la bibliothèque ignore le `sticky`,
-et tout n'est pas une lentille : `SiteHeader`, `PoleStickyBar`, `ChainDiagram`,
-`HomeView` (`.contact`), `ThreadSection`, `CertificationList`. Elles consomment toutes les
-jetons ci-dessus. C'est la condition pour qu'un réglage du verre les emmène ensemble au
-lieu d'en laisser cinq derrière.
+Le **panneau de verre ne prend aucun de ces trois crans** : son relief n'est pas une
+élévation, c'est une propriété du matériau. Arête spéculaire haute, rebond bas et ombre
+portée basse sont trois choses distinctes que le panneau compose lui-même, à partir de
+`--verre-lueur`, `--verre-rebond` et `--verre-ombre`.
+
+**L'arête spéculaire est un dégradé masqué en anneau, pas un `box-shadow: inset`.** Un
+`inset 0 1px 0` poserait un trait d'épaisseur constante sur toute la largeur, angles
+arrondis compris, là où il n'a rien à faire. L'anneau (`mask-composite: exclude`) suit
+exactement le `border-radius` et s'éteint au milieu de la hauteur : la lumière vient
+d'au-dessus, la tranche basse ne fait que renvoyer le papier.
+
+**Sept surfaces consomment ces jetons** hors des panneaux de verre : `SiteHeader`,
+`PoleStickyBar`, `ChainDiagram`, `HomeView` (`.contact`), `ThreadSection`,
+`CertificationList`, `SlabScene`. C'est la condition pour qu'un réglage du verre les
+emmène ensemble au lieu d'en laisser six derrière.
 
 ### Typographie
 
@@ -273,10 +299,13 @@ Trois jetons tiennent l'empilement collant, et un seul endroit les déclare :
 
 ### Le fond d'atelier
 
-`.fond-atelier` est un calque peint, séparé du contenu — c'est ce que liquidGL capture,
-et il fait plus de 9 000 px de haut sur l'accueil. **Tout ce qu'on y pose doit être une
+`.fond-atelier` est un calque peint, séparé du contenu — c'est ce que le verre floute, et
+il fait plus de 9 000 px de haut sur l'accueil. **Tout ce qu'on y pose doit être une
 tuile.** Un `repeating-linear-gradient` sans `background-size` est généré une fois aux
-dimensions de son élément, puis capturé tel quel en texture.
+dimensions de son élément, soit ici plus de 9 000 px de haut.
+
+Il est en `absolute` et non `fixed`, donc haut comme le **document** : un fond fixe ne
+défilerait pas derrière les panneaux, et le verre n'aurait rien à montrer qui bouge.
 
 | Calque | Tuile | Rôle |
 |--------|-------|------|
@@ -309,14 +338,24 @@ Seuls `transform` et `opacity` sont animés, nulle part ailleurs. Ce sont les de
 propriétés que le compositeur traite sans repasser par la mise en page ni par le peintre,
 donc les deux seules qui tiennent 60 images par seconde sur un téléphone.
 
-Sous `prefers-reduced-motion: reduce` : les animations CSS sont coupées, la scène est
-rendue **figée** — les dalles gardent leur pose — et liquidGL **n'est pas amorcé du
-tout**, sa boucle de rendu permanente étant une animation même quand aucune lentille ne
-bouge. Le bouton `MotionToggle` offre le même arrêt depuis la page, comme l'exige
-WCAG 2.2.2 : une préférence système n'est pas un mécanisme de mise en pause, elle ne se
-change pas depuis le site. Tout ce qui est encore en attente se pose alors **sans
-transition** : figer l'animation et voir douze sections glisser en réponse à son propre
-clic serait la contradiction exacte de ce que le bouton promet.
+Sous `prefers-reduced-motion: reduce` : les animations CSS sont coupées et la scène est
+rendue **figée** — les dalles gardent leur pose. **Le verre, lui, n'est pas concerné** :
+il ne bouge pas. Un `backdrop-filter` est une propriété de peinture, pas une animation ;
+le couper sous mouvement réduit retirerait une qualité visuelle sans rien apporter à
+personne. C'est la boucle de rendu permanente de liquidGL qui était une animation, pas le
+verre.
+
+Le bouton `MotionToggle` offre le même arrêt depuis la page, comme l'exige WCAG 2.2.2 :
+une préférence système n'est pas un mécanisme de mise en pause, elle ne se change pas
+depuis le site. Il est rendu par le **pied de page**, donc par la mise en page racine,
+donc sur **toute page** — accueil, les quatre pôles, le blog. Il n'existait auparavant que
+dans `HomeHero` : une page de pôle révélait ses sections au défilement sans offrir nulle
+part le moyen d'arrêter ça. L'accueil en porte donc deux, et c'est voulu — les deux lisent
+le même magasin, mais celui du seuil est au pied de la scène, là où le mouvement se voit.
+
+Tout ce qui est encore en attente se pose alors **sans transition** : figer l'animation et
+voir douze sections glisser en réponse à son propre clic serait la contradiction exacte de
+ce que le bouton promet.
 
 ### La révélation
 
@@ -332,16 +371,18 @@ n'en accepte aucun :
   révélations au défilement, et il frappe d'abord le premier écran.
 
 L'état posé ne déclare **aucun** `transform` — pas même l'identité. Un
-`translate3d(0, 0, 0)` résiduel créerait un contexte d'empilement permanent sur chaque
-section, et l'empilement des lentilles liquidGL se compare dans le contexte racine (voir
-`glass-surface.css`).
+`translate3d(0, 0, 0)` résiduel créerait sur chaque section un contexte d'empilement et
+une couche de compositing **permanents**, pour une animation qui ne dure que le temps de
+l'arrivée : sur l'accueil, une douzaine de couches promises au GPU jusqu'à la fin de la
+visite.
 
 **La révélation enveloppe le corps d'une section, jamais la section elle-même**, et cette
 règle paie deux fois :
 
-- une section **vitrée** se retrouve ainsi sous `GlassSurface`, à l'intérieur d'un
-  conteneur qui est déjà un contexte d'empilement : le `transform` transitoire ne peut
-  pas déplacer la lentille dans l'ordre de peinture ;
+- une section **vitrée** joue ainsi sa révélation *à l'intérieur* du panneau, sur son
+  contenu, pendant que le verre reste immobile. Un panneau qui glisserait entraînerait son
+  `backdrop-filter` avec lui, et le navigateur recalculerait le flou à chaque image de la
+  transition ;
 - une section **ancrable** ne bouge pas. Un `transform` sur l'élément que vise une ancre
   décale la cible du `scrollIntoView` de la hauteur de la révélation : la section se pose
   ensuite 24 px plus haut, et arrive sous l'en-tête. Les cinq sections ancrables de
@@ -363,33 +404,81 @@ des pôles on lisait, et l'action de contact était restée en bas.
 
 | Contrainte | Parade |
 |------------|--------|
-| liquidGL **ignore** les éléments `sticky` | Ni l'un ni l'autre n'est une lentille. Fond plat, flou CSS au-delà de 1024px seulement — même recette pour les deux |
+| Une bande `sticky` est **reflouée à chaque image** de défilement : ce qui passe dessous change en permanence | Flou **au-delà de 1024px seulement** — même recette pour les deux. C'est la seule surface du site où le seuil de largeur a encore un sens, et il n'a rien à voir avec l'ancien seuil de liquidGL |
 | Sans flou, la translucidité laisse passer un **fantôme de texte** | En dessous de 1024px, la bande est **opaque**. La transparence du site est celle du verre, et le verre floute ; là où le flou n'est pas payé, la bande est pleine |
+| Ce qui passe dessous est du **texte**, pas un décor | Jetons de bande, jamais de panneau : `--verre-flou-bande` (14px) et `--verre-saturation-bande` (1.1). Au réglage d'un panneau — 22px et 1.7 — le texte ressortirait en traînée colorée |
 | L'en-tête est bien plus haut sous 720px (il passe en colonne) | La barre de pôle y reste **dans le flux**. Deux bandes collantes sur un téléphone prendraient la place de ce qu'elles annoncent |
 | Une ancre ne doit pas se poser sous les bandes | `--decalage-ancre`, redéfini localement sur la page de pôle |
 
 La barre consomme **`--accent`**, la teinte du pôle courant, posée par `data-pole` sur la
 page. Aucun composant ne connaît la couleur d'un pôle : il ne connaît que `--accent`. Elle
-consomme aussi `--verre-voile-barre`, `--verre-flou` et `--verre-saturation-bande` : son
-fond n'a plus une seule valeur qui lui soit propre.
+consomme aussi `--verre-voile-barre`, `--verre-flou-bande` et `--verre-saturation-bande` :
+son fond n'a plus une seule valeur qui lui soit propre.
 
-## Le verre liquidGL
+## Le verre
 
-Réglages centralisés dans [`src/@shared/glass/settings.ts`](../src/@shared/glass/settings.ts).
-Trois contraintes de la bibliothèque sont tenues, et leur parade est explicite :
+Le verre est du **CSS**, dans un seul fichier :
+[`GlassSurface/glass-surface.module.css`](../src/@shared/components/GlassSurface/glass-surface.module.css).
+Rien à amorcer, rien à charger, rien à démonter, aucun seuil de largeur. Il est là au
+premier octet de HTML servi, identique avec et sans JavaScript.
 
-| Contrainte réelle | Parade |
-|-------------------|--------|
-| Toutes les lentilles doivent partager le **même z-index** | `z-index: 2` posé une seule fois dans `glass-surface.css` ; aucun `z-index` local |
-| Les éléments `fixed` et `sticky` sont **ignorés** | L'en-tête collant utilise un `backdrop-filter` CSS, pas liquidGL |
-| Safari instable au-delà de **50 % du viewport** | Verre désactivé sous 1024px, et plafonné par gabarit dans `glass-policy.ts` : `MAX_GLASS_ACCUEIL` (3) et `MAX_GLASS_PAGE_POLE` (3). Le plafond est passé par l'appelant, pas hérité d'une constante unique — une page de pôle compte 4 à 5 chapitres vitrables, et la troncature doit se lire dans le code plutôt que se subir |
-| Le flou coûte cher là où rien ne bouge | Sous 1024px, `backdrop-filter` et `will-change` ne sont pas posés du tout : fond translucide plat |
-| Tout ce qui n'est pas le fond fausse la capture | La scène des dalles porte `data-liquid-ignore` et n'est jamais placée derrière une surface de verre |
-| Capture plein document, coût en carré de `resolution` | `resolution: 0.75` au lieu de 2.0 par défaut. On ne capture pas la page mais un dégradé et une trame de 32px : vue à travers un verre dépoli, sa netteté n'a aucune importance — la mémoire, si |
-| Aucune API de destruction | Démontage maison dans [`glass/teardown.ts`](../src/@shared/glass/teardown.ts) |
+**Le contenu est DANS le verre.** `GlassSurface` est le conteneur de son contenu et se
+dimensionne dessus. Le contrat précédent était l'inverse — une div vide posée *derrière*
+le texte — et ce n'était pas un choix de design : liquidGL mutait l'élément dont il
+faisait une lentille (`opacity: 0`, puis `pointer-events: none` jamais restauré) et
+effaçait son `background` en styles en ligne. Le calque vide était une parade ; la
+bibliothèque partie, la parade n'a plus d'objet.
 
-Le fond translucide n'est pas un pis-aller : c'est le rendu **par défaut** sur mobile,
-sans WebGL et en mouvement réduit.
+Ce que le retour au conteneur rend possible : le panneau prend la hauteur de son texte au
+lieu de la deviner, le rembourrage est une propriété du verre, et il n'y a plus deux
+éléments à garder de la même taille. **Plus aucun cran d'empilement n'est à tenir** :
+`::before` précède le contenu dans l'arbre, donc le texte passe au-dessus de l'arête sans
+qu'aucun `z-index` ne soit déclaré. Le `main { position: static }` de `globals.css` et les
+trois `z-index` qui l'accompagnaient ont disparu avec la bibliothèque qui les exigeait.
+
+### La recette
+
+| Couche | Ce qu'elle fait |
+|--------|-----------------|
+| `backdrop-filter: blur(22px) saturate(1.7)` | l'épaisseur et la « vibrancy ». La trame de 32px est effacée *à l'intérieur* du panneau et reste nette dehors : c'est ce contraste qui fait lire du verre épais plutôt qu'un calque translucide |
+| lavis d'`--accent`, éteint avant la moitié | le verre prend la couleur du pôle qu'il porte. Une teinte uniforme se lirait comme un fond coloré ; une teinte qui décroît se lit comme de la lumière prise par la tranche haute |
+| arête spéculaire (`::before` masqué en anneau) | vive en haut, éteinte au milieu, rebond faible en bas. Elle suit le `border-radius`, ce qu'un `box-shadow: inset` ne sait pas faire |
+| `--verre-ombre`, basse et très étalée | le panneau flotte de peu. Un rayon court et sombre en ferait une carte |
+| repli `@supports` | là où `backdrop-filter` manque, le voile opaque `--verre-voile` reprend la garantie de contraste du texte |
+
+Le plafond de panneaux par page (`glass-policy.ts` : 3 sur l'accueil, 3 sur une page de
+pôle) est un plafond **de lecture**, et il le reste. Un panneau ne coûte plus rien à
+monter ; au-delà de trois, l'effet cesse simplement d'être un signal et devient un fond.
+
+### Deux bibliothèques essayées, deux écartées
+
+**liquidGL** (WebGL) a été retirée. **`liquid-glass-react`** (rdev, MIT, 33 ko gzip) a été
+installée, mesurée et retirée le même jour. Elle ne peut pas rendre un panneau éditorial
+pleine largeur, et le défaut est structurel, pas esthétique — mesuré sur un panneau réel
+de 1164 × 282 px :
+
+| Ce que la bibliothèque impose | Conséquence ici |
+|-------------------------------|-----------------|
+| `position: relative` par défaut, avec 3 calques de recouvrement **restés dans le flux** | un conteneur de **880 px** pour un panneau de 282 : trois blocs vides empilés sous lui. Le contournement est `position: absolute`, mais un panneau absolu ne peut plus être dimensionné par son contenu — et c'est exactement ce qu'on venait de regagner |
+| `display: inline-flex` en style **en ligne** | le panneau se rétracte sur son contenu au lieu de tenir la largeur de la page. Un style en ligne ne se corrige que par `!important` |
+| `padding: 24px 32px`, `box-shadow: rgba(0,0,0,.25) 0 12px 40px` en ligne | l'échelle d'espacement et les jetons d'élévation du site sont court-circuités, au profit d'un noir codé en dur étranger à la palette |
+| `font: 500 20px/1 system-ui` et `text-shadow: rgba(0,0,0,.4) 0 2px 12px` en ligne, hérités | `line-height: 20px` **calculé sur les `h2`** du panneau, et un halo noir sur chaque texte. Sur le papier chaud du site, cela se lit comme du texte sale |
+| le déplacement est piloté à la **souris**, invisible sur Safari et Firefox (le dépôt le dit lui-même) | l'effet n'existe ni au toucher, ni sur deux des quatre navigateurs cibles |
+
+Rendre cela présentable demandait un `!important` sur huit propriétés en ligne. Ce n'est
+plus consommer une bibliothèque, c'est la combattre.
+
+**La réfraction a ensuite été réimplémentée en propre** — `feDisplacementMap` sur
+`backdrop-filter`, la même technique que la bibliothèque, en ~30 lignes de SVG et sans
+dépendance. Elle a été écartée aussi, pour une raison qui vaut pour les deux : **le fond
+de ce site n'a rien à courber.** Un lavis quasi uniforme et une trame à 5,5 % d'alpha ne
+produisent aucune déformation lisible ; il n'en restait que des artefacts en losange dans
+les quatre angles, là où les deux rampes du déplacement se croisent. C'est le même
+arbitrage que celui qui a fait passer la scène du seuil de WebGL à SVG : *ce qui est perdu
+n'était lisible par personne*.
+
+Ce que le site vend étant la performance tenue, un effet payé 33 ko et visible d'un seul
+navigateur, sur un fond qui ne l'exprime pas, ne se défend pas.
 
 ## La scène des quatre dalles
 

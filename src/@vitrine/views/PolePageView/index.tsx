@@ -1,7 +1,6 @@
 // PolePageView/index.tsx — jeromemarichez-fr
 // Gabarit commun aux quatre pages de pôle.
 
-import { LiquidGlassRuntime } from '@/@shared/components/LiquidGlassRuntime'
 import { Reveal } from '@/@shared/components/Reveal'
 import type { IEditorialPage } from '@/interfaces/IEditorialPage'
 import type { IPole } from '@/interfaces/IPole'
@@ -64,8 +63,6 @@ export function PolePageView({ pole, page, suites }: PolePageViewProps) {
           </Reveal>
         ) : null}
       </div>
-
-      <LiquidGlassRuntime />
     </div>
   )
 }

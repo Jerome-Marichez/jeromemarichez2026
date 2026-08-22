@@ -29,7 +29,7 @@ export function ChainCanvas({ description }: ChainCanvasProps) {
   const fige = useMotionPaused()
 
   return (
-    <div aria-hidden="true" className={styles.conteneur} data-liquid-ignore>
+    <div aria-hidden="true" className={styles.conteneur}>
       <span className={styles.substitut}>{description}</span>
       <SlabScene fige={fige} />
     </div>

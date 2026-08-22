@@ -63,10 +63,22 @@
   font-size: var(--t-note);
 }
 
-.mentions {
+/* La dernière ligne porte deux choses de nature différente — les mentions, et le
+   mécanisme de mise en pause exigé par WCAG 2.2.2. Elles partagent la ligne tant qu'elle
+   est large, et se remettent l'une sous l'autre sinon : le contrôle ne doit jamais se
+   retrouver serré contre le bord, c'est une cible de pointeur. */
+.bas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--e-3);
   max-width: var(--largeur-page);
   margin-inline: auto;
   padding: var(--e-3) var(--e-4) var(--e-5);
+}
+
+.mentions {
   font-size: var(--t--1);
   color: var(--encre-douce);
 }

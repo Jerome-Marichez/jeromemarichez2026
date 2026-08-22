@@ -36,8 +36,8 @@
 
   /* Grain de papier : une TUILE de 128 px, comme la trame en est une de 32 px. Le
      `feTurbulence` n'est rasterisé qu'une fois, sur 128×128 px, puis répété — même
-     raisonnement que pour la trame, et pour la même raison : `.fond-atelier` est le
-     calque que liquidGL capture, et il fait plus de 9 000 px de haut sur l'accueil.
+     raisonnement que pour la trame, et pour la même raison : `.fond-atelier` fait plus
+     de 9 000 px de haut sur l'accueil.
      Deux tuiles distinctes plutôt qu'une seule inversée par un filtre : `filter` sur un
      calque plein document forcerait une couche de compositing de la hauteur du
      document. Ici, rien n'est promis au compositeur.
@@ -175,22 +175,22 @@ body {
 }
 
 /* Le fond d'atelier est un calque peint, séparé du contenu : c'est ce que le verre
-   réfracte. Il est en `absolute` et non `fixed` — liquidGL ignore les éléments fixes,
-   un fond fixe ne serait jamais capturé.
+   floute. Il est en `absolute` et non `fixed`, donc haut comme le DOCUMENT — un fond
+   fixe ne défilerait pas derrière les panneaux, et le verre n'aurait rien à montrer qui
+   bouge.
 
-   `z-index: -1` et non `0` : il doit passer sous le contenu SANS que celui-ci ait
-   besoin de son propre contexte d'empilement. Voir la règle `main` ci-dessous, qui
-   explique pourquoi ce détail décide du bon fonctionnement de liquidGL. */
-/* La trame est une TUILE de 32 px répétée, et non deux `repeating-linear-gradient`.
+   `z-index: -1` et non `0` : il passe ainsi sous le contenu sans que celui-ci ait besoin
+   de déclarer quoi que ce soit. Aucune règle d'empilement à tenir ailleurs, et c'est le
+   but — un `z-index` posé ici obligerait chaque section à en poser un en réponse.
+
+   La trame est une TUILE de 32 px répétée, et non deux `repeating-linear-gradient`.
    La différence ne se voit pas — le dessin est le même au pixel près — mais elle se
    mesure : un `repeating-linear-gradient` sans `background-size` est généré une fois aux
-   dimensions de son élément, soit ici plus de 9 000 px de haut sur l'accueil, puis
-   capturé tel quel en texture par liquidGL. Avec `background-size: 32px 32px`, le
-   navigateur ne rasterise qu'un carré de 32 px et le répète.
-
-   Le grain suit la MÊME règle et ne l'annule pas : c'est une quatrième tuile, de
-   128 px, posée au-dessus de la trame et sous le dégradé. Rien n'est rasterisé à la
-   hauteur du document. */
+   dimensions de son élément, soit ici plus de 9 000 px de haut sur l'accueil. Avec
+   `background-size: 32px 32px`, le navigateur ne rasterise qu'un carré de 32 px et le
+   répète. Le grain suit la MÊME règle : c'est une quatrième tuile, de 128 px, posée
+   au-dessus de la trame et sous le dégradé. Rien n'est rasterisé à la hauteur du
+   document. */
 .fond-atelier {
   position: absolute;
   inset: 0;
@@ -262,19 +262,6 @@ a:hover {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 2px;
-}
-
-/* `main` ne crée volontairement AUCUN contexte d'empilement.
- *
- * liquidGL pose ses canvas directement sur `document.body` : le canvas de réfraction
- * partagé à `z-index: 0`, et un canvas miroir par lentille à `z-index de la lentille
- * moins 1`. Pour qu'une surface de verre passe au-dessus de ces deux calques, son
- * `z-index: 2` doit être comparé dans le contexte RACINE. Un `position: relative;
- * z-index: 1` sur `main` enfermerait tout le contenu dans un contexte à 1, le miroir
- * passerait par-dessus, et le texte des panneaux vitrés disparaîtrait — c'est
- * exactement le défaut que ce commentaire empêche de réintroduire. */
-main {
-  position: static;
 }
 
 img,

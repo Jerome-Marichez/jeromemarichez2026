@@ -10,10 +10,10 @@ import styles from './site-header.module.css'
 /**
  * En-tête collant.
  *
- * Il n'utilise **pas** liquidGL : la bibliothèque ignore délibérément les éléments en
- * `position: fixed` ou `sticky`, un panneau de verre y resterait figé sur la capture
- * initiale et dériverait au défilement. Son fond est donc un `backdrop-filter` CSS
- * classique — moins spectaculaire, mais juste à toutes les positions de défilement.
+ * Son fond est du verre, mais réglé en **bande** et non en panneau : il floute et sature
+ * beaucoup moins. Ce qui passe sous lui est le texte de la page en défilement, et non le
+ * décor — au réglage d'un panneau, ce texte en ressortirait en traînée colorée. Les deux
+ * jeux de jetons sont dans `verre.css`.
  *
  * Chaque entrée porte `data-pole` : le chiffre du temps prend la teinte de son pôle,
  * et l'en-tête devient la légende de la palette du site. Aucune couleur n'est nommée
