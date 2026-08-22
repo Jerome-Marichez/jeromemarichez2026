@@ -33,7 +33,7 @@
   font-size: var(--t--1);
   text-transform: uppercase;
   letter-spacing: var(--suivi-etiquette);
-  color: var(--cuivre);
+  color: var(--accent);
 }
 
 .chapo {
@@ -53,9 +53,12 @@
 
 .contact {
   padding: var(--e-5);
-  border: 1px solid var(--verre-arete);
+  border: var(--verre-epaisseur) solid var(--verre-arete);
   border-radius: var(--rayon-verre);
-  background: color-mix(in srgb, var(--fond-creux) 60%, transparent);
+  /* Même voile que les panneaux de verre : le bloc de contact en dupliquait un, à
+     60 %, et aurait décroché des autres surfaces au premier réglage du verre. */
+  background: color-mix(in srgb, var(--fond-creux) var(--verre-voile), transparent);
+  box-shadow: var(--elevation-posee);
   scroll-margin-top: var(--decalage-ancre);
 }
 
@@ -71,7 +74,7 @@
   display: inline-block;
   padding: var(--e-2) var(--e-4);
   border-radius: var(--rayon-petit);
-  background: var(--cuivre);
+  background: var(--accent);
   color: var(--fond);
   font-family: var(--police-mono-pile);
   text-decoration: none;
@@ -79,5 +82,5 @@
 }
 
 .action:hover {
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--cuivre) 30%, transparent);
+  box-shadow: var(--elevation-levee);
 }

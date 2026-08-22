@@ -64,7 +64,10 @@ export function ChainDiagram() {
         const unique = sortantes.length === 1 ? sortantes[0] : undefined
 
         return (
-          <li className={styles.maillon} key={pole.id}>
+          // `data-pole` porte la teinte du maillon : la plaque ET l'arête qui en part
+          // en héritent. Les branches, imbriquées, posent la leur et l'emportent — la
+          // cascade dit la structure sans qu'aucun module ne nomme une couleur.
+          <li className={styles.maillon} data-pole={pole.id} key={pole.id}>
             <Plaque pole={pole} />
 
             {unique ? <Arete jointure={unique} /> : null}
@@ -79,7 +82,7 @@ export function ChainDiagram() {
                     const entrante = jointureVers(suite.id)
 
                     return (
-                      <li className={styles.branche} key={suite.id}>
+                      <li className={styles.branche} data-pole={suite.id} key={suite.id}>
                         <Plaque pole={suite} />
                         {entrante ? <Arete jointure={entrante} /> : null}
                       </li>

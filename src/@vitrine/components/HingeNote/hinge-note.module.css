@@ -1,5 +1,5 @@
 /* hinge-note.module.css — la charnière.
- * Le filet vertical cuivre est le seul mouvement du site qui porte du sens : la
+ * Le filet vertical d'accent est le seul mouvement du site qui porte du sens : la
  * chaîne se trace. Il est purement décoratif au sens accessibilité — les lecteurs
  * d'écran n'entendent que la phrase. */
 
@@ -21,7 +21,7 @@
   inset-block: 0;
   left: 0;
   width: 2px;
-  background: var(--cuivre-vif);
+  background: var(--accent-vif);
   transform-origin: top;
   animation: tracer var(--duree-tracer) var(--courbe-tracer) both;
 }

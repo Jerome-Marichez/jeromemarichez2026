@@ -4,8 +4,9 @@
  * taille utilisée dans un module CSS vient d'ici : aucune couleur ni aucun espacement
  * en dur dans un composant (docs/design.md).
  *
- * Direction « L'Établi » : papier chaud, encre graphite, un seul accent cuivre, et du
- * verre qui laisse voir la trame technique du fond — la transparence est le sujet.
+ * Direction « L'Établi » : papier chaud, encre graphite, et du verre qui laisse voir la
+ * trame technique du fond — la transparence est le sujet. L'accent, lui, n'est plus
+ * unique : une teinte par pôle, mappée sur `--accent` par `poles.css`.
  */
 
 :root {
@@ -16,12 +17,19 @@
   --fond-creux: #e7e2d7;
   --encre: #14171a; /* 15.67:1 sur --fond */
   --encre-douce: #4a5157; /* 7.02:1 sur --fond */
-  --cuivre: #8f4520; /* 6.02:1 sur --fond — seul accent de texte */
+  /* Le cuivre est la teinte de marque ET celle du pôle « ingénierie web ». Aucun module
+     ne le nomme : ils consomment `--accent`, que `poles.css` mappe sur le pôle courant
+     et fait retomber ici hors de tout `data-pole`. */
+  --cuivre: #8f4520; /* 6.02:1 sur --fond */
   --cuivre-vif: #b4623a; /* 3.85:1 — NON-TEXTE : filets, arêtes, traits */
-  --signal: #1f5f52; /* 6.49:1 — disponibilité, coches */
+  /* `--signal` n'est PAS une couleur d'ambiance : il marque la ligne « vous tranchez »,
+     partout où un bloc en porte une, et le témoin de mise en pause. Nulle part ailleurs. */
+  --signal: #1f5f52; /* 6.49:1 */
   --trame: rgba(20, 23, 26, 0.055);
   --verre-teinte: rgba(255, 255, 255, 0.42);
-  --verre-arete: rgba(143, 69, 32, 0.28);
+  /* L'arête du verre est une DILUTION de `--accent`, pas une couleur de plus : seule
+     la part est fixée ici, la couleur est assemblée dans `poles.css`. */
+  --verre-arete-part: 28%;
   --verre-lueur: rgba(255, 255, 255, 0.7);
   --fond-degrade-haut: #f7f5f0;
   --fond-degrade-bas: #ede9e0;
@@ -119,7 +127,7 @@
     --signal: #5fd1ae; /* 10.12:1 */
     --trame: rgba(236, 231, 222, 0.06);
     --verre-teinte: rgba(236, 231, 222, 0.07);
-    --verre-arete: rgba(224, 139, 76, 0.32);
+    --verre-arete-part: 32%;
     --verre-lueur: rgba(255, 255, 255, 0.14);
     --fond-degrade-haut: #14181d;
     --fond-degrade-bas: #0b0e11;
@@ -240,7 +248,7 @@ p {
 }
 
 a {
-  color: var(--cuivre);
+  color: var(--accent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
   transition: text-decoration-thickness var(--duree-micro) ease-out;
@@ -251,7 +259,7 @@ a:hover {
 }
 
 :focus-visible {
-  outline: 2px solid var(--cuivre);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 2px;
 }

@@ -15,6 +15,10 @@ import styles from './site-header.module.css'
  * initiale et dériverait au défilement. Son fond est donc un `backdrop-filter` CSS
  * classique — moins spectaculaire, mais juste à toutes les positions de défilement.
  *
+ * Chaque entrée porte `data-pole` : le chiffre du temps prend la teinte de son pôle,
+ * et l'en-tête devient la légende de la palette du site. Aucune couleur n'est nommée
+ * ici — le lien ne connaît que `--accent`.
+ *
  * Le chiffre porté par chaque lien n'est pas un rang mais le **temps** de la chaîne, et
  * l'IA comme le SEA & UX portent le même : ce sont les deux suites de la donnée, et rien
  * ne les ordonne. C'est aussi pour cela que la liste est un `<ul>` et non un `<ol>` — un
@@ -36,7 +40,7 @@ export function SiteHeader() {
           <nav aria-label="Les quatre pôles" className={styles.navigation}>
             <ul className={styles.liste}>
               {POLES_NAV.map((pole) => (
-                <li key={pole.id}>
+                <li data-pole={pole.id} key={pole.id}>
                   <Link className={styles.lien} href={pole.route}>
                     <span aria-hidden="true" className={styles.temps}>
                       {pole.temps}

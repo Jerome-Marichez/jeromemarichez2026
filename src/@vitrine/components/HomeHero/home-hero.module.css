@@ -41,13 +41,13 @@
   color: var(--encre-douce);
 }
 
-/* La ligne de méthode : filet cuivre à gauche, comme le fil transverse plus bas dans la
+/* La ligne de méthode : filet d'accent à gauche, comme le fil transverse plus bas dans la
    page. Elle n'est pas une accroche de plus — c'est le rappel visuel qui relie le seuil
    à la section « Le fil ». */
 .methode {
   max-width: 52ch;
   padding-left: var(--e-3);
-  border-left: 2px solid var(--cuivre-vif);
+  border-left: 2px solid var(--accent-vif);
   font-family: var(--police-mono-pile);
   font-size: var(--t--1);
   line-height: 1.6;
@@ -68,7 +68,7 @@
   display: inline-block;
   padding: var(--e-2) var(--e-4);
   border-radius: var(--rayon-petit);
-  background: var(--cuivre);
+  background: var(--accent);
   color: var(--fond);
   text-decoration: none;
   font-weight: 500;
@@ -76,7 +76,7 @@
 }
 
 .actionPrincipale:hover {
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--cuivre) 30%, transparent);
+  box-shadow: var(--elevation-levee);
 }
 
 .actionSecondaire {
@@ -106,7 +106,7 @@
   font-size: var(--t-2);
   font-variant-numeric: tabular-nums;
   line-height: 1;
-  color: var(--cuivre);
+  color: var(--accent);
 }
 
 .libelle {

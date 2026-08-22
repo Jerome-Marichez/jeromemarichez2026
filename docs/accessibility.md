@@ -15,7 +15,14 @@ Conformité **WCAG 2.1 AA** sur les parcours principaux.
 - HTML **sémantique** d'abord (`nav`, `main`, `button`…) ; ARIA seulement en complément.
 - **Navigation clavier** complète : focus visible, ordre logique, pas de piège de focus.
 - **Formulaires** : chaque champ a un `label` associé ; erreurs annoncées (`aria-live`).
-- **Contrastes** : ratio ≥ 4.5:1 pour le texte courant.
+- **Contrastes** : ratio ≥ 4.5:1 pour le texte courant. Les **seize valeurs** de la
+  palette des pôles (`--accent` et `--accent-vif`, quatre pôles, deux thèmes) sont
+  mesurées et tabulées dans [`design.md`](./design.md) :
+  `--accent-vif` est **non-texte uniquement**, il est entre 3.5:1 et 3.9:1 en thème clair.
+- **La couleur n'est jamais le seul porteur d'information** (WCAG 1.4.1). La teinte de
+  pôle double une information déjà écrite — le nom du pôle, sa place, son temps. La
+  limite connue de cette palette sous vision dichromate est documentée dans `design.md`,
+  chiffres à l'appui, plutôt que passée sous silence.
 - **Images** : `alt` pertinent (ou vide si décorative).
 
 ## Checklist par composant

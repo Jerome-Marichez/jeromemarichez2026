@@ -6,7 +6,7 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  border-bottom: 1px solid color-mix(in srgb, var(--encre) 10%, transparent);
+  border-bottom: var(--verre-epaisseur) solid color-mix(in srgb, var(--encre) 10%, transparent);
   /* Fond translucide PLAT, sans flou. C'est le rendu de tous les petits écrans, et le
      cas d'école du jank au défilement : un en-tête `sticky` pleine largeur qui porte un
      `backdrop-filter` force le navigateur à reflouter la bande à chaque image, sur les
@@ -22,9 +22,9 @@
 @media (min-width: 1024px) {
   @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
     .entete {
-      background: color-mix(in srgb, var(--fond) 88%, transparent);
-      backdrop-filter: blur(14px) saturate(1.1);
-      -webkit-backdrop-filter: blur(14px) saturate(1.1);
+      background: color-mix(in srgb, var(--fond) var(--verre-voile-bande), transparent);
+      backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation-bande));
+      -webkit-backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation-bande));
     }
   }
 }
@@ -108,13 +108,13 @@
 }
 
 .lien:hover {
-  background: color-mix(in srgb, var(--cuivre) 12%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 .temps {
   font-family: var(--police-mono-pile);
   font-size: var(--t--1);
-  color: var(--cuivre);
+  color: var(--accent);
 }
 
 /* Sous 720px, le chiffre du temps suffit à situer chaque pôle : les intitulés

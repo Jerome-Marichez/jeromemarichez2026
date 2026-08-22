@@ -1,0 +1,110 @@
+/* poles.css — une teinte par pôle.
+ *
+ * Extrait de `globals.css` pour une raison mécanique : la palette des quatre pôles y
+ * faisait passer le fichier au-dessus des 300 lignes du projet. C'est la seule raison —
+ * ces jetons sont des jetons de design comme les autres, et `globals.css` reste leur
+ * voisin immédiat.
+ *
+ * ## Le mécanisme
+ *
+ * Une page ou une section de pôle pose `data-pole="<id>"`. Le bloc correspondant
+ * ci-dessous mappe `--accent` et `--accent-vif` sur la teinte du pôle, et tout ce qui
+ * est dessous en hérite. **Aucun composant ne connaît la couleur d'un pôle** : il ne
+ * connaît que `--accent`. C'est ce qui évite de dupliquer la logique de couleur dans
+ * dix-huit modules CSS, et ce qui rend un cinquième pôle indolore.
+ *
+ * Hors de tout `data-pole` — accueil, blog, en-tête, pied de page — `--accent` vaut le
+ * cuivre. Ce n'est pas un repli faute de mieux : le cuivre est à la fois la teinte du
+ * socle (ingénierie web, temps 1) et la couleur de marque du site. Un visiteur qui n'est
+ * dans aucun pôle voit la couleur de la maison.
+ *
+ * ## Le choix des teintes
+ *
+ * Les quatre teintes sont posées en OKLCH sur **une seule clarté et une seule chroma par
+ * variante** : seule la teinte change. C'est ce qui interdit de lire une progression là
+ * où il n'y en a pas — en particulier entre l'IA et le SEA & UX, qui sont deux branches
+ * PARALLÈLES de la donnée et non deux étapes successives. Deux couleurs d'éclat
+ * différent auraient affirmé un ordre que le modèle nie (voir CLAUDE.md).
+ *
+ * - Ingénierie web (socle, temps 1) : cuivre, h≈45. Inchangé.
+ * - Data (passage, temps 2) : bleu d'encre, h=215. Le tronc refroidit en passant du
+ *   construire au mesurer.
+ * - IA et SEA & UX (suites, temps 3) : violet h=300 et vert h=130, à **85° de part et
+ *   d'autre** du bleu de la donnée. Même clarté, même chroma, écarts symétriques : la
+ *   branche ne progresse pas, elle se dédouble.
+ *
+ * L'écart de teinte entre les deux sœurs est volontairement large. Un écart étroit — un
+ * cyan et un magenta voisins, par exemple — aurait mieux dit « même famille », mais les
+ * deux teintes deviennent alors STRICTEMENT indiscernables pour une deutéranopie
+ * (ΔE OKLab mesuré : 0.004). Le compromis retenu tient l'égalité de clarté et de chroma,
+ * qui est ce qui fait lire deux sœurs, et paie en distance de teinte ce qui rend la
+ * distinction perceptible. Les ratios et les limites sont dans `docs/design.md`.
+ *
+ * La couleur n'est jamais le seul porteur d'information : chaque pôle porte aussi son
+ * nom, son libellé de place et son temps (WCAG 1.4.1).
+ */
+
+:root {
+  /* Le socle emprunte les jetons de marque de `globals.css` : une seule source pour le
+     cuivre, et le thème sombre suit sans être réécrit ici. */
+  --pole-ingenierie-web: var(--cuivre);
+  --pole-ingenierie-web-vif: var(--cuivre-vif);
+  --pole-data: #00697b; /* 5.53:1 sur --fond */
+  --pole-data-vif: #008aa1; /* 3.55:1 — NON-TEXTE */
+  --pole-ia: #674d91; /* 6.00:1 */
+  --pole-ia-vif: #8669b7; /* 3.88:1 — NON-TEXTE */
+  --pole-sea-ux: #48691d; /* 5.52:1 */
+  --pole-sea-ux-vif: #638937; /* 3.54:1 — NON-TEXTE */
+
+  --accent: var(--pole-ingenierie-web);
+  --accent-vif: var(--pole-ingenierie-web-vif);
+
+  /* Deux jetons sont DÉRIVÉS de `--accent`, et c'est pour cela qu'ils sont redéclarés
+     dans chacun des blocs de pôle plutôt qu'une fois pour toutes : une propriété
+     personnalisée est substituée au *computed-value time*, sur l'élément qui la déclare.
+     Écrite une seule fois ici, `--verre-arete` figerait la valeur racine — le cuivre —
+     et descendrait telle quelle dans toutes les pages de pôle. */
+  --verre-arete: color-mix(in srgb, var(--accent) var(--verre-arete-part), transparent);
+  --elevation-levee: 0 6px 18px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pole-data: #01b6d4; /* 7.79:1 sur --fond */
+    --pole-data-vif: #48cbe7; /* 9.89:1 */
+    --pole-ia: #af8fe8; /* 7.14:1 */
+    --pole-ia-vif: #c3a6f8; /* 9.14:1 */
+    --pole-sea-ux: #87b357; /* 7.77:1 */
+    --pole-sea-ux-vif: #9fc774; /* 9.83:1 */
+  }
+}
+
+/* Les quatre seuls endroits du site où une teinte de pôle est nommée. Partout ailleurs,
+   c'est `--accent`. */
+[data-pole="ingenierie-web"] {
+  --accent: var(--pole-ingenierie-web);
+  --accent-vif: var(--pole-ingenierie-web-vif);
+  --verre-arete: color-mix(in srgb, var(--accent) var(--verre-arete-part), transparent);
+  --elevation-levee: 0 6px 18px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+[data-pole="data"] {
+  --accent: var(--pole-data);
+  --accent-vif: var(--pole-data-vif);
+  --verre-arete: color-mix(in srgb, var(--accent) var(--verre-arete-part), transparent);
+  --elevation-levee: 0 6px 18px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+[data-pole="ia"] {
+  --accent: var(--pole-ia);
+  --accent-vif: var(--pole-ia-vif);
+  --verre-arete: color-mix(in srgb, var(--accent) var(--verre-arete-part), transparent);
+  --elevation-levee: 0 6px 18px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+[data-pole="sea-ux"] {
+  --accent: var(--pole-sea-ux);
+  --accent-vif: var(--pole-sea-ux-vif);
+  --verre-arete: color-mix(in srgb, var(--accent) var(--verre-arete-part), transparent);
+  --elevation-levee: 0 6px 18px color-mix(in srgb, var(--accent) 30%, transparent);
+}
