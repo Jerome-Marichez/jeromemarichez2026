@@ -66,25 +66,30 @@
   --t-note: 0.9375rem;
   --t-0: clamp(1rem, 0.955rem + 0.22vw, 1.125rem);
   --t-1: clamp(1.25rem, 1.16rem + 0.44vw, 1.5rem);
-  /* Les trois crans de titre et le cran de chiffre ont été RESSERRÉS d'environ un quart
-     au sommet de l'échelle : 68 px de `h1` sur un écran large tenaient de l'affiche, pas
-     de la page de service. Le RAPPORT entre les crans est conservé — c'est lui qui fait
-     la hiérarchie, pas l'amplitude —, et la borne basse ne bouge que de quelques pixels :
-     à 320 px, l'échelle était déjà juste, c'est en s'ouvrant qu'elle dérapait. */
-  --t-2: clamp(1.3125rem, 1.2rem + 0.6vw, 1.625rem); /* 21 → 26 px */
-  --t-3: clamp(1.625rem, 1.41rem + 1.07vw, 2.1875rem); /* 26 → 35 px */
-  --t-4: clamp(2.125rem, 1.72rem + 2.02vw, 3.25rem); /* 34 → 52 px */
-  --t-chiffre: clamp(2.125rem, 1.75rem + 1.87vw, 3.125rem); /* 34 → 50 px */
+  /* Les trois crans de titre et le cran de chiffre ont été resserrés une PREMIÈRE fois
+     d'environ un quart (68 → 52 px de `h1`), puis une SECONDE fois ici. La première
+     passe traitait l'amplitude ; elle n'a pas traité ce qui se voyait vraiment à
+     l'écran — un titre de 78 signes qui retombait sur QUATRE lignes, soit 225 px de
+     titre avant le premier mot du chapô. Un titre qui s'empile n'est pas ample, il est
+     encombrant, et c'est ce que voit un lecteur sur un portable large.
+     Le RAPPORT entre les crans est conservé — c'est lui qui fait la hiérarchie, pas
+     l'amplitude —, et la borne basse ne bouge presque pas : à 320 px l'échelle était
+     déjà juste, c'est en s'ouvrant qu'elle dérapait. */
+  --t-2: clamp(1.25rem, 1.16rem + 0.44vw, 1.5rem); /* 20 → 24 px */
+  --t-3: clamp(1.5rem, 1.35rem + 0.75vw, 1.875rem); /* 24 → 30 px */
+  --t-4: clamp(1.875rem, 1.59rem + 1.43vw, 2.6875rem); /* 30 → 43 px */
+  --t-chiffre: clamp(1.875rem, 1.62rem + 1.25vw, 2.5625rem); /* 30 → 41 px */
 
   /* — Interlettrage — */
   /* Une fonte de titre gagne en tenue quand elle se resserre à mesure qu'elle grandit :
      à 68 px, l'approche dessinée pour du labeur laissait des trous entre les lettres. Les
      étiquettes font l'inverse — capitales de 13 px, elles ont besoin d'air pour rester
      lisibles. Trois valeurs, jamais réécrites dans un module.
-     `--suivi-display` remonte de -0.028 à -0.02 em avec l'échelle : l'approche négative
-     compense une taille, elle n'est pas un style. À 52 px, -0.028 em recollait les
-     lettres au lieu de refermer un trou. */
-  --suivi-display: -0.02em;
+     `--suivi-display` remonte avec l'échelle — -0.028 em à 68 px, -0.02 em à 52 px,
+     -0.016 em à 43 px : l'approche négative compense une taille, elle n'est pas un
+     style. Laissée à -0.02 em sur un titre redescendu à 43 px, elle recollerait les
+     lettres au lieu de refermer un trou qui n'existe plus. */
+  --suivi-display: -0.016em;
   --suivi-titre: -0.016em;
   --suivi-etiquette: 0.09em;
 
@@ -238,16 +243,24 @@ h1 {
   line-height: 1.08;
   letter-spacing: var(--suivi-display);
   /* La mesure suit l'échelle en sens INVERSE de la taille : c'est le nombre de signes
-     par ligne qui fait la tenue d'un titre. 18ch était le repli d'un titre à 68 px ;
-     à 52 px, la ligne peut reprendre les 21 signes sans se rompre. */
-  max-width: 21ch;
+     par ligne qui fait la tenue d'un titre. 18ch était le repli d'un titre à 68 px, 21ch
+     celui d'un titre à 52 px — mais 21ch appliqués à un `h1` de 78 signes le repliaient
+     sur QUATRE lignes, et un plafond qui casse la phrase plus tôt que la colonne ne
+     l'exige ne protège plus rien : il empile. À 43 px, 32 signes tiennent sans que la
+     ligne se rompe, et le titre reprend la largeur que la colonne lui offrait déjà. */
+  max-width: 32ch;
 }
 
 h2 {
   font-size: var(--t-3);
   line-height: 1.08;
   letter-spacing: var(--suivi-titre);
-  max-width: 30ch;
+  /* 30ch coupait en deux des titres de 40 à 49 signes — « Ce qui est mesuré, pas ce qui
+     est promis », « Ce qui a été évalué par quelqu'un d'autre que moi » — alors que la
+     colonne avait la place de les tenir d'un trait. Une phrase courte cassée en deux
+     lignes se lit comme un titre trop grand, ce qu'elle n'était pas. 46ch les ramène sur
+     une ligne aux largeurs de portable, sans jamais dépasser la mesure de lecture. */
+  max-width: 46ch;
 }
 
 h3 {

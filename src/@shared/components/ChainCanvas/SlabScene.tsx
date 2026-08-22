@@ -28,6 +28,7 @@
 // `data-pole` : il hérite du cuivre de la racine, la couleur de la maison — celle de
 // l'interlocuteur, qui n'appartient à aucun pôle parce qu'il les porte tous.
 
+import { PoleGlyph } from '../PoleGlyph'
 import styles from './slab-scene.module.css'
 
 interface SlabSceneProps {
@@ -68,49 +69,68 @@ export function SlabScene({ fige = false }: SlabSceneProps) {
           qui ne se referment jamais au même moment suffisent à faire lire du volume, là
           où une seule donnerait un balancement de métronome. */}
       <g className={styles.groupe}>
-        <rect
-          className={styles.socle}
-          data-pole="ingenierie-web"
-          fill="url(#dalle-lueur)"
-          height="92"
-          rx="14"
-          width="168"
-          x="126"
-          y="18"
-        />
-        <rect
-          className={styles.passage}
-          data-pole="data"
-          fill="url(#dalle-lueur)"
-          height="92"
-          rx="14"
-          width="168"
-          x="106"
-          y="130"
-        />
-        {/* Les deux suites : même largeur, même hauteur, même classe, même dégradé. Seuls
-            `x`, `y` et le déphasage de la dérive les distinguent — rien qui se lise
-            comme un ordre. */}
-        <rect
-          className={styles.suite}
-          data-pole="ia"
-          fill="url(#dalle-lueur)"
-          height="96"
-          rx="14"
-          width="150"
-          x="26"
-          y="250"
-        />
-        <rect
-          className={`${styles.suite} ${styles.suiteDecalee}`}
-          data-pole="sea-ux"
-          fill="url(#dalle-lueur)"
-          height="96"
-          rx="14"
-          width="150"
-          x="244"
-          y="262"
-        />
+        <g className={styles.socle}>
+          <rect
+            data-pole="ingenierie-web"
+            fill="url(#dalle-lueur)"
+            height="92"
+            rx="14"
+            width="168"
+            x="126"
+            y="18"
+          />
+          <g className={styles.marque} data-pole="ingenierie-web" transform="translate(146 42)">
+            <PoleGlyph pole="ingenierie-web" />
+          </g>
+        </g>
+
+        <g className={styles.passage}>
+          <rect
+            data-pole="data"
+            fill="url(#dalle-lueur)"
+            height="92"
+            rx="14"
+            width="168"
+            x="106"
+            y="130"
+          />
+          <g className={styles.marque} data-pole="data" transform="translate(126 154)">
+            <PoleGlyph pole="data" />
+          </g>
+        </g>
+
+        {/* Les deux suites : même largeur, même hauteur, même classe, même dégradé, et
+            désormais une marque posée au même endroit de leur dalle. Seuls `x`, `y` et
+            le déphasage de la dérive les distinguent — rien qui se lise comme un ordre. */}
+        <g className={styles.suite}>
+          <rect
+            data-pole="ia"
+            fill="url(#dalle-lueur)"
+            height="96"
+            rx="14"
+            width="150"
+            x="26"
+            y="250"
+          />
+          <g className={styles.marque} data-pole="ia" transform="translate(46 276)">
+            <PoleGlyph pole="ia" />
+          </g>
+        </g>
+
+        <g className={`${styles.suite} ${styles.suiteDecalee}`}>
+          <rect
+            data-pole="sea-ux"
+            fill="url(#dalle-lueur)"
+            height="96"
+            rx="14"
+            width="150"
+            x="244"
+            y="262"
+          />
+          <g className={styles.marque} data-pole="sea-ux" transform="translate(264 288)">
+            <PoleGlyph pole="sea-ux" />
+          </g>
+        </g>
       </g>
     </svg>
   )
