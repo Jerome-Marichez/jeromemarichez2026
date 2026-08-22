@@ -30,3 +30,15 @@ export function findPole(id: PoleId): { pole: IPole; suites: IPole[] } {
     suites: POLES_NAV.filter((candidat) => avals.includes(candidat.id)),
   }
 }
+
+/**
+ * Les pôles désignés par une liste d'identifiants — une réalisation, par exemple.
+ *
+ * Le filtre part de `POLES_NAV` et non de la liste reçue, et c'est le point : l'ordre
+ * d'affichage est **la position dans `POLES_NAV`**, jamais celui dans lequel une fiche a
+ * déclaré ses pôles. Une fiche qui écrirait `['sea-ux', 'data']` n'inverserait donc pas
+ * la chaîne à l'écran — c'est le genre d'inversion qu'aucune relecture ne rattrape.
+ */
+export function listPoles(ids: readonly PoleId[]): IPole[] {
+  return POLES_NAV.filter((pole) => ids.includes(pole.id))
+}
