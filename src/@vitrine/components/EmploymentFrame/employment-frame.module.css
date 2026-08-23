@@ -1,4 +1,4 @@
-/* employment-frame.module.css — le cadre d'emploi d'une réalisation.
+/* employment-frame.module.css — le cadre d'une réalisation.
  * Registre documentaire : monospace et capitales pour les termes, comme les étiquettes
  * du reste du site. Ce bloc est un état civil, pas un argument. */
 
@@ -8,7 +8,7 @@
   gap: var(--e-2);
 }
 
-.employeur {
+.organisation {
   margin: 0;
   max-width: var(--mesure-texte);
   font-family: var(--police-titre-pile);

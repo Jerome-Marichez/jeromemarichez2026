@@ -24,7 +24,7 @@ TypeScript dans `src/@vitrine/contenu/`, et sa forme est tenue par des interface
 | `IProof` | `src/interfaces/IProof.ts` | Une preuve chiffrée | `fiche` référence une `IRealisationChiffree` |
 | **`IRealisation`** | `src/interfaces/IRealisation.ts` | **Une réalisation** : un travail mené, son cadre, sa décision | contient un `IRealisationCadre` et des `IRealisationEtape` ; `poles` référence des `PoleId` |
 | `IRealisationChiffree` | `src/interfaces/IRealisationChiffree.ts` | Une `IRealisation` dont le `chiffre` est **obligatoire** | étend `IRealisation` |
-| `IRealisationCadre` | `src/interfaces/IRealisationCadre.ts` | Le cadre d'emploi : employeur, poste, période, équipe | — |
+| `IRealisationCadre` | `src/interfaces/IRealisationCadre.ts` | Le cadre : statut, organisation, poste, période, équipe | — |
 | `IRealisationChiffre` | `src/interfaces/IRealisationChiffre.ts` | Un résultat chiffré, et ce qu'il ne dit pas | — |
 | `IRealisationEtape` | `src/interfaces/IRealisationEtape.ts` | Une étape du travail mené | — |
 | `IRealisationGroupe` | `src/interfaces/IRealisationGroupe.ts` | Vue dérivée : un cadre et ses fiches | calculée par `find-realisation`, jamais déclarée |
@@ -135,8 +135,10 @@ un composant :
 ## La réalisation (`IRealisation`)
 
 C'est l'entité la plus exposée du site : le format « portfolio » dérive de lui-même vers
-« mon client X », et les entreprises citées sont des **employeurs**. Le modèle tient cette
-frontière par le **type**, pas par la relecture.
+« mon client X ». Le modèle tient cette frontière par le **type**, pas par la relecture —
+chaque fiche porte le **statut** sous lequel elle a été menée, et ce statut n'est pas
+uniforme : deux postes salariés (Acetelecom / MailingVox, Verhoeven Joaillier) et une
+mission en indépendant (Truffle Capital, 2017-2019).
 
 | Champ | Type | Obligatoire | Rôle |
 |-------|------|-------------|------|
@@ -144,7 +146,7 @@ frontière par le **type**, pas par la relecture.
 | `titre` | `string` | oui | `<h1>`, `name` du JSON-LD, dernier niveau du fil d'Ariane. À l'infinitif : un travail, pas une offre |
 | `chapo` | `string` | oui | Résumé. Teaser sur la liste, `description` du JSON-LD |
 | `meta` | `IPageMeta` | oui | `<title>` (60 car. max) et meta description (155 car. max) |
-| **`cadre`** | `IRealisationCadre` | **oui** | Employeur, intitulé de poste exact, période, équipe |
+| **`cadre`** | `IRealisationCadre` | **oui** | Statut, organisation, intitulé de poste exact, période, équipe |
 | `poles` | `readonly PoleId[]` | oui | Pôles réellement mobilisés. **Non contraint** |
 | `probleme` | `string` | oui | Le problème posé au départ, dans les termes de l'époque |
 | `etapes` | `readonly IRealisationEtape[]` | oui | Ce qui a été fait, étape par étape |
@@ -159,6 +161,11 @@ frontière par le **type**, pas par la relecture.
   compilateur qui ferme cette porte, parce que c'est le seul garde-fou qui ne s'oublie pas
   en relecture. Le champ `equipe` existe pour la même raison : il empêche « j'ai managé N
   développeurs », en obligeant à écrire ce qui a réellement été encadré.
+- **`statut` est obligatoire au même titre, et c'est lui qui manquait.** Tant que le cadre
+  ne portait que l'organisation, le poste, la période et l'équipe, l'espace pouvait
+  annoncer « trois postes salariés » sans que rien ne le contredise — alors que Truffle
+  Capital était une mission menée en auto-entrepreneur (issue #107). Un champ facultatif
+  aurait laissé revenir la même ambiguïté fiche par fiche.
 - **Le chiffre n'a qu'une porte d'entrée.** `IRealisationChiffre` est une entité à part,
   avec une `portee` obligatoire — ce que le chiffre **ne** dit **pas**. Un chiffre publié
   sans sa portée se fait élargir tout seul par celui qui le lit : « +50 % de panier moyen »
@@ -185,8 +192,8 @@ Elles vivent dans `src/@vitrine/services/find-realisation.ts` :
 | Règle | Comportement |
 |-------|--------------|
 | `listRealisations()` | Rend la liste **dans l'ordre déclaré**. Aucun tri : une réalisation n'est pas datée, il n'existe pas de clé de tri qui ne soit pas inventée |
-| `groupRealisationsByCadre()` | Groupe par employeur, dans l'ordre de `CADRES` (du poste le plus récent au plus ancien). Un cadre sans fiche ne produit pas de groupe vide |
-| `findRealisation(slug)` | Rend la fiche et jusqu'à `MAX_REALISATIONS_LIEES` (2) autres, choisies sur les **pôles partagés** — la liste groupe déjà par employeur, proposer trois fois le même employeur en bas de page n'apprendrait rien. **Lève** sur un slug inconnu |
+| `groupRealisationsByCadre()` | Groupe par organisation, dans l'ordre de `CADRES` (du poste le plus récent au plus ancien). Un cadre sans fiche ne produit pas de groupe vide |
+| `findRealisation(slug)` | Rend la fiche et jusqu'à `MAX_REALISATIONS_LIEES` (2) autres, choisies sur les **pôles partagés** — la liste groupe déjà par organisation, proposer trois fois la même organisation en bas de page n'apprendrait rien. **Lève** sur un slug inconnu |
 | `listPoles(ids)` (`find-pole`) | Ordonne les pôles selon `POLES_NAV`, jamais selon l'ordre déclaré par la fiche |
 
 ## Où vivent les données
@@ -202,8 +209,8 @@ src/@vitrine/contenu/blog/
 src/@vitrine/contenu/realisations/
 ├── realisations.ts        ← la liste publiée : SOURCE UNIQUE de l'espace
 ├── realisations-index.ts  ← l'en-tête éditoriale de /realisations
-├── cadres.ts              ← les trois cadres d'emploi, partagés par les fiches
-├── mailingvox-produits.ts ← les fiches, groupées par employeur
+├── cadres.ts              ← les trois cadres, partagés par les fiches
+├── mailingvox-produits.ts ← les fiches, groupées par organisation
 ├── mailingvox-donnee.ts   ←   (MailingVox est scindé en deux : limite de 300 lignes)
 ├── verhoeven.ts
 └── truffle.ts
