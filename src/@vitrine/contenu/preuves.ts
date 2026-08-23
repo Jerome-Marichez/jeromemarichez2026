@@ -56,7 +56,7 @@ export const PREUVES: IProof[] = [
   },
   // Seule tuile dont le chiffre n'est pas repris d'un CV : c'est la promesse elle-même,
   // et elle porte sur l'interlocuteur, pas sur l'absence de tiers (voir la section
-  // « renforts » de l'accueil).
+  // « Les deux objections » de l'accueil, `contenu/objections.ts`).
   {
     chiffre: '1',
     libelle: 'interlocuteur, du cadrage au run',

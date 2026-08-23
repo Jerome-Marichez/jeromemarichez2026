@@ -4,8 +4,23 @@
 // Faits sourcés dans cv-ingenieur-fullstack.md et cv-ai-engineer.md. Règles de
 // véracité du CLAUDE.md appliquées : ISTQB **Foundation** seulement, aucun management
 // de développeurs revendiqué, pas de Kubernetes administré en propre.
+//
+// **Ce que cette page a accueilli en descendant de l'accueil (issue #103)** : le chapitre
+// « migrations », qui n'existait nulle part en propre ; l'outillage de test nommé, qui
+// n'était écrit que sur l'accueil ; l'arbitrage monolithe / microservices ; les nuances de
+// la charnière — SLI / SLO / SLA opposables, PCA et PRA testés et pas seulement
+// documentés, et l'exemple qui prouve que le run fabrique la donnée. Le **fil IA** y est
+// aussi descendu : la note de placement est en tête de `fil-ia.ts`.
+//
+// Une exception, et elle est délibérée : la mention « chiffre d'affaires maintenu » qui
+// accompagnait les migrations sur l'accueil n'est PAS descendue. Le périmètre de
+// confidentialité écrit en tête de `realisations/mailingvox-produits.ts` pose que les
+// chiffres de ce projet ne sont publiés nulle part sur le site — l'accueil le
+// contredisait. La contrainte tenue, elle, est sourcée : aucune interruption de service,
+// aucun gel de la roadmap. Elle suffit.
 
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
+import { SECTION_FIL_IA } from './fil-ia'
 
 export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
   {
@@ -83,7 +98,10 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
     blocs: [
       {
         titre: 'Front-end',
-        preuve: 'Lighthouse 98/100, conformité RGAA / WCAG tenue en parallèle.',
+        preuve:
+          'Lighthouse 98/100 sur la plateforme SaaS « Sms En Masse », conformité RGAA / WCAG ' +
+          'tenue en parallèle.',
+        decision: 'Quelle page se rend au build, laquelle à la requête, et ce que chacune coûte.',
       },
       {
         titre: 'Back-end et données',
@@ -98,9 +116,12 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
           'Docker, CI/CD GitHub Actions, Cloud Run, VM Compute Engine auto-scalées, Pub/Sub, ' +
           'Vercel, Apache, Nginx et Linux. Pas de cluster Kubernetes administré en propre.',
         preuve:
-          'SLI / SLO / SLA définis et suivis, PCA et PRA testés par exercices de bascule, ' +
-          'déploiements sans interruption de service.',
-        decision: 'Où tourne votre produit, et ce que coûte réellement chaque option.',
+          'SLI / SLO / SLA définis, suivis et opposables — pas écrits après l’incident. PCA et ' +
+          'PRA testés par exercices de bascule, pas seulement documentés. Déploiements sans ' +
+          'interruption de service.',
+        decision:
+          'Ce qu’on découpe maintenant, ce qu’on garde monolithique et jusqu’à quand — et où ' +
+          'tourne votre produit, avec le coût réel de chaque option.',
       },
     ],
   },
@@ -127,10 +148,53 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
       },
       {
         titre: 'Outillage réellement en place',
+        texte:
+          'Jest, Cypress, Playwright, tests de mutation Stryker, Postman. Non-régression ' +
+          'rejouée à chaque livraison, pas seulement avant les grandes.',
         decision: 'Quel niveau de test vous vous autorisez à ne pas payer, et sur quel périmètre.',
       },
     ],
   },
+  // Les migrations avaient un bloc sur l'accueil et pas de chapitre ici : c'était la seule
+  // compétence du socle que la page de détail disait moins bien que la vitrine. Elle est
+  // remontée en chapitre parce que c'est une prestation qu'on achète pour elle-même, pas
+  // un attribut d'une autre.
+  {
+    id: 'migrations',
+    kind: 'chapitre',
+    pole: 'ingenierie-web',
+    kicker: 'Sans coupure',
+    titre: 'Migrer un produit qui continue de sortir des versions',
+    chapo:
+      'Une migration menée à l’arrêt est facile et personne ne peut se l’offrir. Les trois ' +
+      'miennes ont été menées pendant que le produit vivait.',
+    blocs: [
+      {
+        titre: 'Trois migrations majeures',
+        texte:
+          'PHP 5 vers 7 puis réécriture en Node.js, jQuery vers React, Ionic 6 vers 8 et ' +
+          'Angular 15 vers 19.',
+        preuve: 'Aucune interruption de service, aucun gel de la roadmap produit sur les trois.',
+      },
+      {
+        titre: 'Par paliers livrables',
+        texte:
+          'Chaque palier laisse une version déployable : la migration peut s’arrêter à ' +
+          'n’importe quel moment sans laisser le produit à mi-chemin.',
+        decision: 'Ce qu’on migre ce trimestre, ce qu’on gèle, et le coût réel de l’attente.',
+      },
+      {
+        titre: 'La dette résorbée dans le mouvement',
+        texte:
+          'Le rattrapage technique se fait pendant la migration plutôt que dans un chantier à ' +
+          'part, qui ne serait jamais priorisé.',
+      },
+    ],
+  },
+  // Le fil IA descend de l'accueil (issue #103) et se pose ici, sur le socle : c'est la
+  // page où le site dit comment le code est produit. Il garde ses quatre étapes, donc son
+  // caractère transverse — livrer et piloter nomment les deux autres suites.
+  SECTION_FIL_IA,
   {
     id: 'charniere-run',
     kind: 'charniere',
@@ -146,7 +210,15 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
       },
       {
         titre: 'Pics d’affluence',
-        texte: 'absorbés sans incident, y compris saisonniers sur un site marchand.',
+        texte:
+          'absorbés sans incident, y compris saisonniers sur un site marchand. Conformité ' +
+          'RGPD et DORA tenue en appels d’offres grands comptes.',
+      },
+      {
+        titre: 'La preuve que le lien existe',
+        texte:
+          'les règles anti-fraude viennent de l’historique produit par l’exploitation, pas ' +
+          'd’un atelier. Sans run, pas de pôle Data.',
       },
       {
         titre: 'Et ensuite',

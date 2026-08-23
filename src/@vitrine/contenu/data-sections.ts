@@ -128,26 +128,42 @@ export const SECTIONS_DATA: IEditorialSection[] = [
   // rattachement était faux dès que l'IA a cessé d'être une étape avant le SEA & UX : la
   // charnière ne part pas de l'IA, elle part de la DONNÉE. Elle est donc rendue ici.
   //
-  // Elle n'a pas encore de symétrique vers l'IA : la donnée ouvre deux suites, et une
-  // seule des deux est racontée en fin de page. C'est une asymétrie de narration, pas de
-  // modèle — la page annonce bien les deux suites dès son ouverture (`PoleHero`), et le
-  // lot de réécriture éditoriale doit écrire la charnière manquante.
+  // **L'asymétrie signalée ici est soldée (issue #103).** Elle ne racontait qu'une des
+  // deux suites, ce qui laissait la page dire en creux que l'IA vient ailleurs, ou après.
+  // Elle les nomme désormais toutes les deux, dans une section qui refuse de les ordonner
+  // : ce n'est pas une décoration, c'est le modèle de l'offre rendu au seul endroit où le
+  // lecteur se demande ce qu'il fait de ce qu'il vient d'acheter.
+  //
+  // L'accueil portait la même charnière au même identifiant. C'était le doublon le plus
+  // net du site : il n'existe plus qu'ici.
   {
-    id: 'charniere-arbitrage',
+    id: 'charniere-suites',
     kind: 'charniere',
-    kicker: 'Charnière · vers le SEA & UX',
-    titre: 'Un métier compris devient un budget arbitrable',
+    kicker: 'Charnière · vers les deux suites',
+    titre: 'Un métier compris ouvre deux suites, et rien ne les ordonne',
     chapo:
-      'Règles écrites, profils identifiés, donnée gouvernée : on tient la matière des ' +
-      'arbitrages.',
+      'Règles écrites, profils identifiés, donnée gouvernée : on tient la matière de l’IA ' +
+      'comme celle de l’arbitrage. L’une, l’autre, ou les deux — et vous pouvez aussi vous ' +
+      'arrêter ici.',
     blocs: [
       {
-        titre: 'Rentabilité à long terme',
-        texte: 'la valeur client dans la durée remplace le coût par clic.',
+        titre: 'Ce que l’IA en reçoit',
+        texte:
+          'des règles explicites et un périmètre de données arbitré : de quoi décider si une ' +
+          'règle suffit, ou s’il faut vraiment un modèle.',
+      },
+      {
+        titre: 'Ce que le SEA & UX en reçoit',
+        texte:
+          'la valeur client dans la durée à la place du coût par clic, et des identités ' +
+          'réconciliées — agrégation multi-sources et dédoublonnage — avant toute lecture de ' +
+          'performance.',
       },
       {
         titre: 'Et ensuite',
-        texte: 'le pôle SEA & UX tranche sur ces chiffres, puis implémente l’arbitrage lui-même.',
+        texte:
+          'chacune des deux tranche sur ces chiffres, puis implémente elle-même l’arbitrage. ' +
+          'Rien n’oblige à prendre les deux.',
       },
     ],
   },

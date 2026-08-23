@@ -1,10 +1,26 @@
 // fil-ia.ts — jeromemarichez-fr
-// Le fil IA : l'axe transverse de la page d'accueil.
+// Le fil IA : l'axe transverse — la méthode de production, pas l'offre.
 //
 // Ce n'est pas un quatrième pôle et ce n'est pas une charnière. Les charnières passent
 // la main d'un pôle au suivant ; ce fil-ci les traverse tous. Il répond à une confusion
 // que le site crée lui-même : l'IA y apparaît deux fois — comme offre (le pôle IA) et
 // comme méthode de production (partout). Sans cette section, le lecteur les mélange.
+//
+// ## Où il vit, et pourquoi il a bougé (issue #103)
+//
+// Il ouvrait la page d'accueil. L'accueil est devenu une vitrine : le détail est descendu
+// sur les pages de pôle, et une section de méthode de production y est du détail. Elle a
+// donc suivi le mouvement — sur `/services/ingenierie-web/`, la page où le site dit
+// comment le code est produit, et où le chapitre « qualité » revendiquait déjà le
+// développement piloté par les tests en IA augmentée.
+//
+// **Pas sur `/services/ia/`, et c'est la règle qu'il ne faut pas casser** : ce fil existe
+// pour séparer l'IA-offre de l'IA-méthode. Le poser sur la page de l'offre IA fondrait
+// exactement les deux choses qu'il est là pour distinguer.
+//
+// L'accueil, lui, n'est pas muet sur la méthode : `HERO_ACCUEIL.methode` la dit en une
+// phrase dès le seuil, au-dessus de la ligne de flottaison. C'est la version condensée
+// que l'issue #103 proposait comme alternative, et elle existait déjà.
 //
 // Véracité (CLAUDE.md) : rien ici n'est nouveau. Chaque preuve citée est déjà portée
 // par un pôle et sourcée dans les CV de référence. La seule affirmation propre à cette
