@@ -709,8 +709,8 @@ site que l'accueil.
 ### Construite, jamais matricielle
 
 Le site n'a **aucune image matricielle** : quatre SVG en tout, `next/image` écarté
-délibérément. Une illustration d'article n'allait pas en introduire la première. Les trois
-figures sont du **SVG rendu au serveur**, elles pèsent quelques centaines d'octets dans le
+délibérément. Une illustration d'article n'allait pas en introduire la première. Les figures
+sont du **SVG rendu au serveur**, elles pèsent quelques centaines d'octets dans le
 document, et le budget Lighthouse — qui ne tient qu'à un point — n'en sait rien.
 
 Elles n'ont **aucun fichier**, ce qui a une conséquence en dehors du design : le JSON-LD
@@ -750,6 +750,25 @@ au rendu, pas supposé.
 | Pourquoi ce site est un export statique | `borne` | Trois plaques écrites, un aboutissement, une ligne que rien ne franchit ; au-delà, tireté, le serveur applicatif qui n'existe plus |
 | Le test avant le code, même avec un agent | `anteriorite` | Deux temps sur un axe — le point posé d'abord, la boîte ouverte ensuite ; dessous, tiretée et fermée d'une croix, la voie inverse |
 | Mesurer avant d'arbitrer | `appui` | Un fléau à l'horizontale et deux plateaux identiques, la décision au sommet du mât, portés par une assise et sa trame de mesure |
+| Un générateur de projets, public et personnel | `gabarit` | Une forme à trois compartiments, ouverte du côté de la sortie, et ce qui en sort : un cadre fermé, complet, jusqu'à son aboutissement |
+| Le premier risque n'est pas le code, c'est l'endroit | `liaison` | Des ensembles séparés, un lieu commun plus grand qu'eux, deux liens qui portent — et un troisième, tireté, qui n'aboutit à rien |
+
+Deux ajouts de l'issue #109 étendent la grammaire sans la contredire, et il vaut mieux
+l'écrire ici que le redécouvrir :
+
+- **Le trait tireté couvre une nuance de plus.** Sur `liaison`, « écarté » devient
+  « annoncé, jamais emprunté » — la dépendance déclarée que rien n'importe. C'est le même
+  sens au fond, un chemin qui n'a pas lieu ; le signe n'a donc pas eu à être dédoublé.
+- **La longueur d'un tracé tireté est une contrainte, pas un hasard.** C'est le constat déjà
+  fait sur la croix de `anteriorite` : à 2,6 unités de tiret, un segment court ne rend que
+  son amorce. Là où la croix a été traitée en **retirant** le tiretage, le lien de `liaison`
+  l'est en **allongeant** le tracé — quinze unités, soit trois tirets pleins.
+
+Ce que ces deux figures se sont **interdit** relève de la même règle que le fléau horizontal
+de `appui` : ne rien dessiner qui se compte. Pas de pile de formes produites sur `gabarit`,
+qui afficherait un nombre de projets générés que personne n'a mesuré ; pas un carré par dépôt
+sur `liaison`, qui afficherait la taille d'un système que l'article ne nomme pas et n'a pas à
+nommer.
 
 ### Deux registres, un seul jeton
 
@@ -783,9 +802,11 @@ n'appartient à aucun pôle. Les deux thèmes suivent sans qu'une ligne y soit c
 
 Un article peut reprendre un texte d'abord paru sur un réseau
 ([`ArticleSource`](../src/@vitrine/components/ArticleSource/index.tsx)). Le champ est
-**optionnel** et le restera : les trois articles publiés ont été écrits pour ce site et
-n'ont pas de post d'origine. **Une URL absente ne se devine pas** — c'est déjà la règle des
-justificatifs de certification. Sans source, rien n'est rendu : ni ligne vide, ni filet
+**optionnel** et le restera. Un seul article publié porte une source à ce jour ; les autres
+ont été écrits pour ce site, **ou bien reprennent un post dont l'adresse n'a pas été
+fournie** — c'est le cas de « Un générateur de projets, public et personnel », et il se
+publie donc sans source. **Une URL absente ne se devine pas** : c'est déjà la règle des
+justificatifs de certification. Sans source, rien n'est rendu — ni ligne vide, ni filet
 orphelin.
 
 Le lien sort du site, et **son caractère externe ne repose pas sur la couleur** (WCAG 1.4.1).
