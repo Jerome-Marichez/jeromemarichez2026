@@ -277,8 +277,17 @@ au-delà.
 **Règle de rédaction de cette section** : elle énonce ce qui est fait, elle ne **nomme
 jamais** un outil ou un niveau de certification proscrit par la table de véracité, même
 sous forme de négation. « Deux régies publicitaires, pas douze » plutôt que la liste de
-celles qui ne sont pas couvertes. Le test d'intégration `veracite-contenu.spec.ts`
-échoue si un terme proscrit réapparaît où que ce soit dans le contenu publié.
+celles qui ne sont pas couvertes.
+
+**État du contrôle** : la table des interdits du [`CLAUDE.md`](./CLAUDE.md) fait
+autorité, mais **aucun contrôle automatisé ne la vérifie à ce jour**. Le test
+d'intégration qui doit échouer dès qu'un terme proscrit réapparaît dans le contenu
+publié — `tests/integration/veracite-contenu.integration.spec.ts`, au nommage imposé
+par la [stratégie de tests](./docs/testing.md) — **reste à écrire**. Son intention
+complète (motifs couverts, jeu de données, cas limites) est spécifiée dans l'issue
+[#117](https://github.com/Jerome-Marichez/jeromemarichez2026/issues/117) et il revient
+à Jérôme MARICHEZ de le poser. D'ici là, la table s'applique à la relecture, pas à
+la CI.
 
 ---
 
