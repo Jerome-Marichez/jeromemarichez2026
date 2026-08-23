@@ -3,8 +3,10 @@
 //
 // Trois précautions valent pour tout ce fichier :
 //
-// - **Artedrone est une participation du fonds**, pas un client de Jérôme. La fiche le
-//   dit, et le rôle tenu y est l'AMOA — rien n'est affirmé sur le dispositif médical.
+// - **Artedrone est une participation du fonds**, jamais un second client. Le client est
+//   Truffle Capital, et l'AMOA a été menée au bénéfice d'Artedrone **dans le cadre de la
+//   mission Truffle**. La fiche le dit, et le rôle tenu y est l'AMOA — rien n'est affirmé
+//   sur le dispositif médical. (Arbitré par Jérôme MARICHEZ le 2026-08-23, issue #107.)
 // - Le **100 000 €** est un budget **piloté**, jamais un résultat. Aucun retour sur
 //   investissement, aucun coût d'acquisition, aucun volume de trafic n'existe en source.
 // - L'équipe coordonnée est **marketing**, et Google Tag Manager n'appartient pas à cette

@@ -338,10 +338,11 @@ Chaque page de service porte ses propres métadonnées SEO, ses données structu
 MailingVox (2023-2026, salarié), Développeur Full Stack chez Verhoeven Joaillier
 (2019-2022, salarié, poste unique), Développeur web & Chef de projet digital chez Truffle
 Capital (2017-2019, **en auto-entrepreneur** : Truffle Capital était donc un client).
-Artedrone est une **participation du fonds** Truffle, pas un client. Nommer l'espace « cas
-clients » ferait passer dix fiches sur treize pour une relation commerciale qui n'a jamais
-existé, et réécrirait des intitulés de poste que le [`CLAUDE.md`](./CLAUDE.md) impose de
-reprendre à l'identique des CV.
+**Truffle Capital est le seul client cité sur le site.** Artedrone n'en est pas un second :
+c'est une **participation du fonds**, au bénéfice de laquelle l'AMOA a été menée dans le
+cadre de la mission Truffle. Nommer l'espace « cas clients » ferait passer dix fiches sur
+treize pour une relation commerciale qui n'a jamais existé, et réécrirait des intitulés de
+poste que le [`CLAUDE.md`](./CLAUDE.md) impose de reprendre à l'identique des CV.
 
 L'espace s'appelle donc **`/realisations/`**, et **chaque fiche porte son cadre** —
 statut, intitulé exact, période, taille d'équipe. Le cadre est **obligatoire dans le
