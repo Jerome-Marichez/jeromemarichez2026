@@ -989,3 +989,178 @@ obligerait l'une à porter les réglages de l'autre, et c'est exactement ce qui 
 traînées colorées. Elle n'a de sens que depuis que le fond porte de la couleur — le lavis
 du pôle qu'on lit, désormais, plus la lueur de seuil de `.fond-atelier`.
 
+
+## Le verre marqué — la recalibration mesurée du 2026-08-23
+
+Section ajoutée **à côté** de « Le verre de la bande » ci-dessus, qu'elle révise sans la
+remplacer : le raisonnement d'origine reste juste sur le matériau, il l'était moins sur
+ce qui coûte la lisibilité. Demande de Jérôme MARICHEZ, issue #115 — **un effet de verre
+plus marqué sur la navigation, les boutons, les appels à l'action et les zones à impact**.
+
+Les planches avant / après sont dans [`captures/`](./captures/), quatre cases chacune
+(avant / après × clair / sombre) : [les deux bandes empilées](./captures/115-verre-bandes.png),
+[l'en-tête au pire cas](./captures/115-verre-entete.png),
+[les deux actions du seuil](./captures/115-verre-actions.png),
+[le bloc de contact](./captures/115-verre-contact.png).
+
+### Ce que la mesure a appris, et qui n'était pas su
+
+L'effet existait déjà partout où il était demandé. S'il ne se voyait pas, c'était le
+**voile**, pas le flou. Restait à savoir de combien il pouvait descendre, et la réponse
+n'est pas la même selon la bande ni selon le thème.
+
+**Les 88 % de l'en-tête n'étaient pas prudents : ils étaient déjà le plancher.** Au pire
+cas mesuré — l'**aplat d'`--accent` du bouton d'action du seuil**, qui passe sous
+l'en-tête vers 528px de défilement sur l'accueil — `--pole-data` à 13px n'y valait que
+**4.74:1**, soit 0,24 point au-dessus du seuil AA. Ce n'était pas un réglage confortable
+qu'on pouvait dépenser : c'était la marge entière.
+
+**Le flou n'achète pas de transparence, contrairement à ce qu'on pouvait attendre.** À
+32px comme à 20px, le plancher de voile de l'en-tête ne bouge pas d'un point (85 %). Un
+flou ne moyenne que ce qui a du **dessin** ; le pire cas de ce site est un aplat de
+150 × 40px, plus large que le noyau. Le flou reste ce qui fait le **matériau** — c'est lui
+qui dissout la trame de 32px sous la bande et la laisse nette dehors — mais il ne fait pas
+de marge de contraste. La saturation, elle, ne coûte qu'un point de plancher entre 1.1
+et 1.3.
+
+**La formule juste est donc : le voile est le seul levier, et il est déjà au plancher là
+où le fond porte un aplat d'accent.**
+
+### Les réglages, avant et après
+
+| Jeton | Avant | Après — clair | Après — sombre |
+|---|---|---|---|
+| `--verre-flou-bande` | `14px` | `20px` | `20px` |
+| `--verre-saturation-bande` | `1.1` | `1.3` | `1.3` |
+| `--verre-voile-bande` (en-tête) | `88%` | **`86%`** | **`73%`** |
+| `--verre-voile-barre` (barre de pôle) | `82%` | **`76%`** | **`58%`** |
+
+Ce que cela change en part de fond réellement traversée — c'est elle qu'on voit, pas le
+voile :
+
+| Bande | Thème | Avant | Après |
+|---|---|---|---|
+| en-tête | clair | 12 % | **14 %** |
+| en-tête | sombre | 12 % | **27 %** |
+| barre de pôle | clair | 18 % | **24 %** |
+| barre de pôle | sombre | 18 % | **42 %** |
+
+Les voiles deviennent **dépendants du thème**, et c'est une conséquence de la palette, pas
+un goût. En thème sombre `--accent` est **clair** — les quatre teintes de pôle y sont
+choisies claires pour porter du texte sur un fond à 6 % de luminance — tandis que le fond
+composé sous la bande reste très sombre. Le texte et son fond s'y éloignent au lieu de se
+rapprocher, l'aplat du bouton cesse d'être le pire cas, et le plancher tombe de 15 points
+sur l'en-tête, de 21 sur la barre.
+
+### La méthode, et les trois pièges qui la faussent
+
+Le plancher est relevé **au pixel sur le rendu servi**, pas calculé sur une couleur
+supposée. Le contenu de la bande est masqué (`visibility: hidden` — la mise en page ne
+bouge pas), la bande est rendue transparente, et ce qui est capturé est le fond **déjà
+filtré** par `backdrop-filter`. Le voile n'étant qu'une composition alpha par-dessus, il
+se balaie ensuite analytiquement ; le modèle a été contrôlé contre le composé réel et
+tombe **à un niveau sur 255 près**.
+
+Trois pièges invalident cette mesure sans jamais lever d'erreur, et les trois ont été
+rencontrés :
+
+| Piège | Conséquence | Parade |
+|---|---|---|
+| `page.screenshot({ clip })` interprète `clip` dans les coordonnées du **document**, `getBoundingClientRect()` dans celles du **viewport** | sur une bande `sticky`, dont le rect vaut toujours y≈0, chaque capture relit la même bande de haut de document — la mesure ne dépend plus du défilement et paraît stable | capturer le **viewport entier**, recadrer au canvas |
+| `document.querySelector('header')` ne suffit pas : `EditorialSection` rend un `<header>` lui aussi | une règle `header > * { visibility: hidden }` masque les **titres de section**, c'est-à-dire exactement le contenu sombre dont on cherche le pire cas ; le fond mesuré ressort bien plus clair qu'il n'est | sélecteur porté sur la classe du module |
+| un pas de défilement de 70 ou 110px | il **saute** le pire cas, atteint quand un aplat ou un `h1` se trouve pile sous la bande — une trentaine de pixels de défilement | pas de **24px**, page entière |
+
+Pages balayées : accueil, `/services/data/`, `/services/sea-ux/`, un article. Les deux
+bandes, les deux thèmes, à 1440 × 900.
+
+### Contraste — le pire cas, pas le cas moyen
+
+Planchers relevés, et ce qui les bloque. Le jeton qui bloque n'est ni `--encre` — qui
+tient jusqu'à un voile de 30 % — ni `--encre-douce`, mais **`--accent` à 13px** : les
+quatre chiffres de temps de l'en-tête, et celui de la barre de pôle.
+
+| Bande | Thème | Plancher | Bloqué par | Pire fond composé | Où |
+|---|---|---|---|---|---|
+| en-tête | clair | **85 %** | `--pole-data` `#00697b`, 13px | `rgb(169,84,41)` | accueil, 528px |
+| en-tête | sombre | **71 %** | `--pole-ia` `#af8fe8`, 13px | `rgb(221,124,51)` | accueil, 528px |
+| barre de pôle | clair | **74 %** | `--pole-data` `#00697b`, 13px | `rgb(154,157,152)` | `/services/data/`, 3288px |
+| barre de pôle | sombre | **53 %** | `--pole-data` `#01b6d4`, 13px | `rgb(91,113,116)` | `/services/data/`, 960px |
+
+Les valeurs retenues sont posées **au-dessus** de ces planchers, d'un à cinq points selon
+la bande : le balayage a un pas de 24px et porte sur quatre gabarits, il n'épuise pas les
+positions possibles.
+
+Contraste effectivement obtenu **aux valeurs retenues**, sur le pire pixel rencontré —
+c'est le tableau qui compte, les planchers ci-dessus ne servaient qu'à les choisir :
+
+| Bande | Thème | Voile retenu | Pire contraste | Seuil | Marge |
+|---|---|---|---|---|---|
+| en-tête | clair | 86 % | **4.61:1** | 4.5:1 | +0.11 |
+| en-tête | sombre | 73 % | **4.75:1** | 4.5:1 | +0.25 |
+| barre de pôle | clair | 76 % | **4.59:1** | 4.5:1 | +0.09 |
+| barre de pôle | sombre | 58 % | **4.85:1** | 4.5:1 | +0.35 |
+
+Dans les quatre cas, le texte qui fixe la marge est `--accent` à 13px. Le reste de ce que
+portent les bandes est très au-dessus : `--encre` à 15 et 18px vaut 10.2 à 13.1:1, et
+`--encre-douce` à 13px vaut 4.93 à 5.86:1.
+
+Ces marges sont **minces, et c'est leur nature** : un plancher mesuré est par définition
+une valeur qu'on approche. Elles sont du même ordre que celle du lavis de pôle (0,02 point
+sur `--pole-data-vif`, issue #104) et se lisent de la même façon — toute baisse future
+d'un voile de bande demande de rouvrir cette mesure, pas de l'estimer.
+
+Le **bouton d'action** de chaque bande n'entre pas dans ce tableau, et c'est volontaire :
+il porte son propre fond plein d'`--accent`, donc son contraste ne dépend pas du verre.
+Il vaut 6.02:1 en clair et 7.18:1 en sombre, comme avant.
+
+### Le plafond est atteint avant l'effet, sur une surface
+
+Il faut le dire tel quel plutôt que de le laisser deviner : **en thème clair, l'en-tête ne
+descend que de deux points**. La demande d'un verre plus marqué sur la **navigation** y
+est arrêtée par un contraste, pas par un choix de réglage — et ce contraste était déjà
+juste avant ce lot.
+
+Ce qui bloque est identifié, et ce n'est pas le verre : ce sont **les quatre chiffres de
+temps de l'en-tête, en `--accent` à 13px, qui passent au-dessus de l'aplat d'`--accent` du
+bouton du seuil**. Deux couleurs de la même famille, donc de luminances voisines. Le même
+en-tête tiendrait un voile de **68 %** si ces chiffres prenaient `--encre-douce` — c'est
+la valeur relevée sur le sous-titre « Ingénieur-conseil… », qui est exactement ce jeton à
+la même taille dans la même bande — et de **30 %** avec `--encre`.
+
+Les prendre à `--encre` rendrait le verre franchement visible sur la navigation, dans les
+deux thèmes. Mais ce serait renoncer à ce que l'en-tête soit **la légende de la palette du
+site** — chaque entrée y porte `data-pole`, et son chiffre prend la teinte de son pôle.
+C'est un arbitrage de **système de design**, pas un réglage de verre : il revient à
+Jérôme MARICHEZ et n'est pas pris ici.
+
+### Les surfaces traitées, et celles qui sont écartées
+
+| Surface | Décision | Raison |
+|---|---|---|
+| `SiteHeader` — bande | voile au plancher, flou 20px, saturation 1.3 | aucune ligne du module n'a bougé : la recalibration est entièrement dans les jetons, ce que l'extraction de `verre.css` promettait |
+| `PoleStickyBar` — bande | idem, **plus** la pile d'ombres de l'en-tête | deux bandes qui s'empilent doivent se ressembler ; à 82 % l'écart ne se voyait pas, à 76 % la barre serait la seule sans tranche éclairée ni décollement |
+| `HomeHero` — action **secondaire** | passe des jetons de **bande** à ceux de **panneau** | elle n'est pas une bande : rien ne défile dessous, elle ne fait pas la largeur de l'écran, son texte est en `--encre`. Ce qui la rangeait avec les bandes était sa taille, et la taille ne dit rien de ce qui passe derrière |
+| `HomeView` — bloc de **contact** | devient un vrai panneau de verre (`backdrop-filter` derrière `@supports`) | il avait la géométrie d'un panneau et rien de son matériau. C'est le bloc où l'on décide, et il n'est pas `sticky` : son fond défile avec lui, le compositeur n'a pas à le reflouter à chaque image |
+| `HomeHero` — action **principale** | **écartée**, reste un aplat | c'est le seul élément du seuil dont le contraste texte/fond est critique. Un fond translucide le rendrait dépendant de ce qui passe derrière — et c'est précisément cet aplat qui bloque déjà l'en-tête |
+| Mur de preuves | **écarté** | il est déjà **dans** un `GlassSurface` : la section « preuves » est vitrable (`glass-policy.ts`), et vitrer ses tuiles ferait du verre dans du verre |
+| Les quatre portes de pôle | **écarté** | elles portent déjà leur lavis (issue #104), et quatre `backdrop-filter` de plus sur la page qui porte le LCP dépenseraient la marge de budget que la réfraction avait déjà montrée épaisse d'un point |
+
+### Coût
+
+Une surface floutée de plus sur l'accueil — le bloc de contact — et aucune sur les pages
+de pôle. Les deux bandes `sticky`, qui sont les seules refloutées **à chaque image** de
+défilement, n'ont pas changé de nombre ni de taille ; leur flou passe de 14 à 20px, sur
+une bande de 68px de haut. Le repli `@supports` est intact partout, préfixe `-webkit-`
+**avant** le standard, et le seuil de 1024px des bandes n'a pas bougé.
+
+Mesuré après le lot, `make budgets` — **identique au relevé d'avant**, page pour page :
+
+| Page | Perf | A11y | Bonnes prat. | SEO |
+|---|---|---|---|---|
+| accueil | 96 | 100 | 100 | 100 |
+| page de pôle | 96 | 100 | 100 | 100 |
+| blog, article, réalisations, fiche | 97 | 100 | 100 | 100 |
+
+axe-core : **0 violation** sur les six gabarits. La surface floutée ajoutée n'a rien coûté,
+et c'est cohérent avec ce qui la distingue des bandes — elle n'est pas `sticky`, son fond
+défile avec elle, le compositeur n'a pas à la reflouter image par image.

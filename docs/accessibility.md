@@ -118,6 +118,46 @@ Trois points relevés, à garder en tête :
   et l'information qu'ils accompagnent est écrite à côté, mais le point est **ouvert** et
   n'a pas été traité par ce lot.
 
+### Le verre des bandes collantes — contrastes relevés
+
+Depuis l'issue #115, l'en-tête du site et la barre de pôle laissent passer nettement plus
+de fond qu'avant : leur voile descend de 88 → 86 % (clair) et 73 % (sombre) pour
+l'en-tête, de 82 → 76 % et 58 % pour la barre. Le texte d'une bande passe donc sur **ce
+qui défile derrière elle**, et son contraste varie avec le contenu de la page à cet
+instant : il ne peut pas se calculer sur une couleur de fond fixe.
+
+Le relevé est fait **au pixel sur le rendu servi**, page entière balayée au pas de 24px —
+un pas plus large saute le pire cas, qui ne dure qu'une trentaine de pixels de
+défilement. Méthode complète et pièges de mesure dans [`design.md`](./design.md).
+
+| Bande | Thème | Pire contraste | Seuil | Ce qui le fixe |
+|---|---|---|---|---|
+| en-tête du site | clair | **4.61:1** | 4.5:1 | `--pole-data` à 13px, sur l'aplat du bouton du seuil |
+| en-tête du site | sombre | **4.75:1** | 4.5:1 | `--pole-ia` à 13px, même aplat |
+| barre de pôle | clair | **4.59:1** | 4.5:1 | `--pole-data` à 13px, sur le lavis le plus dense |
+| barre de pôle | sombre | **4.85:1** | 4.5:1 | `--pole-data` à 13px |
+
+Le reste de ce que portent les bandes est très au-dessus du seuil : `--encre` à 15 et 18px
+vaut 10.2 à 13.1:1, `--encre-douce` à 13px vaut 4.93 à 5.86:1. Le bouton d'action de
+chaque bande porte son propre fond plein d'`--accent` : son contraste ne dépend pas du
+verre et reste à 6.02:1 en clair, 7.18:1 en sombre.
+
+Deux points à garder en tête :
+
+- **le plafond est atteint sur l'en-tête en thème clair.** Les 88 % d'avant n'étaient pas
+  prudents, ils étaient déjà le plancher — `--pole-data` à 13px n'y valait que 4.74:1. Ce
+  qui bloque est identifié : les quatre chiffres de temps de l'en-tête, en `--accent` à
+  13px, passent au-dessus de l'aplat d'`--accent` du bouton d'action du seuil. Deux
+  couleurs de la même famille, donc de luminances voisines. Le même en-tête tiendrait un
+  voile de 68 % avec `--encre-douce` et de 30 % avec `--encre` — mais ce serait renoncer à
+  ce que l'en-tête soit la légende de la palette du site, et c'est un arbitrage de système
+  de design, pas de verre ;
+- **axe-core ne voit rien de tout cela.** Il juge le contraste d'un texte sur une couleur
+  de fond calculée ; il ne compose pas un `backdrop-filter`, ne connaît pas la position de
+  défilement, et ne saurait pas quel contenu passe sous une bande `sticky`. Un
+  `make budget-a11y` vert ne dit **rien** sur ce point : seul le relevé au pixel ci-dessus
+  le couvre, et il est à rejouer dès qu'un voile de bande bouge.
+
 ### Pages contrôlées
 
 Les mêmes que les budgets de performance — accueil, page de pôle, liste du blog, page
@@ -128,5 +168,6 @@ non protégé. La liste vit dans `scripts/budgets/pages.mjs`.
 |----------|-------|------|
 | Accueil, pôle, blog, article, réalisations | axe-core (`ci-dev-a11y`) | **0 violation** — dernière exécution 2026-08-23, avec le lavis de pôle |
 | Contrastes sur le lavis de pôle | mesure au pixel, deux thèmes | **tenu** — 2026-08-23, voir le tableau ci-dessus |
+| Contrastes sur les bandes de verre | mesure au pixel, page balayée, deux thèmes | **tenu** — 2026-08-24, marges de 0,09 à 0,35 point |
 | Clavier + lecteur d'écran | manuel | _à réaliser_ |
 | WCAG 2.2.2 — pause des animations | manuel | _à réaliser_ |
