@@ -34,16 +34,7 @@
   --fond-degrade-haut: #f7f5f0;
   --fond-degrade-bas: #ede9e0;
 
-  /* Grain de papier : une TUILE de 128 px, comme la trame en est une de 32 px. Le
-     `feTurbulence` n'est rasterisé qu'une fois, sur 128×128 px, puis répété — même
-     raisonnement que pour la trame, et pour la même raison : `.fond-atelier` fait plus
-     de 9 000 px de haut sur l'accueil.
-     Deux tuiles distinctes plutôt qu'une seule inversée par un filtre : `filter` sur un
-     calque plein document forcerait une couche de compositing de la hauteur du
-     document. Ici, rien n'est promis au compositeur.
-     L'alpha moyen est volontairement sous 4 % : au-delà, le grain cesse d'être une
-     texture et devient un voile qui déplace les contrastes documentés. */
-  /* — La couleur du fond ne se déclare plus ici — */
+  /* — La couleur de pôle du fond ne se déclare plus ici — */
   /* Le fond portait une « maille » : quatre lavis de pôle posés à des coordonnées FIXES
      dans `.fond-atelier`, une fois pour tout le document. Ils ne disaient donc rien de la
      section qu'on lit — sur `/services/ia/`, le haut de page recevait le lavis
@@ -55,6 +46,15 @@
      et ses jetons vivent dans `lavis.css` (issue #104). Ne restent ici que les calques
      qui appartiennent vraiment au document entier — grain, trame, dégradé d'atelier. */
 
+  /* Grain de papier : une TUILE de 128 px, comme la trame en est une de 32 px. Le
+     `feTurbulence` n'est rasterisé qu'une fois, sur 128×128 px, puis répété — même
+     raisonnement que pour la trame, et pour la même raison : `.fond-atelier` fait plus
+     de 9 000 px de haut sur l'accueil.
+     Deux tuiles distinctes plutôt qu'une seule inversée par un filtre : `filter` sur un
+     calque plein document forcerait une couche de compositing de la hauteur du
+     document. Ici, rien n'est promis au compositeur.
+     L'alpha moyen est volontairement sous 4 % : au-delà, le grain cesse d'être une
+     texture et devient un voile qui déplace les contrastes documentés. */
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23g)'/%3E%3C/svg%3E");
   --grain-tuile: 128px;
 

@@ -74,17 +74,36 @@
  * un fond en pourcentage ne rasterise rien de notable et suit exactement la carte.
  */
 
+/* Deux répartitions pour un seul plafond.
+ *
+ * Le plafond est le même partout — c'est lui qui est mesuré, et il ne bouge pas. Ce qui
+ * change, c'est la part qui revient au fond plat plutôt qu'à la tache, et c'est une
+ * conséquence de la SURFACE :
+ *
+ *   à l'échelle d'une PAGE, la tache a mille pixels pour s'installer ; elle porte donc la
+ *   moitié du plafond et fait le dégradé de la demande ;
+ *   à l'échelle d'un BLOC — une porte de l'accueil fait 160 px de haut — une tache qui
+ *   décroît sur cette hauteur laisse le bas de la carte au fond plat seul. Mesuré à
+ *   l'écran : les quatre portes se lisaient alors quasiment beiges. La part constante
+ *   monte donc, et la tache se réduit à une modulation.
+ *
+ * Les deux répartitions composent au même endroit : `1-(1-4%)(1-4%) = 7.84 %` et
+ * `1-(1-6%)(1-2%) = 7.88 %` en clair, `6.88 %` et `6.90 %` en sombre. Un seul jeu de
+ * ratios à tenir, donc, et c'est le point. */
 :root {
-  /* Les deux parts, et non la densité composée : c'est ce que le CSS applique. La
-     densité composée qui en découle est le nombre mesuré (voir plus haut). */
+  /* Les parts, et non la densité composée : c'est ce que le CSS applique. */
   --lavis-fond-part: 4%;
   --lavis-tache-part: 4%;
+  --lavis-bloc-fond-part: 6%;
+  --lavis-bloc-tache-part: 2%;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --lavis-fond-part: 3.5%;
     --lavis-tache-part: 3.5%;
+    --lavis-bloc-fond-part: 5%;
+    --lavis-bloc-tache-part: 2%;
   }
 }
 
@@ -95,6 +114,8 @@
 [data-pole] {
   --lavis-fond: color-mix(in srgb, var(--accent) var(--lavis-fond-part), transparent);
   --lavis-tache: color-mix(in srgb, var(--accent) var(--lavis-tache-part), transparent);
+  --lavis-bloc-fond: color-mix(in srgb, var(--accent) var(--lavis-bloc-fond-part), transparent);
+  --lavis-bloc-tache: color-mix(in srgb, var(--accent) var(--lavis-bloc-tache-part), transparent);
 }
 
 /* Échelle PAGE — un gabarit de pôle, haut de plusieurs milliers de pixels.
@@ -121,8 +142,8 @@
  * dessinerait une auréole, ce qui se lit comme un état (survol, sélection) et non comme
  * un fond. */
 .lavis-bloc {
-  background-color: var(--lavis-fond);
-  background-image: radial-gradient(farthest-side at 18% 0%, var(--lavis-tache), transparent);
+  background-color: var(--lavis-bloc-fond);
+  background-image: radial-gradient(farthest-side at 18% 0%, var(--lavis-bloc-tache), transparent);
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }

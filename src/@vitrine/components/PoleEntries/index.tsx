@@ -54,7 +54,7 @@ import styles from './pole-entries.module.css'
  */
 function Porte({ pole }: { pole: IPole }) {
   return (
-    <a className={styles.plaque} data-pole={pole.id} href={pole.route}>
+    <a className={`${styles.plaque} lavis-bloc`} data-pole={pole.id} href={pole.route}>
       <span aria-hidden="true" className={styles.marque}>
         <PoleGlyph pole={pole.id} />
       </span>
