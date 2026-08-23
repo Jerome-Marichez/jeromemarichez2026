@@ -112,11 +112,14 @@ construction du site, ou elles restent à la charge de l'auteur :
 - **`source.url` n'est jamais devinée.** C'est la règle des justificatifs de certification,
   à l'identique : tant que l'adresse n'a pas été fournie par Jérôme MARICHEZ, l'article se
   publie **sans source**. C'est la raison d'être du caractère optionnel du champ, et non une
-  commodité de saisie. Les trois articles publiés n'en portent aucune.
+  commodité de saisie. Le cas s'est présenté dès le quatrième article : « Un générateur de
+  projets, public et personnel » reprend un post LinkedIn dont l'URL n'a pas été fournie ; il
+  se publie **sans source** plutôt qu'avec une adresse approchée. Le cinquième, lui, porte
+  la sienne, fournie telle quelle.
 - **`figure` est obligatoire, délibérément.** La laisser facultative aurait produit une liste
   où certains articles ont une figure et d'autres pas, c'est-à-dire un rythme cassé sans
   qu'aucune information ne le justifie. Deux articles peuvent partager une figure — rien ne
-  l'interdit — mais les trois publiés en ont chacun une, sans quoi elle cesserait de
+  l'interdit — mais les articles publiés en ont chacun une, sans quoi elle cesserait de
   distinguer.
 
 ### Règles portées par le service
@@ -141,8 +144,8 @@ un composant :
   une URL qui rendrait 404 serait une affirmation fausse de plus. Le jour où une image est
   réellement servie, le champ s'ajoute ; pas avant. Voir `docs/design.md`, « Les figures
   d'article ».
-- **Pas de rattachement à un pôle, pas de tags, pas de catégories.** Avec trois articles,
-  une taxonomie serait un classement sans classe. Le jour où elle s'impose, le
+- **Pas de rattachement à un pôle, pas de tags, pas de catégories.** À cinq articles,
+  une taxonomie serait encore un classement sans classe. Le jour où elle s'impose, le
   rattachement dérivera de `PoleId` et de l'ordre porté par `POLES_NAV` — jamais d'une
   liste de pôles recopiée dans le blog. L'ordre est **la position dans `POLES_NAV`**, et
   nulle part ailleurs : une seconde liste d'ordre finirait par contredire la première.

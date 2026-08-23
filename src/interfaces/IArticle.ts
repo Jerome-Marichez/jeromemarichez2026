@@ -47,17 +47,18 @@ export interface IArticle {
    *
    * Ce n'est **pas** un chemin de fichier : le site ne sert aucune image matricielle, et
    * cette valeur désigne un tracé SVG rendu au serveur (voir `ArticleFigureId`). Deux
-   * articles peuvent partager une figure — rien ne l'interdit ici — mais les trois
-   * articles publiés en ont chacun une, sans quoi la figure cesserait de distinguer.
+   * articles peuvent partager une figure — rien ne l'interdit ici — mais les articles
+   * publiés en ont chacun une, sans quoi la figure cesserait de distinguer.
    */
   figure: ArticleFigureId
   /**
    * Publication d'origine de l'article, quand il en a une.
    *
-   * Optionnelle, et elle le restera : les trois premiers articles ont été écrits pour ce
-   * site et n'ont pas de post d'origine. **Une URL absente ne se devine pas** — un
-   * article sans source fournie se publie sans source, et la fiche n'affiche alors
-   * simplement rien. Voir `IArticleSource`.
+   * Optionnelle, et elle le restera : la plupart des articles sont écrits pour ce site et
+   * n'ont pas de post d'origine. **Une URL absente ne se devine pas** — un article
+   * repris d'ailleurs mais dont l'adresse n'a pas été fournie se publie **sans source**,
+   * jamais avec un lien deviné, et la fiche n'affiche alors simplement rien. Le cas s'est
+   * présenté dès le quatrième article. Voir `IArticleSource`.
    */
   source?: IArticleSource
   /** Corps de l'article, découpé en sections titrées. */

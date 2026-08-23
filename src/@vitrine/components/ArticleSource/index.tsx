@@ -5,10 +5,12 @@
 // à s'attribuer la primeur d'un texte republié, ce qui est exactement le genre d'affirmation
 // que les règles de véracité du CLAUDE.md interdisent.
 //
-// **Aucune URL n'est devinée.** Les trois articles publiés n'ont pas de post d'origine connu
-// et ne portent donc pas de source : ce composant n'est alors jamais rendu, et la fiche n'a
-// ni ligne vide ni filet orphelin. C'est la même règle que les justificatifs de certification
-// — tant que l'adresse n'a pas été fournie par Jérôme MARICHEZ, rien n'est publié.
+// **Aucune URL n'est devinée.** Un seul article publié porte une source à ce jour. Les autres
+// n'ont pas de post d'origine — ou en ont un dont l'adresse n'a pas été fournie, et c'est le
+// cas de l'article sur le générateur de projets : il se publie donc sans source. Dans les deux
+// cas ce composant n'est pas rendu, et la fiche n'a ni ligne vide ni filet orphelin. C'est la
+// même règle que les justificatifs de certification : tant que l'adresse n'a pas été fournie
+// par Jérôme MARICHEZ, rien n'est publié.
 
 import type { IArticleSource } from '@/interfaces/IArticleSource'
 import type { ArticleSourceReseau } from '@/interfaces/types'

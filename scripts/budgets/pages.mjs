@@ -73,6 +73,15 @@ export const PAGES = [
     pourquoi: "gabarit d'article : corps long, typographie, fil d'Ariane, JSON-LD",
   },
   {
+    id: 'article-avec-source',
+    chemin: '/blog/le-premier-risque-n-est-pas-le-code-c-est-l-endroit/',
+    pourquoi:
+      "variante du gabarit d'article : la note de publication d'origine et son lien sortant " +
+      'en target=_blank. Ajoutée avec le premier article qui en porte une (issue #109) — le ' +
+      "composant existait depuis l'issue #108, mais aucune page mesurée ne le rendait, donc " +
+      "son contraste et l'intitulé de son lien n'étaient contrôlés nulle part",
+  },
+  {
     id: 'realisations',
     chemin: '/realisations/',
     pourquoi:
