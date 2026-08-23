@@ -1,6 +1,6 @@
 /* pole-glyph.module.css — la marque d'un pôle.
  *
- * Trois règles, et rien d'autre. La marque ne connaît pas la couleur de son pôle : elle
+ * Quatre règles, et rien d'autre. La marque ne connaît pas la couleur de son pôle : elle
  * est tracée en `currentColor`, et `color: var(--accent)` laisse `poles.css` décider sous
  * le `data-pole` de la plaque qui l'accueille. C'est la même mécanique que le dégradé de
  * la scène des quatre dalles, pour la même raison — un module qui nommerait une teinte
@@ -8,13 +8,23 @@
 
 .glyphe {
   flex: none;
-  width: var(--taille-glyphe);
-  height: var(--taille-glyphe);
   color: var(--accent);
   /* Le tracé n'est PAS du texte : c'est un décor, et il tombe sous le seuil non-texte de
      3:1 comme les filets et les arêtes du site. `--accent` reste malgré tout au-dessus de
      4.5:1 dans les quatre pôles et les deux thèmes — la marge est prise, pas dépensée. */
   opacity: 0.9;
+}
+
+/* Le dimensionnement de l'usage RACINE, en HTML, et de lui seul.
+ *
+ * Une largeur CSS ne dimensionne pas un `<svg>` imbriqué dans un autre `<svg>` : l'élément
+ * interne ignore la règle, retombe sur `100%` du viewport parent et se dessine à l'échelle
+ * de la scène entière (issue #102). Dans ce contexte-là, la marque reçoit la prop `taille`
+ * et se dimensionne par attribut — cette classe n'est alors pas posée, sans quoi le CSS,
+ * plus fort qu'un attribut de présentation, reprendrait la main sur elle. */
+.autonome {
+  width: var(--taille-glyphe);
+  height: var(--taille-glyphe);
 }
 
 /* L'assise du socle : le seul trait plus épais de la série. Un socle qui aurait la même

@@ -130,8 +130,11 @@
    décollée de la plaque qu'elle nomme.
    Une dalle teintée ne dit pas quel pôle elle est ; la couleur seule ne peut pas le
    porter (WCAG 1.4.1), et la scène est de toute façon `role="presentation"` — la marque
-   est un repère visuel, et le texte voisin reste le porteur de l'information. */
+   est un repère visuel, et le texte voisin reste le porteur de l'information.
+   Sa TAILLE ne se règle pas ici : la marque est un `<svg>` imbriqué dans celui de la
+   scène, et un `<svg>` interne n'obéit pas à une largeur CSS — il retombe sur `100%` du
+   viewport parent, soit six fois trop grand (issue #102). Le côté passe donc par la prop
+   `taille` de `PoleGlyph`, qui le pose en attribut, dans `SlabScene.tsx`. */
 .marque {
-  --taille-glyphe: 44px;
   opacity: 0.92;
 }

@@ -36,6 +36,18 @@ import styles from './pole-glyph.module.css'
 
 interface PoleGlyphProps {
   pole: PoleId
+  /**
+   * Côté de la marque, en unités du viewport qui l'accueille — porté par les ATTRIBUTS
+   * `width` / `height`, jamais par le CSS.
+   *
+   * À renseigner uniquement quand la marque est imbriquée dans un autre `<svg>` : là, une
+   * largeur CSS n'est pas honorée, le `<svg>` interne retombe sur `100%` du viewport
+   * parent et se dessine plusieurs fois trop grand (issue #102).
+   *
+   * Laissée vide — l'usage racine, dans du HTML — la marque garde le dimensionnement CSS
+   * par `--taille-glyphe` : un seul jeton pour toute la série des marques du site.
+   */
+  taille?: number
 }
 
 /** Le socle : trois dalles portées par deux montants, sur une assise plus épaisse. */
@@ -108,19 +120,26 @@ const TRACES: Record<PoleId, () => React.JSX.Element> = {
  * lecteur d'écran ne perd donc rien à ne pas la rencontrer, et la couleur n'est jamais
  * le seul porteur d'information (WCAG 1.4.1).
  */
-export function PoleGlyph({ pole }: PoleGlyphProps) {
+export function PoleGlyph({ pole, taille }: PoleGlyphProps) {
   const Trace = TRACES[pole]
+  // Deux dimensionnements, un seul valable par contexte : par attribut quand la marque est
+  // imbriquée dans un `<svg>`, par CSS quand elle est racine dans du HTML. Poser les deux
+  // ne serait pas « plus sûr » — le CSS l'emporte sur l'attribut, donc la taille demandée
+  // serait perdue là où elle est justement la seule qui fonctionne.
+  const dimensionneeParAttribut = taille !== undefined
 
   return (
     <svg
       aria-hidden="true"
-      className={styles.glyphe}
+      className={dimensionneeParAttribut ? styles.glyphe : `${styles.glyphe} ${styles.autonome}`}
       fill="none"
       focusable="false"
+      height={taille}
       stroke="currentColor"
       strokeLinecap="round"
       strokeWidth="1.6"
       viewBox="0 0 32 32"
+      width={taille}
       xmlns="http://www.w3.org/2000/svg"
     >
       <Trace />
