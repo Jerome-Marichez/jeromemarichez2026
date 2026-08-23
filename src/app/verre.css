@@ -21,8 +21,40 @@
  * Les deux ne peuvent pas partager un réglage. Un panneau est posé sur un décor et doit
  * s'y enfoncer : il floute fort et sature fort, c'est ce qui fait lire du verre épais.
  * Une bande collante couvre toute la largeur de l'écran et ce qui passe dessous est du
- * **texte** : au même réglage, elle le transformerait en traînée colorée. Elle floute
- * moins, sature à peine, et compense par un voile plus opaque.
+ * **texte** : au même réglage, elle le transformerait en traînée colorée.
+ *
+ * ### La distinction est conservée, sa formulation est révisée (issue #115)
+ *
+ * Elle disait « la bande floute moins, sature à peine, et compense par un voile plus
+ * opaque ». Les trois membres n'étaient pas d'égale valeur, et c'est ce que la
+ * recalibration corrige — sans supprimer un seul jeton, ni en ajouter.
+ *
+ * Les trois réglages ne jouent pas le même rôle vis-à-vis du texte qui défile dessous :
+ *
+ *   le **flou** efface la STRUCTURE de ce texte. Il joue POUR la lisibilité, pas contre
+ *   elle : plus il monte, moins il reste de dessin derrière. À 14px, un `h2` de 30px
+ *   passait encore en fantôme identifiable ; à 20px il n'est plus qu'une variation de
+ *   clarté. Mais il n'achète PAS de transparence pour autant, et c'est la mesure qui le
+ *   dit : à 32px comme à 20px, le plancher de voile de l'en-tête ne bouge pas d'un point.
+ *   Un flou ne moyenne que ce qui a du dessin, et le pire cas de ce site est un APLAT.
+ *
+ *   la **saturation** est le seul des trois qui produise vraiment la « traînée colorée ».
+ *   C'est elle, et non le flou, qui doit rester nettement sous le panneau — d'où 1.3
+ *   contre 1.7, et non 1.7 partout. Elle ne coûte qu'un point de plancher entre 1.1 et
+ *   1.3, ce qui la rend abordable.
+ *
+ *   le **voile** cape l'EXCURSION DE CLARTÉ du fond composé. C'est le seul des trois qui
+ *   décide vraiment de l'effet, et le seul qui décide vraiment du contraste : à 88 %, la
+ *   bande ne laissait passer que 12 % de ce qui défilait dessous, c'est-à-dire rien.
+ *
+ * La formule juste est donc : **le voile est le seul levier, et il est déjà au plancher
+ * là où le fond porte un aplat d'accent.** Le flou et la saturation font le MATÉRIAU —
+ * l'épaisseur, la couleur qui traverse — mais ils n'achètent pas de marge de contraste.
+ *
+ * La recalibration est demandée explicitement par Jérôme MARICHEZ (issue #115), et son
+ * plafond n'est pas une affaire de goût : il est mesuré au pixel sur le rendu réel, dans
+ * les deux thèmes, au PIRE contenu rencontré sous la bande. Les nombres, la méthode et
+ * ce que le plafond interdit encore sont dans `docs/design.md`.
  *
  * ## La réfraction n'est pas le flou non plus
  *
@@ -80,8 +112,22 @@
   --verre-refraction: url("#verre-refraction");
 
   /* — Verre : les bandes collantes — */
-  --verre-flou-bande: 14px;
-  --verre-saturation-bande: 1.1;
+  /* 20px et non 14 : c'est le flou qui fait le MATÉRIAU. À 14px, la trame de 32px restait
+     lisible sous la bande et celle-ci se lisait comme un calque translucide ; à 20px la
+     trame se dissout dedans et reste nette dehors, et c'est ce contraste-là qui fait lire
+     une épaisseur.
+     Il n'achète en revanche aucune marge de contraste — mesuré : le plancher de voile de
+     l'en-tête est le même à 20px et à 32px. Ne pas monter plus haut en croyant y gagner
+     de la transparence ; on n'y gagnerait que du travail par image sur une bande que le
+     compositeur refloute à chaque défilement.
+     Reste sous les 22px du panneau : l'ordre des deux familles est conservé, et c'est lui
+     qui dit qu'une bande n'est pas un panneau. */
+  --verre-flou-bande: 20px;
+  /* 1.3 et non 1.1 : sans un minimum de vibrancy, le lavis de pôle qui passe sous la
+     bande en ressort gris et le verre se lit comme un dépoli. Reste nettement sous les
+     1.7 du panneau : la saturation est le seul des trois réglages qui produise vraiment
+     la traînée colorée sur du texte. */
+  --verre-saturation-bande: 1.3;
 
   /* — Verre : la tranche — */
   --verre-epaisseur: 1px;
@@ -101,10 +147,48 @@
   --verre-ombre: 0 22px 45px -30px color-mix(in srgb, var(--encre) 55%, transparent);
 
   /* Part de `--fond` mélangée à la teinte. Panneau : la trame doit rester visible.
-     Bandes : le texte qui défile dessous ne doit jamais se lire à travers. */
+     Bandes : le texte qui défile dessous ne doit jamais se lire à travers.
+
+     ## Les deux voiles de BANDE sont des PLANCHERS MESURÉS, pas des réglages (issue #115)
+
+     `--verre-voile` reste ce qu'il était : c'est le repli d'un panneau là où
+     `backdrop-filter` manque, et rien ne défile derrière un panneau. Les deux suivants,
+     eux, sont mesurés.
+
+     Ce que le voile cape est l'excursion de clarté du fond composé, donc le contraste du
+     texte porté par la bande. Chaque valeur de bande est le plancher relevé au pixel
+     sur le rendu servi, en balayant la page entière au pas de 24px — un pas plus large
+     RATE le pire cas, qui ne dure qu'une trentaine de pixels de défilement. Le détail,
+     la méthode et les tableaux sont dans `docs/design.md`.
+
+     Le jeton qui bloque n'est ni `--encre` ni `--encre-douce` — le premier tient jusqu'à
+     un voile de 30 % — mais **`--accent` à 13px** : les quatre chiffres de temps de
+     l'en-tête et celui de la barre de pôle.
+
+     ## Ce que la mesure a appris, et qui n'était pas su
+
+     Les 88 % de l'en-tête n'étaient pas prudents : ils étaient **déjà le plancher**. Au
+     pire cas — le bouton d'action plein du seuil, un aplat de `--accent`, qui passe sous
+     l'en-tête vers 528px de défilement — `--pole-data` à 13px n'y valait que **4.74:1**,
+     soit 0,24 point au-dessus du seuil AA. L'en-tête ne descend donc que de 2 points en
+     thème clair, et il faut le dire tel quel : la demande d'un verre plus marqué sur la
+     NAVIGATION est, en thème clair, arrêtée par un contraste, pas par un choix.
+
+     Le flou n'y change rien, et c'est mesuré : à 32px comme à 20px, le plancher de
+     l'en-tête reste 85 %. La tache fautive est un aplat de 150 × 40px, plus large que le
+     noyau — un flou ne moyenne que ce qui a du dessin, et un aplat n'en a pas. La
+     saturation ne coûte qu'un point de plancher entre 1.1 et 1.3.
+
+     Partout où le pire cas n'est pas cet aplat, la marge est réelle et elle est prise :
+     la barre de pôle descend de 6 points en clair, et le thème sombre — où `--accent`
+     est clair et le fond à 6 % de luminance — de 15 et 24 points. */
   --verre-voile: 55%;
-  --verre-voile-bande: 88%;
-  --verre-voile-barre: 82%;
+  /* Plancher mesuré 85 % (clair). Bloqué par `--pole-data` et `--pole-sea-ux` à 13px
+     sur l'aplat du bouton du seuil, accueil, 528px de défilement. */
+  --verre-voile-bande: 86%;
+  /* Plancher mesuré 74 % (clair). Bloqué par les mêmes deux teintes à 13px, sur le
+     lavis le plus dense d'une page de pôle. */
+  --verre-voile-barre: 76%;
 
   /* — Élévation — */
   --elevation-creuse: inset 0 0 0 var(--verre-epaisseur)
@@ -126,5 +210,19 @@
     /* `--encre` est CLAIRE en thème sombre : la reprendre ici dessinerait un halo au
        lieu d'une ombre. L'ombre d'un panneau sombre est un noir franc, très dilué. */
     --verre-ombre: 0 22px 45px -28px rgb(0 0 0 / 0.75);
+
+    /* Les voiles de bande descendent franchement ici, et c'est une conséquence de la
+       palette, pas un goût pour le verre sombre.
+
+       En thème sombre, `--accent` est CLAIR — les quatre teintes de pôle y sont choisies
+       claires pour porter du texte sur un fond à 6 % de luminance — tandis que le fond
+       composé sous la bande reste, lui, très sombre. Les deux s'éloignent au lieu de se
+       rapprocher : l'aplat du bouton du seuil qui bloquait l'en-tête en clair n'est plus
+       le pire cas, et le plancher tombe de 15 points sur l'en-tête, de 21 sur la barre.
+
+       Planchers mesurés, même méthode, mêmes pages : 71 % pour l'en-tête (bloqué par
+       `--pole-ia` à 13px), 53 % pour la barre (bloqué par `--pole-data`). */
+    --verre-voile-bande: 73%;
+    --verre-voile-barre: 58%;
   }
 }
