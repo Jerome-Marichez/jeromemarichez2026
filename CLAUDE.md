@@ -102,6 +102,30 @@ considération marketing.
   baisse). Une affirmation sans preuve disponible se reformule ou se supprime.
 - **Ton** : sobre, direct, à la première personne. Pas de superlatif, pas de jargon
   d'agence, pas d'emoji dans le contenu publié.
+- **Jamais de tiret cadratin dans un texte destiné à être lu.** Ce caractère signe une
+  écriture de machine, et ce site vend un interlocuteur humain. La règle couvre le
+  contenu publié (`src/@vitrine/contenu/`), la documentation (`docs/`, `README.md`) et ce
+  fichier. Les **commentaires de code en sont exclus** : ils sont denses et raisonnés,
+  personne ne les lit de l'extérieur, les reformuler abîmerait leur propos sans bénéfice.
+  Ce n'est **pas une substitution de caractère** : le tiret y sert de ponctuation, donc la
+  phrase se **reformule** (virgule, deux-points, parenthèses, ou deux phrases). Un `sed`
+  global est proscrit, il produirait des phrases fausses.
+  *(Règle ajoutée à la demande explicite de Jérôme MARICHEZ, 2026-08-23.)*
+- **Tout texte destiné à être lu passe par un second agent avant la PR** : contenu du
+  site, articles, `README.md`, `docs/`. Le code et les commentaires n'y passent pas. Ce
+  second agent **n'a pas le contexte de rédaction**, et c'est précisément ce qui fait la
+  seconde vue : un agent qui a écrit un texte a déjà accepté ses propres choix, il ne peut
+  plus les voir. Il vérifie quatre points, dans cet ordre :
+  1. **La fidélité à la source**, quand le texte adapte un écrit existant de Jérôme
+     MARICHEZ. On le **porte**, on ne le réécrit pas : son titre, son plan et ses
+     formulations restent les siens. Corriger l'orthographe et la syntaxe est un devoir,
+     changer l'angle est une faute (issue #121).
+  2. **La table des interdits** des règles de véracité ci-dessus.
+  3. **La ligne éditoriale** : ton, preuve à chaque affirmation, absence d'emoji.
+  4. **L'absence de tiret cadratin.**
+
+  Il propose une réécriture ; le premier agent l'intègre ou motive son refus dans la PR.
+  *(Règle ajoutée à la demande explicite de Jérôme MARICHEZ, 2026-08-23.)*
 - **Le développement en IA augmentée** (Claude Code / Gemini — agents, hooks, skills,
   loop, serveurs MCP) **piloté par les tests (TDD)** est un différenciateur assumé : il
   apparaît partout où le site parle de programmation, jamais comme un détail
