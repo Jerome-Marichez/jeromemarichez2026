@@ -9,7 +9,16 @@ import { LIBELLE_PLACE } from '../../contenu/poles-places'
 import { jointuresDepuis, jointureVers } from '../../services/find-jointure'
 import styles from './chain-diagram.module.css'
 
-/** Une plaque : la place, le nom cliquable, la promesse. */
+/**
+ * Une plaque : la place, et le nom cliquable.
+ *
+ * Elle portait aussi la promesse du pôle. Elle ne la porte plus depuis l'issue #103 : les
+ * quatre portes, un peu plus bas, disent cette même promesse **et** la preuve **et**
+ * l'invite à entrer. Deux blocs qui répètent les mêmes lignes à un écran d'intervalle,
+ * c'est exactement le doublon que cette issue est venue supprimer — et un schéma n'a pas
+ * besoin de prose pour dire une topologie. Ce qui reste ici est ce que les portes ne
+ * disent pas : les **arêtes**.
+ */
 function Plaque({ pole }: { pole: IPole }) {
   return (
     <article className={styles.plaque}>
@@ -19,7 +28,6 @@ function Plaque({ pole }: { pole: IPole }) {
           {pole.nom}
         </Link>
       </h3>
-      <p className={styles.promesse}>{pole.promesse}</p>
     </article>
   )
 }
