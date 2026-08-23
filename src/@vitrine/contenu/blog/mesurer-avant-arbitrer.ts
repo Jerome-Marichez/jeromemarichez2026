@@ -23,6 +23,9 @@ export const ARTICLE_MESURER_AVANT_ARBITRER: IArticle = {
       'dans le code, consentement conforme, et décisions prises sur un chiffre tenable.',
   },
   datePublication: '2026-08-14',
+  // La figure « appui » : un arbitrage en équilibre, porté par une assise de mesure. Le fléau
+  // est strictement horizontal — une balance qui penche afficherait un verdict, donc un chiffre.
+  figure: 'appui',
   sections: [
     {
       id: 'la-collecte-avant-le-tableau-de-bord',

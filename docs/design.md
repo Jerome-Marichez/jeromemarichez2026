@@ -698,6 +698,114 @@ Le volume annoncé est **dérivé des listes sources**, jamais écrit à la main
 peut donc pas annoncer un nombre de fiches que l'espace ne tient pas. C'est la même règle
 que pour les chiffres de `preuves.ts`.
 
+## Les figures d'article
+
+Le blog était entièrement textuel : sur `/blog/` comme sur une fiche, rien ne distinguait
+un article d'un autre à l'œil. Chaque article porte désormais une **figure**
+([`ArticleFigure`](../src/@vitrine/components/ArticleFigure/index.tsx)), et elle obéit à la
+même doctrine que les marques de pôle — c'est ce qui fait que le blog appartient au même
+site que l'accueil.
+
+### Construite, jamais matricielle
+
+Le site n'a **aucune image matricielle** : quatre SVG en tout, `next/image` écarté
+délibérément. Une illustration d'article n'allait pas en introduire la première. Les trois
+figures sont du **SVG rendu au serveur**, elles pèsent quelques centaines d'octets dans le
+document, et le budget Lighthouse — qui ne tient qu'à un point — n'en sait rien.
+
+Elles n'ont **aucun fichier**, ce qui a une conséquence en dehors du design : le JSON-LD
+d'un article ne déclare toujours pas de champ `image`. La raison a changé — le site sert
+désormais une illustration — mais il n'existe aucune ressource qu'un moteur puisse aller
+chercher, et déclarer une URL qui rendrait 404 serait un mensonge de plus.
+
+### Rien qui simule une donnée
+
+C'est la règle des marques de pôle, appliquée mot pour mot. Le site vend la mesure : un
+pictogramme qui mimerait un graphique — une courbe qui monte, des barres qui progressent —
+afficherait un chiffre inventé, ce que les règles de véracité du `CLAUDE.md` interdisent.
+Ce sont des **figures de structure**, pas des visualisations.
+
+Le cas le plus tendu est celui de « Mesurer avant d'arbitrer », dont la figure est une
+balance : son **fléau est strictement horizontal**, et ce n'est pas un détail de dessin. Une
+balance qui penche affiche un verdict, c'est-à-dire un chiffre. Ce qui est dessiné, c'est
+qu'un arbitrage repose sur une collecte — jamais lequel des deux plateaux l'emporte.
+
+### La grammaire, reprise trait pour trait
+
+| Signe | Sens | Où on l'a déjà vu |
+|-------|------|-------------------|
+| trait plein | ce qui est retenu | les quatre marques de pôle |
+| trait tireté, opacité 0.65 | ce qui est écarté | `PoleGlyph` — l'IA et le SEA & UX |
+| croix | une voie fermée | `PoleGlyph` — la branche écartée de l'IA |
+| point plein | un aboutissement | les quatre marques de pôle |
+| trait épais (2.4) | une assise | le socle de l'ingénierie web |
+
+Une seule chose diffère, et elle corrige une lecture : **la croix n'est pas tiretée**. Ses
+branches mesurent 5,1 unités, soit à peine deux tirets ; tiretées, elles ne rendent que leur
+amorce et la croix se lit comme une **coche** — l'exact contraire de ce qu'elle dit. Mesuré
+au rendu, pas supposé.
+
+| Article | Figure | Ce qu'elle dessine |
+|---------|--------|--------------------|
+| Pourquoi ce site est un export statique | `borne` | Trois plaques écrites, un aboutissement, une ligne que rien ne franchit ; au-delà, tireté, le serveur applicatif qui n'existe plus |
+| Le test avant le code, même avec un agent | `anteriorite` | Deux temps sur un axe — le point posé d'abord, la boîte ouverte ensuite ; dessous, tiretée et fermée d'une croix, la voie inverse |
+| Mesurer avant d'arbitrer | `appui` | Un fléau à l'horizontale et deux plateaux identiques, la décision au sommet du mât, portés par une assise et sa trame de mesure |
+
+### Deux registres, un seul jeton
+
+`--taille-figure-article` vaut **3rem** partout, et la fiche d'article le redéfinit chez elle
+à `clamp(6.5rem, 22vw, 9rem)` — le même geste que `--decalage-ancre` sur les pages de pôle.
+La hauteur n'a **pas** de jeton : elle suit le `viewBox` (48 × 32), et deux valeurs à tenir
+d'accord divergent à la première retouche.
+
+Le registre de liste tient à une contrainte posée ailleurs : la liste du blog est « une
+liste, pas une grille » ([`BlogIndexView`](../src/@vitrine/views/BlogIndexView/index.tsx)).
+Une vignette pleine largeur en ferait un magazine et promettrait des catégories qui
+n'existent pas. La figure partage donc la **ligne de la date** au lieu de s'empiler dessus :
+elle distingue les articles à l'œil sans ajouter une seule ligne au rythme de la liste.
+
+Le registre est aussi ce qui distingue la figure d'une marque de pôle : une marque est
+carrée (32 × 32), une figure d'article est **couchée** (48 × 32). Une page de pôle vend, un
+article raconte — et une figure large se pose au-dessus d'un texte sans prétendre à l'insigne.
+
+### Décor, jamais information
+
+La figure est `aria-hidden` et ne porte rien que le titre et le chapô ne disent déjà en
+toutes lettres, juste à côté (WCAG 1.1.1 et 1.4.1). C'est aussi ce qui autorise à la répéter
+à l'identique sur la carte de la liste : un décor se répète, une information non.
+
+Aucune couleur n'est nommée dans le module : le tracé est en `currentColor` et le module pose
+`color: var(--accent)`. Le blog n'est sous aucun `data-pole`, donc `--accent` y vaut le cuivre
+de la racine — la teinte de la maison, exactement ce que doit prendre un contenu qui
+n'appartient à aucun pôle. Les deux thèmes suivent sans qu'une ligne y soit consacrée.
+
+## La note de publication d'origine
+
+Un article peut reprendre un texte d'abord paru sur un réseau
+([`ArticleSource`](../src/@vitrine/components/ArticleSource/index.tsx)). Le champ est
+**optionnel** et le restera : les trois articles publiés ont été écrits pour ce site et
+n'ont pas de post d'origine. **Une URL absente ne se devine pas** — c'est déjà la règle des
+justificatifs de certification. Sans source, rien n'est rendu : ni ligne vide, ni filet
+orphelin.
+
+Le lien sort du site, et **son caractère externe ne repose pas sur la couleur** (WCAG 1.4.1).
+Trois porteurs, dont chacun survit à la disparition des deux autres :
+
+| Porteur | Ce qu'il couvre |
+|---------|-----------------|
+| le soulignement du lien | tient même sans images et sans CSS de couleur |
+| une flèche sortante **dessinée**, en `currentColor` | tient pour qui ne distingue pas la teinte du lien de l'encre |
+| « (nouvel onglet) », retiré du flux visuel | tient pour les technologies d'assistance, où la flèche ne dit rien |
+
+La flèche est dessinée plutôt qu'écrite en caractère (« ↗ ») : le glyphe manque à plusieurs
+polices système et s'y remplace par un rectangle, et son dessin varie assez d'une fonte à
+l'autre pour ne plus faire série avec les figures du site. Elle redéclare `display:
+inline-block` — c'est le **seul `svg` du site à vivre dans une ligne de texte**, et le
+`display: block` global de `globals.css` la poussait seule à la ligne.
+
+`rel="noopener noreferrer"`, comme le lien de justificatif d'une certification : un lien
+sortant est traité pareil partout, ou il finit par ne l'être nulle part.
+
 ## La maille de fond
 
 Le fond était un lavis radial unique, une trame de 32 px et un grain. Correct, sobre —

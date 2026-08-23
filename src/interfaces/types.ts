@@ -40,3 +40,29 @@ export type PoleTemps = 1 | 2 | 3
  * offre de plus, alors qu'il décrit la façon de tenir les autres.
  */
 export type SectionKind = 'pole' | 'chapitre' | 'charniere' | 'fil' | 'preuves'
+
+/**
+ * La figure qui illustre un article — un tracé nommé, jamais un fichier.
+ *
+ * Le site ne sert aucune image matricielle, et une illustration d'article n'allait pas
+ * en introduire la première : chaque valeur de cette union désigne un tracé SVG rendu au
+ * serveur par `@vitrine/components/ArticleFigure`. L'union est close, donc un article ne
+ * peut pas réclamer une figure qui n'existe pas — le compilateur le dit avant le build.
+ *
+ * Les trois noms disent la STRUCTURE dessinée, pas le sujet de l'article : c'est la même
+ * règle que les marques de pôle, dont aucune ne simule une donnée chiffrée.
+ * `borne`        : ce qui est produit s'arrête à une ligne, et au-delà rien ne tourne.
+ * `anteriorite`  : deux temps sur un axe, et le sens inverse écarté.
+ * `appui`        : une décision en équilibre, portée par une assise mesurée.
+ */
+export type ArticleFigureId = 'borne' | 'anteriorite' | 'appui'
+
+/**
+ * Le réseau où un article a d'abord paru.
+ *
+ * Union close plutôt que texte libre : le libellé affiché (« LinkedIn », capitale et
+ * casse comprises) se déduit de cette valeur au lieu d'être recopié dans chaque article,
+ * où il finirait par varier. Un autre réseau s'ajoute ici, avec son libellé, jamais dans
+ * un contenu.
+ */
+export type ArticleSourceReseau = 'linkedin'

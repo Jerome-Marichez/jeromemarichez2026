@@ -10,7 +10,12 @@
   border-top: 1px solid color-mix(in srgb, var(--encre) 12%, transparent);
 }
 
+/* La figure partage la ligne de la date au lieu de s'empiler dessus : la liste garde son
+   rythme au pixel près, et aucune carte ne devient plus haute que les autres. */
 .date {
+  display: flex;
+  align-items: center;
+  gap: var(--e-2);
   font-family: var(--police-mono-pile);
   font-size: var(--t--1);
   letter-spacing: 0.06em;

@@ -1,0 +1,51 @@
+/* article-figure.module.css — la figure d'un article.
+ *
+ * Aucune teinte n'est nommée ici, et c'est la même mécanique que `pole-glyph.module.css` :
+ * le tracé est en `currentColor`, et `color: var(--accent)` laisse le contexte décider. Le
+ * blog n'est sous aucun `data-pole`, donc `--accent` y vaut le cuivre de la racine — la
+ * teinte de la maison. Le jour où un article serait rattaché à un pôle, la figure prendrait
+ * sa teinte sans qu'une ligne d'ici change. */
+
+.figure {
+  flex: none;
+  /* Un seul jeton pour toute la série, redéfini localement par la fiche d'article — c'est
+     déjà la convention de `--decalage-ancre` sur les pages de pôle. La hauteur suit le
+     `viewBox` (48 × 32) : la poser ici la ferait diverger du tracé à la première retouche. */
+  width: var(--taille-figure-article);
+  height: auto;
+  color: var(--accent);
+  /* Le tracé n'est PAS du texte : c'est un décor, il tombe sous le seuil non-texte de 3:1,
+     comme les filets et les arêtes du site. `--accent` reste malgré tout au-dessus de 4.5:1
+     dans les deux thèmes hors `data-pole` — la marge est prise, pas dépensée. */
+  opacity: 0.9;
+}
+
+/* La convention des marques de pôle, reprise telle quelle : ce qui est écarté est tireté.
+   Elle vaut ici pour le serveur applicatif que l'export statique supprime et pour l'ordre
+   inverse du test — deux choses écartées, un seul traitement de trait. */
+.ecarte {
+  stroke-dasharray: 2.6 2.6;
+  opacity: 0.65;
+}
+
+/* La croix qui ferme une voie. Elle porte l'atténuation de `.ecarte`, jamais son tiretage —
+   et c'est une correction de lecture, pas une coquetterie : ses deux branches mesurent 5,1
+   unités, soit à peine deux tirets. Tiretées, elles ne rendent que leur amorce, et la croix
+   se lit comme une coche, c'est-à-dire l'exact contraire de ce qu'elle dit. */
+.ferme {
+  opacity: 0.65;
+}
+
+/* L'assise de l'appui : le seul trait plus épais de la série, exactement comme le socle de
+   la marque « ingénierie web ». Une assise qui aurait l'épaisseur de ce qu'elle porte ne se
+   lirait pas comme une assise. */
+.assise {
+  stroke-width: 2.4;
+}
+
+/* La trame de la mesure, sous l'assise. Le point est un tracé de longueur nulle à bout rond,
+   donc son diamètre EST son épaisseur — la même astuce que la marque de la donnée, et la
+   seule façon d'obtenir des points sans autant d'éléments `circle`. */
+.point {
+  stroke-width: 2.6;
+}

@@ -31,8 +31,9 @@ TypeScript dans `src/@vitrine/contenu/`, et sa forme est tenue par des interface
 | `IRealisationsIndex` | `src/interfaces/IRealisationsIndex.ts` | L'en-tête éditoriale de `/realisations` | — |
 | `ICertification` | `src/interfaces/ICertification.ts` | Une certification obtenue | `ICertificationLogo` |
 | `IBoundary` | `src/interfaces/IBoundary.ts` | Une limite assumée | — |
-| **`IArticle`** | `src/interfaces/IArticle.ts` | **Un article du blog** | contient des `IArticleSection` |
+| **`IArticle`** | `src/interfaces/IArticle.ts` | **Un article du blog** | contient des `IArticleSection`, porte une `IArticleSource` |
 | `IArticleSection` | `src/interfaces/IArticleSection.ts` | Une section d'article | — |
+| `IArticleSource` | `src/interfaces/IArticleSource.ts` | La publication d'origine d'un article | — |
 | `IBlogIndex` | `src/interfaces/IBlogIndex.ts` | L'en-tête éditoriale de `/blog` | — |
 | `IBreadcrumbItem` | `src/interfaces/IBreadcrumbItem.ts` | Un niveau de fil d'Ariane | lu par le rendu **et** par le JSON-LD |
 
@@ -88,6 +89,8 @@ contenu : une page de pôle est vraie ou fausse, un article est vrai **à une da
 | `meta` | `IPageMeta` | oui | `<title>` (60 car. max) et meta description (155 car. max) |
 | `datePublication` | `string` (`AAAA-MM-JJ`) | oui | Date affichée, `datePublished`, **clé de tri** de la liste |
 | `dateRevision` | `string` (`AAAA-MM-JJ`) | non | Révision de fond. `dateModified` et `lastModified` du sitemap |
+| `figure` | `ArticleFigureId` | oui | La figure qui illustre l'article. **Pas un chemin de fichier** : une valeur d'union close, rendue en SVG par `ArticleFigure` |
+| `source` | `IArticleSource` | non | Publication d'origine, quand il y en a une. Un réseau et une URL, rien d'autre |
 | `sections` | `IArticleSection[]` | oui | Corps de l'article : un titre `<h2>` et ses paragraphes |
 
 ### Contraintes d'intégrité
@@ -106,6 +109,15 @@ construction du site, ou elles restent à la charge de l'auteur :
 - **`dateRevision` ≥ `datePublication`** quand elle existe.
 - **Véracité du contenu** : les règles du [`CLAUDE.md`](../CLAUDE.md) s'appliquent mot
   pour mot à un article comme au reste du site.
+- **`source.url` n'est jamais devinée.** C'est la règle des justificatifs de certification,
+  à l'identique : tant que l'adresse n'a pas été fournie par Jérôme MARICHEZ, l'article se
+  publie **sans source**. C'est la raison d'être du caractère optionnel du champ, et non une
+  commodité de saisie. Les trois articles publiés n'en portent aucune.
+- **`figure` est obligatoire, délibérément.** La laisser facultative aurait produit une liste
+  où certains articles ont une figure et d'autres pas, c'est-à-dire un rythme cassé sans
+  qu'aucune information ne le justifie. Deux articles peuvent partager une figure — rien ne
+  l'interdit — mais les trois publiés en ont chacun une, sans quoi elle cesserait de
+  distinguer.
 
 ### Règles portées par le service
 
@@ -123,8 +135,12 @@ un composant :
 - **Pas d'auteur.** Le site n'a qu'un auteur, déclaré une fois pour tout le site par le
   nœud `Person` du layout. Un champ `auteur` par article laisserait croire à une équipe
   de rédaction.
-- **Pas d'image.** Aucune illustration n'est servie ; déclarer une image dans le JSON-LD
-  ou dans `og:image` sans la servir serait une affirmation fausse de plus.
+- **Pas de FICHIER d'image**, et c'est différent de « pas d'illustration ». Un article porte
+  une figure depuis l'issue #108, mais c'est du SVG écrit dans le document : il n'existe
+  aucune ressource à servir, donc rien à déclarer dans `image` ni dans `og:image`. Y mettre
+  une URL qui rendrait 404 serait une affirmation fausse de plus. Le jour où une image est
+  réellement servie, le champ s'ajoute ; pas avant. Voir `docs/design.md`, « Les figures
+  d'article ».
 - **Pas de rattachement à un pôle, pas de tags, pas de catégories.** Avec trois articles,
   une taxonomie serait un classement sans classe. Le jour où elle s'impose, le
   rattachement dérivera de `PoleId` et de l'ordre porté par `POLES_NAV` — jamais d'une

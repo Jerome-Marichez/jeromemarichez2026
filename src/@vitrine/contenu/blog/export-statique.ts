@@ -22,6 +22,9 @@ export const ARTICLE_EXPORT_STATIQUE: IArticle = {
       'ISR, formulaire), ce qu’il ouvre, et quand il ne faut pas le choisir.',
   },
   datePublication: '2026-08-21',
+  // La figure « borne » : ce qui est produit s'arrête à une ligne, et au-delà — tireté —
+  // le serveur applicatif qui n'existe plus. C'est le sujet de l'article, en une forme.
+  figure: 'borne',
   sections: [
     {
       id: 'ce-que-ca-ferme',

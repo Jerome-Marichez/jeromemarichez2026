@@ -7,7 +7,9 @@
 // close au build par `generateStaticParams`, pas à un schéma.
 
 import type { IArticleSection } from './IArticleSection'
+import type { IArticleSource } from './IArticleSource'
 import type { IPageMeta } from './IEditorialPage'
+import type { ArticleFigureId } from './types'
 
 /**
  * Un article publié.
@@ -35,6 +37,29 @@ export interface IArticle {
    * correction. Une révision de forme (coquille) ne la déplace pas.
    */
   dateRevision?: string
+  /**
+   * La figure qui illustre l'article. Obligatoire, et c'est délibéré.
+   *
+   * Rendue à l'identique sur la fiche et sur la carte de la liste, elle est ce qui
+   * distingue un article d'un autre à l'œil. La laisser facultative aurait produit une
+   * liste où certains articles ont une figure et d'autres pas, c'est-à-dire un rythme
+   * cassé sans qu'aucune information ne le justifie.
+   *
+   * Ce n'est **pas** un chemin de fichier : le site ne sert aucune image matricielle, et
+   * cette valeur désigne un tracé SVG rendu au serveur (voir `ArticleFigureId`). Deux
+   * articles peuvent partager une figure — rien ne l'interdit ici — mais les trois
+   * articles publiés en ont chacun une, sans quoi la figure cesserait de distinguer.
+   */
+  figure: ArticleFigureId
+  /**
+   * Publication d'origine de l'article, quand il en a une.
+   *
+   * Optionnelle, et elle le restera : les trois premiers articles ont été écrits pour ce
+   * site et n'ont pas de post d'origine. **Une URL absente ne se devine pas** — un
+   * article sans source fournie se publie sans source, et la fiche n'affiche alors
+   * simplement rien. Voir `IArticleSource`.
+   */
+  source?: IArticleSource
   /** Corps de l'article, découpé en sections titrées. */
   sections: IArticleSection[]
 }

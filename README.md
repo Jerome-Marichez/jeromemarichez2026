@@ -378,8 +378,11 @@ une prestation vendue ou une œuvre détenue.
 Le **blog** n'est pas un quatrième pôle et la navigation le sépare de la chaîne : ce sont
 des notes courtes sur des décisions techniques réelles. Chaque article porte ses propres
 métadonnées, un `schema.org/BlogPosting`, un fil d'Ariane `Accueil → Blog → article` et sa
-**date** — c'est la seule partie du site dont le sitemap publie une date par page. Le
-modèle de l'entité est décrit dans [`docs/data-model.md`](./docs/data-model.md).
+**date** — c'est la seule partie du site dont le sitemap publie une date par page. Chaque
+article porte aussi une **figure construite** — du SVG rendu au serveur, jamais un fichier
+d'image — et, quand il en a une, un lien vers sa **publication d'origine**. Le modèle de
+l'entité est décrit dans [`docs/data-model.md`](./docs/data-model.md), la grammaire des
+figures dans [`docs/design.md`](./docs/design.md).
 
 ## ✅ Contraintes produit
 
