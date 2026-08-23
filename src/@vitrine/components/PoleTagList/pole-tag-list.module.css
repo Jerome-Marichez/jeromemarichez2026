@@ -1,7 +1,51 @@
 /* pole-tag-list.module.css — les pôles mobilisés par une réalisation.
  * Un filet à gauche plutôt qu'une pastille pleine : la teinte du pôle reste un repère,
  * elle ne devient pas un bouton. Aucune couleur n'est nommée ici — `--accent` est mappé
- * par `poles.css` à partir du `data-pole` posé sur chaque item. */
+ * par `poles.css` à partir du `data-pole` posé sur chaque item.
+ *
+ * ## Pourquoi l'étiquette ne reçoit PAS de lavis (issue #114)
+ *
+ * Elle en porte déjà un. L'étiquette est le seul endroit du site où une surface était
+ * teintée à la teinte de son pôle par un littéral écrit à la main — `--accent` à 8 %,
+ * puis 16 % au survol — antérieur au plafond de densité calculé par #113. Lui ajouter
+ * `.lavis-bloc` aurait empilé un second lavis sur le premier : exactement la composition
+ * que cette issue supprime ailleurs.
+ *
+ * ## Le littéral n'était pas seulement hors système, il était hors norme
+ *
+ * Mesuré au pixel sur `/realisations/` en thème clair, l'aplat à 8 % mettait l'étiquette
+ * de la donnée à **4,30:1** pour son texte (seuil 4.5:1, WCAG 1.4.3) et son filet à
+ * **2,76:1** (seuil 3:1, WCAG 1.4.11) ; le SEA & UX suivait à 2,97:1. La cause est propre
+ * à ce composant : ailleurs le lavis porte de l'encre, ici il porte **sa propre teinte**.
+ * Les seize ratios de `docs/design.md` sont mesurés sur `--fond`, pas sur un lavis de la
+ * couleur qu'ils servent — un `--accent` sur son propre lavis perd des deux côtés à la
+ * fois, la teinte et le fond se rapprochant ensemble.
+ *
+ * Baisser l'aplat au jeton gouverné (`--lavis-bloc-fond`, 6 %) a été mesuré et ne suffit
+ * pas : la donnée remonte à 4,41:1, toujours sous 4.5:1, et la marge restante dépend de
+ * l'endroit de la page où la carte tombe — le dégradé d'atelier n'a pas la même clarté en
+ * haut et en bas de la liste. Un seuil qui se tient à 0,09 point près selon la position
+ * d'une carte n'est pas tenu.
+ *
+ * **L'aplat est donc retiré, pas rebaissé** — et c'est ce que dit déjà la première ligne
+ * de ce fichier : *un filet à gauche plutôt qu'une pastille pleine*. L'aplat contredisait
+ * l'intention qu'il était censé servir. Ce qui reste porte le pôle sans surface teintée :
+ *
+ *   1. le filet passe de `--accent-vif` à `--accent`. `--accent-vif` est documenté
+ *      « non-texte » et tient 3:1 sur `--fond` ; posé sur un lavis de lui-même il n'avait
+ *      plus la marge. Sur le papier nu, `--accent` donne au filet le ratio du texte qu'il
+ *      accompagne — 4,7 à 5,2:1 en clair, au-dessus des deux seuils à la fois ;
+ *   2. le nom du pôle reste écrit en toutes lettres : la couleur ne porte aucune
+ *      information seule (WCAG 1.4.1).
+ *
+ * Aucun lavis n'est donc posé ici, et aucune densité de pôle n'y est plus écrite à la
+ * main : c'était le dernier littéral du genre hors de `lavis.css`.
+ *
+ * ## Le survol ne monte plus le fond
+ *
+ * Il n'y a plus de fond à monter. Même arbitrage que pour `PoleEntries` (voir
+ * `pole-entries.module.css`) : l'état est porté par le soulignement, qui ne repose pas
+ * sur la couleur (WCAG 1.4.1). */
 
 .zone {
   display: flex;
@@ -24,20 +68,16 @@
   display: inline-flex;
   align-items: baseline;
   padding: var(--e-0) var(--e-2);
-  border-left: 2px solid var(--accent-vif);
-  border-radius: 0 var(--rayon-petit) var(--rayon-petit) 0;
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-left: 2px solid var(--accent);
   color: var(--accent);
   font-family: var(--police-mono-pile);
   font-size: var(--t--1);
   letter-spacing: 0.04em;
   text-decoration: none;
-  transition: background-color var(--duree-micro) ease-out;
 }
 
 .etiquette:hover,
 .etiquette:focus-visible {
-  background: color-mix(in srgb, var(--accent) 16%, transparent);
   text-decoration: underline;
   text-underline-offset: 0.18em;
 }
