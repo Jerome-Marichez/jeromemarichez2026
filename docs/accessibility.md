@@ -74,12 +74,12 @@ Restent hors de portée d'axe, et donc à la charge de l'audit manuel :
 
 ### Pages contrôlées
 
-Les mêmes que les budgets de performance — accueil, page de pôle, page d'article — parce
-qu'un gabarit non mesuré est un gabarit non protégé. La liste vit dans
-`scripts/budgets/pages.mjs`.
+Les mêmes que les budgets de performance — accueil, page de pôle, liste du blog, page
+d'article, index et fiche de réalisation — parce qu'un gabarit non mesuré est un gabarit
+non protégé. La liste vit dans `scripts/budgets/pages.mjs`.
 
 | Parcours | Audit | État |
 |----------|-------|------|
-| Accueil, pôle, article | axe-core (`ci-dev-a11y`) | **0 violation** — première exécution, 2026-08-22 |
+| Accueil, pôle, blog, article, réalisations | axe-core (`ci-dev-a11y`) | **0 violation** — dernière exécution 2026-08-23, avec les figures d'article |
 | Clavier + lecteur d'écran | manuel | _à réaliser_ |
 | WCAG 2.2.2 — pause des animations | manuel | _à réaliser_ |

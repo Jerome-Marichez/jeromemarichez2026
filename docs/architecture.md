@@ -128,6 +128,13 @@ entité par fichier, préfixe `I`) que les composants consomment. Ajouter une ce
 une offre ou un article ne doit pas demander de toucher au rendu. Le détail des entités
 est décrit dans [data-model](./data-model.md).
 
+**Les illustrations sont de la donnée aussi.** Le site ne sert aucune image matricielle :
+l'illustration d'un article n'est pas un chemin de fichier mais une **valeur d'union close**
+(`IArticle.figure`), rendue en SVG au serveur par `@vitrine/components/ArticleFigure`. Un
+article ne peut donc pas réclamer une figure qui n'existe pas — le compilateur le dit avant
+le build, et aucune ressource ne peut manquer à l'exécution. La grammaire de ces figures est
+décrite dans [design](./design.md).
+
 ## Front (Next.js (App Router) + TypeScript)
 
 - **Organisation** : par domaine **métier**, pas par type technique. Quand l'app

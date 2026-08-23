@@ -60,6 +60,14 @@ export const PAGES = [
     pourquoi: 'gabarit de pôle : sections, preuves chiffrées, palette dédiée',
   },
   {
+    id: 'blog',
+    chemin: '/blog/',
+    pourquoi:
+      "gabarit de liste d'articles : cartes datées, figures construites, JSON-LD de blog. " +
+      "Ajouté avec les figures d'article (issue #108) — un gabarit non mesuré est un gabarit " +
+      'non protégé',
+  },
+  {
     id: 'article',
     chemin: '/blog/pourquoi-ce-site-est-un-export-statique/',
     pourquoi: "gabarit d'article : corps long, typographie, fil d'Ariane, JSON-LD",
