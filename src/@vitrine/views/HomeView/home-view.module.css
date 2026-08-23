@@ -58,6 +58,22 @@
   line-height: 1.3;
 }
 
+/* Le bloc de contact — la seule zone à impact de l'accueil à devenir un vrai panneau de
+ * verre (issue #115).
+ *
+ * Il avait déjà la géométrie d'un panneau — arête d'accent, rayon de verre, voile de
+ * panneau — et rien de son matériau : pas de flou, donc pas d'épaisseur. Posé sur la
+ * trame de 32px, un voile sans flou se lit comme un calque de papier translucide, ce que
+ * `verre.css` désigne précisément comme le contraire du verre.
+ *
+ * C'est le bloc où l'on décide : c'est celui qui a le plus à gagner à ressortir, et il
+ * est le seul candidat de l'accueil dont le coût soit défendable. Les quatre portes de
+ * pôle et le mur de preuves sont écartés, et pour deux raisons distinctes —
+ * `docs/design.md` les nomme.
+ *
+ * Il n'est pas `sticky` : son fond défile AVEC lui, donc le compositeur n'a pas à le
+ * reflouter à chaque image comme il le fait des deux bandes. Une surface floutée de plus,
+ * mais pas une surface floutée en permanence. */
 .contact {
   padding: var(--e-5);
   border: var(--verre-epaisseur) solid var(--verre-arete);
@@ -67,6 +83,21 @@
   background: color-mix(in srgb, var(--fond-creux) var(--verre-voile), transparent);
   box-shadow: var(--elevation-posee);
   scroll-margin-top: var(--decalage-ancre);
+}
+
+/* Là où le flou existe, le voile cède : c'est lui qui garantit alors la lecture, en
+   effaçant la trame au lieu de la couvrir. Même recette que `GlassSurface`, mêmes
+   jetons de panneau, et le même repli — sans `backdrop-filter`, la règle ci-dessus
+   reste seule et le bloc est aussi lisible qu'avant.
+   Préfixe AVANT le standard : le minifieur ne garde que la dernière des deux.
+   Voir `GlassSurface/glass-surface.module.css`. */
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .contact {
+    background: var(--verre-teinte);
+    -webkit-backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation));
+    backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation));
+    box-shadow: var(--elevation-posee), var(--verre-ombre);
+  }
 }
 
 .corpsContact {
