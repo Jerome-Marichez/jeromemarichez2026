@@ -20,7 +20,7 @@ export const REALISATION_BUDGET_ADS: IRealisationChiffree = {
   titre: 'Piloter un budget d’acquisition et le justifier devant des dirigeants',
   chapo:
     'Un budget d’acquisition se pilote dans les interfaces des régies, et se justifie devant ' +
-    'des gens qui ne les ouvrent jamais. Les deux moitiés du travail étaient sur le même poste.',
+    'des gens qui ne les ouvrent jamais. Les deux moitiés du travail tenaient dans la même mission.',
   meta: {
     title: 'Piloter un budget ADS / SEO de 100 000 €',
     description:

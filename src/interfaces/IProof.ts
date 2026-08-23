@@ -6,7 +6,7 @@ import type { IRealisationChiffree } from './IRealisationChiffree'
 /**
  * Un chiffre sans contexte est un chiffre invérifiable.
  *
- * Chaque preuve porte donc l'employeur et la période où elle a été obtenue : c'est ce
+ * Chaque preuve porte donc l'organisation et la période où elle a été obtenue : c'est ce
  * qui la distingue d'un argument de plaquette, et ce qui permet à un prospect de la
  * recouper avec le parcours.
  */

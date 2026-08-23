@@ -1,8 +1,9 @@
 {
   "_lisezmoi": "Jeu de données de réalisations (jeromemarichez-fr) — PAS un mock. Les vrais services (find-realisation, listPoles, buildSitemapEntries, buildCollectionPageSchema, buildRealisationSchema) tournent sur ces fiches réalistes ; aucune doublure de module n'est utilisée. Voir docs/testing.md et docs/data-model.md.",
   "_cas": {
-    "cadres": "Trois cadres d'emploi, du plus récent au plus ancien. Le troisième ne porte AUCUNE fiche : groupRealisationsByCadre ne doit pas produire de groupe vide.",
-    "ordreDeclaration": "Les fiches sont déclarées dans un ordre volontairement mêlé entre employeurs — la deuxième appartient au second cadre. Un regroupement qui suivrait l'ordre de déclaration au lieu de celui de CADRES se voit immédiatement.",
+    "cadres": "Trois cadres, du plus récent au plus ancien. Le troisième ne porte AUCUNE fiche : groupRealisationsByCadre ne doit pas produire de groupe vide.",
+    "statuts": "Les statuts ne sont pas uniformes — deux postes salariés et une mission en indépendant, comme dans le contenu publié. Le statut ne distingue donc PAS les cadres entre eux : un regroupement qui s'appuierait sur lui au lieu de l'organisation fondrait deux groupes en un.",
+    "ordreDeclaration": "Les fiches sont déclarées dans un ordre volontairement mêlé entre organisations — la deuxième appartient au second cadre. Un regroupement qui suivrait l'ordre de déclaration au lieu de celui de CADRES se voit immédiatement.",
     "ficheChiffree": "« refonte-parcours » porte un chiffre, avec sa portée. C'est le gabarit chiffré, et le seul de ce jeu : les trois autres fiches n'ont pas de champ chiffre du tout.",
     "polesSansIa": "« refonte-parcours » porte ['ingenierie-web', 'data', 'sea-ux'] — la chaîne complète SANS l'IA. Un type qui exigerait l'IA après la donnée rendrait cette fiche inexprimable.",
     "poleDataSeul": "« cadrage-metier » porte ['data'] seul : la donnée se livre pour elle-même. Aucune autre fiche du jeu ne partage ce pôle sans en partager un autre.",
@@ -13,19 +14,22 @@
   },
   "cadres": [
     {
-      "employeur": "Employeur Récent",
+      "statut": "Poste salarié",
+      "organisation": "Organisation Récente",
       "poste": "Lead Tech · Ingénieur full stack",
       "periode": "2023-2026",
       "equipe": "Équipe technique de trois — deux développeurs et un product owner."
     },
     {
-      "employeur": "Employeur Intermédiaire",
+      "statut": "Mission en indépendant",
+      "organisation": "Organisation Intermédiaire",
       "poste": "Développeur Full Stack · E-commerce",
       "periode": "2019-2022",
       "equipe": "Poste unique, en autonomie complète. Encadrement de prestataires."
     },
     {
-      "employeur": "Employeur Sans Fiche",
+      "statut": "Poste salarié",
+      "organisation": "Organisation Sans Fiche",
       "poste": "Développeur web & Chef de projet digital",
       "periode": "2017-2019",
       "equipe": "Coordination d’une équipe marketing de 5 à 10 personnes."
@@ -41,7 +45,8 @@
         "description": "Fiche de jeu de données : migration menée sans coupure, sous le cadre le plus récent."
       },
       "cadre": {
-        "employeur": "Employeur Récent",
+        "statut": "Poste salarié",
+        "organisation": "Organisation Récente",
         "poste": "Lead Tech · Ingénieur full stack",
         "periode": "2023-2026",
         "equipe": "Équipe technique de trois — deux développeurs et un product owner."
@@ -67,7 +72,8 @@
         "description": "Fiche de jeu de données : seule fiche chiffrée, chaîne complète sans l’IA."
       },
       "cadre": {
-        "employeur": "Employeur Intermédiaire",
+        "statut": "Mission en indépendant",
+        "organisation": "Organisation Intermédiaire",
         "poste": "Développeur Full Stack · E-commerce",
         "periode": "2019-2022",
         "equipe": "Poste unique, en autonomie complète. Encadrement de prestataires."
@@ -101,7 +107,8 @@
         "description": "Fiche de jeu de données : pôle data seul, aucune suite achetée."
       },
       "cadre": {
-        "employeur": "Employeur Récent",
+        "statut": "Poste salarié",
+        "organisation": "Organisation Récente",
         "poste": "Lead Tech · Ingénieur full stack",
         "periode": "2023-2026",
         "equipe": "Équipe technique de trois — deux développeurs et un product owner."
@@ -127,7 +134,8 @@
         "description": "Fiche de jeu de données : aucun résultat mesuré, et la fiche l’écrit."
       },
       "cadre": {
-        "employeur": "Employeur Récent",
+        "statut": "Poste salarié",
+        "organisation": "Organisation Récente",
         "poste": "Lead Tech · Ingénieur full stack",
         "periode": "2023-2026",
         "equipe": "Équipe technique de trois — deux développeurs et un product owner."

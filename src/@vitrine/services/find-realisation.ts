@@ -24,20 +24,24 @@ export function listRealisations(): IRealisation[] {
 }
 
 /**
- * Les réalisations groupées par cadre d'emploi, du poste le plus récent au plus ancien.
+ * Les réalisations groupées par cadre, du plus récent au plus ancien.
+ *
+ * Le groupement se fait sur le **nom de l'organisation**, qui identifie le cadre à lui
+ * seul : les trois cadres ne partagent ni organisation ni période, et le statut varie
+ * entre eux sans les distinguer — deux d'entre eux sont des postes salariés.
  *
  * L'ordre des groupes est celui de `CADRES`, jamais celui d'apparition dans la liste des
- * fiches : c'est la chronologie des postes qui classe, et elle n'a aucune raison de
- * dépendre de l'ordre dans lequel les fiches ont été écrites.
+ * fiches : c'est la chronologie qui classe, et elle n'a aucune raison de dépendre de
+ * l'ordre dans lequel les fiches ont été écrites.
  *
- * Un cadre sans fiche ne produit pas de groupe vide — un employeur annoncé sans rien à
- * montrer se lit comme une omission.
+ * Un cadre sans fiche ne produit pas de groupe vide — une organisation annoncée sans rien
+ * à montrer se lit comme une omission.
  */
 export function groupRealisationsByCadre(): IRealisationGroupe[] {
   return CADRES.map((cadre) => ({
     cadre,
     realisations: REALISATIONS.filter(
-      (realisation) => realisation.cadre.employeur === cadre.employeur,
+      (realisation) => realisation.cadre.organisation === cadre.organisation,
     ),
   })).filter((groupe) => groupe.realisations.length > 0)
 }
@@ -45,10 +49,10 @@ export function groupRealisationsByCadre(): IRealisationGroupe[] {
 /**
  * Rend la fiche demandée et jusqu'à deux autres à lire ensuite.
  *
- * Le voisinage se calcule sur les **pôles partagés**, et non sur le cadre d'emploi : la
- * liste groupe déjà par employeur, et proposer trois fois le même employeur en bas de
+ * Le voisinage se calcule sur les **pôles partagés**, et non sur le cadre : la liste
+ * groupe déjà par organisation, et proposer trois fois la même organisation en bas de
  * page n'apprendrait rien. Passer par les pôles montre au contraire qu'un même pôle a été
- * mobilisé sous trois postes différents, ce qui est exactement l'argument de l'espace.
+ * mobilisé sous trois cadres différents, ce qui est exactement l'argument de l'espace.
  *
  * Si moins de deux fiches partagent un pôle, la liste est complétée dans l'ordre déclaré :
  * un bloc « à voir aussi » à moitié rempli se remarque plus que son absence.
