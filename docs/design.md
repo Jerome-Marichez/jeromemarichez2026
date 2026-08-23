@@ -1222,7 +1222,7 @@ quatre chiffres de temps de l'en-tête, et celui de la barre de pôle.
 |---|---|---|---|---|---|
 | en-tête | clair | **85 %** | `--pole-data` `#00697b`, 13px | `rgb(169,84,41)` | accueil, 528px |
 | en-tête | sombre | **71 %** | `--pole-ia` `#af8fe8`, 13px | `rgb(221,124,51)` | accueil, 528px |
-| barre de pôle | clair | **74 %** | `--pole-data` `#00697b`, 13px | `rgb(154,157,152)` | `/services/data/`, 3288px |
+| barre de pôle | clair | **74 %** | `--pole-data` `#00697b`, 13px | `rgb(155,158,152)` | `/services/data/`, 4440px |
 | barre de pôle | sombre | **53 %** | `--pole-data` `#01b6d4`, 13px | `rgb(91,113,116)` | `/services/data/`, 960px |
 
 Les valeurs retenues sont posées **au-dessus** de ces planchers, d'un à cinq points selon
@@ -1236,12 +1236,17 @@ c'est le tableau qui compte, les planchers ci-dessus ne servaient qu'à les choi
 |---|---|---|---|---|---|
 | en-tête | clair | 86 % | **4.61:1** | 4.5:1 | +0.11 |
 | en-tête | sombre | 73 % | **4.75:1** | 4.5:1 | +0.25 |
-| barre de pôle | clair | 76 % | **4.59:1** | 4.5:1 | +0.09 |
+| barre de pôle | clair | 76 % | **4.60:1** | 4.5:1 | +0.10 |
 | barre de pôle | sombre | 58 % | **4.85:1** | 4.5:1 | +0.35 |
 
 Dans les quatre cas, le texte qui fixe la marge est `--accent` à 13px. Le reste de ce que
 portent les bandes est très au-dessus : `--encre` à 15 et 18px vaut 10.2 à 13.1:1, et
 `--encre-douce` à 13px vaut 4.93 à 5.86:1.
+
+Le relevé a été **rejoué après l'intégration de `dev`** — le lavis de `ChainDiagram`, les
+nouvelles sections de pôle et les articles ajoutés changent ce qui défile sous les bandes.
+Les quatre valeurs sont inchangées au centième près ; seule la position du pire cas de la
+barre a suivi l'allongement de la page de pôle (3288 → 4440px).
 
 Ces marges sont **minces, et c'est leur nature** : un plancher mesuré est par définition
 une valeur qu'on approche. Elles sont du même ordre que celle du lavis de pôle (0,02 point

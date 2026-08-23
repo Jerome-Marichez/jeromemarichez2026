@@ -200,7 +200,7 @@ défilement. Méthode complète et pièges de mesure dans [`design.md`](./design
 |---|---|---|---|---|
 | en-tête du site | clair | **4.61:1** | 4.5:1 | `--pole-data` à 13px, sur l'aplat du bouton du seuil |
 | en-tête du site | sombre | **4.75:1** | 4.5:1 | `--pole-ia` à 13px, même aplat |
-| barre de pôle | clair | **4.59:1** | 4.5:1 | `--pole-data` à 13px, sur le lavis le plus dense |
+| barre de pôle | clair | **4.60:1** | 4.5:1 | `--pole-data` à 13px, sur le lavis le plus dense |
 | barre de pôle | sombre | **4.85:1** | 4.5:1 | `--pole-data` à 13px |
 
 Le reste de ce que portent les bandes est très au-dessus du seuil : `--encre` à 15 et 18px
@@ -237,6 +237,6 @@ non protégé. La liste vit dans `scripts/budgets/pages.mjs`.
 | Contrastes sur le lavis de feuille (`ChainDiagram`) | mesure au pixel, deux thèmes | **tenu** — 2026-08-23, pire cas 4,82:1 (texte) et 3,09:1 (non-texte) |
 | Non-composition des lavis dans `ChainDiagram` | témoins rendus + mesure au pixel | **prouvée** — 2026-08-23, écart nul avec le cas « un seul lavis » |
 | Étiquettes de pôle (`PoleTagList`) | mesure au pixel, deux thèmes | **corrigé** — 2026-08-23, deux valeurs étaient sous le seuil |
-| Contrastes sur les bandes de verre | mesure au pixel, page balayée, deux thèmes | **tenu** — 2026-08-24, marges de 0,09 à 0,35 point |
+| Contrastes sur les bandes de verre | mesure au pixel, page balayée, deux thèmes | **tenu** — 2026-08-24, rejoué après intégration de `dev`, marges de 0,10 à 0,35 point |
 | Clavier + lecteur d'écran | manuel | _à réaliser_ |
 | WCAG 2.2.2 — pause des animations | manuel | _à réaliser_ |
