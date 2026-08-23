@@ -62,6 +62,19 @@ export function ArticleView({ article, index, autres }: ArticleViewProps) {
                   {paragraphe}
                 </p>
               ))}
+              {/* La liste ferme la section : c'est le contrat de `IArticleSection.liste`,
+                  et il est tenu ici par la position du bloc, pas par une convention de
+                  saisie. Rien n'est rendu quand le champ est absent — c'est le cas de la
+                  plupart des sections. */}
+              {section.liste ? (
+                <ul className={styles.points}>
+                  {section.liste.map((point) => (
+                    <li className={styles.point} key={point}>
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
             </section>
           ))}
         </div>

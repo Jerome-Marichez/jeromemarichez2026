@@ -393,14 +393,19 @@ d'image — et, quand il en a une, un lien vers sa **publication d'origine**. Le
 l'entité est décrit dans [`docs/data-model.md`](./docs/data-model.md), la grammaire des
 figures dans [`docs/design.md`](./docs/design.md).
 
-Un article peut reprendre un post publié ailleurs, jamais le recopier : les règles de
-véracité s'y appliquent mot pour mot, et un post plus large que ce qui est établi se
-**réécrit à la baisse** — c'est ce qui s'est passé pour « Un générateur de projets, public
-et personnel », dont le post d'origine annonçait une CI plus validée qu'elle ne l'est.
-Deux conséquences valables partout : aucun appel à l'action de réseau social (étoile,
-partage, contribution) n'entre dans le contenu publié, et un article dont l'**URL
-d'origine n'a pas été fournie se publie sans source** plutôt qu'avec une adresse
-approchée — même règle que les justificatifs de certification.
+Un article peut reprendre un post publié ailleurs. Il le **porte**, il ne le réécrit pas :
+le titre, le plan et les formulations de l'auteur passent tels quels, et seules deux choses
+les modifient. La **mise à la forme** d'abord — orthographe, syntaxe, chapô, sections
+titrées. La **véracité** ensuite : les règles s'y appliquent mot pour mot, et un post plus
+large que ce qui est établi se **réécrit à la baisse** — c'est ce qui s'est passé pour
+« J'ai open-sourcé mon plugin Claude Code », dont le post d'origine annonçait une CI plus
+validée qu'elle ne l'est. La ligne éditoriale du site — vendre une décision, finir sur ce
+que le lecteur peut trancher — vaut pour un article **écrit pour le site** ; elle
+n'autorise pas à refaire l'angle d'un texte repris (issue #121). Deux conséquences valables
+partout : aucun appel à l'action de réseau social (étoile, partage, contribution) n'entre
+dans le contenu publié, et un article dont l'**URL d'origine n'a pas été fournie se publie
+sans source** plutôt qu'avec une adresse approchée — même règle que les justificatifs de
+certification.
 
 ## ✅ Contraintes produit
 
