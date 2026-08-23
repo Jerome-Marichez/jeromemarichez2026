@@ -322,7 +322,7 @@ ce qu'il faut réunir pour les quatre logos manquants.
 | `/services/data` | Le passage obligé en détail |
 | `/services/ia` | Une des deux suites en détail |
 | `/services/sea-ux` | L'autre suite en détail |
-| `/realisations` | Liste des réalisations, groupées par cadre d'emploi (employeur, intitulé de poste exact, période, équipe) |
+| `/realisations` | Liste des réalisations, groupées par cadre (statut, organisation, intitulé de poste exact, période, équipe) |
 | `/realisations/<slug>` | Une réalisation. Une page statique par fiche, générée au build par `generateStaticParams` |
 | `/blog` | Liste des articles, du plus récent au plus ancien |
 | `/blog/<slug>` | Un article. Une page statique par article, générée au build par `generateStaticParams` |
@@ -334,18 +334,21 @@ Chaque page de service porte ses propres métadonnées SEO, ses données structu
 
 ### L'espace `/realisations/` — le nom est un arbitrage de véracité
 
-**Aucune des entreprises citées sur le site n'est un client** : ce sont trois postes
-salariés — Lead Tech chez Acetelecom / MailingVox (2023-2026), Développeur Full Stack chez
-Verhoeven Joaillier (2019-2022, poste unique), Développeur web & Chef de projet digital
-chez Truffle Capital (2017-2019). Artedrone est une **participation du fonds** Truffle, pas
-un client. Nommer l'espace « cas clients » affirmerait une relation commerciale qui n'a
-jamais existé, et réécrirait des intitulés de poste que le [`CLAUDE.md`](./CLAUDE.md)
-impose de reprendre à l'identique des CV.
+**Deux postes salariés et une mission en indépendant** — Lead Tech chez Acetelecom /
+MailingVox (2023-2026, salarié), Développeur Full Stack chez Verhoeven Joaillier
+(2019-2022, salarié, poste unique), Développeur web & Chef de projet digital chez Truffle
+Capital (2017-2019, **en auto-entrepreneur** : Truffle Capital était donc un client).
+Artedrone est une **participation du fonds** Truffle, pas un client. Nommer l'espace « cas
+clients » ferait passer dix fiches sur treize pour une relation commerciale qui n'a jamais
+existé, et réécrirait des intitulés de poste que le [`CLAUDE.md`](./CLAUDE.md) impose de
+reprendre à l'identique des CV.
 
-L'espace s'appelle donc **`/realisations/`**, et **chaque fiche porte son cadre d'emploi** —
-intitulé exact, période, taille d'équipe. Le cadre est **obligatoire dans le type**
-(`IRealisationCadre`, aucun champ optionnel) : c'est le compilateur, et non la relecture,
-qui interdit qu'une fiche paraisse sans dire d'où elle vient.
+L'espace s'appelle donc **`/realisations/`**, et **chaque fiche porte son cadre** —
+statut, intitulé exact, période, taille d'équipe. Le cadre est **obligatoire dans le
+type** (`IRealisationCadre`, aucun champ optionnel, `statut` compris) : c'est le
+compilateur, et non la relecture, qui interdit qu'une fiche paraisse sans dire d'où elle
+vient ni à quel titre. Le `statut` a été ajouté après coup : sans lui, l'espace a publié
+« trois postes salariés » pendant plusieurs versions (issue #107).
 
 **Deux gabarits, et c'est structurant.** Trois fiches seulement portent un chiffre : ce
 sont les trois du mur de preuves — +50 % de panier moyen, 98/100 Lighthouse, 100 000 € de
