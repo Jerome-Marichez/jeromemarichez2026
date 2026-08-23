@@ -10,11 +10,15 @@
 
 import type { IArticle } from '@/interfaces/IArticle'
 import { ARTICLE_EXPORT_STATIQUE } from './export-statique'
+import { ARTICLE_GENERATEUR_DE_PROJETS } from './generateur-de-projets'
 import { ARTICLE_MESURER_AVANT_ARBITRER } from './mesurer-avant-arbitrer'
+import { ARTICLE_RISQUE_DE_L_ENDROIT } from './risque-de-l-endroit'
 import { ARTICLE_TEST_AVANT_CODE } from './test-avant-code'
 
 export const ARTICLES: IArticle[] = [
   ARTICLE_EXPORT_STATIQUE,
   ARTICLE_TEST_AVANT_CODE,
   ARTICLE_MESURER_AVANT_ARBITRER,
+  ARTICLE_GENERATEUR_DE_PROJETS,
+  ARTICLE_RISQUE_DE_L_ENDROIT,
 ]
