@@ -317,7 +317,7 @@ ce qu'il faut réunir pour les quatre logos manquants.
 
 | Route | Rôle |
 |-------|------|
-| `/` | Accroche, promesse d'interlocuteur unique, le fil IA transverse, le schéma de la chaîne et de son embranchement, preuves chiffrées, limites assumées, certifications, les deux objections traitées (« et si je disparais ? » et « et si le projet dépasse une personne ? »), appel à contact |
+| `/` | **Vitrine, pas catalogue déplié.** Accroche et promesse d'interlocuteur unique, le schéma de la chaîne et de son embranchement, les **quatre portes** — nom du pôle, promesse, une preuve chiffrée, lien vers sa page —, les deux objections traitées (« et si je disparais ? » et « et si le projet me dépasse ? »), preuves chiffrées, limites assumées, certifications, appel à contact. Le **détail de chaque pôle** vit sur `/services/<pole>/`, qui le disait déjà en plus long ; le **fil IA transverse** est descendu sur `/services/ingenierie-web/`, la page où le site dit comment le code est produit |
 | `/services/ingenierie-web` | Le socle en détail |
 | `/services/data` | Le passage obligé en détail |
 | `/services/ia` | Une des deux suites en détail |
