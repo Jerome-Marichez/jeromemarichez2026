@@ -32,7 +32,7 @@ TypeScript dans `src/@vitrine/contenu/`, et sa forme est tenue par des interface
 | `ICertification` | `src/interfaces/ICertification.ts` | Une certification obtenue | `ICertificationLogo` |
 | `IBoundary` | `src/interfaces/IBoundary.ts` | Une limite assumée | — |
 | **`IArticle`** | `src/interfaces/IArticle.ts` | **Un article du blog** | contient des `IArticleSection`, porte une `IArticleSource` |
-| `IArticleSection` | `src/interfaces/IArticleSection.ts` | Une section d'article | — |
+| `IArticleSection` | `src/interfaces/IArticleSection.ts` | Une section d'article : un titre, des paragraphes, éventuellement une liste | — |
 | `IArticleSource` | `src/interfaces/IArticleSource.ts` | La publication d'origine d'un article | — |
 | `IBlogIndex` | `src/interfaces/IBlogIndex.ts` | L'en-tête éditoriale de `/blog` | — |
 | `IBreadcrumbItem` | `src/interfaces/IBreadcrumbItem.ts` | Un niveau de fil d'Ariane | lu par le rendu **et** par le JSON-LD |
@@ -91,7 +91,40 @@ contenu : une page de pôle est vraie ou fausse, un article est vrai **à une da
 | `dateRevision` | `string` (`AAAA-MM-JJ`) | non | Révision de fond. `dateModified` et `lastModified` du sitemap |
 | `figure` | `ArticleFigureId` | oui | La figure qui illustre l'article. **Pas un chemin de fichier** : une valeur d'union close, rendue en SVG par `ArticleFigure` |
 | `source` | `IArticleSource` | non | Publication d'origine, quand il y en a une. Un réseau et une URL, rien d'autre |
-| `sections` | `IArticleSection[]` | oui | Corps de l'article : un titre `<h2>` et ses paragraphes |
+| `sections` | `IArticleSection[]` | oui | Corps de l'article : un titre `<h2>`, ses paragraphes, et éventuellement une liste |
+
+### La section (`IArticleSection`)
+
+| Champ | Type | Obligatoire | Rôle |
+|-------|------|-------------|------|
+| `id` | `string` | oui | Ancre `#id` de la section, cible des liens profonds |
+| `titre` | `string` | oui | Rendu en `<h2>`, et `aria-labelledby` de la `<section>` |
+| `paragraphes` | `string[]` | oui | Texte fini, un `<p>` par entrée |
+| `liste` | `string[]` | non | Points listés, rendus en `<ul>` **après** les paragraphes |
+
+Le modèle est resté pauvre pendant quatre articles — un titre, des paragraphes — et son
+commentaire annonçait déjà la suite : « le jour où un article demande davantage, c'est le
+modèle qu'on élargit, pas le rendu qu'on contourne ». **Ce jour est l'issue #121** : deux
+articles repris de posts portent une énumération dont la valeur tient à la forme, et l'un
+des points porte la seule preuve vérifiable de son article. Fondue en prose, l'énumération
+se dilue, et un lecteur d'écran cesse d'annoncer « liste de quatre éléments ».
+
+L'élargissement s'arrête à **un champ**, et trois limites le tiennent :
+
+- **la liste ferme la section.** Aucun paragraphe ne la suit ; un texte qui doit reprendre
+  après une liste ouvre une nouvelle section. C'est ce qui empêche `IArticleSection` de
+  devenir une suite de blocs libres : l'**ordre du rendu est porté par le type**, jamais
+  par l'ordre de saisie de la donnée. Un modèle de blocs alternés aurait rendu ce contrat
+  indéfendable dès le premier article qui l'aurait exercé ;
+- **un point est une phrase finie**, ponctuée comme un paragraphe. Pas de titre de point,
+  pas de sous-liste, pas de lien ;
+- **une seule liste par section.** Deux énumérations dans une même section sont deux
+  sections.
+
+Côté rendu, c'est la **seule liste de prose du site** : partout ailleurs un `<ul>` porte
+une navigation ou des cartes, et sa puce est retirée. Ici elle reste — `list-style: none`
+fait perdre à Safari/VoiceOver les sémantiques de liste, et c'est précisément ici que
+l'annonce « liste de *n* éléments » vaut quelque chose.
 
 ### Contraintes d'intégrité
 
@@ -101,6 +134,13 @@ construction du site, ou elles restent à la charge de l'auteur :
 - **`slug` unique et stable.** Deux articles de même slug produiraient deux fois la même
   page ; changer un slug publié casse les liens entrants et l'historique de position dans
   les moteurs. Un titre se corrige, un slug ne se corrige pas.
+  **Une exception a été prise, une fois, et elle est close.** Le 2026-08-23 (issue #121),
+  les slugs de deux articles ont été réalignés sur leur titre corrigé. La règle
+  d'immuabilité protège les liens entrants et le classement acquis : ces deux articles-là
+  n'en avaient aucun, ayant été fusionnés dans `dev` sans jamais passer en production
+  (`git ls-tree origin/main` ne les contenait pas). La fenêtre s'est refermée avec la
+  première mise en production ; un slug servi au public ne bouge plus, quel que soit le
+  motif.
 - **`slug` en kebab-case ASCII**, sans accent ni apostrophe : c'est une URL, elle doit
   s'écrire, se lire au téléphone et se copier sans encodage.
 - **Dates au format `AAAA-MM-JJ`.** Ce format se compare comme du texte, ce dont le tri
@@ -112,11 +152,21 @@ construction du site, ou elles restent à la charge de l'auteur :
 - **`source.url` n'est jamais devinée.** C'est la règle des justificatifs de certification,
   à l'identique : tant que l'adresse n'a pas été fournie par Jérôme MARICHEZ, l'article se
   publie **sans source**. C'est la raison d'être du caractère optionnel du champ, et non une
-  commodité de saisie. Les trois articles publiés n'en portent aucune.
+  commodité de saisie. Le cas s'est présenté dès le quatrième article : « J'ai open-sourcé
+  mon plugin Claude Code » reprend un post LinkedIn dont l'URL n'a pas été fournie ; il
+  se publie **sans source** plutôt qu'avec une adresse approchée. Le cinquième, lui, porte
+  la sienne, fournie telle quelle.
+- **Un article repris ailleurs porte le texte, il ne le réécrit pas** (issue #121). Le
+  titre, le plan et les formulations de l'auteur passent tels quels ; seules deux choses
+  les modifient : une **correction de véracité** (une affirmation plus large que ce qui est
+  établi se réécrit à la baisse) et la **mise à la forme** d'un article — orthographe,
+  syntaxe, chapô, sections titrées. La ligne éditoriale du site — vendre une décision,
+  finir sur ce que le lecteur peut trancher — s'applique à un article **écrit pour le
+  site** ; elle n'autorise pas à refaire l'angle d'un texte repris.
 - **`figure` est obligatoire, délibérément.** La laisser facultative aurait produit une liste
   où certains articles ont une figure et d'autres pas, c'est-à-dire un rythme cassé sans
   qu'aucune information ne le justifie. Deux articles peuvent partager une figure — rien ne
-  l'interdit — mais les trois publiés en ont chacun une, sans quoi elle cesserait de
+  l'interdit — mais les articles publiés en ont chacun une, sans quoi elle cesserait de
   distinguer.
 
 ### Règles portées par le service
@@ -141,8 +191,8 @@ un composant :
   une URL qui rendrait 404 serait une affirmation fausse de plus. Le jour où une image est
   réellement servie, le champ s'ajoute ; pas avant. Voir `docs/design.md`, « Les figures
   d'article ».
-- **Pas de rattachement à un pôle, pas de tags, pas de catégories.** Avec trois articles,
-  une taxonomie serait un classement sans classe. Le jour où elle s'impose, le
+- **Pas de rattachement à un pôle, pas de tags, pas de catégories.** À cinq articles,
+  une taxonomie serait encore un classement sans classe. Le jour où elle s'impose, le
   rattachement dérivera de `PoleId` et de l'ordre porté par `POLES_NAV` — jamais d'une
   liste de pôles recopiée dans le blog. L'ordre est **la position dans `POLES_NAV`**, et
   nulle part ailleurs : une seconde liste d'ordre finirait par contredire la première.
@@ -220,7 +270,9 @@ src/@vitrine/contenu/blog/
 ├── blog-index.ts        ← l'en-tête éditoriale de /blog
 ├── export-statique.ts   ← un fichier par article
 ├── test-avant-code.ts
-└── mesurer-avant-arbitrer.ts
+├── mesurer-avant-arbitrer.ts
+├── plugin-claude-code.ts
+└── carte-de-l-architecture.ts
 
 src/@vitrine/contenu/realisations/
 ├── realisations.ts        ← la liste publiée : SOURCE UNIQUE de l'espace

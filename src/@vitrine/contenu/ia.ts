@@ -5,6 +5,10 @@
 // problème posé au départ, et ce n'est pas toujours un modèle. Un visiteur qui ouvre
 // cette page en croyant acheter de l'IA à tout prix doit être détrompé avant le clic.
 //
+// La description porte désormais le test de déterminisme et la propriété de la solution
+// (issue #126) : ce sont les deux choses qui distinguent cette offre en SERP, davantage
+// que la liste des techniques.
+//
 // Règles de véracité (CLAUDE.md) : RAG **maison**, aucun framework tiers ; Llama 3
 // nommable, corpus et chiffres du projet hors ligne.
 
@@ -16,9 +20,8 @@ export const PAGE_IA: IEditorialPage = {
   meta: {
     title: 'IA : règle métier, modèle ou LLM — Lille',
     description:
-      'La solution répond au problème posé, pas à l’état de l’art : règle métier ' +
-      'intégrée à l’existant, modèle supervisé, ou LLM arbitré sur le coût et la ' +
-      'confidentialité.',
+      'Un modèle seulement si aucune règle ne répond : supervisé, non supervisé, LLM ou ' +
+      'agents. Et une solution qui vous reste si vous coupez.',
   },
   sections: SECTIONS_IA,
 }

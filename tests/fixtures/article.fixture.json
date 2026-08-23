@@ -6,7 +6,8 @@
     "articleSeul": "Liste réduite à un article : findArticle doit rendre un tableau 'autres' vide, et la page ne propose alors aucune suite de lecture.",
     "slugInconnu": "Slug absent de la liste : findArticle doit lever, jamais rendre undefined.",
     "figures": "Les trois articles portent trois figures distinctes — c'est la règle appliquée au blog réel. Un rendu qui servirait toujours le même tracé, ou qui retomberait sur un tracé par défaut, se voit sur cette liste.",
-    "articleAvecSource": "Article portant une source externe : la fiche doit afficher la note de republication, son lien en rel=\"noopener noreferrer\" et sa marque de lien sortant. Les trois articles de « articles » n'en ont AUCUN — c'est le cas nominal du site, et il doit rester silencieux. L'URL est en .invalid, un domaine réservé qui ne résoudra jamais : aucune adresse réelle n'est inventée dans un jeu de données, pas plus que dans le contenu publié."
+    "articleAvecSource": "Article portant une source externe : la fiche doit afficher la note de republication, son lien en rel=\"noopener noreferrer\" et sa marque de lien sortant. Les trois articles de « articles » n'en ont AUCUN — c'est le cas nominal du site, et il doit rester silencieux. L'URL est en .invalid, un domaine réservé qui ne résoudra jamais : aucune adresse réelle n'est inventée dans un jeu de données, pas plus que dans le contenu publié.",
+    "sectionAvecListe": "La deuxième section de « article-le-plus-recent » porte une liste de trois points (IArticleSection.liste, issue #121) : le rendu doit produire un vrai <ul> de trois <li>, APRÈS les paragraphes de la section et à l'intérieur d'elle. Toutes les autres sections du jeu de données omettent le champ — le rendu ne doit alors écrire AUCUN <ul> dans le corps, pas même vide. Les deux cas comptent autant l'un que l'autre : une liste annoncée « liste de trois éléments » par un lecteur d'écran d'un côté, aucune liste fantôme de l'autre."
   },
   "articles": [
     {
@@ -46,7 +47,8 @@
         {
           "id": "une-autre-section",
           "titre": "Une autre section",
-          "paragraphes": ["Un paragraphe.", "Un autre paragraphe."]
+          "paragraphes": ["Un paragraphe.", "Un autre paragraphe."],
+          "liste": ["Un premier point.", "Un deuxième point.", "Un troisième point."]
         }
       ]
     },

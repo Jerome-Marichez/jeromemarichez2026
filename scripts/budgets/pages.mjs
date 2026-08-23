@@ -73,6 +73,17 @@ export const PAGES = [
     pourquoi: "gabarit d'article : corps long, typographie, fil d'Ariane, JSON-LD",
   },
   {
+    id: 'article-avec-source',
+    chemin: '/blog/de-la-doc-qui-pilote-une-ia-a-une-carte-de-l-architecture/',
+    pourquoi:
+      "variante du gabarit d'article : la note de publication d'origine et son lien sortant " +
+      'en target=_blank. Ajoutée avec le premier article qui en porte une (issue #109) — le ' +
+      "composant existait depuis l'issue #108, mais aucune page mesurée ne le rendait, donc " +
+      "son contraste et l'intitulé de son lien n'étaient contrôlés nulle part. C'est aussi " +
+      'la seule page mesurée qui rende une LISTE de prose (`IArticleSection.liste`, issue ' +
+      '#121) : ses puces et leur contraste sont contrôlés ici, et nulle part ailleurs',
+  },
+  {
     id: 'realisations',
     chemin: '/realisations/',
     pourquoi:

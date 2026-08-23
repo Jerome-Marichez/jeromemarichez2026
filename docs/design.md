@@ -709,8 +709,8 @@ site que l'accueil.
 ### Construite, jamais matricielle
 
 Le site n'a **aucune image matricielle** : quatre SVG en tout, `next/image` écarté
-délibérément. Une illustration d'article n'allait pas en introduire la première. Les trois
-figures sont du **SVG rendu au serveur**, elles pèsent quelques centaines d'octets dans le
+délibérément. Une illustration d'article n'allait pas en introduire la première. Les figures
+sont du **SVG rendu au serveur**, elles pèsent quelques centaines d'octets dans le
 document, et le budget Lighthouse — qui ne tient qu'à un point — n'en sait rien.
 
 Elles n'ont **aucun fichier**, ce qui a une conséquence en dehors du design : le JSON-LD
@@ -750,6 +750,25 @@ au rendu, pas supposé.
 | Pourquoi ce site est un export statique | `borne` | Trois plaques écrites, un aboutissement, une ligne que rien ne franchit ; au-delà, tireté, le serveur applicatif qui n'existe plus |
 | Le test avant le code, même avec un agent | `anteriorite` | Deux temps sur un axe — le point posé d'abord, la boîte ouverte ensuite ; dessous, tiretée et fermée d'une croix, la voie inverse |
 | Mesurer avant d'arbitrer | `appui` | Un fléau à l'horizontale et deux plateaux identiques, la décision au sommet du mât, portés par une assise et sa trame de mesure |
+| Un générateur de projets, public et personnel | `gabarit` | Une forme à trois compartiments, ouverte du côté de la sortie, et ce qui en sort : un cadre fermé, complet, jusqu'à son aboutissement |
+| Le premier risque n'est pas le code, c'est l'endroit | `liaison` | Des ensembles séparés, un lieu commun plus grand qu'eux, deux liens qui portent — et un troisième, tireté, qui n'aboutit à rien |
+
+Deux ajouts de l'issue #109 étendent la grammaire sans la contredire, et il vaut mieux
+l'écrire ici que le redécouvrir :
+
+- **Le trait tireté couvre une nuance de plus.** Sur `liaison`, « écarté » devient
+  « annoncé, jamais emprunté » — la dépendance déclarée que rien n'importe. C'est le même
+  sens au fond, un chemin qui n'a pas lieu ; le signe n'a donc pas eu à être dédoublé.
+- **La longueur d'un tracé tireté est une contrainte, pas un hasard.** C'est le constat déjà
+  fait sur la croix de `anteriorite` : à 2,6 unités de tiret, un segment court ne rend que
+  son amorce. Là où la croix a été traitée en **retirant** le tiretage, le lien de `liaison`
+  l'est en **allongeant** le tracé — quinze unités, soit trois tirets pleins.
+
+Ce que ces deux figures se sont **interdit** relève de la même règle que le fléau horizontal
+de `appui` : ne rien dessiner qui se compte. Pas de pile de formes produites sur `gabarit`,
+qui afficherait un nombre de projets générés que personne n'a mesuré ; pas un carré par dépôt
+sur `liaison`, qui afficherait la taille d'un système que l'article ne nomme pas et n'a pas à
+nommer.
 
 ### Deux registres, un seul jeton
 
@@ -783,9 +802,11 @@ n'appartient à aucun pôle. Les deux thèmes suivent sans qu'une ligne y soit c
 
 Un article peut reprendre un texte d'abord paru sur un réseau
 ([`ArticleSource`](../src/@vitrine/components/ArticleSource/index.tsx)). Le champ est
-**optionnel** et le restera : les trois articles publiés ont été écrits pour ce site et
-n'ont pas de post d'origine. **Une URL absente ne se devine pas** — c'est déjà la règle des
-justificatifs de certification. Sans source, rien n'est rendu : ni ligne vide, ni filet
+**optionnel** et le restera. Un seul article publié porte une source à ce jour ; les autres
+ont été écrits pour ce site, **ou bien reprennent un post dont l'adresse n'a pas été
+fournie** — c'est le cas de « Un générateur de projets, public et personnel », et il se
+publie donc sans source. **Une URL absente ne se devine pas** : c'est déjà la règle des
+justificatifs de certification. Sans source, rien n'est rendu — ni ligne vide, ni filet
 orphelin.
 
 Le lien sort du site, et **son caractère externe ne repose pas sur la couleur** (WCAG 1.4.1).
@@ -841,13 +862,14 @@ substituée au *computed-value time*, sur l'élément qui la déclare. Déclaré
 ils figeraient le cuivre et descendraient tels quels dans les quatre pages de pôle. C'est
 le piège déjà documenté pour `--verre-arete`, et c'est le même remède.
 
-**Aucun composant ne nomme une teinte de pôle.** Deux classes globales suffisent, et elles
+**Aucun composant ne nomme une teinte de pôle.** Trois classes globales suffisent, et elles
 ne connaissent que les jetons :
 
 | Classe | Échelle | Porteur | Recette |
 |---|---|---|---|
 | `.lavis-pole` | une page de pôle, plusieurs milliers de pixels | `PolePageView` | tuile de 1600 × 1100 px répétée en Y, `farthest-side` centré |
 | `.lavis-bloc` | une carte, quelques centaines de pixels | `PoleEntries` | tache ancrée en haut à gauche, dimensionnée sur le bloc |
+| `.lavis-feuille` | une plaque de **verre** qui n'en contient aucune autre | `ChainDiagram` | même dessin que `.lavis-bloc`, mais **sous** le voile de verre, parts pré-compensées |
 
 ### Deux couches, et pourquoi pas trois
 
@@ -964,6 +986,123 @@ voile blanc éclaircit le fond) et le réduit en sombre sans jamais l'approcher 
 > fond, et l'était déjà avant ce lot (le lavis lui coûte 0,07 point, teinte et fond
 > bougeant ensemble). Les deux sont décoratifs et l'information qu'ils accompagnent est
 > écrite à côté, mais le point est ouvert et n'est pas traité ici.
+
+### La feuille : peindre le verre sans jamais composer
+
+La chaîne de l'accueil avait été laissée de côté par le lot précédent, sur un constat
+exact et une conclusion fausse.
+
+Le constat : dans `ChainDiagram`, le maillon « data » **contient** les deux branches.
+
+```
+<li.maillon data-pole="data">        <- contient les branches
+  <article.plaque>                   <- feuille
+  <ul.branches>
+    <li.branche data-pole="ia">      <- imbriqué dans le maillon data
+      <article.plaque>               <- feuille
+    <li.branche data-pole="sea-ux">
+      <article.plaque>               <- feuille
+```
+
+Peindre `.maillon` et `.branche` empilerait donc deux lavis sous les plaques de l'IA et du
+SEA & UX, à `1-(1-7,88 %)(1-7,88 %) = 15,14 %` — le double du plafond.
+
+La conclusion « donc on ne peint pas » ne suit pas, parce qu'il existe dans cet arbre un
+niveau où la composition est **impossible par construction** : la `.plaque`. Aucune plaque
+n'en contient une autre — c'est une **feuille**. Peindre la feuille plutôt que le nœud
+supprime le problème au lieu de le surveiller : il n'y a plus de pire cas géométrique à
+tenir, puisqu'il n'y a plus de recouvrement possible. Les `<li>` gardent `data-pole` — ils
+portent la teinte pour toute leur descendance — mais ne peignent plus rien du tout.
+
+C'est une règle générale, pas une astuce locale : **la teinte descend par la cascade, la
+peinture reste sur les feuilles.** Tout porteur de `data-pole` susceptible d'en contenir un
+autre se traite ainsi.
+
+#### Le verre est conservé, et c'est là qu'est la difficulté
+
+Une plaque de la chaîne est **du verre, pas du papier** : elle porte déjà
+`color-mix(in srgb, var(--fond) var(--verre-voile), transparent)`. Poser le lavis
+*par-dessus* ce voile le peindrait sur la face avant du verre ; retirer le voile pour faire
+de la place au lavis supprimerait le matériau. Ni l'un ni l'autre.
+
+Le lavis passe donc **sous** le voile, en couches de `background` empilées sur la plaque
+elle-même. L'ordre se lit de l'avant vers l'arrière : voile de verre, puis tache, puis fond
+plat. Le voile n'est ni retiré ni affaibli — il est déplacé d'une propriété du module vers
+la première couche de `.lavis-feuille`, à la valeur identique.
+
+La troisième couche ne rouvre pas la règle « deux couches et pas plus » : ce qu'elle
+interdisait, c'est une troisième **tache**, dont le recouvrement dépendrait de la
+géométrie. Le voile est un aplat plein cadre — il ne se recouvre avec rien, il recouvre
+tout, également. Le pire cas reste `1-(1-fond)(1-tache)`, atténué d'un facteur constant.
+
+#### La compensation est dérivée, jamais réglée
+
+Un voile à 55 % ne laisse passer que **45 %** de ce qui est dessous. Un lavis de bloc posé
+tel quel sous le verre ne peindrait donc que `0,45 × 7,88 % = 3,5 %` : la plaque se lirait
+beige, exactement le symptôme que `.lavis-bloc` avait été créé pour corriger.
+
+Les parts de la feuille sont donc celles du bloc **divisées par la transmission**. Ce n'est
+pas un réglage d'apparence : c'est la seule valeur qui fait qu'une feuille de verre et une
+porte de l'accueil peignent la **même densité à l'écran**. Elle se recalcule seule si les
+parts de bloc bougent, et elle suit le thème sans être réécrite.
+
+| Échelle | Clair | Sombre |
+|---|---|---|
+| feuille (`.lavis-feuille`), sous le voile | 13,33 % + 4,44 % → composé 17,19 % → **peint 7,73 %** | 11,11 % + 4,44 % → composé 15,06 % → **peint 6,78 %** |
+
+La composition n'étant pas linéaire, le résultat tombe très légèrement **sous** la densité
+de bloc, ce qui va dans le bon sens : 7,73 % contre un plafond de 7,84 % en clair, 6,78 %
+contre 6,88 % en sombre. Aucune marge à surveiller à la main.
+
+`--lavis-feuille-transmis` (45) est le complément de `--verre-voile` (55 %). Les deux
+disent la même opacité, l'une du côté du verre, l'autre du côté de ce qu'il laisse voir :
+**elles bougent ensemble**. Remonter le voile sans descendre cette valeur ferait pâlir
+toutes les feuilles d'un coup, sans qu'aucune règle ne le signale.
+
+### Les autres porteurs de `data-pole` — peints ou écartés
+
+Aucun n'est laissé sans décision.
+
+| Porteur | Décision | Raison |
+|---|---|---|
+| `ChainDiagram` | **peint** | `.lavis-feuille` sur `.plaque`, la feuille de l'arbre. Non-composition mesurée au pixel. |
+| `PoleTagList` | **écarté, et corrigé** | Il portait déjà un lavis, écrit à la main à 8 % — voir ci-dessous. |
+| `RealisationCard` | **écarté** | `IRealisation.poles` est un tableau : les fiches portent 1, 2 ou 3 pôles. Aucun lavis unique n'est possible sans affirmer une hiérarchie que le modèle nie, et un dégradé des pôles rattachés se lirait comme une succession — sur `['data','ia','sea-ux']`, il dirait que l'IA vient avant le SEA & UX. Les pôles sont déjà rendus **tous**, à facture identique, par `PoleTagList`. |
+| `PoleStickyBar` | **écarté** | C'est une **bande**, pas un panneau. `verre.css` documente pourquoi les deux ne partagent pas leurs réglages : une bande collante passe sur du texte et compense par un voile plus opaque (`--verre-voile-barre`, 82 %), qui ne laisserait passer que 18 % d'un lavis. La barre porte déjà son pôle par `--accent` — le chiffre de temps et le filet du bas. |
+| `SiteHeader` | **écarté** | Bande également, et surtout : ses quatre entrées portent **quatre** `data-pole` différents dans une seule barre de navigation. Quatre lavis côte à côte sur 40 px de haut ne se liraient pas comme quatre pôles mais comme un dégradé sale. Le chiffre de temps porte déjà la teinte. |
+| `SlabScene` | **écarté** | La scène du seuil a déjà ses dégradés par pôle, **en SVG**, un par dalle. Un lavis HTML par-dessus dupliquerait la même information dans un second système de couleur. |
+
+### `PoleTagList` — le dernier littéral de densité, et il était hors norme
+
+L'étiquette était le seul endroit du site où une surface était teintée à la teinte de son
+pôle par un **littéral écrit à la main** — `--accent` à 8 %, puis 16 % au survol —
+antérieur au plafond. Lui ajouter `.lavis-bloc` aurait empilé un second lavis sur le
+premier : exactement la composition que ce lot supprime ailleurs.
+
+Mesuré au pixel sur `/realisations/` en thème clair, cet aplat mettait l'étiquette de la
+**donnée** à **4,30:1** pour son texte (seuil 4.5:1, WCAG 1.4.3) et son filet à **2,76:1**
+(seuil 3:1, WCAG 1.4.11) ; le SEA & UX suivait à 2,97:1. La cause est propre à ce
+composant : ailleurs le lavis porte de l'**encre**, ici il portait **sa propre teinte**.
+Les seize ratios des tableaux de jetons sont mesurés sur `--fond`, jamais sur un lavis de
+la couleur qu'ils servent — un `--accent` posé sur son propre lavis perd des deux côtés à
+la fois, la teinte et le fond se rapprochant ensemble.
+
+Baisser l'aplat au jeton gouverné (`--lavis-bloc-fond`, 6 %) a été essayé et **mesuré** :
+la donnée remonte à 4,41:1, toujours sous le seuil, et la marge restante dépend de
+l'endroit de la page où la carte tombe — le dégradé d'atelier n'a pas la même clarté en
+haut et en bas de la liste. Un seuil qui se tient à 0,09 point près selon la position d'une
+carte n'est pas tenu.
+
+**L'aplat est donc retiré, pas rebaissé** — et c'est ce que disait déjà la première ligne
+du module : *un filet à gauche plutôt qu'une pastille pleine*. L'aplat contredisait
+l'intention qu'il était censé servir. Le filet passe de `--accent-vif` à `--accent` :
+`--accent-vif` est documenté « non-texte » et tient 3:1 sur `--fond`, pas sur un lavis de
+lui-même. Sur le papier nu, `--accent` donne au filet le ratio du texte qu'il accompagne.
+
+Résultat mesuré, thème clair : **4,78 à 5,60:1** pour le texte comme pour le filet, contre
+4,30 à 5,01 (texte) et 2,76 à 3,21 (filet) avant. Les deux seuils sont franchis pour les
+quatre pôles, et il ne reste plus aucune densité de pôle écrite à la main hors de
+`lavis.css`.
 
 ## Le verre de la bande
 

@@ -34,6 +34,51 @@ posées côte à côte au catalogue :
   contenu, aucun visuel, aucun libellé, aucun numéro d'ordre ne doit laisser croire que
   l'une vient après l'autre.
 
+**Le passage obligé a une méthode.** Les étapes qui précèdent le test, gouvernance et
+stratégie data comprises, servent **les deux branches** : elles valent autant pour
+SEA & UX que pour IA. Le test de déterminisme, lui, ne commande que l'entrée dans la
+branche IA. Le détail qu'on lui donne ici ne la hisse pas au-dessus de SEA & UX, il dit
+seulement à quelle condition on y entre, et à quelle condition on n'y entre pas. Aucun
+contenu ne réordonne ces étapes.
+
+```
+métier  →  gouvernance  →  stratégie data  →  problématique  →  exploration de données
+  →  [ le problème a-t-il une réponse déterministe ? ]
+        oui  →  on s'arrête. Pas d'IA.
+        non  →  alors seulement, on considère l'IA
+                (supervisé, non supervisé, LLM, agents)
+```
+
+*(Enchaînement décrit par Jérôme MARICHEZ le 2026-08-23.)*
+
+- **La gouvernance vient avant la stratégie data**, jamais l'inverse : on établit qui
+  détient la donnée, qui l'arbitre et sous quelles règles, avant de décider ce qu'on en
+  fait. C'est cet ordre qui fait foi *(arbitré par Jérôme MARICHEZ, issue #126)*.
+- **La problématique s'écrit, et l'exploration de données est une étape nommée.** La
+  première pose la question, la seconde y répond sur les données réelles. Ni l'une ni
+  l'autre n'est un préliminaire implicite qu'on saute.
+- **Le test de déterminisme est un test, pas une intuition.** Il pose une question
+  unique : le problème a-t-il une réponse déterministe ? Quand le cadrage a déjà donné
+  la réponse, elle est acquise avant l'exploration ; sinon, c'est l'exploration qui la
+  produit. Elle se constate, elle ne se suppose pas.
+- **Le cas déterministe est un bon résultat**, jamais un échec ni un moindre résultat.
+  Ce qui s'arrête est la trajectoire vers l'IA, pas la mission : le problème est traité,
+  il l'est sans modèle, et c'est un client à qui on évite une dépense inutile. Le lui
+  dire est un argument de lucidité, jamais une porte qui se ferme.
+- **Les familles de solutions IA se nomment sans hiérarchie** : supervisé, non
+  supervisé, LLM, agents. Aucun ordre, aucun numéro, aucune formule ne doit en désigner
+  une comme le choix par défaut ou comme le niveau supérieur. Quand le problème l'impose,
+  un LLM classique reste un choix légitime, open source ou propriétaire : « propriétaire »
+  désigne ici un modèle fermé, à ne pas confondre avec la propriété du client ci-dessous.
+- **L'axe économique donne au passage obligé sa raison chiffrable.** Deux notions
+  distinctes, à ne jamais confondre. La **propriété** : quand la stratégie data est
+  solide en amont, le client peut être propriétaire de sa solution IA au lieu de payer
+  indéfiniment l'usage d'un modèle tiers. Le **niveau cognitif** : un workflow agentique
+  de bas niveau cognitif, autrement dit un enchaînement automatisé qui ne demande au
+  modèle que ce que lui seul sait faire, coûte moins cher qu'un LLM sollicité pour tout,
+  parce que la donnée bien structurée a déjà fait le travail. Le chiffre se mesure sur
+  le projet, il ne s'annonce pas d'avance.
+
 Le **périmètre éditorial complet** (les quatre pôles en détail, les preuves chiffrées,
 les certifications, l'arborescence des pages, les contraintes SEO / perf / a11y / RGPD)
 est décrit dans le [`README.md`](./README.md) : c'est la **source de vérité du contenu**.
@@ -102,6 +147,30 @@ considération marketing.
   baisse). Une affirmation sans preuve disponible se reformule ou se supprime.
 - **Ton** : sobre, direct, à la première personne. Pas de superlatif, pas de jargon
   d'agence, pas d'emoji dans le contenu publié.
+- **Jamais de tiret cadratin dans un texte destiné à être lu.** Ce caractère signe une
+  écriture de machine, et ce site vend un interlocuteur humain. La règle couvre le
+  contenu publié (`src/@vitrine/contenu/`), la documentation (`docs/`, `README.md`) et ce
+  fichier. Les **commentaires de code en sont exclus** : ils sont denses et raisonnés,
+  personne ne les lit de l'extérieur, les reformuler abîmerait leur propos sans bénéfice.
+  Ce n'est **pas une substitution de caractère** : le tiret y sert de ponctuation, donc la
+  phrase se **reformule** (virgule, deux-points, parenthèses, ou deux phrases). Un `sed`
+  global est proscrit, il produirait des phrases fausses.
+  *(Règle ajoutée à la demande explicite de Jérôme MARICHEZ, 2026-08-23.)*
+- **Tout texte destiné à être lu passe par un second agent avant la PR** : contenu du
+  site, articles, `README.md`, `docs/`. Le code et les commentaires n'y passent pas. Ce
+  second agent **n'a pas le contexte de rédaction**, et c'est précisément ce qui fait la
+  seconde vue : un agent qui a écrit un texte a déjà accepté ses propres choix, il ne peut
+  plus les voir. Il vérifie quatre points, dans cet ordre :
+  1. **La fidélité à la source**, quand le texte adapte un écrit existant de Jérôme
+     MARICHEZ. On le **porte**, on ne le réécrit pas : son titre, son plan et ses
+     formulations restent les siens. Corriger l'orthographe et la syntaxe est un devoir,
+     changer l'angle est une faute (issue #121).
+  2. **La table des interdits** des règles de véracité ci-dessus.
+  3. **La ligne éditoriale** : ton, preuve à chaque affirmation, absence d'emoji.
+  4. **L'absence de tiret cadratin.**
+
+  Il propose une réécriture ; le premier agent l'intègre ou motive son refus dans la PR.
+  *(Règle ajoutée à la demande explicite de Jérôme MARICHEZ, 2026-08-23.)*
 - **Le développement en IA augmentée** (Claude Code / Gemini — agents, hooks, skills,
   loop, serveurs MCP) **piloté par les tests (TDD)** est un différenciateur assumé : il
   apparaît partout où le site parle de programmation, jamais comme un détail

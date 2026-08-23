@@ -69,6 +69,31 @@
   line-height: 1.25;
 }
 
+/* La seule liste de PROSE du site : partout ailleurs, un `<ul>` porte une navigation ou
+ * des cartes, et sa puce est retirée. Ici elle reste, et c'est le point du bloc :
+ * `list-style: none` fait perdre à Safari/VoiceOver les sémantiques de liste, or c'est
+ * précisément ici que l'annonce « liste de quatre éléments » vaut quelque chose. Aucun
+ * `display: flex` non plus, pour la même raison — un `li` transformé en élément flexible
+ * perd son marqueur. L'espacement passe donc par la marge, pas par `gap`. */
+.points {
+  margin: 0;
+  padding-inline-start: 1.4em;
+  max-width: var(--mesure-texte);
+}
+
+.point {
+  font-size: var(--t-0);
+  line-height: 1.65;
+}
+
+.point + .point {
+  margin-top: var(--e-1);
+}
+
+.point::marker {
+  color: var(--accent);
+}
+
 .paragraphe {
   max-width: var(--mesure-texte);
   font-size: var(--t-0);
