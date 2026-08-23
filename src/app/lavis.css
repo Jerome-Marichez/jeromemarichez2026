@@ -72,6 +72,53 @@
  * PIXELS et répétée en Y, jamais dimensionnée en pourcentage d'un bloc de 6 000 px.
  * `.lavis-bloc`, lui, ne sert que des blocs de la taille d'une carte : à cette échelle,
  * un fond en pourcentage ne rasterise rien de notable et suit exactement la carte.
+ *
+ * ## La feuille : peindre sans jamais composer (issue #114)
+ *
+ * `ChainDiagram` avait été écarté sur un constat exact et une conclusion fausse. Le
+ * constat : le maillon « data » **contient** les deux branches, donc peindre `.maillon`
+ * et `.branche` empilerait deux lavis sous les plaques de l'IA et du SEA & UX, à
+ * `1-(1-7.88%)(1-7.88%) = 15.14 %` — le double du plafond.
+ *
+ * La conclusion ne suit pas, parce qu'il existe dans cet arbre un niveau où la
+ * composition est **impossible par construction** : la `.plaque`. Aucune plaque n'en
+ * contient une autre — c'est une FEUILLE. Peindre la feuille plutôt que le nœud supprime
+ * le problème au lieu de le surveiller : il n'y a plus de pire cas géométrique à tenir,
+ * puisqu'il n'y a plus de recouvrement possible. Les `<li>` gardent `data-pole` — ils
+ * portent la teinte pour toute leur descendance — mais ne peignent plus rien.
+ *
+ * ## Le verre est conservé, et c'est là qu'est la difficulté
+ *
+ * Seconde objection, elle aussi exacte : une plaque de la chaîne est **du verre, pas du
+ * papier**. Elle porte `color-mix(in srgb, var(--fond) var(--verre-voile), transparent)`.
+ * Poser le lavis PAR-DESSUS ce voile le peindrait sur la face avant du verre ; retirer le
+ * voile pour faire de la place au lavis supprimerait le matériau. Ni l'un ni l'autre.
+ *
+ * Le lavis passe donc **sous** le voile, en couches de `background` empilées sur la
+ * plaque elle-même — dans l'ordre de peinture : voile de verre (dessus), tache, fond plat
+ * (dessous). C'est la lecture physique juste : la teinte est sur le papier, le verre est
+ * devant. Le voile n'est ni retiré ni affaibli : il est déplacé d'une propriété `background`
+ * du module vers la première couche de cette classe, à la valeur identique.
+ *
+ * ## La compensation, et pourquoi elle est dérivée et non réglée
+ *
+ * Un voile à 55 % ne laisse passer que **45 %** de ce qui est dessous. Un lavis de bloc
+ * posé tel quel sous le verre ne peindrait donc que `0.45 × 7.88 % = 3.5 %` : la plaque
+ * se lirait beige, exactement le symptôme que `.lavis-bloc` a été créé pour corriger.
+ *
+ * Les parts de la feuille sont donc celles du bloc **divisées par la transmission**. Ce
+ * n'est pas un réglage d'apparence : c'est la seule valeur qui fait qu'une feuille de
+ * verre et une porte de l'accueil peignent la MÊME densité à l'écran. Elle se recalcule
+ * seule si les parts de bloc bougent, et elle suit le thème sans être réécrite.
+ *
+ * La composition n'étant pas linéaire, le résultat n'est pas exactement la densité de
+ * bloc — il tombe très légèrement en dessous, ce qui va dans le bon sens :
+ *
+ *   clair  : 6%/0.45 = 13.33 %, 2%/0.45 = 4.44 %  →  composé 17.19 %  →  peint 7.73 %
+ *   sombre : 5%/0.45 = 11.11 %, 2%/0.45 = 4.44 %  →  composé 15.06 %  →  peint 6.78 %
+ *
+ * Sous le plafond dans les deux thèmes (7,84 % et 6,88 %), sans marge à surveiller à la
+ * main. Les valeurs relevées au pixel sont dans `docs/accessibility.md`.
  */
 
 /* Deux répartitions pour un seul plafond.
@@ -96,6 +143,16 @@
   --lavis-tache-part: 4%;
   --lavis-bloc-fond-part: 6%;
   --lavis-bloc-tache-part: 2%;
+
+  /* Part de ce qui est peint SOUS le voile de verre d'un panneau qui ressort devant lui,
+     en points de pourcentage et sans unité — `calc()` sait multiplier un pourcentage par
+     un nombre, il ne sait pas le diviser par un autre pourcentage.
+
+     C'est le complément de `--verre-voile` (55 %, dans `verre.css`) : les deux disent la
+     même opacité, l'une du côté du verre, l'autre du côté de ce qu'il laisse voir. Elles
+     bougent donc ENSEMBLE — remonter le voile sans descendre cette valeur ferait pâlir
+     toutes les feuilles d'un coup, sans qu'aucune règle ne le signale. */
+  --lavis-feuille-transmis: 45;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -116,6 +173,20 @@
   --lavis-tache: color-mix(in srgb, var(--accent) var(--lavis-tache-part), transparent);
   --lavis-bloc-fond: color-mix(in srgb, var(--accent) var(--lavis-bloc-fond-part), transparent);
   --lavis-bloc-tache: color-mix(in srgb, var(--accent) var(--lavis-bloc-tache-part), transparent);
+
+  /* Échelle FEUILLE : les parts du bloc, pré-compensées de ce que le voile absorbe. Le
+     calcul est ici et non dans la classe pour la même raison que tout le reste de ce
+     bloc — `--accent` doit être résolu sur l'élément qui porte `data-pole`. */
+  --lavis-feuille-fond: color-mix(
+    in srgb,
+    var(--accent) calc(var(--lavis-bloc-fond-part) * 100 / var(--lavis-feuille-transmis)),
+    transparent
+  );
+  --lavis-feuille-tache: color-mix(
+    in srgb,
+    var(--accent) calc(var(--lavis-bloc-tache-part) * 100 / var(--lavis-feuille-transmis)),
+    transparent
+  );
 }
 
 /* Échelle PAGE — un gabarit de pôle, haut de plusieurs milliers de pixels.
@@ -144,6 +215,36 @@
 .lavis-bloc {
   background-color: var(--lavis-bloc-fond);
   background-image: radial-gradient(farthest-side at 18% 0%, var(--lavis-bloc-tache), transparent);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+/* Échelle FEUILLE — une plaque de VERRE qui ne contient aucune autre plaque.
+ *
+ * Même dessin que `.lavis-bloc` — même ancrage de tache, même densité peinte — mais en
+ * trois couches au lieu de deux, parce qu'il y a du verre devant. L'ordre de `background`
+ * se lit de l'avant vers l'arrière :
+ *
+ *   1. le voile de verre, à la valeur exacte qu'il avait dans le module ;
+ *   2. la tache, sous le verre ;
+ *   3. le fond plat, tout au fond (`background-color`).
+ *
+ * La troisième couche ne coûte pas le pire cas géométrique que `lavis.css` s'interdit
+ * plus haut : le voile est un aplat plein cadre, pas une tache. Il ne se recouvre avec
+ * rien, il recouvre tout, également. Le pire cas reste `1-(1-fond)(1-tache)`, atténué
+ * d'un facteur constant.
+ *
+ * Cette classe est posée sur l'élément qui porte le verre, jamais sur son parent : c'est
+ * ce qui garantit qu'un porteur de `data-pole` imbriqué dans un autre ne compose pas deux
+ * lavis. Le parent porte la teinte, la feuille porte la peinture. */
+.lavis-feuille {
+  background-color: var(--lavis-feuille-fond);
+  background-image:
+    linear-gradient(
+      color-mix(in srgb, var(--fond) var(--verre-voile), transparent),
+      color-mix(in srgb, var(--fond) var(--verre-voile), transparent)
+    ),
+    radial-gradient(farthest-side at 18% 0%, var(--lavis-feuille-tache), transparent);
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }

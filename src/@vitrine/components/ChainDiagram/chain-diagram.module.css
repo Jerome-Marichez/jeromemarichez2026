@@ -36,8 +36,12 @@
   padding: var(--e-3) var(--e-4);
   border: var(--verre-epaisseur) solid var(--verre-arete);
   border-radius: var(--rayon-verre);
-  background: color-mix(in srgb, var(--fond) var(--verre-voile), transparent);
   box-shadow: var(--elevation-posee);
+  /* Le fond n'est PAS déclaré ici : la plaque porte la classe globale `lavis-feuille`
+     (issue #114), qui empile le lavis pastel de son pôle SOUS le voile de verre. Le voile
+     n'a pas disparu — il est la première couche de cette classe, à la valeur identique
+     (`--fond` à `--verre-voile`). Le déclarer aussi ici le poserait en concurrence de
+     spécificité avec la classe globale, et la couche du dessous ne se verrait jamais. */
 }
 
 .place {
