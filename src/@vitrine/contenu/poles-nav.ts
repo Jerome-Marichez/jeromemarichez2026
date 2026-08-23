@@ -44,8 +44,8 @@ export const POLES_NAV: IPole[] = [
     route: ROUTES.ia,
     promesse: 'La réponse n’est pas toujours un modèle, et je le dis avant d’en construire un.',
     accroche:
-      'Souvent une règle métier intégrée à l’existant suffit ; sinon un modèle, ou un LLM ' +
-      'arbitré sur le coût et la confidentialité.',
+      'Je teste si votre problème a une réponse déterministe : si oui, une règle suffit ; ' +
+      'sinon un modèle, ou un LLM arbitré sur le coût et la confidentialité.',
   },
   {
     id: 'sea-ux',
