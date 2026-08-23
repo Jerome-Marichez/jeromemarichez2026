@@ -118,6 +118,72 @@ Trois points relevés, à garder en tête :
   et l'information qu'ils accompagnent est écrite à côté, mais le point est **ouvert** et
   n'a pas été traité par ce lot.
 
+### La chaîne et les derniers porteurs — contrastes relevés (issue #114)
+
+Le lavis s'étend à `ChainDiagram`, dont les plaques sont **du verre** : le lavis passe sous
+le voile plutôt que devant, et ses parts compensent ce que le voile absorbe. Le mécanisme
+est dans [`design.md`](./design.md) ; ce qui suit est la **lecture au pixel du rendu
+servi** (`next dev`, viewport 1440, capture PNG décodée, deux thèmes).
+
+**La non-composition, prouvée sur le rendu et non déduite.** Deux témoins ont été rendus
+dans la page à côté de la vraie chaîne : *A*, une plaque IA hors de toute chaîne (un seul
+lavis) ; *B*, la même plaque IA dans un conteneur peint au lavis de la donnée — c'est-à-dire
+exactement ce qu'aurait produit un lavis posé sur le maillon.
+
+| Thème | Plaque IA réelle (dans le maillon « data ») | Témoin A — un lavis | Témoin B — deux lavis | Écart réel↔A | Écart réel↔B |
+|---|---|---|---|---|---|
+| clair | `#E4DFDC` | `#E4DFDC` | `#DEDCDA` | **0 niveau** | 6 niveaux |
+| sombre | `#191A22` | `#191A22` | `#181D25` | **0 niveau** | 3 niveaux |
+
+La plaque réelle est **au niveau près** identique au cas « un seul lavis », et distincte du
+cas « deux lavis ». Le `<li data-pole="data">` a par ailleurs
+`background-color: rgba(0,0,0,0)` et `background-image: none` en style calculé : il ne
+peint rien. Contrôle croisé sur le fond, à la même abscisse — la gouttière entre les deux
+branches, *dans* le maillon « data », vaut `#E5E1D8` ; le gap de la chaîne, *hors* de tout
+`<li>`, vaut `#E6E2D9`. L'écart d'un niveau est celui du dégradé d'atelier, pas un lavis.
+
+**Parité des deux branches.** IA et SEA & UX passent par le même composant, donc la même
+classe et les mêmes jetons : leur lavis ne peut différer que par la teinte. Écart de
+luminance mesuré entre les deux plaques : **0,39 %** en clair, **0,03 %** en sombre.
+
+Contrastes sur la couleur **composée réellement lue** au centre de chaque plaque :
+
+| Thème | Pôle | Fond composé | `--encre` | `--encre-douce` | place (`--accent`, **texte**) | arête + soulignement (`--accent-vif`, non-texte) |
+|---|---|---|---|---|---|---|
+| clair | ingénierie web | `#E8E0D7` | 13.77:1 | 6.17:1 | 5.29:1 | 3.38:1 |
+| clair | data | `#DEE2DC` | 13.72:1 | 6.15:1 | **4.84:1** | **3.11:1** |
+| clair | IA | `#E4DFDC` | 13.61:1 | 6.10:1 | 5.21:1 | 3.37:1 |
+| clair | SEA & UX | `#E2E1D5` | 13.68:1 | 6.13:1 | **4.82:1** | **3.09:1** |
+| sombre | ingénierie web | `#1D1B1A` | 13.93:1 | 6.71:1 | 6.51:1 | 8.35:1 |
+| sombre | data | `#101C21` | 14.09:1 | 6.79:1 | 7.14:1 | 9.07:1 |
+| sombre | IA | `#191A22` | 14.07:1 | 6.78:1 | 6.53:1 | 8.36:1 |
+| sombre | SEA & UX | `#171C1A` | 14.01:1 | 6.75:1 | 7.08:1 | 8.95:1 |
+
+Les deux cas les plus serrés sont le SEA & UX et la donnée, à 4,82:1 pour du texte
+(seuil 4.5:1) et 3,09:1 pour du non-texte (seuil 3:1) — tenus, dans les deux thèmes.
+
+**Un défaut antérieur, trouvé et corrigé.** `PoleTagList` portait un lavis écrit à la main
+à 8 %, au-dessus du plafond, et **sous du texte de sa propre teinte**. Mesuré en thème
+clair sur `/realisations/` :
+
+| Pôle | Texte avant → après | Filet avant → après |
+|---|---|---|
+| ingénierie web | 5.01 → **5.60:1** | 3.21 → **5.60:1** |
+| IA | 4.75 → **5.28:1** | 3.06 → **5.28:1** |
+| SEA & UX | 4.63 → **5.13:1** | **2.97** → **5.13:1** |
+| data | **4.30** → **4.78:1** | **2.76** → **4.78:1** |
+
+Deux valeurs étaient **sous le seuil** avant ce lot : le texte de la donnée à 4,30:1
+(WCAG 1.4.3) et son filet à 2,76:1 (WCAG 1.4.11), celui du SEA & UX à 2,97:1. L'aplat est
+retiré et le filet passe de `--accent-vif` à `--accent` — raisonnement et alternatives
+mesurées dans [`design.md`](./design.md). En thème sombre, aucune de ces valeurs n'était en
+défaut (6,05 à 6,60:1) et toutes montent (6,76 à 7,41:1).
+
+**Les pages de pôle et les portes de l'accueil sont inchangées** : `.lavis-pole` et
+`.lavis-bloc` n'ont pas bougé. Relevé de contrôle en thème clair — `--encre-douce` de 6,80
+à 6,83:1 et `--accent-vif` de 3,73 à 3,75:1 sur les quatre pages ; en sombre, 7,22 à 7,25:1
+et 8,98 à 9,02:1.
+
 ### Pages contrôlées
 
 Les mêmes que les budgets de performance — accueil, page de pôle, liste du blog, page
@@ -128,5 +194,8 @@ non protégé. La liste vit dans `scripts/budgets/pages.mjs`.
 |----------|-------|------|
 | Accueil, pôle, blog, article, réalisations | axe-core (`ci-dev-a11y`) | **0 violation** — dernière exécution 2026-08-23, avec le lavis de pôle |
 | Contrastes sur le lavis de pôle | mesure au pixel, deux thèmes | **tenu** — 2026-08-23, voir le tableau ci-dessus |
+| Contrastes sur le lavis de feuille (`ChainDiagram`) | mesure au pixel, deux thèmes | **tenu** — 2026-08-23, pire cas 4,82:1 (texte) et 3,09:1 (non-texte) |
+| Non-composition des lavis dans `ChainDiagram` | témoins rendus + mesure au pixel | **prouvée** — 2026-08-23, écart nul avec le cas « un seul lavis » |
+| Étiquettes de pôle (`PoleTagList`) | mesure au pixel, deux thèmes | **corrigé** — 2026-08-23, deux valeurs étaient sous le seuil |
 | Clavier + lecteur d'écran | manuel | _à réaliser_ |
 | WCAG 2.2.2 — pause des animations | manuel | _à réaliser_ |
