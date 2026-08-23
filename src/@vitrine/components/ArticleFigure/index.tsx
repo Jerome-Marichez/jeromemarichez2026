@@ -105,7 +105,7 @@ function Appui() {
 }
 
 /**
- * Le gabarit — « Un générateur de projets, public et personnel ».
+ * Le gabarit — « J'ai open-sourcé mon plugin Claude Code ».
  *
  * À gauche, la forme : un cadre à trois compartiments, **ouvert du côté de la sortie**, parce
  * qu'un gabarit n'est pas ce qu'il produit. À droite, ce qui en sort, fermé et complet jusqu'à
@@ -131,7 +131,7 @@ function Gabarit() {
 }
 
 /**
- * La liaison — « Le premier risque n'est pas le code, c'est l'endroit ».
+ * La liaison — « De la doc qui pilote une IA à une carte vivante de l'architecture ».
  *
  * Des ensembles séparés — des dépôts — et, plus grand qu'eux, le lieu commun où le
  * comportement partagé doit atterrir. Deux liens pleins le relient vraiment ; le troisième
