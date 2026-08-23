@@ -24,8 +24,8 @@ export const SITE_IDENTITY = {
  * Ce qu'elle engage : un interlocuteur unique et une responsabilité unique. Ce qu'elle
  * n'engage pas — et n'a plus le droit d'engager : l'absence totale de tiers. Sur un
  * projet dont la taille le demande, des prestataires peuvent venir en renfort ; ils
- * sont choisis, cadrés et couverts par le même interlocuteur (section « renforts »
- * de l'accueil).
+ * sont choisis, cadrés et couverts par le même interlocuteur (section « Les deux
+ * objections » de l'accueil, `contenu/objections.ts`).
  */
 export const SITE_PROMESSE =
   'Un seul interlocuteur pour vos projets digitaux, du cadrage au run. ' +

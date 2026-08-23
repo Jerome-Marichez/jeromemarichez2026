@@ -4,13 +4,20 @@
   position: relative;
 }
 
+/* Le pas est `--e-6` et non `--e-7` depuis l'issue #103, et c'est une conséquence du
+   contenu, pas un réglage d'apparence. `--e-7` (136px) est le pas d'une page qui se lit
+   d'un bout à l'autre : il tenait seize sections à distance pour qu'on ne les confonde
+   pas en descendant. L'accueil en porte neuf, courtes, faites pour être balayées — le
+   même pas y ajoutait plus d'un écran de vide entre des blocs qu'on veut justement voir
+   se suivre. Les pages de pôle gardent le pas long : ce sont elles qui se lisent
+   maintenant. */
 .corps {
   display: flex;
   flex-direction: column;
-  gap: var(--e-7);
+  gap: var(--e-6);
   max-width: var(--largeur-page);
   margin-inline: auto;
-  padding: 0 var(--e-4) var(--e-7);
+  padding: 0 var(--e-4) var(--e-6);
 }
 
 /* La section ancrable ne porte que son identité : identifiant, marge d'ancre, et le

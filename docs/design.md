@@ -452,9 +452,16 @@ trois `z-index` qui l'accompagnaient ont disparu avec la bibliothèque qui les e
 | réfraction SVG (`--verre-refraction`), ≥ 1024px, Blink seul | l'épaisseur prend une **forme** : au ras de l'arête, le verre va chercher son image un peu plus loin vers le dedans. Mesurée à 2/255 sur ce fond — voir « La réfraction » |
 | repli `@supports` | là où `backdrop-filter` manque, le voile opaque `--verre-voile` reprend la garantie de contraste du texte |
 
-Le plafond de panneaux par page (`glass-policy.ts` : 3 sur l'accueil, 3 sur une page de
-pôle) est un plafond **de lecture**, et il le reste. Un panneau ne coûte plus rien à
+Le plafond de panneaux par page (`glass-policy.ts` : **1 sur l'accueil**, 3 sur une page
+de pôle) est un plafond **de lecture**, et il le reste. Un panneau ne coûte plus rien à
 monter ; au-delà de trois, l'effet cesse simplement d'être un signal et devient un fond.
+
+L'accueil est passé de 3 à 1 avec l'issue #103, et ce n'est pas un réglage : le plafond
+suit le nombre de sections **éditoriales réellement présentes**, et l'accueil devenu
+vitrine n'en porte plus qu'une — les deux objections. Ses trois sections de pôle sont
+descendues sur `/services/<pole>/`, où c'est `MAX_GLASS_PAGE_POLE` qui les vitre. La
+page n'est pas pour autant sans verre : le seuil, les plaques du schéma de la chaîne et
+le bloc de contact portent les mêmes jetons de surface, posés par leurs propres modules.
 
 ### Deux bibliothèques essayées, deux écartées
 

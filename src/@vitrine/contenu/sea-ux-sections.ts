@@ -26,6 +26,12 @@ export const SECTIONS_SEA_UX: IEditorialSection[] = [
         texte:
           'Je lis ce que la donnée dit du parcours réel, je propose, je teste, et j’écris le ' +
           'code.',
+        // Cette preuve manquait à la page du pôle alors qu'elle était sur l'accueil : le
+        // +50 % de panier moyen est la preuve phare de l'arbitrage UX, et la page qui le
+        // vend ne la portait pas. Descendue par l'issue #103.
+        preuve:
+          'Panier moyen en hausse de 50 % sur un e-commerce de joaillerie de luxe, après ' +
+          'refonte des parcours d’achat pilotée par la mesure.',
         decision: 'Quelle étape du tunnel disparaît, et ce que vous gagnez à la supprimer.',
       },
       {

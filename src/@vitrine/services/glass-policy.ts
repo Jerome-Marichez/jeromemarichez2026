@@ -11,19 +11,32 @@ import type { SectionKind } from '@/interfaces/types'
  * de contenu à part entière. Les charnières et les fils restent en texte nu sur le fond
  * — ce sont des respirations, et les vitrer reviendrait à les faire passer pour une
  * offre de plus.
+ *
+ * `preuves` a rejoint la liste avec l'issue #103. Ce n'est pas un assouplissement : c'est
+ * la seule nature de section éditoriale que l'accueil porte encore, celui-ci étant devenu
+ * une vitrine dont le détail est descendu sur les pages de pôle. Une section qui traite
+ * les deux objections de fond du site est une section de contenu à part entière, au même
+ * titre qu'un pôle l'était.
  */
-const NATURES_VITRABLES: ReadonlySet<SectionKind> = new Set<SectionKind>(['pole', 'chapitre'])
+const NATURES_VITRABLES: ReadonlySet<SectionKind> = new Set<SectionKind>([
+  'pole',
+  'chapitre',
+  'preuves',
+])
 
 /**
  * Plafond de surfaces vitrées sur l'accueil.
  *
- * Il suit le nombre de sections de pôle **réellement présentes sur la page**, pas le
- * nombre de pôles vendus : l'accueil en porte trois alors que le site en vend quatre, le
- * pôle IA n'ayant pas encore sa propre section d'accueil. Le relever est une décision
- * éditoriale — elle appartient au lot qui écrira cette section, pas à un réglage
- * technique.
+ * Il suit le nombre de sections éditoriales **réellement présentes sur la page**, pas le
+ * nombre de pôles vendus. Depuis l'issue #103 l'accueil n'en porte plus qu'une — les deux
+ * objections — et le plafond vaut donc un. Les trois sections de pôle qu'il comptait sont
+ * descendues sur `/services/<pole>/`, où c'est `MAX_GLASS_PAGE_POLE` qui les vitre.
+ *
+ * L'accueil n'est pas pour autant sans verre : le seuil, les plaques du schéma de la
+ * chaîne et le bloc de contact portent les mêmes jetons de surface, posés par leurs
+ * propres modules.
  */
-export const MAX_GLASS_ACCUEIL = 3
+export const MAX_GLASS_ACCUEIL = 1
 
 /**
  * Plafond de surfaces vitrées sur une page de pôle.
