@@ -8,6 +8,8 @@ import type { IArticle } from '@/interfaces/IArticle'
 import type { IBlogIndex } from '@/interfaces/IBlogIndex'
 import { formatDateFr } from '@/utils/format-date'
 import { ArticleCard } from '../../components/ArticleCard'
+import { ArticleFigure } from '../../components/ArticleFigure'
+import { ArticleSource } from '../../components/ArticleSource'
 import styles from './article-view.module.css'
 
 interface ArticleViewProps {
@@ -36,6 +38,7 @@ export function ArticleView({ article, index, autres }: ArticleViewProps) {
               { nom: article.titre, route: toArticleRoute(article.slug) },
             ]}
           />
+          <ArticleFigure figure={article.figure} />
           <p className={styles.date}>
             <time dateTime={article.datePublication}>{formatDateFr(article.datePublication)}</time>
           </p>
@@ -62,6 +65,10 @@ export function ArticleView({ article, index, autres }: ArticleViewProps) {
             </section>
           ))}
         </div>
+
+        {/* Rien n'est rendu quand la source est absente : c'est le cas des trois articles
+            publiés, et une note « publié nulle part ailleurs » n'aurait aucun sens. */}
+        {article.source ? <ArticleSource source={article.source} /> : null}
       </article>
 
       {autres.length > 0 ? (

@@ -1,10 +1,11 @@
 // ArticleCard/index.tsx — jeromemarichez-fr
-// Un article vu depuis une liste : sa date, son titre, son chapô.
+// Un article vu depuis une liste : sa figure, sa date, son titre, son chapô.
 
 import Link from 'next/link'
 import { toArticleRoute } from '@/@shared/routes'
 import type { IArticle } from '@/interfaces/IArticle'
 import { formatDateFr } from '@/utils/format-date'
+import { ArticleFigure } from '../ArticleFigure'
 import styles from './article-card.module.css'
 
 interface ArticleCardProps {
@@ -20,6 +21,12 @@ interface ArticleCardProps {
  * la piloter en JavaScript : dans les deux cas, un lecteur d'écran annonce un lien sans
  * intitulé ou une zone qu'aucune touche n'atteint. Un titre cliquable dit exactement où
  * l'on va, au clavier comme à la souris.
+ *
+ * **La figure tient sur la ligne de date, et pas au-dessus.** La liste du blog est « une
+ * liste, pas une grille » (`BlogIndexView`) : lui poser une vignette pleine largeur en
+ * ferait un magazine et promettrait des catégories qui n'existent pas. Rangée à côté de la
+ * date, la figure distingue les articles à l'œil sans ajouter une seule ligne au rythme de
+ * la liste. Elle reste un décor `aria-hidden` : le titre cliquable dit tout.
  */
 export function ArticleCard({ article, headingLevel = 'h2' }: ArticleCardProps) {
   const Heading = headingLevel
@@ -27,6 +34,7 @@ export function ArticleCard({ article, headingLevel = 'h2' }: ArticleCardProps) 
   return (
     <article className={styles.carte}>
       <p className={styles.date}>
+        <ArticleFigure figure={article.figure} />
         <time dateTime={article.datePublication}>{formatDateFr(article.datePublication)}</time>
       </p>
 
