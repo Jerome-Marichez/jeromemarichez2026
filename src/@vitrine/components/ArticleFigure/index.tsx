@@ -20,8 +20,12 @@
 // Elle est reprise trait pour trait, et c'est ce qui fait que le blog appartient au même
 // site que l'accueil : trait plein pour ce qui est retenu, **trait tireté pour ce qui est
 // écarté**, croix pour une voie fermée, point plein pour un aboutissement, trait plus
-// épais pour une assise. Un lecteur qui a vu les quatre marques lit ces trois figures sans
-// qu'on lui explique rien.
+// épais pour une assise. Un lecteur qui a vu les quatre marques lit ces figures sans qu'on
+// lui explique rien.
+//
+// Le trait tireté couvre une nuance de plus depuis la figure `liaison` : « écarté » y devient
+// « annoncé, jamais emprunté » — une dépendance déclarée que rien n'importe. C'est le même
+// sens au fond, un chemin qui n'a pas lieu, et le signe n'a donc pas eu à être dédoublé.
 //
 // Le registre, lui, diffère : une marque de pôle est carrée (32 × 32), une figure d'article
 // est **couchée** (48 × 32). Une page de pôle vend, un article raconte — et une figure large
@@ -100,10 +104,67 @@ function Appui() {
   )
 }
 
+/**
+ * Le gabarit — « Un générateur de projets, public et personnel ».
+ *
+ * À gauche, la forme : un cadre à trois compartiments, **ouvert du côté de la sortie**, parce
+ * qu'un gabarit n'est pas ce qu'il produit. À droite, ce qui en sort, fermé et complet jusqu'à
+ * son aboutissement — le projet qui se construit dès la génération.
+ *
+ * Ce qui n'est PAS dessiné : un compte. Une pile de formes produites, ou plusieurs
+ * aboutissements alignés, afficherait un nombre de projets générés que personne n'a mesuré.
+ * Une seule sortie, donc — la figure dit qu'il en sort quelque chose de complet, jamais
+ * combien de fois.
+ */
+function Gabarit() {
+  return (
+    <>
+      <path d="M16 6H4v20h12" />
+      <path d="M4 12.5h9M4 19.5h9" />
+      <path d="M16 16h8" />
+      <path d="M24 6h12v20H24z" />
+      <path d="M24 12.5h12M24 19.5h12" />
+      <path d="M36 16h2.6" />
+      <circle cx="41" cy="16" fill="currentColor" r="2.4" stroke="none" />
+    </>
+  )
+}
+
+/**
+ * La liaison — « Le premier risque n'est pas le code, c'est l'endroit ».
+ *
+ * Des ensembles séparés — des dépôts — et, plus grand qu'eux, le lieu commun où le
+ * comportement partagé doit atterrir. Deux liens pleins le relient vraiment ; le troisième
+ * est **tireté et n'aboutit à rien**, c'est la dépendance déclarée que rien n'importe, celle
+ * que la carte de l'article a fait apparaître.
+ *
+ * Le lien tireté est le plus long des trois, et c'est mesuré, pas décoratif : à 2,6 unités de
+ * tiret, un segment court ne rend que son amorce et se lit comme un trait plein — la même
+ * correction que la croix de `anteriorite`, prise ici en allongeant le tracé plutôt qu'en
+ * retirant le tiretage.
+ *
+ * Les blocs ne se comptent pas : ils sont là pour être reliés. Aligner un dépôt par carré
+ * afficherait la taille d'un système qui n'est pas nommé dans l'article, et n'a pas à l'être.
+ */
+function Liaison() {
+  return (
+    <>
+      <path d="M3 4h7v7H3z" />
+      <path d="M3 21h7v7H3z" />
+      <path d="M14 11.5h9v9h-9z" />
+      <path d="M38 12.5h7v7h-7z" />
+      <path d="M10 9l4 4M10 23l4-4" />
+      <path className={styles.ecarte} d="M23 16h15" />
+    </>
+  )
+}
+
 const TRACES: Record<ArticleFigureId, () => React.JSX.Element> = {
   borne: Borne,
   anteriorite: Anteriorite,
   appui: Appui,
+  gabarit: Gabarit,
+  liaison: Liaison,
 }
 
 /**

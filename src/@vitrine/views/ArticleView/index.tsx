@@ -66,8 +66,8 @@ export function ArticleView({ article, index, autres }: ArticleViewProps) {
           ))}
         </div>
 
-        {/* Rien n'est rendu quand la source est absente : c'est le cas des trois articles
-            publiés, et une note « publié nulle part ailleurs » n'aurait aucun sens. */}
+        {/* Rien n'est rendu quand la source est absente : c'est le cas de la plupart des
+            articles, et une note « publié nulle part ailleurs » n'aurait aucun sens. */}
         {article.source ? <ArticleSource source={article.source} /> : null}
       </article>
 

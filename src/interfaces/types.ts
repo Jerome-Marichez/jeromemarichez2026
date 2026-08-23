@@ -49,13 +49,15 @@ export type SectionKind = 'pole' | 'chapitre' | 'charniere' | 'fil' | 'preuves'
  * serveur par `@vitrine/components/ArticleFigure`. L'union est close, donc un article ne
  * peut pas réclamer une figure qui n'existe pas — le compilateur le dit avant le build.
  *
- * Les trois noms disent la STRUCTURE dessinée, pas le sujet de l'article : c'est la même
- * règle que les marques de pôle, dont aucune ne simule une donnée chiffrée.
+ * Les noms disent la STRUCTURE dessinée, pas le sujet de l'article : c'est la même règle
+ * que les marques de pôle, dont aucune ne simule une donnée chiffrée.
  * `borne`        : ce qui est produit s'arrête à une ligne, et au-delà rien ne tourne.
  * `anteriorite`  : deux temps sur un axe, et le sens inverse écarté.
  * `appui`        : une décision en équilibre, portée par une assise mesurée.
+ * `gabarit`      : une forme ouverte du côté de la sortie, et ce qui en sort déjà complet.
+ * `liaison`      : des ensembles séparés, et un lien annoncé qui ne relie rien.
  */
-export type ArticleFigureId = 'borne' | 'anteriorite' | 'appui'
+export type ArticleFigureId = 'borne' | 'anteriorite' | 'appui' | 'gabarit' | 'liaison'
 
 /**
  * Le réseau où un article a d'abord paru.
