@@ -93,9 +93,18 @@ export function buildBreadcrumbSchema(fil: IBreadcrumbItem[]): Record<string, un
  * Un article du blog.
  *
  * `BlogPosting` plutôt qu'`Article` : c'est le sous-type exact, et l'annoncer permet à
- * un moteur de rattacher l'article au blog qui le contient. Pas de champ `image` — le
- * site ne sert aucune illustration d'article, et déclarer une image absente serait
- * précisément le genre de JSON-LD gonflé que ce fichier s'interdit.
+ * un moteur de rattacher l'article au blog qui le contient.
+ *
+ * **Toujours pas de champ `image`, et la raison a changé.** Un article porte désormais une
+ * illustration (`IArticle.figure`), mais c'est une figure SVG écrite dans le document par
+ * `ArticleFigure` : il n'existe aucun fichier à servir, donc aucune URL à déclarer.
+ * `image` attend une ressource qu'un moteur puisse aller chercher — la remplir d'une adresse
+ * qui rendrait 404 serait exactement le genre de JSON-LD gonflé que ce fichier s'interdit.
+ * Le jour où une image est réellement servie, le champ s'ajoute ; pas avant.
+ *
+ * Rien non plus sur `IArticle.source`. Aucun article publié n'en porte, et déclarer la
+ * republication d'un texte demande de trancher entre `sameAs` et `isBasedOn`, qui
+ * n'affirment pas la même chose. Cet arbitrage se fera devant un cas réel.
  *
  * `author` et `publisher` pointent les nœuds déjà publiés par le layout : la personne et
  * l'activité sont décrites une fois pour tout le site, jamais redéclarées par page.

@@ -21,6 +21,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--e-3);
+  /* Le registre de FICHE pour la figure de l'article : elle ouvre la page, elle a donc le
+     droit d'occuper de la place. Le jeton est redéfini ici et non sur `.page`, parce que la
+     même page porte des cartes d'articles liés dont les figures doivent, elles, rester au
+     registre de liste. La figure reste bornée sous la mesure de texte : au-delà, elle
+     concurrencerait le titre au lieu de l'annoncer. */
+  --taille-figure-article: clamp(6.5rem, 22vw, 9rem);
 }
 
 .date {

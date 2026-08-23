@@ -132,6 +132,12 @@
      éditorial sur sa carte. Un seul jeton pour les six : elles forment une série, et une
      série dont les tailles divergent n'en est plus une. */
   --taille-glyphe: 2.25rem;
+  /* Largeur d'une figure d'article. Sa hauteur suit son `viewBox` (48 × 32) et n'a donc
+     pas de jeton : deux valeurs à tenir d'accord divergent à la première retouche. La
+     valeur posée ici est celle du registre de LISTE, où la figure reste une annotation à
+     côté de la date ; la fiche d'article redéfinit le jeton chez elle, comme les pages de
+     pôle redéfinissent `--decalage-ancre`. */
+  --taille-figure-article: 3rem;
 
   /* — Repères d'empilement collant — */
   /* Hauteur nominale de l'en-tête, en un seul endroit : la barre de pôle s'y accroche,
