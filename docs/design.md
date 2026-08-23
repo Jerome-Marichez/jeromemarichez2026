@@ -806,53 +806,164 @@ inline-block` — c'est le **seul `svg` du site à vivre dans une ligne de texte
 `rel="noopener noreferrer"`, comme le lien de justificatif d'une certification : un lien
 sortant est traité pareil partout, ou il finit par ne l'être nulle part.
 
-## La maille de fond
+## Le lavis de pôle
 
 Le fond était un lavis radial unique, une trame de 32 px et un grain. Correct, sobre —
 et **sans matière**. C'est ce qui explique l'échec des trois tentatives de verre
 réfractant : un verre ne montre rien par lui-même, il montre **ce qu'il déforme**. Sur un
 lavis uniforme, la réfraction a été mesurée à **2 niveaux sur 255**, c'est-à-dire rien.
 
-La maille ajoute quatre lavis larges, **un par pôle**, posés en descendant : ingénierie en
-haut à gauche, donnée à droite, puis les deux suites plus bas. Le fond raconte la même
-chaîne que la page, sans qu'aucun mot ne le dise — et il donne au verre de quoi travailler.
+La première réponse fut une **maille** : quatre lavis larges, un par pôle, posés en
+descendant dans `.fond-atelier` — ingénierie en haut à gauche, donnée à droite, les deux
+suites plus bas. Elle a été **remplacée** (issue #104), pour deux défauts qui n'étaient
+pas des réglages :
 
-### Ce qui est repris d'ailleurs, et ce qui ne l'est pas
+1. **Ses coordonnées étaient fixes et le document ne les connaissait pas.** Sur
+   `/services/ia/`, le haut de page recevait le lavis d'ingénierie — non parce qu'on y
+   parlait d'ingénierie, mais parce que c'est le haut du document. Le fond racontait la
+   chaîne à un lecteur qui, lui, lisait une page.
+2. **Étalés sur plus de 9 000 px, les quatre lavis n'atteignaient nulle part leur propre
+   densité.** À 5,5 % au centre d'ellipses de la taille d'un écran, chaque point du fond
+   n'en recevait qu'une fraction. Le résultat à l'écran était un beige uniforme du haut
+   en bas de l'accueil.
 
-Le **procédé** vient d'une référence dont la signature visuelle est un fond maillé pastel.
-Ses **couleurs**, non : la direction du site est « L'Établi » — papier chaud, cuivre, trame
-technique — et copier un pastel vert-jaune aurait fait perdre l'identité que tout le reste
-défend. La maille se construit donc dans les quatre teintes de pôle, déjà mesurées.
+**Le lavis suit désormais le contenu.** Il n'a plus de coordonnées : il est peint par le
+bloc qui parle du pôle, c'est-à-dire par celui qui porte déjà `data-pole`. La section qui
+parle de Data porte le lavis Data ; `/services/ia/` porte le lavis IA sur toute sa
+hauteur ; les quatre portes de l'accueil sont quatre taches de couleur côte à côte.
+
+### Le mécanisme
+
+`poles.css` mappe `--accent` sous `data-pole`. `lavis.css` en dérive quatre jetons —
+`--lavis-fond`, `--lavis-tache`, et leurs équivalents d'échelle bloc — **déclarés sur
+`[data-pole]` lui-même**, jamais seulement sur `:root` : une propriété personnalisée est
+substituée au *computed-value time*, sur l'élément qui la déclare. Déclarés à la racine,
+ils figeraient le cuivre et descendraient tels quels dans les quatre pages de pôle. C'est
+le piège déjà documenté pour `--verre-arete`, et c'est le même remède.
+
+**Aucun composant ne nomme une teinte de pôle.** Deux classes globales suffisent, et elles
+ne connaissent que les jetons :
+
+| Classe | Échelle | Porteur | Recette |
+|---|---|---|---|
+| `.lavis-pole` | une page de pôle, plusieurs milliers de pixels | `PolePageView` | tuile de 1600 × 1100 px répétée en Y, `farthest-side` centré |
+| `.lavis-bloc` | une carte, quelques centaines de pixels | `PoleEntries` | tache ancrée en haut à gauche, dimensionnée sur le bloc |
+
+### Deux couches, et pourquoi pas trois
+
+Le lavis est un **fond plat translucide** plus une **tache dégradée** par-dessus. Le fond
+plat garantit que le bloc du pôle est teinté *partout* — c'est lui qui fait qu'on lit une
+couleur et non une éclaircie, et c'est exactement ce qui manquait à la maille. La tache
+fait le dégradé et empêche l'aplat.
+
+Deux couches et pas plus, parce que **les alphas se composent** : là où deux taches se
+recouvrent, la densité vaut `1-(1-a)(1-b)` et non `a`. Un troisième calque rendrait le
+pire cas dépendant de la géométrie, donc de la hauteur du bloc, donc invérifiable. Ici il
+est fixe et calculable — et c'est ce nombre-là qui est mesuré.
+
+La **répartition** entre les deux change avec la surface, le plafond jamais. À l'échelle
+d'une page, la tache a mille pixels pour s'installer et porte la moitié du plafond. À
+l'échelle d'un bloc — une porte de l'accueil fait 160 px de haut — une tache qui décroît
+sur cette hauteur laisse le bas de la carte au fond plat seul : mesuré à l'écran, les
+quatre portes se lisaient alors quasiment beiges. La part constante monte donc à 6 %, et
+la tache se réduit à une modulation.
+
+| Échelle | Clair | Sombre |
+|---|---|---|
+| page (`.lavis-pole`) | 4 % + 4 % → **7,84 %** | 3,5 % + 3,5 % → **6,88 %** |
+| bloc (`.lavis-bloc`) | 6 % + 2 % → **7,88 %** | 5 % + 2 % → **6,90 %** |
+
+### Le plafond, et d'où il vient
+
+**Il ne vient pas du texte.** `--encre-douce` tient encore 5,95:1 à 7,88 %, très au-dessus
+du seuil AA de 4,5:1. Il vient des jetons `--accent-vif`, qui portent les filets et les
+arêtes et doivent tenir **3:1** (WCAG 1.4.11). Sur le fond réellement peint — `#EDE9E0`,
+le bas du dégradé d'atelier et non `--fond` — `--pole-data-vif` n'est déjà qu'à **3,29:1**
+nu. Il reste 0,29 point de marge, et le lavis en consomme la quasi-totalité : à 9 % il
+passe sous 3:1.
+
+**7,84 % est donc un plafond mesuré, pas un réglage d'apparence.** Le monter demanderait
+d'abord de rouvrir la palette des `-vif`, dont les seize valeurs sont plus haut.
+
+En thème sombre le plafond change de nature : tout y tient au-dessus de 6:1, et la
+contrainte n'est plus le contraste mais la teinte elle-même. Les couleurs de pôle y sont
+choisies **claires** pour porter du texte sur un fond à 6 % de luminance — `--pole-data`
+passe de `#00697B` à `#01B6D4`. À part égale, le même lavis y serait deux fois plus
+présent et virerait au fond coloré.
+
+### Ce qui reste dans `.fond-atelier`
+
+Le calque plein document ne porte plus aucune couleur de pôle. Il garde le grain, la
+trame, le dégradé d'atelier, et **une seule tache** en haut du document, dans
+`--lavis-tache` — c'est-à-dire, hors de tout `data-pole`, dans le cuivre : la couleur de
+la maison. Ce n'est pas la maille par une autre porte. La maille prétendait dire quel pôle
+on lisait, à des coordonnées qui ne le savaient pas ; celle-ci ne dit rien d'un pôle, elle
+éclaire l'entrée du document et donne au verre de l'en-tête de la matière à courber.
 
 ### Contraintes tenues
 
 | Contrainte | Comment |
 |---|---|
-| Zéro octet téléchargé | Uniquement des `radial-gradient`. Aucune image. |
-| Aucune couche de compositing plein document | Ni `filter` ni `will-change` sur `.fond-atelier`, qui dépasse 9 000 px de haut sur l'accueil |
-| Pas de rasterisation géante | Les quatre lavis sont dimensionnés en **pixels**, jamais en pourcentage — chacun reste un disque de la taille d'un écran |
+| Zéro octet téléchargé | Uniquement des `radial-gradient` et une couleur de fond. Aucune image. |
+| Aucune couche de compositing | Deux propriétés de fond sur un élément déjà peint. Ni `filter`, ni `will-change`, ni `transform`. Rien n'est repeint au défilement. |
+| Pas de rasterisation géante | `.lavis-pole` dimensionne sa tache en **pixels** et la répète en Y : elle est rasterisée une fois, sur 1600 × 1100 px, jamais à la hauteur d'un gabarit de 6 000 px. `.lavis-bloc` ne sert que des blocs de la taille d'une carte. |
+| Aucune animation | Le lavis est statique. `prefers-reduced-motion` n'a rien à couper. |
+| Aucune information portée par la seule couleur | Le lavis est un décor : le nom du pôle, son libellé de place et son temps restent écrits en toutes lettres (WCAG 1.4.1). |
+| Lighthouse ≥ 95 | Mesuré après le lot : accueil 96, page de pôle 96, blog / article / réalisations 97 ; A11y, bonnes pratiques et SEO à 100. |
 
 ### Contraste — mesuré, pas supposé
 
-L'alpha est de **5,5 %** par lavis en thème clair, **3,5 %** en sombre. La part descend en
-sombre parce que les teintes de pôle y sont choisies claires pour porter du texte : à part
-égale, la même maille y serait deux fois plus présente.
+Deux mesures indépendantes, et les deux sont dans le dépôt de la PR #104 : le calcul
+analytique sur la couleur composée, puis la **lecture au pixel du rendu réel** — grain,
+trame et lueur de seuil compris — dans les deux thèmes.
 
-Pire cas, deux lavis superposés à pleine intensité, contre le fond le plus sombre du
-dégradé :
+Calcul, pire cas : lavis à sa densité maximale, sur le fond le plus défavorable du dégradé
+d'atelier (`#EDE9E0` en clair, `#14181D` en sombre).
 
-| Thème | Paire la plus défavorable | `--encre-douce` | `--encre` |
+| Thème | Pôle | Fond composé | `--encre` | `--encre-douce` | `--accent` (texte) | `--accent-vif` (non-texte) |
+|---|---|---|---|---|---|---|
+| clair | ingénierie web | `#E6DCD1` | 13.30:1 | **5.95:1** | 5.10:1 | 3.27:1 |
+| clair | data | `#DADFD8` | 13.30:1 | **5.96:1** | 4.70:1 | **3.02:1** |
+| clair | IA | `#E2DDDA` | 13.34:1 | **5.98:1** | 5.11:1 | 3.30:1 |
+| clair | SEA & UX | `#E0DFD1` | 13.39:1 | **6.00:1** | 4.72:1 | 3.03:1 |
+| sombre | ingénierie web | `#222020` | 13.16:1 | **6.34:1** | 6.15:1 | 7.89:1 |
+| sombre | data | `#13232A` | 13.12:1 | **6.32:1** | 6.65:1 | 8.44:1 |
+| sombre | IA | `#1F202B` | 13.11:1 | **6.31:1** | 6.08:1 | 7.79:1 |
+| sombre | SEA & UX | `#1C2321` | 13.04:1 | **6.28:1** | 6.59:1 | 8.33:1 |
+
+Lecture au pixel, sur le rendu servi. Les valeurs sont légèrement **plus basses** que le
+calcul : le grain et la lueur de seuil s'y ajoutent, et c'est bien ce qu'un lecteur a sous
+les yeux.
+
+| Thème | Surface | `--encre-douce` | `--encre` |
 |---|---|---|---|
-| clair | ingénierie + data | **5.70:1** (nu : 6.65) | 12.72:1 |
-| sombre | IA + SEA & UX | **6.92:1** (nu : 7.57) | 14.37:1 |
+| clair | les quatre portes de l'accueil | **5.59 → 5.70:1** | 12.48 → 12.72:1 |
+| clair | les quatre pages de pôle | **5.85 → 5.86:1** | 13.06 → 13.09:1 |
+| sombre | les quatre portes de l'accueil | **6.49 → 6.71:1** | 13.48 → 13.92:1 |
+| sombre | les quatre pages de pôle | **6.74 → 6.80:1** | 14.00 → 14.12:1 |
 
-Le seuil AA du texte est à 4.5:1 : les deux tiennent avec de la marge.
+Le seuil AA du texte est à 4.5:1, celui des éléments non-texte à 3:1 : les deux tiennent,
+le second de justesse et par construction.
 
-> **Un écart relevé au passage.** Les ratios des tableaux de jetons plus haut sont mesurés
-> sur `--fond` (`#F2EFE8`), alors que le fond réellement peint est le dégradé de
-> `.fond-atelier`, qui descend à `#EDE9E0`. Les vrais ratios sont donc légèrement plus bas
-> que ceux affichés — `--encre-douce` est à 6.65:1 et non 7.02:1. Tous restent au-dessus du
-> seuil, mais la documentation est optimiste d'environ un tiers de point.
+**Le verre par-dessus.** Le lavis est ce que `GlassSurface` floute : un fond plus coloré
+change ce qu'il rend. Contrôlé sur les quatre teintes, dans les deux thèmes —
+`--encre-douce` sur un panneau posé sur le lavis le plus dense vaut **6.79 à 6.82:1** en
+clair et **5.23 à 5.28:1** en sombre. Le panneau *améliore* le contraste en clair (son
+voile blanc éclaircit le fond) et le réduit en sombre sans jamais l'approcher du seuil.
+
+> **Un écart relevé au passage, toujours valable.** Les ratios des tableaux de jetons plus
+> haut sont mesurés sur `--fond` (`#F2EFE8`), alors que le fond réellement peint est le
+> dégradé de `.fond-atelier`, qui descend à `#EDE9E0`. Les vrais ratios sont donc
+> légèrement plus bas que ceux affichés — `--encre-douce` est à 6.65:1 et non 7.02:1.
+> Tous restent au-dessus du seuil, mais la documentation est optimiste d'environ un tiers
+> de point. C'est cet écart qui rend le plafond du lavis si serré : la marge des `-vif`
+> est comptée sur `#EDE9E0`, pas sur `#F2EFE8`.
+
+> **Un filet non conforme, antérieur au lavis.** `--accent` dilué à 45 % — le chiffre de
+> place de `PoleHero`, le filet de preuve de `PoleEntries` — est à **1,9 à 2,5:1** sur le
+> fond, et l'était déjà avant ce lot (le lavis lui coûte 0,07 point, teinte et fond
+> bougeant ensemble). Les deux sont décoratifs et l'information qu'ils accompagnent est
+> écrite à côté, mais le point est ouvert et n'est pas traité ici.
 
 ## Le verre de la bande
 
@@ -875,5 +986,6 @@ La **réfraction** arrive aussi sur la bande, sous le même verrou que les panne
 seul, Safari et Firefox exclus par une clause `not (…)` qui survit à la minification. Le
 gate est recopié plutôt que factorisé : une classe partagée entre un panneau et une bande
 obligerait l'une à porter les réglages de l'autre, et c'est exactement ce qui produit les
-traînées colorées. Elle n'a de sens que depuis que le fond porte une maille.
+traînées colorées. Elle n'a de sens que depuis que le fond porte de la couleur — le lavis
+du pôle qu'on lit, désormais, plus la lueur de seuil de `.fond-atelier`.
 

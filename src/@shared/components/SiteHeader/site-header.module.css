@@ -60,9 +60,11 @@
      une bande obligerait l'une des deux à porter les réglages de l'autre, et c'est
      exactement ce qui produit les traînées colorées quand les valeurs d'un panneau
      tombent sur une bande.
-     Elle n'a de sens que depuis que le fond porte une maille : sur le lavis uniforme
+     Elle n'a de sens que depuis que le fond porte de la couleur : sur le lavis uniforme
      d'avant, la réfraction a été mesurée à 2 niveaux sur 255 — invisible. Ce qu'elle
-     courbe désormais, ce sont les lavis de pôle qui passent dessous au défilement. */
+     courbe désormais, ce sont les lavis de pôle qui passent dessous au défilement — non
+     plus quatre taches à coordonnées fixes, mais celui du bloc qu'on lit (`lavis.css`,
+     issue #104), plus la lueur de seuil de `.fond-atelier`. */
   @supports (backdrop-filter: url("#verre-refraction")) and
     (not (-webkit-backdrop-filter: blur(1px))) and
     (not (-moz-appearance: none)) {

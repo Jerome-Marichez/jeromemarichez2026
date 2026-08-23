@@ -31,7 +31,11 @@
 // existe pour éviter.
 //
 // Chaque plaque porte `data-pole` : sa marque et son filet prennent `--accent` sans
-// qu'aucune règle d'ici ne nomme une couleur (voir `poles.css`).
+// qu'aucune règle d'ici ne nomme une couleur (voir `poles.css`). Depuis l'issue #104,
+// elle prend aussi le lavis pastel de son pôle sur le fond papier — d'où la classe
+// globale `lavis-bloc`, qui ne connaît pas davantage la couleur : elle consomme
+// `--lavis-fond` et `--lavis-tache`, posés par `data-pole` sur la plaque elle-même. Les
+// quatre portes sont donc quatre taches de couleur côte à côte, une par pôle.
 
 import { PoleGlyph } from '@/@shared/components/PoleGlyph'
 import type { IPole } from '@/interfaces/IPole'
@@ -50,7 +54,7 @@ import styles from './pole-entries.module.css'
  */
 function Porte({ pole }: { pole: IPole }) {
   return (
-    <a className={styles.plaque} data-pole={pole.id} href={pole.route}>
+    <a className={`${styles.plaque} lavis-bloc`} data-pole={pole.id} href={pole.route}>
       <span aria-hidden="true" className={styles.marque}>
         <PoleGlyph pole={pole.id} />
       </span>

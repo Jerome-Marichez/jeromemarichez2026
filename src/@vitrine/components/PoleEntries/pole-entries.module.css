@@ -52,17 +52,22 @@
   padding: var(--e-3);
   border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
   border-radius: var(--rayon-petit);
-  background: color-mix(in srgb, var(--accent) 4%, transparent);
   color: inherit;
   text-decoration: none;
-  transition:
-    border-color var(--duree-micro) var(--courbe-poser),
-    background-color var(--duree-micro) var(--courbe-poser);
+  transition: border-color var(--duree-micro) var(--courbe-poser);
+  /* Le fond n'est PAS déclaré ici : la plaque porte la classe globale `lavis-bloc`, qui
+     lui pose le lavis pastel de son pôle (issue #104). Elle avait un aplat d'accent à
+     4 %, qui disait « teinté » sans qu'on puisse nommer la teinte. */
 }
 
+/* Le survol ne monte plus le fond, et c'est une contrainte mesurée, pas un choix
+   d'apparence : le lavis est déjà au plafond de contraste (7,84 % en clair, voir
+   `lavis.css`), et un aplat de plus par-dessus ferait passer `--accent-vif` sous 3:1
+   pour la donnée et le SEA & UX. L'état est déjà porté par deux choses visibles —
+   l'arête qui se ferme et l'invite qui se souligne — dont aucune ne repose sur la seule
+   couleur (WCAG 1.4.1). */
 .plaque:hover {
   border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
 }
 
 .marque {
