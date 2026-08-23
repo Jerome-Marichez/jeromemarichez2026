@@ -31,6 +31,16 @@
 import { PoleGlyph } from '../PoleGlyph'
 import styles from './slab-scene.module.css'
 
+/**
+ * Côté d'une marque de pôle, en unités du `viewBox` de la scène.
+ *
+ * Il est posé en ATTRIBUT sur chaque marque, et non en CSS : un `<svg>` imbriqué dans un
+ * autre `<svg>` n'honore pas une largeur CSS, il retombe sur `100%` du viewport parent
+ * (issue #102). Un seul nombre pour les quatre — ce sont des sœurs, leurs marques ne
+ * divergent pas.
+ */
+const TAILLE_MARQUE = 44
+
 interface SlabSceneProps {
   /** Rend une image fixe : les dalles gardent leur pose, le mouvement s'arrête. */
   fige?: boolean
@@ -80,7 +90,7 @@ export function SlabScene({ fige = false }: SlabSceneProps) {
             y="18"
           />
           <g className={styles.marque} data-pole="ingenierie-web" transform="translate(146 42)">
-            <PoleGlyph pole="ingenierie-web" />
+            <PoleGlyph pole="ingenierie-web" taille={TAILLE_MARQUE} />
           </g>
         </g>
 
@@ -95,7 +105,7 @@ export function SlabScene({ fige = false }: SlabSceneProps) {
             y="130"
           />
           <g className={styles.marque} data-pole="data" transform="translate(126 154)">
-            <PoleGlyph pole="data" />
+            <PoleGlyph pole="data" taille={TAILLE_MARQUE} />
           </g>
         </g>
 
@@ -113,7 +123,7 @@ export function SlabScene({ fige = false }: SlabSceneProps) {
             y="250"
           />
           <g className={styles.marque} data-pole="ia" transform="translate(46 276)">
-            <PoleGlyph pole="ia" />
+            <PoleGlyph pole="ia" taille={TAILLE_MARQUE} />
           </g>
         </g>
 
@@ -128,7 +138,7 @@ export function SlabScene({ fige = false }: SlabSceneProps) {
             y="262"
           />
           <g className={styles.marque} data-pole="sea-ux" transform="translate(264 288)">
-            <PoleGlyph pole="sea-ux" />
+            <PoleGlyph pole="sea-ux" taille={TAILLE_MARQUE} />
           </g>
         </g>
       </g>
