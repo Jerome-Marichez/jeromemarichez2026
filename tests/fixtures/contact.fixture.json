@@ -1,0 +1,55 @@
+{
+  "_lisezmoi": "Jeu de données du formulaire de contact (jeromemarichez-fr) — PAS un mock. Les vrais services (contactSchema, encodeMailtoValue, composeContactMailto, prepareContactMail) et les vrais composants (ContactField, ContactForm) tournent sur ces saisies ; aucune doublure de module n'est utilisée. Le formulaire ne fait aucun appel réseau : il compose une URL mailto: et rien d'autre. Voir docs/testing.md.",
+  "_cas": {
+    "saisieNominale": "Une saisie ordinaire et valide. Elle sert de témoin : tout ce qui la refuserait est une régression, et son URL est le point de comparaison des cas d'encodage.",
+    "saisieEncodageDifficile": "Le cas qui casse un mailto: naïf, tous les pièges dans une seule saisie : accents (é, ô), apostrophe droite ('), apostrophe typographique (’), esperluette (&), dièse (#), plus (+), parenthèses, point d'exclamation, astérisque, et trois retours à la ligne. Attendu après relecture par new URL(...).searchParams : le texte revient IDENTIQUE, les retours à la ligne en CRLF. Le + doit sortir en %2B, jamais littéral — un + littéral est relu comme une espace par une part des clients mail.",
+    "saisieEspacesSeuls": "Les trois champs remplis d'espaces et de tabulations. Le .trim() du schéma s'applique AVANT les bornes : la saisie doit être refusée sur les trois champs, jamais comptée comme remplie.",
+    "saisieTropCourte": "Chaque champ juste sous sa borne basse. Trois erreurs attendues, une par champ, dans l'ordre nom, sujet, message.",
+    "saisieTropLongue": "Chaque champ juste au-dessus de sa borne haute. Le message compte 1501 caractères : à 1500 il passe, à 1501 il est refusé.",
+    "saisieUrlTropLongue": "Une saisie qui tient dans les bornes de caractères et dont l'URL encodée dépasse tout de même LONGUEUR_MAX_URL_MAILTO (1800). Le message est fait d'apostrophes typographiques, qui pèsent neuf caractères chacune une fois pourcent-encodées : 400 signes de saisie produisent plus de 3600 caractères d'URL. C'est le seul cas où la validation du schéma passe et où prepareContactMail refuse quand même, en posant l'erreur sur le champ message.",
+    "champsInconnus": "Une saisie qui porte un champ en trop. Le schéma ne doit pas le faire ressortir dans les erreurs de champ, et il ne doit jamais atteindre l'URL composée."
+  },
+  "destinataire": "jeromemarichez@ik.me",
+  "saisieNominale": {
+    "nom": "Marie Dupont",
+    "sujet": "Refonte du tunnel de commande",
+    "message": "Bonjour, notre tunnel de commande perd la moitie des paniers entre le panier et le paiement. Nous cherchons a savoir si le probleme est technique ou ergonomique, sous six semaines."
+  },
+  "saisieEncodageDifficile": {
+    "nom": "Jérôme O'Neill",
+    "sujet": "Audit data & SEA #2026 (urgent) + tracking",
+    "message": "Bonjour Jérôme,\nJ'ai un besoin R&D #tracking + CRM, et c’est urgent (deux semaines) !\nLe budget est de 50 % de l'enveloppe annuelle.\n\nMerci d'avance*"
+  },
+  "saisieEspacesSeuls": {
+    "nom": "     ",
+    "sujet": "\t\t  ",
+    "message": "                                   "
+  },
+  "saisieTropCourte": {
+    "nom": "M",
+    "sujet": "AB",
+    "message": "Trop court, merci."
+  },
+  "saisieTropLongue": {
+    "_lisezmoi": "Les valeurs sont donnees par leur motif et leur longueur cible, a construire dans le test : un fichier de donnees n'a pas a porter 1501 caracteres en dur.",
+    "nomMotif": "n",
+    "nomLongueur": 81,
+    "sujetMotif": "s",
+    "sujetLongueur": 121,
+    "messageMotif": "m",
+    "messageLongueur": 1501
+  },
+  "saisieUrlTropLongue": {
+    "_lisezmoi": "Le message est le motif ’ repete 400 fois : valide pour le schema (400 <= 1500), et plus de 3600 caracteres une fois encode.",
+    "nom": "Marie Dupont",
+    "sujet": "Un sujet ordinaire",
+    "messageMotif": "’",
+    "messageLongueur": 400
+  },
+  "champsInconnus": {
+    "nom": "Marie Dupont",
+    "sujet": "Refonte du tunnel de commande",
+    "message": "Bonjour, notre tunnel de commande perd la moitie des paniers. Nous cherchons a savoir pourquoi, sous six semaines.",
+    "copieCachee": "quelquun@example.invalid"
+  }
+}

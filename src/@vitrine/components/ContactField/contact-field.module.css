@@ -1,0 +1,91 @@
+/* contact-field.module.css — un champ du formulaire de contact.
+ *
+ * Le champ est un creux dans le papier, pas une carte posée dessus : le bloc de contact
+ * est déjà une surface de verre (issue #115), et empiler un second relief à l'intérieur
+ * ferait deux plans qui se disputent la même lumière. D'où `--fond-creux` en fond et une
+ * arête discrète, plutôt qu'une ombre. */
+
+.champ {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-0);
+}
+
+.label {
+  font-family: var(--police-mono-pile);
+  font-weight: 500;
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: var(--suivi-etiquette);
+  color: var(--encre);
+}
+
+/* La mention est ÉCRITE, jamais réduite à un astérisque ni à une couleur (WCAG 1.4.1).
+   Elle est en casse normale : reprise en majuscules par le label, « (OBLIGATOIRE) »
+   se lit comme un avertissement, et certaines synthèses vocales l'épellent. */
+.obligatoire {
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+  color: var(--encre-douce);
+}
+
+.aide {
+  margin: 0;
+  font-size: var(--t-note);
+  line-height: 1.5;
+  color: var(--encre-douce);
+}
+
+.saisie {
+  width: 100%;
+  margin-top: var(--e-0);
+  padding: var(--e-2) var(--e-3);
+  border: 1px solid color-mix(in srgb, var(--encre) 24%, transparent);
+  border-radius: var(--rayon-petit);
+  background: color-mix(in srgb, var(--fond-creux) 70%, transparent);
+  color: var(--encre);
+  font-family: inherit;
+  font-size: var(--t-0);
+  line-height: 1.5;
+  transition: border-color var(--duree-micro) ease-out;
+}
+
+.saisie:hover {
+  border-color: color-mix(in srgb, var(--encre) 40%, transparent);
+}
+
+/* Le contour de focus global (`globals.css`) suffit et reste le même partout ; la bordure
+   qui se ferme n'est qu'un renfort, elle ne porte rien à elle seule. */
+.saisie:focus-visible {
+  border-color: var(--accent);
+}
+
+textarea.saisie {
+  resize: vertical;
+  min-height: 9rem;
+}
+
+/* L'état d'erreur se dit trois fois : par le message écrit dessous, par `aria-invalid`,
+   et seulement en dernier par cette arête. La couleur n'est jamais seule. */
+.saisie[aria-invalid="true"] {
+  border-color: var(--cuivre);
+  border-width: 2px;
+}
+
+.complement {
+  margin: 0;
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  color: var(--encre-douce);
+}
+
+/* `--cuivre` est mesuré à 6.02:1 en thème clair et 7.18:1 en sombre sur `--fond`
+   (globals.css) : au-dessus du 4.5:1 exigé pour du texte courant. */
+.erreur {
+  margin: 0;
+  font-size: var(--t-note);
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--cuivre);
+}
