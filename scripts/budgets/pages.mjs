@@ -4,20 +4,73 @@
 // Source unique : `scripts/budgets.mjs`, la doc et la CI lisent ces valeurs, personne
 // ne les recopie.
 //
-// **Les seuils viennent du `CLAUDE.md`** (« Lighthouse ≥ 95 sur les 4 catégories »),
-// pas d'un arbitrage de confort. Les abaisser pour faire passer un contrôle est
-// explicitement interdit par la règle 8 du `CLAUDE.md` : c'est la page qu'on corrige,
-// jamais le budget. Un budget qu'on rabote ne protège plus de rien.
+// **Les seuils viennent du `CLAUDE.md` et de ses arbitrages**, pas d'un ajustement de
+// confort décidé au moment où un contrôle passe au rouge. La règle 8 du `CLAUDE.md`
+// interdit d'abaisser un seuil pour faire passer la CI : c'est la page qu'on corrige,
+// jamais le budget. Un budget qu'on rabote en douce ne protège plus de rien.
+//
+// Une révision de seuil par le propriétaire du projet n'est pas ce geste-là, à une
+// condition : qu'elle soit écrite, datée et attribuée, pour qu'on la distingue six mois
+// plus tard d'une régression maquillée. C'est le cas du plancher de performance
+// ci-dessous, et de lui seul. Ce qui reste interdit sans condition : un `|| true`, une
+// catégorie exemptée du contrôle, une page retirée de la liste mesurée.
 
 /**
- * Seuil minimal, par catégorie Lighthouse. Les quatre catégories sont contrôlées :
- * une accessibilité à 100 n'excuse pas une performance à 80.
+ * Seuil **bloquant**, par catégorie Lighthouse : sous cette valeur, le budget échoue et
+ * rien ne se livre. Les quatre catégories sont contrôlées, aucune n'est exemptée.
+ *
+ * Le plancher de **performance est à 80 depuis le 2026-08-24** : « Pour le LCP
+ * j'autorise 80/100 mais pas moins » (arbitrage de Jérôme MARICHEZ, issue #146). Les
+ * trois autres catégories ne bougent pas et restent à 95 : une performance tolérée à 82
+ * n'excuse aucune régression d'accessibilité, de bonnes pratiques ou de SEO.
  */
 export const SEUILS_LIGHTHOUSE = {
+  performance: 80,
+  accessibility: 95,
+  'best-practices': 95,
+  seo: 95,
+}
+
+/**
+ * Ce qu'on **vise**, par catégorie. « Mais pas moins » dit que 80 est un plancher, pas
+ * une cible : le site vend la performance tenue, et un score qui passe le plancher sans
+ * atteindre 95 doit se voir dans le rapport au lieu de se confondre avec un score
+ * confortable. Un écart entre la cible et le plancher ne bloque pas, il signale.
+ */
+export const CIBLES_LIGHTHOUSE = {
   performance: 95,
   accessibility: 95,
   'best-practices': 95,
   seo: 95,
+}
+
+/**
+ * Les trois états d'un score, dans l'ordre de gravité. `echec` seul fait échouer le
+ * budget ; `sousCible` passe le plancher mais reste sous la cible ; `tenu` est le score
+ * confortable.
+ *
+ * @param {string} categorie
+ * @param {number} score
+ * @returns {'echec' | 'sousCible' | 'tenu'}
+ */
+export function classerScore(categorie, score) {
+  if (score < SEUILS_LIGHTHOUSE[categorie]) return 'echec'
+  if (score < CIBLES_LIGHTHOUSE[categorie]) return 'sousCible'
+  return 'tenu'
+}
+
+/**
+ * Le verdict bloquant d'une page : la liste des catégories sous leur plancher, vide
+ * quand le budget est tenu. Fonction pure, sans Lighthouse ni navigateur, pour qu'on
+ * puisse lui soumettre un jeu de scores et vérifier qu'elle refuse encore ce qu'elle
+ * doit refuser.
+ *
+ * @param {Record<string, number>} scores
+ */
+export function evaluerScores(scores) {
+  return Object.entries(SEUILS_LIGHTHOUSE)
+    .filter(([categorie, seuil]) => scores[categorie] < seuil)
+    .map(([categorie, seuil]) => ({ categorie, obtenu: scores[categorie], seuil }))
 }
 
 /**

@@ -1,8 +1,8 @@
 // budgets.mjs — jeromemarichez-fr
 //
-// Rend **exécutables** les deux promesses que le site affiche : Lighthouse ≥ 95 sur les
-// quatre catégories, et accessibilité WCAG AA. Une commande, un code de sortie, et le
-// nom de ce qui ne passe pas.
+// Rend **exécutables** les deux promesses que le site affiche : les scores Lighthouse
+// tenus sur les quatre catégories, et l'accessibilité WCAG AA. Une commande, un code de
+// sortie, et le nom de ce qui ne passe pas.
 //
 //   node scripts/budgets.mjs            (ou : make budgets)
 //   node scripts/budgets.mjs perf       (ou : make budget-perf)
@@ -13,8 +13,19 @@
 // ne reste que la mesure.
 //
 // Règle 8 du `CLAUDE.md` : le vert s'obtient par un site qui tient ses budgets, jamais
-// par un seuil qu'on abaisse. Aucun `|| true`, aucune catégorie exemptée, aucune page
-// retirée de la liste pour faire passer la CI.
+// par un seuil que l'assistant abaisse pour faire passer la CI. Aucun `|| true`, aucune
+// catégorie exemptée, aucune page retirée de la liste : ces trois-là restent interdits,
+// sans condition ni exception.
+//
+// Un seuil peut en revanche être **révisé par le propriétaire du projet**, et cela s'est
+// produit une fois : le plancher de performance est passé de 95 à 80 le 2026-08-24, sur
+// décision de Jérôme MARICHEZ (« Pour le LCP j'autorise 80/100 mais pas moins »,
+// issue #146). Les trois autres catégories restent à 95. La révision est écrite, datée
+// et attribuée dans `scripts/budgets/pages.mjs` — c'est ce qui la sépare d'une
+// régression maquillée, et la seule forme sous laquelle un seuil bouge ici.
+//
+// 80 est un plancher, pas une cible : le rapport distingue donc trois états, et un score
+// qui passe sans atteindre 95 se lit comme tel.
 
 import puppeteer from 'puppeteer'
 import { analyserPage } from './budgets/mesure-axe.mjs'
