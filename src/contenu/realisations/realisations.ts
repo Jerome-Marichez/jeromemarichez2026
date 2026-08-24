@@ -1,8 +1,8 @@
-// realisations.ts — jeromemarichez-fr
+// realisations.ts (jeromemarichez-fr)
 // La liste des réalisations publiées. Source unique de l'espace `/realisations/`.
 //
 // Tout part d'ici : la liste, les fiches générées au build, le sitemap et les données
-// structurées. Une fiche retirée de ce tableau disparaît partout — il n'y a pas de second
+// structurées. Une fiche retirée de ce tableau disparaît partout : il n'y a pas de second
 // endroit à mettre à jour.
 //
 // L'ORDRE DE CE TABLEAU EST L'ORDRE D'AFFICHAGE, à l'intérieur de chaque cadre d'emploi.
@@ -10,7 +10,7 @@
 // `src/services/find-realisation` et suit l'ordre de `CADRES`.
 //
 // Une convention tenue à la main : chaque cadre s'ouvre sur sa fiche chiffrée quand il en
-// a une, puis déroule du produit vers la donnée. Le type ne peut pas l'imposer — trois
+// a une, puis déroule du produit vers la donnée. Le type ne peut pas l'imposer : trois
 // fiches chiffrées sur treize ne font pas une règle exprimable.
 
 import type { IRealisation } from '@/interfaces/IRealisation'

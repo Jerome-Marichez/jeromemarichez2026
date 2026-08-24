@@ -1,5 +1,5 @@
-// sea-ux-sections.ts — jeromemarichez-fr
-// Le pôle SEA & UX — l'une des deux suites de la donnée. SEA et arbitrages d'expérience.
+// sea-ux-sections.ts (jeromemarichez-fr)
+// Le pôle SEA & UX, l'une des deux suites de la donnée. SEA et arbitrages d'expérience.
 //
 // Point de vigilance éditorial numéro un : rien ici ne doit laisser croire à de la
 // création graphique ou à du design d'interface. Ce qui est vendu, ce sont des

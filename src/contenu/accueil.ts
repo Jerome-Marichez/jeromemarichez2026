@@ -1,4 +1,4 @@
-// accueil.ts — jeromemarichez-fr
+// accueil.ts (jeromemarichez-fr)
 // Contenu de la page d'accueil : seuil, thèse, et le renvoi vers les quatre pôles.
 //
 // Tous les faits cités ici sont sourcés dans les CV de référence
@@ -10,7 +10,7 @@
 // sections et douze mille pixels, dont trois pôles racontés en court juste au-dessus des
 // pages qui les racontent en long, et deux charnières dupliquées à l'identifiant près.
 // Tout ce détail est descendu sur `/services/<pole>/`. Il ne reste ici qu'une section
-// éditoriale — les deux objections —, parce qu'elle ne relève d'aucun pôle : elle porte
+// éditoriale (les deux objections), parce qu'elle ne relève d'aucun pôle : elle porte
 // sur la façon de travailler, et son second bloc est tenu par les règles de véracité
 // (voir `objections.ts`). Le reste de la page est composé par `HomeView` : seuil, thèse
 // et chaîne, les quatre portes, le mur de preuves, les limites, les certifications, les
@@ -24,12 +24,12 @@ export const HERO_ACCUEIL = {
   titre: "Je construis, j'exploite, je mesure. Le même interlocuteur, du cadrage au run.",
   chapo:
     'Ingénieur-conseil indépendant à Lille, 9 ans. Celui qui cadre est celui qui code, qui mesure ' +
-    'et qui exploite — et c’est lui qui répond de tout.',
+    'et qui exploite. C’est lui qui répond de tout.',
   // Le fil IA se dit dès le seuil, sinon il se découvre au pôle Data et se lit comme une
   // offre. Formulation tenue par les règles de véracité : l'IA instruit et produit, le
-  // test décide — jamais l'inverse.
+  // test décide, jamais l'inverse.
   methode:
-    'Je conçois, je développe et je pilote avec l’IA — Claude Code et Gemini au ' +
+    'Je conçois, je développe et je pilote avec l’IA : Claude Code et Gemini au ' +
     'quotidien, le test tranchant à chaque étape.',
   jetons: [
     { chiffre: '3', libelle: 'migrations sans interruption de service' },
@@ -56,7 +56,7 @@ export const THESE_CHAINE = {
   titre: 'Quatre pôles, une seule chaîne',
   chapo:
     'Pas quatre offres au catalogue : ce qui est construit tourne, ce qui tourne produit de la ' +
-    'donnée — et cette donnée ouvre l’IA et l’arbitrage. L’une, l’autre, ou les deux.',
+    'donnée, et cette donnée ouvre l’IA et l’arbitrage. L’une, l’autre, ou les deux.',
   appui:
     'La chaîne ne tient que parce que c’est la même personne à chaque poste : découpée, elle ' +
     'casse à chaque jointure.',
@@ -65,7 +65,7 @@ export const THESE_CHAINE = {
 export const PAGE_ACCUEIL: IEditorialPage = {
   route: '/',
   meta: {
-    title: 'Jérôme Marichez — Ingénieur-conseil indépendant à Lille',
+    title: 'Jérôme Marichez, ingénieur-conseil indépendant à Lille',
     description:
       'Ingénierie web, data, IA, SEA & UX : un seul interlocuteur du cadrage au run, ' +
       'qui répond de tout. Conception, développement et pilotage avec l’IA. Lille et ' +

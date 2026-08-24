@@ -1,8 +1,8 @@
-// espaces.ts — jeromemarichez-fr
+// espaces.ts (jeromemarichez-fr)
 // Les deux espaces éditoriaux, vus depuis l'accueil.
 //
 // L'accueil vendait ses quatre pôles et taisait ses deux espaces : on n'y arrivait que
-// par le menu ou par un renvoi de tuile de preuve. C'est le point 3 de l'issue #84 —
+// par le menu ou par un renvoi de tuile de preuve. C'est le point 3 de l'issue #84 :
 // l'accueil doit pointer vers ses catégories par des entrées franches.
 //
 // **Les volumes sont DÉRIVÉS des listes sources**, jamais recopiés. C'est la même règle
@@ -11,7 +11,7 @@
 // devant treize est un défaut de véracité, pas une coquille.
 //
 // Ce que ces accroches n'ont PAS le droit de faire : élargir. Elles reprennent ce que
-// chaque espace dit déjà de lui-même dans son propre chapô — les réalisations portent
+// chaque espace dit déjà de lui-même dans son propre chapô : les réalisations portent
 // chacune leur cadre, deux postes salariés et une mission en indépendant, et trois fiches
 // seulement portent un chiffre. Une accroche d'accueil qui laisserait croire à treize
 // références chiffrées vendrait ce qui n'existe pas.
@@ -38,7 +38,7 @@ export const ESPACES_EDITORIAUX: IEspaceEditorial[] = [
     titre: 'Blog',
     route: ROUTES.blog,
     accroche:
-      'Les arbitrages de ce site, écrits pendant qu’ils étaient pris — mesure, tests, rendu.',
+      'Les arbitrages de ce site, écrits pendant qu’ils étaient pris : mesure, tests, rendu.',
     volume: `${ARTICLES.length} notes`,
   },
 ]

@@ -1,9 +1,9 @@
-// export-statique.ts — jeromemarichez-fr
-// Article — pourquoi ce site est un export statique.
+// export-statique.ts (jeromemarichez-fr)
+// Article : pourquoi ce site est un export statique.
 //
-// Véracité (CLAUDE.md) : tout ce qui est affirmé ici est vérifiable dans ce dépôt —
-// `output: 'export'` et `trailingSlash` dans next.config.mjs, l'absence de route API,
-// le mailto du pied de page. Aucun chiffre de performance n'est revendiqué pour ce
+// Véracité (CLAUDE.md) : tout ce qui est affirmé ici est vérifiable dans ce dépôt
+// (`output: 'export'` et `trailingSlash` dans next.config.mjs, l'absence de route API,
+// le mailto du pied de page). Aucun chiffre de performance n'est revendiqué pour ce
 // site : la cible est annoncée comme une cible, pas comme un résultat mesuré.
 
 import type { IArticle } from '@/interfaces/IArticle'
@@ -13,7 +13,7 @@ export const ARTICLE_EXPORT_STATIQUE: IArticle = {
   titre: 'Pourquoi ce site est un export statique',
   chapo:
     'Ce site ne tourne sur aucun serveur applicatif : la commande de build écrit des ' +
-    'fichiers, et un serveur de fichiers les sert. C’est un arbitrage, pas un réglage — ' +
+    'fichiers, et un serveur de fichiers les sert. C’est un arbitrage, pas un réglage : ' +
     'il ferme des portes, et je préfère dire lesquelles.',
   meta: {
     title: 'Pourquoi ce site est un export statique',
@@ -22,7 +22,7 @@ export const ARTICLE_EXPORT_STATIQUE: IArticle = {
       'ISR, formulaire), ce qu’il ouvre, et quand il ne faut pas le choisir.',
   },
   datePublication: '2026-08-21',
-  // La figure « borne » : ce qui est produit s'arrête à une ligne, et au-delà — tireté —
+  // La figure « borne » : ce qui est produit s'arrête à une ligne, et au-delà (tireté)
   // le serveur applicatif qui n'existe plus. C'est le sujet de l'article, en une forme.
   figure: 'borne',
   sections: [
@@ -64,7 +64,7 @@ export const ARTICLE_EXPORT_STATIQUE: IArticle = {
           'contournements, et les contournements se paient en incidents.',
         'La question à trancher n’est donc pas « statique ou dynamique » mais : qu’est-ce qui, ' +
           'sur ce site, change à quelle fréquence et pour qui ? La réponse décide de la ' +
-          'stratégie de rendu, page par page — et elle peut très bien être différente d’une ' +
+          'stratégie de rendu, page par page, et elle peut très bien être différente d’une ' +
           'page à l’autre du même produit.',
       ],
     },

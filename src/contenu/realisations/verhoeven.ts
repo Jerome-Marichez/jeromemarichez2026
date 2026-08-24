@@ -1,16 +1,16 @@
-// verhoeven.ts — jeromemarichez-fr
+// verhoeven.ts (jeromemarichez-fr)
 // Verhoeven Joaillier, 2019-2022 : e-commerce de joaillerie de luxe, poste unique.
 //
 // **Interdiction nominative appliquée ici** : Google Tag Manager n'appartient pas à cette
 // période (`CLAUDE.md`). Ce qui est revendiqué chez Verhoeven, c'est Google Analytics, de
-// l'A/B testing et des heatmaps — rien de plus.
+// l'A/B testing et des heatmaps. Rien de plus.
 //
 // Deuxième garde-fou : le poste était unique. Aucune de ces fiches ne doit laisser croire
 // à l'encadrement de développeurs ; ce qui a été encadré, ce sont des prestataires SEA,
 // SEO et SMA, et c'est écrit dans le cadre d'emploi.
 //
 // Troisième : le +50 % porte sur le **panier moyen**. Ni chiffre d'affaires, ni taux de
-// conversion, ni revenus — trois affirmations différentes, dont deux ne sont pas sourcées.
+// conversion, ni revenus : trois affirmations différentes, dont deux ne sont pas sourcées.
 
 import type { IRealisation } from '@/interfaces/IRealisation'
 import type { IRealisationChiffree } from '@/interfaces/IRealisationChiffree'
@@ -22,9 +22,9 @@ export const REALISATION_PARCOURS_ACHAT: IRealisationChiffree = {
   titre: 'Refondre les parcours d’achat d’un e-commerce de joaillerie',
   chapo:
     'Les tunnels d’achat se discutaient au goût. Ils ont été refondus sur ce que la mesure ' +
-    'disait du visiteur réel — et l’arbitrage décidé était implémenté par la même personne.',
+    'disait du visiteur réel, et l’arbitrage décidé était implémenté par la même personne.',
   meta: {
-    title: 'Refonte des parcours d’achat — panier moyen +50 %',
+    title: 'Refonte des parcours d’achat : panier moyen +50 %',
     description:
       'Refonte des tunnels d’achat d’un e-commerce de joaillerie de luxe pilotée par la ' +
       'mesure : A/B testing des pages et des designs, heatmaps, taux de rebond.',
@@ -32,11 +32,11 @@ export const REALISATION_PARCOURS_ACHAT: IRealisationChiffree = {
   cadre: CADRE_VERHOEVEN,
   // Les trois pôles de la chaîne SANS l'IA : construire, mesurer, arbitrer. C'est la
   // démonstration la plus directe que rien n'oblige à acheter de l'IA pour tirer parti de
-  // sa donnée — et elle est vraie, ce travail n'en a jamais employé.
+  // sa donnée. Et elle est vraie, ce travail n'en a jamais employé.
   poles: ['ingenierie-web', 'data', 'sea-ux'],
   probleme:
     'Les tunnels d’achat se discutaient au goût, page par page. Sur un catalogue de pièces ' +
-    'uniques, une étape de trop coûte une commande — encore fallait-il savoir laquelle.',
+    'uniques, une étape de trop coûte une commande. Encore fallait-il savoir laquelle.',
   etapes: [
     {
       titre: 'Mesurer avant de trancher',
@@ -76,7 +76,7 @@ export const REALISATION_VERHOEVEN_MIGRATIONS: IRealisation = {
   titre: 'Deux migrations sans jamais couper le site marchand',
   chapo:
     'PHP 5 vers 7 puis réécriture en Node.js, jQuery vers React. Un site marchand ne se met ' +
-    'pas en maintenance le temps d’une réécriture — et celui-ci a aussi fallu l’exploiter.',
+    'pas en maintenance le temps d’une réécriture, et celui-ci a aussi fallu l’exploiter.',
   meta: {
     title: 'Deux migrations sans couper un site marchand',
     description:
@@ -113,7 +113,7 @@ export const REALISATION_VERHOEVEN_MIGRATIONS: IRealisation = {
     'Les deux migrations ont été menées sans interruption du site marchand, sur un poste ' +
     'unique.',
   decision:
-    'Ce qui se migre par étapes et ce qui se réécrit — et ce que chaque option coûte en ' +
+    'Ce qui se migre par étapes et ce qui se réécrit, et ce que chaque option coûte en ' +
     'risque d’arrêt.',
 }
 

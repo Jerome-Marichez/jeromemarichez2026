@@ -1,9 +1,9 @@
-// cadres.ts — jeromemarichez-fr
+// cadres.ts (jeromemarichez-fr)
 // Les trois cadres sous lesquels toutes les réalisations du site ont été menées.
 //
 // **Deux postes salariés et une mission en indépendant.** Acetelecom / MailingVox et
-// Verhoeven Joaillier sont des employeurs ; Truffle Capital est un client — le seul cité
-// sur le site, Artedrone étant une participation du fonds et non un second client — pour
+// Verhoeven Joaillier sont des employeurs ; Truffle Capital est un client (le seul cité
+// sur le site, Artedrone étant une participation du fonds et non un second client) pour
 // qui le travail a été mené en auto-entrepreneur entre 2017 et 2019. Chaque cadre porte
 // donc son `statut`, au même rang que le poste, la période et l'équipe : c'est ce qui
 // manquait, et c'est ce qui a laissé publier « trois postes salariés » (issue #107).
@@ -25,7 +25,7 @@ export const CADRE_MAILINGVOX: IRealisationCadre = {
   poste: 'Lead Tech · Ingénieur full stack, mobile & IA',
   periode: '2023-2026',
   equipe:
-    'Équipe technique de trois — deux développeurs et un product owner. Ni QA ni équipe ' +
+    'Équipe technique de trois : deux développeurs et un product owner. Ni QA ni équipe ' +
     'data dédiées. Encadrement d’alternants et de stagiaires.',
 }
 

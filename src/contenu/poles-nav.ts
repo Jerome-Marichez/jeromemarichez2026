@@ -1,8 +1,8 @@
-// poles-nav.ts — jeromemarichez-fr
+// poles-nav.ts (jeromemarichez-fr)
 // Les quatre pôles vus depuis la navigation : le strict nécessaire pour se repérer.
 //
 // Le contenu long de chaque pôle vit dans son propre fichier (`ingenierie-web.ts`,
-// `data.ts`, `ia.ts`, `sea-ux.ts`). Cette liste-ci ne porte que l'identité et la place —
+// `data.ts`, `ia.ts`, `sea-ux.ts`). Cette liste-ci ne porte que l'identité et la place :
 // elle est chargée par l'en-tête et le pied de page, donc sur toutes les pages du site.
 //
 // L'ordre du tableau est celui de la lecture, pas celui d'un achat. `ia` et `sea-ux` s'y
@@ -56,6 +56,6 @@ export const POLES_NAV: IPole[] = [
     promesse: 'Je ne dessine pas vos maquettes, je tranche vos parcours.',
     accroche:
       'Mesure construite dans le code, consentement conforme, rentabilité à long terme plutôt ' +
-      'que coût par clic — puis les arbitrages implémentés.',
+      'que coût par clic, puis les arbitrages implémentés.',
   },
 ]

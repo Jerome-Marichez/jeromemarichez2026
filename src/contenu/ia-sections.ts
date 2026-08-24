@@ -1,4 +1,4 @@
-// ia-sections.ts — jeromemarichez-fr
+// ia-sections.ts (jeromemarichez-fr)
 // Les chapitres de la page IA : la réponse technique, le coût et la propriété, le langage,
 // la mise en production, puis le retour au produit.
 //
@@ -8,16 +8,16 @@
 //
 // `charniere-arbitrage` a quitté ce fichier pour `data-sections.ts`. Elle y disait « et
 // ensuite, le pôle 3 » : posée sur la page IA, elle affirmait que le SEA & UX vient après
-// l'IA. C'est faux — ce sont les deux suites parallèles de la donnée, et la charnière
+// l'IA. C'est faux : ce sont les deux suites parallèles de la donnée, et la charnière
 // part de la donnée.
 //
 // **Cette page était la plus maigre des quatre (issue #103)** : deux chapitres contre
 // quatre à cinq ailleurs. Une suite visiblement plus pauvre que sa sœur contredit en page
-// ce que le modèle affirme — deux suites de rang égal. Deux sections ont donc été
+// ce que le modèle affirme : deux suites de rang égal. Deux sections ont donc été
 // écrites, à partir de matière déjà sourcée dans le README et les CV, jamais inventée :
 // le chapitre « langage », où le LLM cesse d'être une ligne pour devenir un arbitrage, et
 // la charnière de retour au produit, symétrique de celle du pôle SEA & UX. L'IA ne passe
-// la main à aucun autre pôle — elle est un bout de chaîne, comme le SEA & UX — mais ce
+// la main à aucun autre pôle (elle est un bout de chaîne, comme le SEA & UX), mais ce
 // qu'elle produit retourne dans le produit, et ça, c'est vrai des deux.
 //
 // **Le test de déterminisme et le prix de la donnée (issue #126).** Cette page disait
@@ -52,7 +52,7 @@ export const SECTIONS_IA: IEditorialSection[] = [
     kind: 'chapitre',
     pole: 'ia',
     kicker: 'La réponse technique',
-    titre: 'La solution répond au problème — et ce n’est pas toujours de l’IA',
+    titre: 'La solution répond au problème, et ce n’est pas toujours de l’IA',
     chapo:
       'La technique n’arrive qu’ici, une fois établi sur vos données qu’aucune règle simple ne ' +
       'répond. Les deux issues de ce test ont leur livrable, une seule demande un modèle.',
@@ -72,7 +72,7 @@ export const SECTIONS_IA: IEditorialSection[] = [
       {
         titre: 'Réponse non déterministe : le modèle apprend ce qu’aucune règle ne tient',
         texte:
-          'Supervisé — classification, réseaux de neurones — ou non supervisé, selon ce que la ' +
+          'Supervisé (classification, réseaux de neurones) ou non supervisé, selon ce que la ' +
           'donnée permet. La méthode d’extraction des caractéristiques du signal audio est ' +
           'publiée sur arXiv ; je l’ai implémentée moi-même, adaptée aux données réelles, puis ' +
           'industrialisée. TensorFlow, inférence en cloud functions.',
@@ -184,7 +184,7 @@ export const SECTIONS_IA: IEditorialSection[] = [
       {
         titre: 'Rendre votre produit appelable',
         texte:
-          'Serveurs MCP et plugins n8n, Make et Zapier — conçus, développés et documentés : ' +
+          'Serveurs MCP et plugins n8n, Make et Zapier (conçus, développés et documentés) : ' +
           'votre produit devient appelable par un agent ou un scénario no-code.',
         decision: 'Ce que vous ouvrez à l’automatisation, et ce qui reste fermé.',
       },

@@ -1,4 +1,4 @@
-// objections.ts — jeromemarichez-fr
+// objections.ts (jeromemarichez-fr)
 // Les deux objections que soulève la promesse du site, traitées ensemble.
 //
 // Ce fichier remplace `renforts.ts` et la section `un-seul-interlocuteur` de
@@ -41,21 +41,21 @@ export const SECTION_OBJECTIONS: IEditorialSection = {
         'Certification ISTQB Foundation. AMOA de la startup biotech Artedrone, exploitable par ' +
         'des prestataires non spécialistes du domaine.',
       decision:
-        'Ce que vous exigez de moi contractuellement — documentation, accès, revue de ' +
-        'reprise — et quand vous voulez pouvoir le vérifier.',
+        'Ce que vous exigez de moi contractuellement (documentation, accès, revue de ' +
+        'reprise) et quand vous voulez pouvoir le vérifier.',
     },
     {
-      titre: 'Si le projet me dépasse, je m’entoure — et j’en réponds',
+      titre: 'Si le projet me dépasse, je m’entoure, et j’en réponds',
       texte:
         'Cela arrive rarement : la très grande majorité des projets tient sur une personne, du ' +
         'cadrage au run. Quand la taille le demande, je m’entoure de prestataires que je ' +
-        'choisis, que je cadre et dont je réponds — mes spécifications, mon dépôt, les mêmes ' +
+        'choisis, que je cadre et dont je réponds : mes spécifications, mon dépôt, les mêmes ' +
         'tests. Vous ne gérez personne d’autre que moi.',
       preuve:
         'Environ 25 000 € d’encadrement de prestataires SEA, SEO et SMA chez Verhoeven ' +
         'Joaillier : périmètre, budget et qualité sont restés de mon côté.',
       decision:
-        'À quel moment vous préférez un renfort plutôt qu’un délai, et qui intervient alors — ' +
+        'À quel moment vous préférez un renfort plutôt qu’un délai, et qui intervient alors : ' +
         'périmètre et coût écrits, avant.',
     },
   ],

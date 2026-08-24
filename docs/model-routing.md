@@ -10,19 +10,19 @@ heuristique instantanée + subagents pré-définis + escalade.
 1. **`.claude/hooks/route-task.sh`** (UserPromptSubmit) classifie le prompt
    (regex FR/EN + longueur, zéro appel réseau, zéro latence) et **injecte une
    recommandation** de subagent dans le contexte.
-2. **`.claude/agents/`** définit les subagents — le modèle **et** le niveau
+2. **`.claude/agents/`** définit les subagents : le modèle **et** le niveau
    d'effort sont portés par leur frontmatter (`model:`, `effort:`), mécanisme
    natif de Claude Code :
 
 | Subagent | Modèle | Effort | Tâches |
 |----------|--------|--------|--------|
 | `opus-architect` | opus | xhigh | architecture, conception, migrations, sécurité, auth, paiement, concurrence, debugging profond, questions ouvertes (« pourquoi », « comment devrait-on ») |
-| `opus-dev` | opus | medium | features, refactoring ciblé, bugfix non trivial, tests — **et toute la zone grise** |
+| `opus-dev` | opus | medium | features, refactoring ciblé, bugfix non trivial, tests, **et toute la zone grise** |
 | `opus-frontend` | opus | medium | composants React, pages/vues, styles, responsive, accessibilité, Storybook, formulaires, **tableaux de données**, **dataviz/graphes**, **upload/import de fichiers**, animations (absent des projets `package` sans Storybook) |
-| `haiku-mechanic` | haiku | — | doc, renommages, formatage, commits, recherches de fichiers |
+| `haiku-mechanic` | haiku | *sans objet* | doc, renommages, formatage, commits, recherches de fichiers |
 
 3. Le modèle principal **peut outrepasser** la recommandation (il voit tout le
-   contexte de la session, pas seulement le prompt) — c'est un second classifieur
+   contexte de la session, pas seulement le prompt) : c'est un second classifieur
    gratuit. Consigne : dans le doute, un cran **au-dessus**.
 
 ## Garde-fous anti-perte de précision
@@ -34,7 +34,7 @@ heuristique instantanée + subagents pré-définis + escalade.
 - **Routage frontend conditionnel.** Les signaux UI (composant, css, responsive,
   accessibilité, storybook, formulaires, tableaux de données, dataviz/graphes,
   upload/import…) routent vers `opus-frontend` **seulement si l'agent existe** dans
-  `.claude/agents/` — sinon repli naturel sur `opus-dev`. Les signaux de risque (UP)
+  `.claude/agents/`, sinon repli naturel sur `opus-dev`. Les signaux de risque (UP)
   restent prioritaires : « sécurise le formulaire de paiement » va à l'architecte,
   pas au frontend.
 - **Escalade (cascade).** Les prompts de `opus-dev`, `opus-frontend` et `haiku-mechanic` imposent
@@ -44,7 +44,7 @@ heuristique instantanée + subagents pré-définis + escalade.
 - **Signaux de risque prioritaires.** sécurité, auth, paiement, migration,
   concurrence → toujours `opus-architect`, quelle que soit la taille du prompt.
 - **L'effort porte l'économie, pas la qualité du modèle.** Les deux paliers hauts
-  restent sur Opus — seule la profondeur de raisonnement varie (`xhigh` pour
+  restent sur Opus : seule la profondeur de raisonnement varie (`xhigh` pour
   l'architecture, recommandation officielle pour le code ; `medium` pour le
   développement courant). Les économies viennent de l'effort réduit et de Haiku
   sur le mécanique, jamais d'un modèle plus faible sur une tâche de fond.
@@ -56,7 +56,7 @@ heuristique instantanée + subagents pré-définis + escalade.
 ## Budget crédits
 
 Si `CREDITS_LIMIT_TOKENS` (plafond de tokens du bloc de facturation 5 h) est défini
-dans l'environnement, le hook lit la consommation via `ccusage` — **mise en cache
+dans l'environnement, le hook lit la consommation via `ccusage`, **mise en cache
 10 minutes** (aucun appel réseau à chaque prompt) :
 
 - **> 50 % consommés et reset < 2 h** → recommandation plafonnée à `opus-dev`
@@ -67,9 +67,9 @@ dans l'environnement, le hook lit la consommation via `ccusage` — **mise en ca
 ## Journal et évaluation
 
 Chaque classification est journalisée dans `.claude/route-task.log` (JSONL :
-timestamp, classe, subagent, taille du prompt — gitignoré). Règle d'évolution :
+timestamp, classe, subagent, taille du prompt), fichier gitignoré. Règle d'évolution :
 ne **descendre** un type de tâche d'un niveau que si le journal montre qu'il
-n'escalade jamais — « step down only when measured ».
+n'escalade jamais : « step down only when measured ».
 
 ## Sources
 
