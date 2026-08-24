@@ -24,6 +24,16 @@ Conformité **WCAG 2.1 AA** sur les parcours principaux.
   limite connue de cette palette sous vision dichromate est documentée dans `design.md`,
   chiffres à l'appui, plutôt que passée sous silence.
 - **Images** : `alt` pertinent (ou vide si décorative).
+- **L'état de survol d'un bouton d'action ne tient ni au mouvement ni à la couleur.**
+  Les trois actions du site (le seuil, la barre collante d'un pôle, le bloc de contact de
+  l'accueil) répondaient au survol en se déplaçant vers le pointeur. Ce geste a été
+  **refusé par Jérôme MARICHEZ** (issue #137) et son module supprimé. Deux signaux le
+  remplacent, et ils sont posés ensemble : l'ombre monte (`--elevation-levee`) et le
+  libellé se souligne. Le soulignement est là pour WCAG 1.4.1 : une ombre portée se
+  perçoit mal sur un écran mat, un trait sous le libellé est une forme et se voit
+  partout. Le repos des boutons n'a pas changé, et le focus clavier reste le
+  `:focus-visible` global (contour de 2px en `--accent`, 3px d'écart, WCAG 2.4.7).
+  Détail et raisons dans [`design.md`](./design.md).
 
 ## Checklist par composant
 

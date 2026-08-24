@@ -336,12 +336,33 @@ personnalisé.
 | **Tracer** | les deux charnières | filet cuivre 2px, `scaleY(0)` → `scaleY(1)`, `--duree-tracer`. Seul mouvement porteur de sens : la chaîne se trace. Déclenché à l'entrée de la charnière dans l'écran, et non au chargement de la page |
 | **Traverser** | le fil IA | filets cuivre **horizontaux**, `scaleX(0)` → `scaleX(1)`, même durée, même déclenchement. Perpendiculaires à ceux des charnières : la chaîne descend, le fil la coupe — la géométrie dit « ceci n'est pas une quatrième offre » |
 | **Dériver** | la scène des quatre dalles | deux fréquences lentes qui ne se referment jamais ensemble, en `transform` seul — assez pour faire lire du volume, jamais assez pour appeler le regard. Le filet de tenue en est **exclu** : ce qui tient ne dérive pas |
-| **Aimanter** | les boutons d'action | le bouton suit le pointeur, borné à **6 px** ([`utils/aimant.ts`](../src/utils/aimant.ts)), en `transform` seul. Souris uniquement : au doigt il n'y a pas de survol, l'attraction n'arriverait qu'après l'appui. `MagneticAction` est le **seul** module autorisé à poser un `transform` sur un bouton — deux règles concurrentes se départageraient à l'ordre du paquet CSS |
-| **Micro-états** | liens et boutons | épaisseur de soulignement, `--aimant-appui: -1px` au survol, `--duree-micro` — aucun déplacement de mise en page |
+| **Micro-états** | liens et boutons | épaisseur de soulignement, ombre qui monte au survol, `--duree-micro`. Aucun déplacement de mise en page, et aucun déplacement tout court : voir « Le survol d'un bouton d'action » ci-dessous |
 
 Seuls `transform` et `opacity` sont animés, nulle part ailleurs. Ce sont les deux
 propriétés que le compositeur traite sans repasser par la mise en page ni par le peintre,
 donc les deux seules qui tiennent 60 images par seconde sur un téléphone.
+
+### Le survol d'un bouton d'action
+
+**Un bouton d'action ne se déplace pas.** Un geste d'aimantation a existé un temps, où
+le bouton suivait le pointeur de quelques pixels. Il a été **refusé par Jérôme MARICHEZ**
+(issue #137) : le déplacement se lit comme un défaut de rendu plutôt que comme une
+réponse, et un site qui vend la sobriété ne peut pas ouvrir sur un bouton qui fuit la
+main. Le composant `MagneticAction` et son calcul `utils/aimant.ts` ont été supprimés,
+pas désactivés : un module mort se remet en service par inadvertance.
+
+Ce que le survol dit à la place, sur les trois actions concernées (le seuil, la barre
+collante d'un pôle, le bloc de contact de l'accueil) :
+
+| Signal | Propriété | Pourquoi celui-là |
+|---|---|---|
+| l'ombre monte | `box-shadow: var(--elevation-levee)` | la surface se lève, ce qui est la métaphore du reste du site. Sur l'action du seuil, l'ombre s'**ajoute** à la couronne en `inset` sans la réécrire : la lumière ne s'éteint pas au moment où la main arrive |
+| le libellé se souligne | `text-decoration: underline`, 2px, `0.24em` d'écart | une ombre portée se perçoit mal sur un écran mat, et WCAG 1.4.1 refuse qu'un état tienne à la seule couleur. Un trait sous le libellé est une **forme** |
+
+Les deux ensemble, jamais l'un seul : c'est déjà la règle appliquée à l'invite d'une
+porte de pôle. Le repos, lui, est inchangé (aplat d'accent, couronne du seuil, verre de
+la PR #135) ; seul l'état de survol a été réécrit. Le focus clavier reste celui de
+`:focus-visible` dans `globals.css`, un contour de 2px en `--accent` à 3px d'écart.
 
 Sous `prefers-reduced-motion: reduce` : les animations CSS sont coupées et la scène est
 rendue **figée** — les dalles gardent leur pose. **Le verre, lui, n'est pas concerné** :
