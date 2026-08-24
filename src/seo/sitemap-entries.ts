@@ -9,8 +9,8 @@
 // source d'où tirer la liste des articles et des réalisations.
 
 import type { MetadataRoute } from 'next'
-import { articleRevisionDate, listArticles } from '@/@vitrine/services/find-article'
-import { listRealisations } from '@/@vitrine/services/find-realisation'
+import { articleRevisionDate, listArticles } from '@/services/find-article'
+import { listRealisations } from '@/services/find-realisation'
 import { INDEXABLE_ROUTES, ROUTES, toArticleRoute, toRealisationRoute } from '../routes'
 import { SITE_DERNIERE_REVISION } from './site'
 import { toAbsoluteUrl } from './urls'

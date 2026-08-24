@@ -1,8 +1,8 @@
 // blog-index.ts — jeromemarichez-fr
 // L'en-tête éditoriale de la liste d'articles. Les articles, eux, viennent d'articles.ts.
 
-import { ROUTES } from '@/@shared/routes'
 import type { IBlogIndex } from '@/interfaces/IBlogIndex'
+import { ROUTES } from '@/routes'
 
 /**
  * Le libellé « Blog » est repris à l'identique dans la navigation, le fil d'Ariane, le

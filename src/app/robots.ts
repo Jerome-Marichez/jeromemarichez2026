@@ -2,7 +2,7 @@
 // robots.txt généré, pointant vers le sitemap.
 
 import type { MetadataRoute } from 'next'
-import { SITE_URL } from '@/@shared/seo/site'
+import { SITE_URL } from '@/seo/site'
 
 // `output: 'export'` exige que les routes de métadonnées soient déclarées statiques.
 export const dynamic = 'force-static'

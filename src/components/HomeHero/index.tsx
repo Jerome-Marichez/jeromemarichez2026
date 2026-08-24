@@ -2,9 +2,9 @@
 // Le seuil : la promesse, et la chaîne annoncée d'entrée.
 
 import Link from 'next/link'
-import { ChainCanvas } from '@/@shared/components/ChainCanvas'
-import { MotionToggle } from '@/@shared/components/MotionToggle'
-import { SITE_IDENTITY } from '@/@shared/seo/site'
+import { ChainCanvas } from '@/components/ChainCanvas'
+import { MotionToggle } from '@/components/MotionToggle'
+import { SITE_IDENTITY } from '@/seo/site'
 import { HERO_ACCUEIL } from '../../contenu/accueil'
 import styles from './home-hero.module.css'
 

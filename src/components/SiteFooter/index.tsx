@@ -2,7 +2,7 @@
 // Pied de page : reprendre la chaîne, et donner un moyen direct de joindre.
 
 import Link from 'next/link'
-import { POLES_NAV } from '@/@vitrine/contenu/poles-nav'
+import { POLES_NAV } from '@/contenu/poles-nav'
 import { ROUTES } from '../../routes'
 import { SITE_IDENTITY } from '../../seo/site'
 import { MotionToggle } from '../MotionToggle'

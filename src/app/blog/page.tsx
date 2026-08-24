@@ -2,13 +2,13 @@
 // Routage seul : la liste est composée dans src/@vitrine/views/BlogIndexView.
 
 import type { Metadata } from 'next'
-import { StructuredData } from '@/@shared/components/StructuredData'
-import { toArticleRoute } from '@/@shared/routes'
-import { buildPageMetadata } from '@/@shared/seo/page-metadata'
-import { buildBlogSchema, buildBreadcrumbSchema } from '@/@shared/seo/structured-data'
-import { BLOG_INDEX } from '@/@vitrine/contenu/blog/blog-index'
-import { listArticles } from '@/@vitrine/services/find-article'
-import { BlogIndexView } from '@/@vitrine/views/BlogIndexView'
+import { StructuredData } from '@/components/StructuredData'
+import { BLOG_INDEX } from '@/contenu/blog/blog-index'
+import { toArticleRoute } from '@/routes'
+import { buildPageMetadata } from '@/seo/page-metadata'
+import { buildBlogSchema, buildBreadcrumbSchema } from '@/seo/structured-data'
+import { listArticles } from '@/services/find-article'
+import { BlogIndexView } from '@/views/BlogIndexView'
 
 export const metadata: Metadata = buildPageMetadata(BLOG_INDEX)
 

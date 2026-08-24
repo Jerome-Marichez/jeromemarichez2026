@@ -2,8 +2,8 @@
 // Le mur de preuves : ce qui est vérifiable.
 
 import Link from 'next/link'
-import { toRealisationRoute } from '@/@shared/routes'
 import type { IProof } from '@/interfaces/IProof'
+import { toRealisationRoute } from '@/routes'
 import styles from './proof-wall.module.css'
 
 interface ProofWallProps {

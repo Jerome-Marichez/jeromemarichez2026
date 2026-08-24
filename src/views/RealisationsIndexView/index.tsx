@@ -1,7 +1,7 @@
 // RealisationsIndexView/index.tsx — jeromemarichez-fr
 // La liste des réalisations, groupée par cadre d'emploi.
 
-import { Breadcrumb } from '@/@shared/components/Breadcrumb'
+import { Breadcrumb } from '@/components/Breadcrumb'
 import type { IRealisationGroupe } from '@/interfaces/IRealisationGroupe'
 import type { IRealisationsIndex } from '@/interfaces/IRealisationsIndex'
 import { EmploymentFrame } from '../../components/EmploymentFrame'

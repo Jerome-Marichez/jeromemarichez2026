@@ -1,8 +1,8 @@
 // realisations-index.ts — jeromemarichez-fr
 // L'en-tête éditoriale de la liste. Les fiches, elles, viennent de `realisations.ts`.
 
-import { ROUTES } from '@/@shared/routes'
 import type { IRealisationsIndex } from '@/interfaces/IRealisationsIndex'
+import { ROUTES } from '@/routes'
 
 /**
  * Le libellé « Réalisations » est repris à l'identique dans la navigation, le fil

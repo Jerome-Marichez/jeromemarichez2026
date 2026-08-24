@@ -1,7 +1,7 @@
 // PolePageView/index.tsx — jeromemarichez-fr
 // Gabarit commun aux quatre pages de pôle.
 
-import { Reveal } from '@/@shared/components/Reveal'
+import { Reveal } from '@/components/Reveal'
 import type { IEditorialPage } from '@/interfaces/IEditorialPage'
 import type { IPole } from '@/interfaces/IPole'
 import { CertificationList } from '../../components/CertificationList'

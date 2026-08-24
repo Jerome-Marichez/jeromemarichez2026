@@ -2,13 +2,13 @@
 // Routage seul : la fiche est composée dans src/@vitrine/views/RealisationView.
 
 import type { Metadata } from 'next'
-import { StructuredData } from '@/@shared/components/StructuredData'
-import { toRealisationRoute } from '@/@shared/routes'
-import { buildPageMetadata } from '@/@shared/seo/page-metadata'
-import { buildBreadcrumbSchema, buildRealisationSchema } from '@/@shared/seo/structured-data'
-import { REALISATIONS_INDEX } from '@/@vitrine/contenu/realisations/realisations-index'
-import { findRealisation, listRealisations } from '@/@vitrine/services/find-realisation'
-import { RealisationView } from '@/@vitrine/views/RealisationView'
+import { StructuredData } from '@/components/StructuredData'
+import { REALISATIONS_INDEX } from '@/contenu/realisations/realisations-index'
+import { toRealisationRoute } from '@/routes'
+import { buildPageMetadata } from '@/seo/page-metadata'
+import { buildBreadcrumbSchema, buildRealisationSchema } from '@/seo/structured-data'
+import { findRealisation, listRealisations } from '@/services/find-realisation'
+import { RealisationView } from '@/views/RealisationView'
 
 interface RealisationPageProps {
   params: Promise<{ slug: string }>

@@ -1,7 +1,7 @@
 // BlogIndexView/index.tsx — jeromemarichez-fr
 // La liste des articles.
 
-import { Breadcrumb } from '@/@shared/components/Breadcrumb'
+import { Breadcrumb } from '@/components/Breadcrumb'
 import type { IArticle } from '@/interfaces/IArticle'
 import type { IBlogIndex } from '@/interfaces/IBlogIndex'
 import { ArticleCard } from '../../components/ArticleCard'

@@ -2,8 +2,8 @@
 // Les pôles mobilisés par une réalisation, rendus navigables.
 
 import Link from 'next/link'
-import { listPoles } from '@/@vitrine/services/find-pole'
 import type { PoleId } from '@/interfaces/types'
+import { listPoles } from '@/services/find-pole'
 import styles from './pole-tag-list.module.css'
 
 interface PoleTagListProps {

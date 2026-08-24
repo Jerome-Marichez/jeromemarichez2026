@@ -2,7 +2,7 @@
 // En-tête : identité, et les quatre pôles rendus navigables.
 
 import Link from 'next/link'
-import { POLES_NAV } from '@/@vitrine/contenu/poles-nav'
+import { POLES_NAV } from '@/contenu/poles-nav'
 import { ROUTES } from '../../routes'
 import { SITE_IDENTITY } from '../../seo/site'
 import styles from './site-header.module.css'

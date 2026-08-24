@@ -4,15 +4,15 @@
 // Le formulaire de contact. Il ne poste rien : il compose une URL `mailto:` et ouvre le
 // client mail du visiteur avec l'objet et le corps déjà écrits.
 //
-// Il est dans `_notPure/` parce qu'il porte de l'état de saisie et déclenche un effet de
-// bord (l'ouverture du client mail). Toute la règle est ailleurs : la validation et
-// l'encodage dans `services/contact-mailto.ts`, l'état d'écran dans `use-contact-form`.
+// Il porte de l'état de saisie et déclenche un effet de bord (l'ouverture du client
+// mail). Toute la règle est ailleurs : la validation et l'encodage dans
+// `services/contact-mailto.ts`, l'état d'écran dans `use-contact-form`.
 
 import { CHAMPS_CONTACT, LONGUEUR_MAX_MESSAGE } from '@/schemas/contact.schema'
 import { formatContactCounter } from '@/utils/format-contact-counter'
-import { CONTACT_FORMULAIRE } from '../../../contenu/contact'
-import { useContactForm } from '../../../hooks/use-contact-form'
-import { ContactField } from '../../ContactField'
+import { CONTACT_FORMULAIRE } from '../../contenu/contact'
+import { useContactForm } from '../../hooks/use-contact-form'
+import { ContactField } from '../ContactField'
 import styles from './contact-form.module.css'
 
 interface ContactFormProps {

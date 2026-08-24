@@ -2,10 +2,10 @@
 // Une fiche : son cadre d'emploi, le problème, ce qui a été fait, le résultat, la décision.
 
 import Link from 'next/link'
-import { Breadcrumb } from '@/@shared/components/Breadcrumb'
-import { toRealisationRoute } from '@/@shared/routes'
+import { Breadcrumb } from '@/components/Breadcrumb'
 import type { IRealisation } from '@/interfaces/IRealisation'
 import type { IRealisationsIndex } from '@/interfaces/IRealisationsIndex'
+import { toRealisationRoute } from '@/routes'
 import { EmploymentFrame } from '../../components/EmploymentFrame'
 import { PoleTagList } from '../../components/PoleTagList'
 import { RealisationCard } from '../../components/RealisationCard'

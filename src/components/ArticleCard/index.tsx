@@ -2,8 +2,8 @@
 // Un article vu depuis une liste : sa figure, sa date, son titre, son chapô.
 
 import Link from 'next/link'
-import { toArticleRoute } from '@/@shared/routes'
 import type { IArticle } from '@/interfaces/IArticle'
+import { toArticleRoute } from '@/routes'
 import { formatDateFr } from '@/utils/format-date'
 import { ArticleFigure } from '../ArticleFigure'
 import styles from './article-card.module.css'

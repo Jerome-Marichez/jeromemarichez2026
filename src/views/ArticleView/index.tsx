@@ -2,10 +2,10 @@
 // Un article : son en-tête daté, son corps, et ce qu'on lit ensuite.
 
 import Link from 'next/link'
-import { Breadcrumb } from '@/@shared/components/Breadcrumb'
-import { toArticleRoute } from '@/@shared/routes'
+import { Breadcrumb } from '@/components/Breadcrumb'
 import type { IArticle } from '@/interfaces/IArticle'
 import type { IBlogIndex } from '@/interfaces/IBlogIndex'
+import { toArticleRoute } from '@/routes'
 import { formatDateFr } from '@/utils/format-date'
 import { ArticleCard } from '../../components/ArticleCard'
 import { ArticleFigure } from '../../components/ArticleFigure'

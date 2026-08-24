@@ -37,7 +37,7 @@
 // `--lavis-fond` et `--lavis-tache`, posés par `data-pole` sur la plaque elle-même. Les
 // quatre portes sont donc quatre taches de couleur côte à côte, une par pôle.
 
-import { PoleGlyph } from '@/@shared/components/PoleGlyph'
+import { PoleGlyph } from '@/components/PoleGlyph'
 import type { IPole } from '@/interfaces/IPole'
 import { POLES_NAV } from '../../contenu/poles-nav'
 import { LIBELLE_PLACE } from '../../contenu/poles-places'

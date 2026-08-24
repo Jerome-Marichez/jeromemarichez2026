@@ -2,12 +2,12 @@
 // Routage seul : la page est composée par le gabarit commun aux quatre pôles.
 
 import type { Metadata } from 'next'
-import { StructuredData } from '@/@shared/components/StructuredData'
-import { buildPageMetadata } from '@/@shared/seo/page-metadata'
-import { buildBreadcrumbSchema, buildServiceSchema } from '@/@shared/seo/structured-data'
-import { PAGE_SEA_UX } from '@/@vitrine/contenu/sea-ux'
-import { findPole } from '@/@vitrine/services/find-pole'
-import { PolePageView } from '@/@vitrine/views/PolePageView'
+import { StructuredData } from '@/components/StructuredData'
+import { PAGE_SEA_UX } from '@/contenu/sea-ux'
+import { buildPageMetadata } from '@/seo/page-metadata'
+import { buildBreadcrumbSchema, buildServiceSchema } from '@/seo/structured-data'
+import { findPole } from '@/services/find-pole'
+import { PolePageView } from '@/views/PolePageView'
 
 const { pole, suites } = findPole('sea-ux')
 

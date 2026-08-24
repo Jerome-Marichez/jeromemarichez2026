@@ -1,8 +1,8 @@
 // PoleStickyBar/index.tsx — jeromemarichez-fr
 // L'en-tête de pôle collant : où l'on est, et la seule action de la page.
 
-import { SITE_IDENTITY } from '@/@shared/seo/site'
 import type { IPole } from '@/interfaces/IPole'
+import { SITE_IDENTITY } from '@/seo/site'
 import styles from './pole-sticky-bar.module.css'
 
 interface PoleStickyBarProps {

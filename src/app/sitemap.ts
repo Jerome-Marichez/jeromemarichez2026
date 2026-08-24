@@ -2,7 +2,7 @@
 // Sitemap généré à partir des routes et des articles, jamais tenu à la main.
 
 import type { MetadataRoute } from 'next'
-import { buildSitemapEntries } from '@/@shared/seo/sitemap-entries'
+import { buildSitemapEntries } from '@/seo/sitemap-entries'
 
 // `output: 'export'` exige que les routes de métadonnées soient déclarées statiques.
 export const dynamic = 'force-static'

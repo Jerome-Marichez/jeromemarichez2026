@@ -1,8 +1,8 @@
 // EditorialSection/index.tsx — jeromemarichez-fr
 // Une section de contenu, rendue selon sa nature.
 
-import { GlassSurface } from '@/@shared/components/GlassSurface'
-import { Reveal } from '@/@shared/components/Reveal'
+import { GlassSurface } from '@/components/GlassSurface'
+import { Reveal } from '@/components/Reveal'
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
 import { ExpertiseBlock } from '../ExpertiseBlock'
 import { HingeNote } from '../HingeNote'

@@ -10,8 +10,8 @@
 // `temps`, et rien dans le rendu ne doit les présenter l'une après l'autre. Ce que la
 // donnée remet à chacune est décrit par les arêtes, dans `jointures.ts`.
 
-import { ROUTES } from '@/@shared/routes'
 import type { IPole } from '@/interfaces/IPole'
+import { ROUTES } from '@/routes'
 
 export const POLES_NAV: IPole[] = [
   {

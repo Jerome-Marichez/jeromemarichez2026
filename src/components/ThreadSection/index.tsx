@@ -1,7 +1,7 @@
 // ThreadSection/index.tsx — jeromemarichez-fr
 // Le fil : une méthode qui traverse tous les pôles.
 
-import { Reveal } from '@/@shared/components/Reveal'
+import { Reveal } from '@/components/Reveal'
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
 import styles from './thread-section.module.css'
 

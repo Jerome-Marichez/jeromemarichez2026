@@ -4,9 +4,9 @@
 
 import Link from 'next/link'
 import { Fragment } from 'react'
-import { Breadcrumb } from '@/@shared/components/Breadcrumb'
-import { ROUTES } from '@/@shared/routes'
+import { Breadcrumb } from '@/components/Breadcrumb'
 import type { IPole } from '@/interfaces/IPole'
+import { ROUTES } from '@/routes'
 import { SITUATION_PLACE } from '../../contenu/poles-places'
 import { jointureVers } from '../../services/find-jointure'
 import styles from './pole-hero.module.css'

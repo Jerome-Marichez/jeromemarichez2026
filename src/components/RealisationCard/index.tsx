@@ -2,8 +2,8 @@
 // Une réalisation vue depuis une liste : son chiffre s'il y en a un, son titre, son chapô.
 
 import Link from 'next/link'
-import { toRealisationRoute } from '@/@shared/routes'
 import type { IRealisation } from '@/interfaces/IRealisation'
+import { toRealisationRoute } from '@/routes'
 import { PoleTagList } from '../PoleTagList'
 import styles from './realisation-card.module.css'
 

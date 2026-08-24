@@ -16,8 +16,8 @@
 // seulement portent un chiffre. Une accroche d'accueil qui laisserait croire à treize
 // références chiffrées vendrait ce qui n'existe pas.
 
-import { ROUTES } from '@/@shared/routes'
 import type { IEspaceEditorial } from '@/interfaces/IEspaceEditorial'
+import { ROUTES } from '@/routes'
 import { ARTICLES } from './blog/articles'
 import { REALISATIONS } from './realisations/realisations'
 

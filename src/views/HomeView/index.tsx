@@ -1,12 +1,12 @@
 // HomeView/index.tsx — jeromemarichez-fr
 // La page d'accueil : la vitrine — la promesse, le modèle, les quatre portes, les preuves.
 
-import { Reveal } from '@/@shared/components/Reveal'
-import { SITE_IDENTITY } from '@/@shared/seo/site'
-import { ContactForm } from '../../components/_notPure/ContactForm'
+import { Reveal } from '@/components/Reveal'
+import { SITE_IDENTITY } from '@/seo/site'
 import { BoundaryList } from '../../components/BoundaryList'
 import { CertificationList } from '../../components/CertificationList'
 import { ChainDiagram } from '../../components/ChainDiagram'
+import { ContactForm } from '../../components/ContactForm'
 import { EditorialSection } from '../../components/EditorialSection'
 import { HomeHero } from '../../components/HomeHero'
 import { PoleEntries } from '../../components/PoleEntries'

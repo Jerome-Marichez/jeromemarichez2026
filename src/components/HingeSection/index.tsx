@@ -1,7 +1,7 @@
 // HingeSection/index.tsx — jeromemarichez-fr
 // Une charnière : le moment où un pôle passe la main au suivant.
 
-import { Reveal } from '@/@shared/components/Reveal'
+import { Reveal } from '@/components/Reveal'
 import type { IEditorialSection } from '@/interfaces/IEditorialSection'
 import styles from './hinge-section.module.css'
 
