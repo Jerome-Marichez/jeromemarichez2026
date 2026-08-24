@@ -1,5 +1,5 @@
-// ia.ts — jeromemarichez-fr
-// Le pôle IA — l'une des deux suites de la donnée. Métadonnées et chapitres.
+// ia.ts (jeromemarichez-fr)
+// Le pôle IA, l'une des deux suites de la donnée. Métadonnées et chapitres.
 //
 // Le titre et la description disent la thèse du pôle dès la SERP : la solution répond au
 // problème posé au départ, et ce n'est pas toujours un modèle. Un visiteur qui ouvre
@@ -18,7 +18,7 @@ import { SECTIONS_IA } from './ia-sections'
 export const PAGE_IA: IEditorialPage = {
   route: '/services/ia',
   meta: {
-    title: 'IA : règle métier, modèle ou LLM — Lille',
+    title: 'IA : règle métier, modèle ou LLM | Lille',
     description:
       'Un modèle seulement si aucune règle ne répond : supervisé, non supervisé, LLM ou ' +
       'agents. Et une solution qui vous reste si vous coupez.',

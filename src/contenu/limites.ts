@@ -1,5 +1,5 @@
-// limites.ts — jeromemarichez-fr
-// Ce que je ne fais pas — et ce que je fais à la place.
+// limites.ts (jeromemarichez-fr)
+// Ce que je ne fais pas, et ce que je fais à la place.
 //
 // Ce fichier est la traduction publique de la table des règles de véracité du
 // `CLAUDE.md`. Chaque ligne y correspond à une formulation interdite : au lieu de
@@ -13,7 +13,7 @@ export const LIMITES: IBoundary[] = [
     hors: 'Aucune couche commerciale, aucun transfert de dossier',
     alaPlace:
       'Vous parlez à la personne qui écrit le code, du cadrage au run, sur les quatre pôles. ' +
-      'Si la taille du projet demande un renfort — c’est rare — je le choisis, je le cadre et ' +
+      'Si la taille du projet demande un renfort (c’est rare), je le choisis, je le cadre et ' +
       'j’en réponds : votre interlocuteur, lui, ne change pas.',
   },
   {

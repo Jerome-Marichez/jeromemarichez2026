@@ -1,5 +1,5 @@
-// ingenierie-web-sections.ts — jeromemarichez-fr
-// Le pôle Ingénierie web — le socle. Site internet, produit SaaS, application mobile.
+// ingenierie-web-sections.ts (jeromemarichez-fr)
+// Le pôle Ingénierie web, le socle. Site internet, produit SaaS, application mobile.
 //
 // Faits sourcés dans cv-ingenieur-fullstack.md et cv-ai-engineer.md. Règles de
 // véracité du CLAUDE.md appliquées : ISTQB **Foundation** seulement, aucun management
@@ -8,14 +8,14 @@
 // **Ce que cette page a accueilli en descendant de l'accueil (issue #103)** : le chapitre
 // « migrations », qui n'existait nulle part en propre ; l'outillage de test nommé, qui
 // n'était écrit que sur l'accueil ; l'arbitrage monolithe / microservices ; les nuances de
-// la charnière — SLI / SLO / SLA opposables, PCA et PRA testés et pas seulement
-// documentés, et l'exemple qui prouve que le run fabrique la donnée. Le **fil IA** y est
+// la charnière (SLI / SLO / SLA opposables, PCA et PRA testés et pas seulement
+// documentés, et l'exemple qui prouve que le run fabrique la donnée). Le **fil IA** y est
 // aussi descendu : la note de placement est en tête de `fil-ia.ts`.
 //
 // Une exception, et elle est délibérée : la mention « chiffre d'affaires maintenu » qui
 // accompagnait les migrations sur l'accueil n'est PAS descendue. Le périmètre de
 // confidentialité écrit en tête de `realisations/mailingvox-produits.ts` pose que les
-// chiffres de ce projet ne sont publiés nulle part sur le site — l'accueil le
+// chiffres de ce projet ne sont publiés nulle part sur le site. L'accueil le
 // contredisait. La contrainte tenue, elle, est sourcée : aucune interruption de service,
 // aucun gel de la roadmap. Elle suffit.
 
@@ -108,7 +108,7 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
         texte:
           'Node.js et Express, API REST, webhooks, cloud functions, Pub/Sub. PostgreSQL, ' +
           'MySQL, Firebase ; toute entrée externe est validée par un schéma Zod.',
-        decision: 'Ce qui reste synchrone, et ce qui part en file — avec le coût de chaque choix.',
+        decision: 'Ce qui reste synchrone, et ce qui part en file, avec le coût de chaque choix.',
       },
       {
         titre: 'Architecture et exploitation',
@@ -116,11 +116,11 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
           'Docker, CI/CD GitHub Actions, Cloud Run, VM Compute Engine auto-scalées, Pub/Sub, ' +
           'Vercel, Apache, Nginx et Linux. Pas de cluster Kubernetes administré en propre.',
         preuve:
-          'SLI / SLO / SLA définis, suivis et opposables — pas écrits après l’incident. PCA et ' +
+          'SLI / SLO / SLA définis, suivis et opposables. Pas écrits après l’incident. PCA et ' +
           'PRA testés par exercices de bascule, pas seulement documentés. Déploiements sans ' +
           'interruption de service.',
         decision:
-          'Ce qu’on découpe maintenant, ce qu’on garde monolithique et jusqu’à quand — et où ' +
+          'Ce qu’on découpe maintenant, ce qu’on garde monolithique et jusqu’à quand, et où ' +
           'tourne votre produit, avec le coût réel de chaque option.',
       },
     ],
@@ -140,7 +140,7 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
         texte:
           'Critères d’entrée et d’arrêt écrits avant la livraison. C’est le seul niveau que je ' +
           'détiens, et c’est donc le seul que j’affiche.',
-        decision: 'À partir de quand une version est livrable — et qui le dit.',
+        decision: 'À partir de quand une version est livrable, et qui le dit.',
       },
       {
         titre: 'Développement piloté par les tests, en IA augmentée',
@@ -193,7 +193,7 @@ export const SECTIONS_INGENIERIE_WEB: IEditorialSection[] = [
   },
   // Le fil IA descend de l'accueil (issue #103) et se pose ici, sur le socle : c'est la
   // page où le site dit comment le code est produit. Il garde ses quatre étapes, donc son
-  // caractère transverse — livrer et piloter nomment les deux autres suites.
+  // caractère transverse : livrer et piloter nomment les deux autres suites.
   SECTION_FIL_IA,
   {
     id: 'charniere-run',

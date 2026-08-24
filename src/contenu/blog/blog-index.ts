@@ -1,4 +1,4 @@
-// blog-index.ts — jeromemarichez-fr
+// blog-index.ts (jeromemarichez-fr)
 // L'en-tête éditoriale de la liste d'articles. Les articles, eux, viennent d'articles.ts.
 
 import type { IBlogIndex } from '@/interfaces/IBlogIndex'
@@ -13,13 +13,13 @@ export const BLOG_INDEX: IBlogIndex = {
   route: ROUTES.blog,
   titre: 'Blog',
   meta: {
-    title: 'Blog — notes d’ingénierie, de data et de mesure',
+    title: 'Blog : notes d’ingénierie, de data et de mesure',
     description:
       'Notes courtes sur des décisions techniques réelles : ce que j’ai tranché, sur quel ' +
       'critère, et ce que ça a coûté. Ni veille, ni tutoriel.',
   },
   chapo:
     'Des notes courtes sur des décisions réelles : ce que j’ai tranché, sur quel critère, ' +
-    'et ce que ça a coûté. Pas de veille, pas de tutoriel — ce que je ne pratique pas ' +
+    'et ce que ça a coûté. Pas de veille, pas de tutoriel : ce que je ne pratique pas ' +
     'moi-même n’a rien à faire ici.',
 }

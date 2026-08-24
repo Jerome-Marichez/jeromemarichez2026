@@ -1,16 +1,16 @@
-// plugin-claude-code.ts — jeromemarichez-fr
-// Article — le plugin Claude Code qui initialise mes projets TypeScript, ouvert au public.
+// plugin-claude-code.ts (jeromemarichez-fr)
+// Article : le plugin Claude Code qui initialise mes projets TypeScript, ouvert au public.
 //
 // FIDÉLITÉ AU TEXTE D'ORIGINE (issue #121). Cet article **porte** un post écrit par
 // Jérôme MARICHEZ. Une première version en avait refait le titre et le plan ; le défaut
 // signalé sur l'autre article de la même livraison valait mot pour mot pour celui-ci. Le
 // titre, l'ordre des idées, la liste des cinq points et les formulations sont ceux du
 // post. Ce qui a été fait : orthographe et syntaxe, abréviations écrites en toutes
-// lettres, et mise à la forme d'un article web — un chapô, des sections titrées, dont les
-// titres sont dérivés des phrases de Jérôme MARICHEZ.
+// lettres, et mise à la forme d'un article web (un chapô, des sections titrées, dont les
+// titres sont dérivés des phrases de Jérôme MARICHEZ).
 //
 // TROIS ÉCARTS AU POST, ET LEUR RAISON. Ce sont des corrections de véracité et de registre
-// (CLAUDE.md), pas des libertés de rédaction — elles avaient été établies par la PR #116
+// (CLAUDE.md), pas des libertés de rédaction. Elles avaient été établies par la PR #116
 // et elles survivent au retour vers le texte d'origine :
 //
 // 1. La CI. Le post dit « GitHub Actions ou GitLab CI au choix ». Le README du dépôt dit
@@ -21,7 +21,7 @@
 //    est avant tout personnel. L'article le dit comme le README.
 // 3. « Retours et contributions bienvenus » est un appel à l'action de réseau social : il
 //    ne rentre pas dans le contenu publié, pas plus qu'une invitation à mettre une étoile.
-//    Aucune revendication d'adoption non plus — le dépôt est à zéro étoile au 2026-08-23.
+//    Aucune revendication d'adoption non plus : le dépôt est à zéro étoile au 2026-08-23.
 //    L'URL du dépôt qui fermait le post disparaît pour la même raison de registre, et
 //    parce qu'un paragraphe d'article ne porte pas de lien : le dépôt est nommé, il se
 //    trouve sous son nom.
@@ -57,14 +57,14 @@ export const ARTICLE_PLUGIN_CLAUDE_CODE: IArticle = {
   datePublication: '2026-08-23',
   // La figure « gabarit » : une forme ouverte du côté de la sortie, et ce qui en sort déjà
   // complet, jusqu'à son aboutissement. Elle dit qu'un point de départ se produit, jamais
-  // combien de projets en sont sortis — aucun compte n'est affiché nulle part.
+  // combien de projets en sont sortis : aucun compte n'est affiché nulle part.
   figure: 'gabarit',
   sections: [
     {
       id: 'une-seule-commande',
       titre: 'Une seule commande',
       paragraphes: [
-        'Une seule commande — /bootstrap-project — et vous obtenez un projet ' +
+        'Une seule commande (/bootstrap-project), et vous obtenez un projet ' +
           'TypeScript/React prêt pour la production :',
       ],
       liste: [
@@ -82,8 +82,8 @@ export const ARTICLE_PLUGIN_CLAUDE_CODE: IArticle = {
       titre: 'Next.js ou Vite, monorepo ou séparé',
       paragraphes: [
         'Compatible Next.js et Vite, monorepo ou front et back séparés. Le générateur pose ' +
-          'ses questions au démarrage — type de projet, framework, niveaux de tests, ' +
-          'intégration continue — puis écrit l’ensemble.',
+          'ses questions au démarrage (type de projet, framework, niveaux de tests, ' +
+          'intégration continue) puis écrit l’ensemble.',
       ],
     },
     {
@@ -92,11 +92,11 @@ export const ARTICLE_PLUGIN_CLAUDE_CODE: IArticle = {
       paragraphes: [
         'C’est né de mes propres habitudes de développement, et ça reste avant tout ' +
           'personnel : le plugin encode mes conventions, pas celles de tout le monde. Le dépôt ' +
-          'est public sous licence MIT — utilisable par d’autres, à condition de savoir que la ' +
+          'est public sous licence MIT, utilisable par d’autres, à condition de savoir que la ' +
           'structure, les hooks et les règles reflètent ma façon de faire.',
         'C’est écrit en tête du dépôt, plutôt que laissé à découvrir à la troisième question ' +
           'du générateur. L’état de la CI produite se dit de la même façon : ce qui est testé ' +
-          'l’est, ce qui ne l’est pas se signale — c’est exactement ce que j’attends qu’un ' +
+          'l’est, ce qui ne l’est pas se signale. C’est exactement ce que j’attends qu’un ' +
           'prestataire me dise avant que je m’engage sur son travail.',
       ],
     },

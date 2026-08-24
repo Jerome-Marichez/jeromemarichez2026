@@ -1,4 +1,4 @@
-// contact.ts — jeromemarichez-fr
+// contact.ts (jeromemarichez-fr)
 // Les textes du formulaire de contact : libellés, aides, bouton, statuts.
 //
 // Ils vivent ici et non dans le composant pour la même raison que le reste du contenu :

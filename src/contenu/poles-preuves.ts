@@ -1,13 +1,13 @@
-// poles-preuves.ts — jeromemarichez-fr
+// poles-preuves.ts (jeromemarichez-fr)
 // La preuve que chaque porte de l'accueil met sous le nom de son pôle.
 //
 // Pourquoi ici et pas dans `poles-nav.ts` : cette liste-là est chargée par l'en-tête et
 // le pied de page, donc sur toutes les pages du site, et elle ne porte que l'identité et
-// la place. La preuve n'a qu'un seul lecteur — la porte de l'accueil — et elle reste donc
+// la place. La preuve n'a qu'un seul lecteur (la porte de l'accueil) et elle reste donc
 // chez lui.
 //
 // Le `Record<PoleId, string>` est exhaustif par construction : un cinquième pôle ne
-// compilerait pas tant que sa preuve n'est pas écrite. C'est ce que demande l'issue #103 —
+// compilerait pas tant que sa preuve n'est pas écrite. C'est ce que demande l'issue #103 :
 // chaque porte porte une preuve, aucune n'en est dispensée, et le compilateur le tient.
 //
 // **Les deux nombres publiables ne sont pas recopiés ici** : ils sont lus sur la fiche de

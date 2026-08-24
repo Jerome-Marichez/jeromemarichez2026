@@ -1,4 +1,4 @@
-// mailingvox-produits.ts — jeromemarichez-fr
+// mailingvox-produits.ts (jeromemarichez-fr)
 // Acetelecom / MailingVox, 2023-2026 : ce qui a été construit et exploité.
 //
 // Le cadre d'emploi est partagé par toutes les fiches d'ici (`cadres.ts`). Le fichier est
@@ -23,7 +23,7 @@ export const REALISATION_SMS_EN_MASSE: IRealisationChiffree = {
     'blanche. Il a été remplacé par une plateforme développée en interne, dont le ' +
     'référencement technique est une propriété du code et non d’un fournisseur.',
   meta: {
-    title: 'Plateforme SaaS « Sms En Masse » — 98/100 Lighthouse',
+    title: 'Plateforme SaaS « Sms En Masse » : 98/100 Lighthouse',
     description:
       'Une solution tierce en marque blanche remplacée par une plateforme SaaS développée en ' +
       'interne : rendu arbitré page par page, 98/100 au score Lighthouse.',
@@ -32,7 +32,7 @@ export const REALISATION_SMS_EN_MASSE: IRealisationChiffree = {
   poles: ['ingenierie-web', 'sea-ux'],
   probleme:
     'La plateforme « Sms En Masse » était une solution tierce revendue en marque blanche. ' +
-    'Tout ce qui touchait au produit — sa vitesse, ses pages, son référencement — se ' +
+    'Tout ce qui touchait au produit (sa vitesse, ses pages, son référencement) se ' +
     'décidait ailleurs.',
   etapes: [
     {
@@ -62,10 +62,10 @@ export const REALISATION_SMS_EN_MASSE: IRealisationChiffree = {
     libelle: 'au score Lighthouse',
     portee:
       'Le score porte sur la plateforme livrée, mesuré par Lighthouse. C’est une mesure de la ' +
-      'page — pas une mesure d’audience, pas un chiffre d’affaires.',
+      'page, pas une mesure d’audience, pas un chiffre d’affaires.',
   },
   decision:
-    'Quelle page se rend au build, laquelle à la requête — et ce que chacune coûte en serveur ' +
+    'Quelle page se rend au build, laquelle à la requête, et ce que chacune coûte en serveur ' +
     'comme en référencement.',
 }
 
@@ -76,7 +76,7 @@ export const REALISATION_PREZAGE_MIGRATION: IRealisation = {
     'L’application Prézage tournait sur Ionic 6 et Angular 15. Les deux migrations ont été ' +
     'menées pendant que le produit continuait d’évoluer, sans interruption de service.',
   meta: {
-    title: 'Prézage — migrer Ionic et Angular sans coupure',
+    title: 'Prézage : migrer Ionic et Angular sans coupure',
     description:
       'Migration Ionic 6 vers 8 et Angular 15 vers 19 de l’application mobile Prézage, sans ' +
       'interruption de service ni gel de la roadmap produit.',
@@ -152,7 +152,7 @@ export const REALISATION_ANTI_FRAUDE: IRealisation = {
       titre: 'Implémentées dans le produit',
       texte:
         'Les règles ont été intégrées au produit par la même personne que celle qui les a ' +
-        'définies — aucun aller-retour de spécification entre l’analyse et le code.',
+        'définies : aucun aller-retour de spécification entre l’analyse et le code.',
     },
   ],
   resultat:

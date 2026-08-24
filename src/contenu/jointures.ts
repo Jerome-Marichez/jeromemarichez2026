@@ -1,4 +1,4 @@
-// jointures.ts — jeromemarichez-fr
+// jointures.ts (jeromemarichez-fr)
 // Les arêtes de la chaîne : ce que chaque pôle remet au suivant, et à quelle condition.
 //
 // Trois arêtes pour quatre pôles, parce que la donnée en porte deux :

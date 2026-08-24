@@ -1,10 +1,10 @@
-// test-avant-code.ts — jeromemarichez-fr
-// Article — le test avant le code, même avec un agent.
+// test-avant-code.ts (jeromemarichez-fr)
+// Article : le test avant le code, même avec un agent.
 //
 // Véracité (CLAUDE.md) : le développement en IA augmentée piloté par les tests est un
 // différenciateur assumé du site, et l'outillage cité (Jest, Cypress, Stryker, hooks,
 // agents, serveurs MCP) est celui de ce dépôt. La certification citée est ISTQB
-// Foundation — le niveau Avancé n'est pas obtenu et n'est pas mentionné.
+// Foundation : le niveau Avancé n'est pas obtenu et n'est pas mentionné.
 
 import type { IArticle } from '@/interfaces/IArticle'
 
@@ -23,7 +23,7 @@ export const ARTICLE_TEST_AVANT_CODE: IArticle = {
   },
   datePublication: '2026-08-18',
   // La figure « antériorité » : deux temps sur un axe, et le sens inverse fermé d'une croix.
-  // Elle dit l'ordre, jamais un résultat — aucune mesure de qualité n'y est affichée.
+  // Elle dit l'ordre, jamais un résultat : aucune mesure de qualité n'y est affichée.
   figure: 'anteriorite',
   sections: [
     {
@@ -34,7 +34,7 @@ export const ARTICLE_TEST_AVANT_CODE: IArticle = {
           'elle, n’a pas accéléré. Si rien ne change dans la méthode, on relit de moins en ' +
           'moins bien un code de plus en plus abondant, et on finit par valider sur ' +
           'l’apparence : ça compile, ça ressemble à du code correct, donc on passe.',
-        'Le piège n’est pas que l’IA se trompe — un développeur aussi. Le piège est qu’elle se ' +
+        'Le piège n’est pas que l’IA se trompe. Un développeur aussi. Le piège est qu’elle se ' +
           'trompe vite, de façon plausible, et à grande échelle.',
       ],
     },
@@ -57,8 +57,8 @@ export const ARTICLE_TEST_AVANT_CODE: IArticle = {
       titre: 'Et ce qui vérifie les tests',
       paragraphes: [
         'Reste une question que la couverture ne répond pas : est-ce que ces tests détectent ' +
-          'quelque chose ? Les tests de mutation modifient volontairement le code — inverser une ' +
-          'condition, supprimer un appel — et regardent si la suite passe encore. Quand elle ' +
+          'quelque chose ? Les tests de mutation modifient volontairement le code (inverser une ' +
+          'condition, supprimer un appel) et regardent si la suite passe encore. Quand elle ' +
           'passe, le test traversait la ligne sans rien vérifier.',
         'C’est l’outil qui manque le plus souvent sur une base largement générée : elle est ' +
           'couverte au sens du pourcentage, et démunie au sens de la détection. Jest et Cypress ' +
@@ -69,7 +69,7 @@ export const ARTICLE_TEST_AVANT_CODE: IArticle = {
       id: 'ce-que-vous-tranchez',
       titre: 'Ce que ça change côté client',
       paragraphes: [
-        'La bonne question à poser à un prestataire n’est plus « utilisez-vous l’IA ? » — la ' +
+        'La bonne question à poser à un prestataire n’est plus « utilisez-vous l’IA ? » : la ' +
           'réponse est oui presque partout, et elle n’engage à rien. Elle est : qu’est-ce qui ' +
           'rattrape une erreur produite par cette IA avant qu’elle arrive en production, et qui ' +
           'en répond ?',

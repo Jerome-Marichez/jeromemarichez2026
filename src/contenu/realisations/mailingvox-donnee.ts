@@ -1,4 +1,4 @@
-// mailingvox-donnee.ts — jeromemarichez-fr
+// mailingvox-donnee.ts (jeromemarichez-fr)
 // Acetelecom / MailingVox, 2023-2026 : ce qui a été construit sur la donnée.
 //
 // Séparé de `mailingvox-produits.ts` pour la limite de 300 lignes par fichier, et
@@ -23,7 +23,7 @@ export const REALISATION_PREZAGE_LLAMA: IRealisation = {
     'à côté. Llama 3 a été spécialisé sur un corpus métier, complété par un procédé maison ' +
     'd’augmentation du contexte.',
   meta: {
-    title: 'Prézage — un Llama 3 spécialisé sur un métier',
+    title: 'Prézage : un Llama 3 spécialisé sur un métier',
     description:
       'Fine-tuning de Llama 3 sur corpus métier pour l’application Prézage, complété par un ' +
       'procédé maison d’augmentation du contexte. Aucun framework tiers.',
@@ -59,7 +59,7 @@ export const REALISATION_PREZAGE_LLAMA: IRealisation = {
     'Charge de travail des prestataires réduite. Le résultat n’est pas chiffré : les chiffres ' +
     'du projet sont couverts par l’accord de confidentialité.',
   decision:
-    'Modèle hébergé chez vous ou service tiers — et ce que chacun vous coûte par mois, une ' +
+    'Modèle hébergé chez vous ou service tiers, et ce que chacun vous coûte par mois, une ' +
     'fois la confidentialité mise dans la balance.',
 }
 
@@ -70,16 +70,16 @@ export const REALISATION_DEPOT_VOCAL: IRealisation = {
     'L’échec d’un dépôt vocal ne se constatait qu’après coup, une fois la route déjà empruntée. ' +
     'Un modèle supervisé, entraîné sur les caractéristiques du signal audio, le voit venir.',
   meta: {
-    title: 'Anticiper les échecs de dépôt vocal — modèle supervisé',
+    title: 'Anticiper les échecs de dépôt vocal : modèle supervisé',
     description:
-      'Modèle supervisé en production — TensorFlow, inférence en cloud functions — ' +
+      'Modèle supervisé en production (TensorFlow, inférence en cloud functions) ' +
       'anticipant les échecs de dépôt vocal. Extraction du signal publiée sur arXiv.',
   },
   cadre: CADRE_MAILINGVOX,
   poles: ['data', 'ia'],
   probleme:
     'Certaines routes vocales échouaient au dépôt du message. L’échec ne se constatait qu’après ' +
-    'coup, une fois la route déjà empruntée — et facturée.',
+    'coup, une fois la route déjà empruntée, et facturée.',
   etapes: [
     {
       titre: 'Extraire les caractéristiques du signal',
@@ -104,7 +104,7 @@ export const REALISATION_DEPOT_VOCAL: IRealisation = {
     'Routes vocales coûteuses évitées. Le gain n’est pas chiffré ici : je n’en publie pas de ' +
     'mesure.',
   decision:
-    'À partir de quel taux d’échec un modèle coûte moins cher que les routes qu’il évite — et ' +
+    'À partir de quel taux d’échec un modèle coûte moins cher que les routes qu’il évite, et ' +
     'jusqu’où il faut le surveiller ensuite.',
 }
 
@@ -124,7 +124,7 @@ export const REALISATION_RAG_SUPPORT: IRealisation = {
   poles: ['data', 'ia'],
   probleme:
     'Les tickets de support de niveau 1 posent des questions dont la réponse est déjà dans la ' +
-    'documentation interne. Un modèle qui répond de mémoire invente une réponse plausible — ' +
+    'documentation interne. Un modèle qui répond de mémoire invente une réponse plausible : ' +
     'c’est le pire des deux mondes pour un support.',
   etapes: [
     {
@@ -174,7 +174,7 @@ export const REALISATION_LTV_MULTI_SOURCES: IRealisation = {
     {
       titre: 'Agréger, sur le modèle métier',
       texte:
-        'Régies — Google Ads, Bing Ads —, produit et CRM agrégés dans un même modèle, construit ' +
+        'Régies (Google Ads, Bing Ads), produit et CRM agrégés dans un même modèle, construit ' +
         'sur l’activité plutôt que sur un connecteur générique.',
     },
     {
@@ -193,8 +193,8 @@ export const REALISATION_LTV_MULTI_SOURCES: IRealisation = {
   ],
   resultat:
     'Aucun résultat n’est publié ici : je n’en ai pas de mesuré. Le système existe et il ' +
-    'tourne — c’est tout ce que cette fiche affirme.',
+    'tourne : c’est tout ce que cette fiche affirme.',
   decision:
-    'Quelle source d’acquisition vous coupez le mois prochain, et sur quel chiffre — la ' +
+    'Quelle source d’acquisition vous coupez le mois prochain, et sur quel chiffre : la ' +
     'rentabilité réelle, pas celle que la régie déclare.',
 }

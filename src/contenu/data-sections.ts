@@ -1,4 +1,4 @@
-// data-sections.ts — jeromemarichez-fr
+// data-sections.ts (jeromemarichez-fr)
 // Les chapitres de la page Data : métier, gouvernance et droit, stratégie data, puis la
 // problématique et son exploration.
 //
@@ -73,7 +73,7 @@ export const SECTIONS_DATA: IEditorialSection[] = [
       {
         titre: 'Cette phase se livre pour elle-même',
         texte: 'Un document : règles formalisées, profils identifiés. Vous pouvez vous arrêter là.',
-        decision: 'S’il y a un problème qui mérite d’être traité par la technique — et lequel.',
+        decision: 'S’il y a un problème qui mérite d’être traité par la technique, et lequel.',
       },
     ],
   },
@@ -94,8 +94,8 @@ export const SECTIONS_DATA: IEditorialSection[] = [
       {
         titre: 'Ce qui a le droit d’être collecté et traité',
         preuve:
-          'Conformité RGPD et DORA tenue en appels d’offres grands comptes — distribution, ' +
-          'assurance, banque. Cadrage RGPD des données clients chez un e-commerçant de ' +
+          'Conformité RGPD et DORA tenue en appels d’offres grands comptes (distribution, ' +
+          'assurance, banque). Cadrage RGPD des données clients chez un e-commerçant de ' +
           'joaillerie.',
         decision:
           'Ce que vous collectez, ce que vous n’avez pas le droit de collecter, et pourquoi.',
@@ -104,7 +104,7 @@ export const SECTIONS_DATA: IEditorialSection[] = [
         titre: 'La contrainte oriente la solution',
         texte:
           'Donnée qui ne peut pas sortir de chez vous : le service tiers est écarté, reste un ' +
-          'modèle open-weight hébergé — Llama 3 — ou une règle explicite.',
+          'modèle open-weight hébergé (Llama 3) ou une règle explicite.',
       },
     ],
   },
@@ -208,7 +208,7 @@ export const SECTIONS_DATA: IEditorialSection[] = [
     titre: 'Un métier compris ouvre deux suites, et rien ne les ordonne',
     chapo:
       'Règles écrites, profils identifiés, donnée gouvernée : on tient la matière de l’IA ' +
-      'comme celle de l’arbitrage. L’une, l’autre, ou les deux — et vous pouvez aussi vous ' +
+      'comme celle de l’arbitrage. L’une, l’autre, ou les deux. Et vous pouvez aussi vous ' +
       'arrêter ici.',
     blocs: [
       {
@@ -222,7 +222,7 @@ export const SECTIONS_DATA: IEditorialSection[] = [
         titre: 'Ce que le SEA & UX en reçoit',
         texte:
           'la valeur client dans la durée à la place du coût par clic, et des identités ' +
-          'réconciliées — agrégation multi-sources et dédoublonnage — avant toute lecture de ' +
+          'réconciliées (agrégation multi-sources et dédoublonnage) avant toute lecture de ' +
           'performance.',
       },
       {

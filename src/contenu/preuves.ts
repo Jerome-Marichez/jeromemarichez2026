@@ -1,4 +1,4 @@
-// preuves.ts — jeromemarichez-fr
+// preuves.ts (jeromemarichez-fr)
 // Le mur de preuves. Aucun chiffre ici n'est estimé, arrondi ni reconstitué.
 //
 // Source unique : les CV de référence de /Users/nicolasb/Documents/CV. Un chiffre qui
@@ -6,7 +6,7 @@
 //
 // **Les trois premières tuiles ne portent plus leur chiffre en propre** : elles le lisent
 // sur la fiche de réalisation qui le déplie. C'est la seule façon de garantir que
-// l'accueil et `/realisations/` ne peuvent pas afficher deux valeurs différentes — le
+// l'accueil et `/realisations/` ne peuvent pas afficher deux valeurs différentes : le
 // nombre n'est écrit qu'une fois dans le dépôt. Le `contexte`, lui, reste écrit ici :
 // c'est la version courte, calibrée pour une tuile, pas le résumé de la fiche.
 
@@ -45,7 +45,7 @@ export const PREUVES: IProof[] = [
     libelle: 'migrations sans interruption de service',
     contexte:
       'PHP 5 vers 7 puis réécriture Node.js, jQuery vers React, Ionic 6 vers 8 et Angular ' +
-      '15 vers 19 — aucune coupure, aucun gel de la roadmap.',
+      '15 vers 19. Aucune coupure, aucun gel de la roadmap.',
   },
   {
     chiffre: '9 ans',
@@ -62,7 +62,7 @@ export const PREUVES: IProof[] = [
     libelle: 'interlocuteur, du cadrage au run',
     contexte:
       'Celui qui cadre est celui qui code, qui mesure et qui exploite. Aucune couche ' +
-      'commerciale, aucun transfert de dossier — et si un renfort devient nécessaire, ' +
+      'commerciale, aucun transfert de dossier. Si un renfort devient nécessaire, ' +
       'c’est moi qui le choisis et qui en réponds.',
   },
 ]

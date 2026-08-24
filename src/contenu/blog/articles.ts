@@ -1,9 +1,9 @@
-// articles.ts — jeromemarichez-fr
+// articles.ts (jeromemarichez-fr)
 // La liste des articles publiés. Source unique du blog.
 //
 // Tout le blog part d'ici : la liste, les pages d'articles générées au build, le
 // sitemap et les données structurées. Un article retiré de ce tableau disparaît
-// partout — il n'y a pas de second endroit à mettre à jour.
+// partout : il n'y a pas de second endroit à mettre à jour.
 //
 // L'ORDRE DE CE TABLEAU N'EST PAS L'ORDRE D'AFFICHAGE : le classement par date est une
 // règle métier, elle vit dans `src/services/find-article`.

@@ -1,11 +1,11 @@
-// truffle.ts — jeromemarichez-fr
+// truffle.ts (jeromemarichez-fr)
 // Truffle Capital, 2017-2019 : capital-risque, sites du fonds et de ses participations.
 //
 // Trois précautions valent pour tout ce fichier :
 //
 // - **Artedrone est une participation du fonds**, jamais un second client. Le client est
 //   Truffle Capital, et l'AMOA a été menée au bénéfice d'Artedrone **dans le cadre de la
-//   mission Truffle**. La fiche le dit, et le rôle tenu y est l'AMOA — rien n'est affirmé
+//   mission Truffle**. La fiche le dit, et le rôle tenu y est l'AMOA : rien n'est affirmé
 //   sur le dispositif médical. (Arbitré par Jérôme MARICHEZ le 2026-08-23, issue #107.)
 // - Le **100 000 €** est un budget **piloté**, jamais un résultat. Aucun retour sur
 //   investissement, aucun coût d'acquisition, aucun volume de trafic n'existe en source.
@@ -56,7 +56,7 @@ export const REALISATION_BUDGET_ADS: IRealisationChiffree = {
   ],
   resultat:
     'Le budget a été piloté de bout en bout, mesuré et justifié. Cette fiche ne publie aucun ' +
-    'résultat de campagne — ni retour sur investissement, ni coût d’acquisition, ni trafic : ' +
+    'résultat de campagne (ni retour sur investissement, ni coût d’acquisition, ni trafic) : ' +
     'je n’en publie pas de mesure.',
   chiffre: {
     chiffre: '100 000 €',
@@ -66,7 +66,7 @@ export const REALISATION_BUDGET_ADS: IRealisationChiffree = {
       'ça a rapporté. La durée sur laquelle il court n’est pas publiée.',
   },
   decision:
-    'Ce que vous présentez à votre conseil pour tenir une ligne budgétaire — et sur quel ' +
+    'Ce que vous présentez à votre conseil pour tenir une ligne budgétaire, et sur quel ' +
     'chiffre, quand la régie et la comptabilité ne disent pas la même chose.',
 }
 
@@ -96,7 +96,7 @@ export const REALISATION_TRUFFLE_SITES: IRealisation = {
       titre: 'Un seul interlocuteur sur les trois',
       texte:
         'Conception, développement, mise en production et exploitation tenus par la même ' +
-        'personne — ce qui évitait d’arbitrer trois fois les mêmes questions.',
+        'personne, ce qui évitait d’arbitrer trois fois les mêmes questions.',
     },
     {
       titre: 'La coordination',
@@ -119,7 +119,7 @@ export const REALISATION_ARTEDRONE_AMOA: IRealisation = {
     'Le besoin était porté par des équipes scientifiques et dirigeantes. Il devait devenir ' +
     'lisible par des prestataires qui ne connaissaient pas le domaine. C’est tout le travail.',
   meta: {
-    title: 'AMOA d’une startup biotech — du besoin aux spécifications',
+    title: 'AMOA d’une startup biotech : du besoin aux spécifications',
     description:
       'AMOA de la startup biotech Artedrone : besoin recueilli auprès des équipes ' +
       'scientifiques et dirigeantes, BPMN 2.0 et cartographie du système d’information.',
