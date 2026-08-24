@@ -51,6 +51,46 @@ make lint
 | `remind-docs.sh` | PostToolUse (Write/Edit) | Rappelle de mettre à jour README/docs après une modification de code (au plus une fois par quart d'heure). |
 | `remind-tests.sh` | PostToolUse (Write/Edit) | Rappelle la politique de tests (unitaire systématique, intégration/e2e sur demande), même throttle. |
 
+## Dépendances évaluées puis écartées
+
+Cette section existe pour éviter de refaire une évaluation déjà faite. Un paquet qui
+figure ici a été examiné, et la raison de son refus est écrite.
+
+### `react-glassy` : évalué, refusé, le verre reste maison
+
+Le paquet avait été demandé pour vitrer les boutons, la navbar et le formulaire de
+contact (issue #142). Il est **écarté**. Le système de verre du dépôt (constitué de
+`src/app/verre.css` et des composants qui s'appuient dessus) continue de porter l'effet.
+
+**Refusé d'abord par le garde-fou du dépôt lui-même**, `check-new-dependency.sh`, en
+décision `deny` non levable. Relevé du 2026-08-24 :
+
+| Critère du hook | Seuil | `react-glassy` |
+|---|---|---|
+| Contributeurs GitHub | >= 3 | **1** |
+| Étoiles (voie alternative) | 1000 | **0** |
+| Éditeur de confiance | liste du hook | `zeroqs`, absent |
+| Fraîcheur, SemVer | | conformes |
+
+Un audit du paquet, mené **sans l'installer**, a par ailleurs relevé quatre
+incompatibilités avec la calibration mesurée de la PR #135 :
+
+1. **Aucun `saturate` dans son CSS.** Le jeton `--verre-saturation-bande: 1.3` n'aurait
+   aucun point d'entrée : la saturation mesurée serait simplement perdue.
+2. **Aucun repli `@supports`.** Là où `backdrop-filter` n'existe pas, il ne reste chez
+   lui qu'un voile de 15 %, contre les 86 % en clair et 73 % en sombre du système maison.
+   Le texte posé dessus deviendrait illisible sur ces navigateurs.
+3. **Aucune directive `"use client"` dans son `dist`.** Vitrer la navbar la ferait
+   basculer en composant client, et elle vit dans le layout racine : le surcoût de
+   JavaScript porterait sur les sept pages d'un site qui vise Lighthouse >= 95.
+4. **Ses presets `frost` sont des filtres de déplacement**, de scale 60 à 150. C'est
+   précisément la traînée colorée que `src/app/verre.css` interdit sur les bandes, pour
+   la raison qui y est documentée : une bande porte du texte, un panneau non.
+
+Vendorer l'effet ou abaisser le seuil du hook ont tous deux été écartés : le premier
+reprend la dette sans le paquet, le second désarme un contrôle pour un besoin cosmétique.
+*(Arbitrage rendu par Jérôme MARICHEZ le 2026-08-24, issue #142.)*
+
 ## Subagents Claude Code (`.claude/agents/`)
 
 Trois subagents pré-définis portent le routage de modèles (`opus-architect`,
