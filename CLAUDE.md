@@ -158,12 +158,24 @@ considération marketing.
 - **Jamais de tiret cadratin dans un texte destiné à être lu.** Ce caractère signe une
   écriture de machine, et ce site vend un interlocuteur humain. La règle couvre le
   contenu publié (`src/contenu/`), la documentation (`docs/`, `README.md`) et ce
-  fichier. Les **commentaires de code en sont exclus** : ils sont denses et raisonnés,
+  fichier. Elle couvre aussi **tout texte lu ailleurs dans `src/`** : métadonnée SEO,
+  gabarit de titre, libellé de manifeste, chaîne rendue, message, et tout attribut lu par
+  une synthèse vocale (`aria-*`, `alt`, `title`, légende de groupe). Un texte lu par un
+  lecteur d'écran est un texte destiné à être lu. Le tri se fait donc **ligne par ligne**,
+  jamais dossier par dossier (issue #153).
+  Les **commentaires de code en sont exclus** : ils sont denses et raisonnés,
   personne ne les lit de l'extérieur, les reformuler abîmerait leur propos sans bénéfice.
   Ce n'est **pas une substitution de caractère** : le tiret y sert de ponctuation, donc la
   phrase se **reformule** (virgule, deux-points, parenthèses, ou deux phrases). Un `sed`
   global est proscrit, il produirait des phrases fausses.
-  *(Règle ajoutée à la demande explicite de Jérôme MARICHEZ, 2026-08-23.)*
+  **Une exception constatée, et non corrigeable** : le bloc délimité par
+  `<!-- BEGIN:nextjs-agent-rules -->` et `<!-- END:nextjs-agent-rules -->`, plus bas dans
+  ce fichier, garde deux tirets cadratins. Il n'est pas écrit à la main :
+  `node_modules/next/dist/server/lib/generate-agent-files.js` le réécrit à l'identique à
+  chaque `next dev`. Reformulé deux fois, il est revenu deux fois en quelques secondes.
+  Ce n'est donc **ni un oubli ni une dette** : inutile d'y revenir une troisième fois.
+  *(Règle ajoutée à la demande explicite de Jérôme MARICHEZ, 2026-08-23 ; périmètre
+  étendu aux textes lus de `src/` et exception du bloc régénéré constatée le 2026-08-24.)*
 - **Tout texte destiné à être lu passe par un second agent avant la PR** : contenu du
   site, articles, `README.md`, `docs/`. Le code et les commentaires n'y passent pas. Ce
   second agent **n'a pas le contexte de rédaction**, et c'est précisément ce qui fait la
