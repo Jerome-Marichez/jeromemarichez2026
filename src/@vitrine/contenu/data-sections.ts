@@ -1,14 +1,27 @@
 // data-sections.ts — jeromemarichez-fr
-// Les chapitres de la page Data : métier, stratégie data, gouvernance et droit.
+// Les chapitres de la page Data : métier, gouvernance et droit, stratégie data, puis la
+// problématique et son exploration.
 //
 // Le critère de rattachement est le CONTENU, jamais le titre. Vient ici ce qui parle de
 // collecte, de plan de taggage, de gouvernance, de qualité ou de réconciliation
 // d'identités ; ce qui parle de modèles, d'inférence, de fine-tuning, de RAG ou d'agents
 // est dans `ia-sections.ts`, qui sert désormais un pôle distinct.
 //
-// L'ORDRE EST LE CONTENU : métier → stratégie data → gouvernance et droit. On part de
-// l'activité, pas d'un catalogue de technologies — la solution technique répond au
+// L'ORDRE EST LE CONTENU, et c'est celui de Jérôme MARICHEZ (2026-08-23) :
+// métier → gouvernance → stratégie data → problématique → exploration de données. On part
+// de l'activité, pas d'un catalogue de technologies : la solution technique répond au
 // problème posé au départ, elle n'en est jamais le point de départ.
+//
+// **Gouvernance avant stratégie data (issue #126).** Les deux sections étaient dans
+// l'ordre inverse. Ce n'est pas un détail de mise en page : ce qui a le droit d'être
+// collecté borne ce qu'on décide de mesurer, jamais l'inverse. Un plan de collecte
+// arbitré avant la question du droit se refait.
+//
+// **Le test de déterminisme (issue #126).** La section `exploration` porte la question
+// « ce problème a-t-il une réponse déterministe ? ». Elle vit ici, et non sur la page IA,
+// parce que c'est la donnée qui y répond : la page IA ne fait qu'en recevoir la réponse.
+// Le cas « oui » s'écrit comme un résultat, jamais comme un échec. Et le test ne gouverne
+// que la suite IA : le SEA & UX ne l'attend pas, les deux suites restent parallèles.
 //
 // Faits sourcés dans cv-ai-engineer.md, cv-tracking-specialist.md et
 // cv-ingenieur-fullstack.md. Règles de véracité du CLAUDE.md appliquées : méthode arXiv
@@ -65,43 +78,14 @@ export const SECTIONS_DATA: IEditorialSection[] = [
     ],
   },
   {
-    id: 'strategie-data',
-    kind: 'chapitre',
-    pole: 'data',
-    kicker: 'La stratégie data',
-    titre: 'Construire la stratégie data, ou s’appuyer sur celle qui existe',
-    chapo:
-      'Soit il faut décider quoi mesurer, soit la donnée existe et il faut en tirer quelque ' +
-      'chose sans tout refaire.',
-    blocs: [
-      {
-        titre: 'Quand rien n’est en place',
-        decision: 'Ce que vous commencez à mesurer maintenant, et ce qui peut attendre six mois.',
-      },
-      {
-        titre: 'Quand la donnée existe déjà',
-        preuve:
-          'Système d’analyse multi-sources conforme RGPD mesurant la rentabilité client à ' +
-          'long terme, branché sur Google Ads et Bing Ads.',
-        decision:
-          'Sur quels indicateurs vous acceptez de décider, et lesquels sont encore du bruit.',
-      },
-      {
-        titre: 'La qualité n’est pas un correctif',
-        texte:
-          'Un modèle entraîné sur une donnée sale produit une décision sale, plus vite et avec ' +
-          'plus d’assurance.',
-      },
-    ],
-  },
-  {
     id: 'gouvernance',
     kind: 'chapitre',
     pole: 'data',
     kicker: 'Gouvernance et droit',
     titre: 'Qui possède quoi, et ce qui a le droit d’être traité',
     chapo:
-      'Elle se pose avant la moindre ligne de code : sa réponse écarte des solutions entières.',
+      'La question du droit se pose avant la moindre ligne de code, et avant le premier ' +
+      'indicateur : sa réponse écarte des solutions entières.',
     blocs: [
       {
         titre: 'Qui possède la donnée',
@@ -124,30 +108,128 @@ export const SECTIONS_DATA: IEditorialSection[] = [
       },
     ],
   },
+  {
+    id: 'strategie-data',
+    kind: 'chapitre',
+    pole: 'data',
+    kicker: 'La stratégie data',
+    titre: 'Construire la stratégie data, ou s’appuyer sur celle qui existe',
+    chapo:
+      'Le périmètre légal est arbitré, on sait ce qui peut être collecté. Soit il faut ' +
+      'décider quoi mesurer, soit la donnée existe et il faut en tirer quelque chose sans ' +
+      'tout refaire.',
+    blocs: [
+      {
+        titre: 'Quand rien n’est en place',
+        decision: 'Ce que vous commencez à mesurer maintenant, et ce qui peut attendre six mois.',
+      },
+      {
+        titre: 'Quand la donnée existe déjà',
+        preuve:
+          'Système d’analyse multi-sources conforme RGPD mesurant la rentabilité client à ' +
+          'long terme, branché sur Google Ads et Bing Ads.',
+        decision:
+          'Sur quels indicateurs vous acceptez de décider, et lesquels sont encore du bruit.',
+      },
+      {
+        titre: 'La qualité n’est pas un correctif',
+        texte:
+          'Un modèle entraîné sur une donnée sale produit une décision sale, plus vite et avec ' +
+          'plus d’assurance.',
+      },
+    ],
+  },
+  {
+    id: 'exploration',
+    kind: 'chapitre',
+    pole: 'data',
+    kicker: 'La problématique',
+    titre: 'Une question posée, des données explorées, et un test',
+    chapo:
+      'La stratégie data sert une question, pas l’inverse. J’explore vos données pour savoir ' +
+      'si cette question a déjà sa réponse. Selon ce qui en sort, la suite est une règle, un ' +
+      'modèle, ou un arbitrage d’acquisition.',
+    blocs: [
+      {
+        titre: 'Poser la problématique',
+        texte:
+          'Une question à laquelle une donnée peut répondre, et dont la réponse change une ' +
+          'décision. Un objectif large ne se traite pas : il se découpe en questions.',
+        decision:
+          'La question que vous voulez voir tranchée en premier, et ce que sa réponse ' +
+          'changerait chez vous.',
+      },
+      {
+        titre: 'Explorer les données',
+        texte:
+          'Cette fois la question est posée, et l’exploration ne cherche plus à comprendre ' +
+          'votre activité : elle cherche si la réponse tient déjà dans un seuil, une règle ou ' +
+          'une requête.',
+        decision:
+          'Les questions que vous poursuivez avec ce que vous avez déjà, et celles qui ' +
+          'justifient d’aller collecter plus.',
+      },
+      {
+        titre: 'Le test : ce problème a-t-il une réponse déterministe ?',
+        texte:
+          'Je pose ce test sur vos données, et je vous rends la réponse avant qu’un euro parte ' +
+          'dans un modèle. Oui : la réponse s’écrit, se vérifie et s’explique, et je m’arrête ' +
+          'là, sans IA. Non : elle dépend de régularités qu’aucune règle ne tient, et l’IA ' +
+          'devient une option à examiner. Cette réponse tombe parfois dès le cadrage, quand ' +
+          'votre métier la porte déjà ; sinon elle sort de l’exploration.',
+        decision: 'Si ce problème appelle un modèle, ou s’il est déjà tranché.',
+      },
+      {
+        titre: 'S’arrêter est un résultat',
+        texte:
+          'Le cas déterministe n’est pas un projet raté, c’est un projet répondu. Vous ' +
+          'repartez avec la règle qui tranche, et sans le budget d’un modèle à entraîner puis ' +
+          'à maintenir.',
+        decision: 'Ce que vous n’avez pas besoin d’acheter, et sur quelle base.',
+      },
+    ],
+  },
   // Cette charnière vient de `ia-sections.ts`, où elle passait la main « au pôle 3 ». Ce
   // rattachement était faux dès que l'IA a cessé d'être une étape avant le SEA & UX : la
   // charnière ne part pas de l'IA, elle part de la DONNÉE. Elle est donc rendue ici.
   //
-  // Elle n'a pas encore de symétrique vers l'IA : la donnée ouvre deux suites, et une
-  // seule des deux est racontée en fin de page. C'est une asymétrie de narration, pas de
-  // modèle — la page annonce bien les deux suites dès son ouverture (`PoleHero`), et le
-  // lot de réécriture éditoriale doit écrire la charnière manquante.
+  // **L'asymétrie signalée ici est soldée (issue #103).** Elle ne racontait qu'une des
+  // deux suites, ce qui laissait la page dire en creux que l'IA vient ailleurs, ou après.
+  // Elle les nomme désormais toutes les deux, dans une section qui refuse de les ordonner
+  // : ce n'est pas une décoration, c'est le modèle de l'offre rendu au seul endroit où le
+  // lecteur se demande ce qu'il fait de ce qu'il vient d'acheter.
+  //
+  // L'accueil portait la même charnière au même identifiant. C'était le doublon le plus
+  // net du site : il n'existe plus qu'ici.
   {
-    id: 'charniere-arbitrage',
+    id: 'charniere-suites',
     kind: 'charniere',
-    kicker: 'Charnière · vers le SEA & UX',
-    titre: 'Un métier compris devient un budget arbitrable',
+    kicker: 'Charnière · vers les deux suites',
+    titre: 'Un métier compris ouvre deux suites, et rien ne les ordonne',
     chapo:
-      'Règles écrites, profils identifiés, donnée gouvernée : on tient la matière des ' +
-      'arbitrages.',
+      'Règles écrites, profils identifiés, donnée gouvernée : on tient la matière de l’IA ' +
+      'comme celle de l’arbitrage. L’une, l’autre, ou les deux — et vous pouvez aussi vous ' +
+      'arrêter ici.',
     blocs: [
       {
-        titre: 'Rentabilité à long terme',
-        texte: 'la valeur client dans la durée remplace le coût par clic.',
+        titre: 'Ce que l’IA en reçoit',
+        texte:
+          'des règles explicites, un périmètre de données arbitré, et la réponse à une ' +
+          'question : une règle suffit-elle, ou faut-il un modèle ? Cette suite ne s’ouvre que ' +
+          'dans le second cas.',
+      },
+      {
+        titre: 'Ce que le SEA & UX en reçoit',
+        texte:
+          'la valeur client dans la durée à la place du coût par clic, et des identités ' +
+          'réconciliées — agrégation multi-sources et dédoublonnage — avant toute lecture de ' +
+          'performance.',
       },
       {
         titre: 'Et ensuite',
-        texte: 'le pôle SEA & UX tranche sur ces chiffres, puis implémente l’arbitrage lui-même.',
+        texte:
+          'chacune des deux tranche sur ces chiffres, puis implémente elle-même l’arbitrage. ' +
+          'Rien n’oblige à prendre les deux.',
       },
     ],
   },

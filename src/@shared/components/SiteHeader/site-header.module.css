@@ -1,9 +1,14 @@
 /* site-header.module.css — en-tête collant.
  *
  * Une bande n'est pas un panneau, et ne prend pas les mêmes jetons : `--verre-flou-bande`
- * et `--verre-saturation-bande` floutent et saturent nettement moins que le verre des
- * panneaux. Ce qui passe sous une bande est du TEXTE en défilement, pas un décor — au
- * réglage d'un panneau, il en ressortirait en traînée colorée. Voir `verre.css`. */
+ * et `--verre-saturation-bande` restent sous le verre des panneaux. Ce qui passe sous une
+ * bande est du TEXTE en défilement, pas un décor — à la saturation d'un panneau, il en
+ * ressortirait en traînée colorée. Voir `verre.css`.
+ *
+ * Ce module n'a pas changé d'une ligne avec l'issue #115 : la recalibration est
+ * entièrement dans les JETONS, parce que c'est là qu'ils vivent. C'est exactement ce que
+ * l'extraction de `verre.css` promettait — intensifier le verre du site sans rouvrir les
+ * modules qui le consomment, ni en oublier un en route. */
 
 .entete {
   position: sticky;
@@ -60,9 +65,11 @@
      une bande obligerait l'une des deux à porter les réglages de l'autre, et c'est
      exactement ce qui produit les traînées colorées quand les valeurs d'un panneau
      tombent sur une bande.
-     Elle n'a de sens que depuis que le fond porte une maille : sur le lavis uniforme
+     Elle n'a de sens que depuis que le fond porte de la couleur : sur le lavis uniforme
      d'avant, la réfraction a été mesurée à 2 niveaux sur 255 — invisible. Ce qu'elle
-     courbe désormais, ce sont les lavis de pôle qui passent dessous au défilement. */
+     courbe désormais, ce sont les lavis de pôle qui passent dessous au défilement — non
+     plus quatre taches à coordonnées fixes, mais celui du bloc qu'on lit (`lavis.css`,
+     issue #104), plus la lueur de seuil de `.fond-atelier`. */
   @supports (backdrop-filter: url("#verre-refraction")) and
     (not (-webkit-backdrop-filter: blur(1px))) and
     (not (-moz-appearance: none)) {

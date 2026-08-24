@@ -9,17 +9,40 @@ import { LIBELLE_PLACE } from '../../contenu/poles-places'
 import { jointuresDepuis, jointureVers } from '../../services/find-jointure'
 import styles from './chain-diagram.module.css'
 
-/** Une plaque : la place, le nom cliquable, la promesse. */
+/**
+ * Une plaque : la place, et le nom cliquable.
+ *
+ * Elle portait aussi la promesse du pôle. Elle ne la porte plus depuis l'issue #103 : les
+ * quatre portes, un peu plus bas, disent cette même promesse **et** la preuve **et**
+ * l'invite à entrer. Deux blocs qui répètent les mêmes lignes à un écran d'intervalle,
+ * c'est exactement le doublon que cette issue est venue supprimer — et un schéma n'a pas
+ * besoin de prose pour dire une topologie. Ce qui reste ici est ce que les portes ne
+ * disent pas : les **arêtes**.
+ *
+ * **C'est la plaque qui porte le lavis, et non le maillon** (issue #114). La plaque est
+ * une FEUILLE de l'arbre : aucune plaque n'en contient une autre, alors que le maillon
+ * « data », lui, contient les deux branches. Peindre le maillon empilerait deux lavis
+ * sous l'IA et sous le SEA & UX ; peindre la feuille rend ce recouvrement impossible par
+ * construction, sans plafond à surveiller. Les `<li>` gardent `data-pole` — ils portent
+ * la teinte pour leur descendance — mais ne peignent plus rien.
+ *
+ * `lavis-feuille` et non `lavis-bloc` parce que la plaque est du VERRE : la classe empile
+ * le lavis sous le voile au lieu de le poser devant, et compense ce que le voile absorbe.
+ * Le composant, lui, ne connaît toujours aucune couleur — voir `lavis.css`.
+ *
+ * Les deux suites passent par ce même composant, donc par cette même classe et ces mêmes
+ * jetons : leur lavis ne peut différer que par la teinte, jamais par la densité. Le
+ * parallélisme des deux branches est tenu par le code, pas par une relecture.
+ */
 function Plaque({ pole }: { pole: IPole }) {
   return (
-    <article className={styles.plaque}>
+    <article className={`${styles.plaque} lavis-feuille`}>
       <p className={styles.place}>{LIBELLE_PLACE[pole.place]}</p>
       <h3 className={styles.nom}>
         <Link className={styles.lien} href={pole.route}>
           {pole.nom}
         </Link>
       </h3>
-      <p className={styles.promesse}>{pole.promesse}</p>
     </article>
   )
 }
@@ -67,6 +90,10 @@ export function ChainDiagram() {
           // `data-pole` porte la teinte du maillon : la plaque ET l'arête qui en part
           // en héritent. Les branches, imbriquées, posent la leur et l'emportent — la
           // cascade dit la structure sans qu'aucun module ne nomme une couleur.
+          //
+          // Ce maillon ne PEINT rien, et c'est délibéré : il contient les deux branches,
+          // donc un fond posé ici se retrouverait sous leurs plaques, à composer avec le
+          // leur. La teinte descend, la peinture reste sur les feuilles (issue #114).
           <li className={styles.maillon} data-pole={pole.id} key={pole.id}>
             <Plaque pole={pole} />
 

@@ -3,6 +3,9 @@
 // Les entités métier sont des interfaces (IXxx) dans des fichiers dédiés de ce dossier.
 // Convention : docs/architecture.md.
 
+import type { ContactField } from '@/schemas/contact.schema'
+import type { IMailtoCompose } from './IMailtoCompose'
+
 /** Les quatre pôles. `data` est le préalable de `ia` et de `sea-ux`. */
 export type PoleId = 'ingenierie-web' | 'data' | 'ia' | 'sea-ux'
 
@@ -40,3 +43,49 @@ export type PoleTemps = 1 | 2 | 3
  * offre de plus, alors qu'il décrit la façon de tenir les autres.
  */
 export type SectionKind = 'pole' | 'chapitre' | 'charniere' | 'fil' | 'preuves'
+
+/**
+ * La figure qui illustre un article — un tracé nommé, jamais un fichier.
+ *
+ * Le site ne sert aucune image matricielle, et une illustration d'article n'allait pas
+ * en introduire la première : chaque valeur de cette union désigne un tracé SVG rendu au
+ * serveur par `@vitrine/components/ArticleFigure`. L'union est close, donc un article ne
+ * peut pas réclamer une figure qui n'existe pas — le compilateur le dit avant le build.
+ *
+ * Les noms disent la STRUCTURE dessinée, pas le sujet de l'article : c'est la même règle
+ * que les marques de pôle, dont aucune ne simule une donnée chiffrée.
+ * `borne`        : ce qui est produit s'arrête à une ligne, et au-delà rien ne tourne.
+ * `anteriorite`  : deux temps sur un axe, et le sens inverse écarté.
+ * `appui`        : une décision en équilibre, portée par une assise mesurée.
+ * `gabarit`      : une forme ouverte du côté de la sortie, et ce qui en sort déjà complet.
+ * `liaison`      : des ensembles séparés, et un lien annoncé qui ne relie rien.
+ */
+export type ArticleFigureId = 'borne' | 'anteriorite' | 'appui' | 'gabarit' | 'liaison'
+
+/**
+ * Le réseau où un article a d'abord paru.
+ *
+ * Union close plutôt que texte libre : le libellé affiché (« LinkedIn », capitale et
+ * casse comprises) se déduit de cette valeur au lieu d'être recopié dans chaque article,
+ * où il finirait par varier. Un autre réseau s'ajoute ici, avec son libellé, jamais dans
+ * un contenu.
+ */
+export type ArticleSourceReseau = 'linkedin'
+
+/**
+ * Le verdict de préparation d'un message de contact.
+ *
+ * Union fermée plutôt que deux champs optionnels : il n'existe pas d'état où l'on aurait
+ * à la fois une URL à ouvrir et des erreurs à afficher, et le compilateur doit interdire
+ * de l'écrire. Le composant lit `ok` et n'a rien d'autre à vérifier.
+ *
+ * Le cas « URL trop longue » sort ici comme une erreur de champ, pas comme un troisième
+ * état : du point de vue du visiteur c'est le même geste que pour un message trop long,
+ * et lui inventer un traitement à part n'aurait servi qu'à compliquer le rendu.
+ */
+export type ContactPreparation =
+  | { ok: true; mailto: IMailtoCompose }
+  | { ok: false; erreurs: ContactErrors }
+
+/** Un message d'erreur au plus par champ : le premier rencontré, jamais une pile. */
+export type ContactErrors = Partial<Record<ContactField, string>>

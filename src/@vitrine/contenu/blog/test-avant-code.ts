@@ -22,6 +22,9 @@ export const ARTICLE_TEST_AVANT_CODE: IArticle = {
       'avant, ce que les tests de mutation vérifient, et ce que ça change côté client.',
   },
   datePublication: '2026-08-18',
+  // La figure « antériorité » : deux temps sur un axe, et le sens inverse fermé d'une croix.
+  // Elle dit l'ordre, jamais un résultat — aucune mesure de qualité n'y est affichée.
+  figure: 'anteriorite',
   sections: [
     {
       id: 'le-volume-est-le-probleme',

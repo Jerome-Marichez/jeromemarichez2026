@@ -24,15 +24,16 @@ TypeScript dans `src/@vitrine/contenu/`, et sa forme est tenue par des interface
 | `IProof` | `src/interfaces/IProof.ts` | Une preuve chiffrée | `fiche` référence une `IRealisationChiffree` |
 | **`IRealisation`** | `src/interfaces/IRealisation.ts` | **Une réalisation** : un travail mené, son cadre, sa décision | contient un `IRealisationCadre` et des `IRealisationEtape` ; `poles` référence des `PoleId` |
 | `IRealisationChiffree` | `src/interfaces/IRealisationChiffree.ts` | Une `IRealisation` dont le `chiffre` est **obligatoire** | étend `IRealisation` |
-| `IRealisationCadre` | `src/interfaces/IRealisationCadre.ts` | Le cadre d'emploi : employeur, poste, période, équipe | — |
+| `IRealisationCadre` | `src/interfaces/IRealisationCadre.ts` | Le cadre : statut, organisation, poste, période, équipe | — |
 | `IRealisationChiffre` | `src/interfaces/IRealisationChiffre.ts` | Un résultat chiffré, et ce qu'il ne dit pas | — |
 | `IRealisationEtape` | `src/interfaces/IRealisationEtape.ts` | Une étape du travail mené | — |
 | `IRealisationGroupe` | `src/interfaces/IRealisationGroupe.ts` | Vue dérivée : un cadre et ses fiches | calculée par `find-realisation`, jamais déclarée |
 | `IRealisationsIndex` | `src/interfaces/IRealisationsIndex.ts` | L'en-tête éditoriale de `/realisations` | — |
 | `ICertification` | `src/interfaces/ICertification.ts` | Une certification obtenue | `ICertificationLogo` |
 | `IBoundary` | `src/interfaces/IBoundary.ts` | Une limite assumée | — |
-| **`IArticle`** | `src/interfaces/IArticle.ts` | **Un article du blog** | contient des `IArticleSection` |
-| `IArticleSection` | `src/interfaces/IArticleSection.ts` | Une section d'article | — |
+| **`IArticle`** | `src/interfaces/IArticle.ts` | **Un article du blog** | contient des `IArticleSection`, porte une `IArticleSource` |
+| `IArticleSection` | `src/interfaces/IArticleSection.ts` | Une section d'article : un titre, des paragraphes, éventuellement une liste | — |
+| `IArticleSource` | `src/interfaces/IArticleSource.ts` | La publication d'origine d'un article | — |
 | `IBlogIndex` | `src/interfaces/IBlogIndex.ts` | L'en-tête éditoriale de `/blog` | — |
 | `IBreadcrumbItem` | `src/interfaces/IBreadcrumbItem.ts` | Un niveau de fil d'Ariane | lu par le rendu **et** par le JSON-LD |
 
@@ -88,7 +89,42 @@ contenu : une page de pôle est vraie ou fausse, un article est vrai **à une da
 | `meta` | `IPageMeta` | oui | `<title>` (60 car. max) et meta description (155 car. max) |
 | `datePublication` | `string` (`AAAA-MM-JJ`) | oui | Date affichée, `datePublished`, **clé de tri** de la liste |
 | `dateRevision` | `string` (`AAAA-MM-JJ`) | non | Révision de fond. `dateModified` et `lastModified` du sitemap |
-| `sections` | `IArticleSection[]` | oui | Corps de l'article : un titre `<h2>` et ses paragraphes |
+| `figure` | `ArticleFigureId` | oui | La figure qui illustre l'article. **Pas un chemin de fichier** : une valeur d'union close, rendue en SVG par `ArticleFigure` |
+| `source` | `IArticleSource` | non | Publication d'origine, quand il y en a une. Un réseau et une URL, rien d'autre |
+| `sections` | `IArticleSection[]` | oui | Corps de l'article : un titre `<h2>`, ses paragraphes, et éventuellement une liste |
+
+### La section (`IArticleSection`)
+
+| Champ | Type | Obligatoire | Rôle |
+|-------|------|-------------|------|
+| `id` | `string` | oui | Ancre `#id` de la section, cible des liens profonds |
+| `titre` | `string` | oui | Rendu en `<h2>`, et `aria-labelledby` de la `<section>` |
+| `paragraphes` | `string[]` | oui | Texte fini, un `<p>` par entrée |
+| `liste` | `string[]` | non | Points listés, rendus en `<ul>` **après** les paragraphes |
+
+Le modèle est resté pauvre pendant quatre articles — un titre, des paragraphes — et son
+commentaire annonçait déjà la suite : « le jour où un article demande davantage, c'est le
+modèle qu'on élargit, pas le rendu qu'on contourne ». **Ce jour est l'issue #121** : deux
+articles repris de posts portent une énumération dont la valeur tient à la forme, et l'un
+des points porte la seule preuve vérifiable de son article. Fondue en prose, l'énumération
+se dilue, et un lecteur d'écran cesse d'annoncer « liste de quatre éléments ».
+
+L'élargissement s'arrête à **un champ**, et trois limites le tiennent :
+
+- **la liste ferme la section.** Aucun paragraphe ne la suit ; un texte qui doit reprendre
+  après une liste ouvre une nouvelle section. C'est ce qui empêche `IArticleSection` de
+  devenir une suite de blocs libres : l'**ordre du rendu est porté par le type**, jamais
+  par l'ordre de saisie de la donnée. Un modèle de blocs alternés aurait rendu ce contrat
+  indéfendable dès le premier article qui l'aurait exercé ;
+- **un point est une phrase finie**, ponctuée comme un paragraphe. Pas de titre de point,
+  pas de sous-liste, pas de lien ;
+- **une seule liste par section.** Deux énumérations dans une même section sont deux
+  sections.
+
+Côté rendu, c'est la **seule liste de prose du site** : partout ailleurs un `<ul>` porte
+une navigation ou des cartes, et sa puce est retirée. Ici elle reste — `list-style: none`
+fait perdre à Safari/VoiceOver les sémantiques de liste, et c'est précisément ici que
+l'annonce « liste de *n* éléments » vaut quelque chose.
 
 ### Contraintes d'intégrité
 
@@ -98,6 +134,13 @@ construction du site, ou elles restent à la charge de l'auteur :
 - **`slug` unique et stable.** Deux articles de même slug produiraient deux fois la même
   page ; changer un slug publié casse les liens entrants et l'historique de position dans
   les moteurs. Un titre se corrige, un slug ne se corrige pas.
+  **Une exception a été prise, une fois, et elle est close.** Le 2026-08-23 (issue #121),
+  les slugs de deux articles ont été réalignés sur leur titre corrigé. La règle
+  d'immuabilité protège les liens entrants et le classement acquis : ces deux articles-là
+  n'en avaient aucun, ayant été fusionnés dans `dev` sans jamais passer en production
+  (`git ls-tree origin/main` ne les contenait pas). La fenêtre s'est refermée avec la
+  première mise en production ; un slug servi au public ne bouge plus, quel que soit le
+  motif.
 - **`slug` en kebab-case ASCII**, sans accent ni apostrophe : c'est une URL, elle doit
   s'écrire, se lire au téléphone et se copier sans encodage.
 - **Dates au format `AAAA-MM-JJ`.** Ce format se compare comme du texte, ce dont le tri
@@ -106,6 +149,25 @@ construction du site, ou elles restent à la charge de l'auteur :
 - **`dateRevision` ≥ `datePublication`** quand elle existe.
 - **Véracité du contenu** : les règles du [`CLAUDE.md`](../CLAUDE.md) s'appliquent mot
   pour mot à un article comme au reste du site.
+- **`source.url` n'est jamais devinée.** C'est la règle des justificatifs de certification,
+  à l'identique : tant que l'adresse n'a pas été fournie par Jérôme MARICHEZ, l'article se
+  publie **sans source**. C'est la raison d'être du caractère optionnel du champ, et non une
+  commodité de saisie. Le cas s'est présenté dès le quatrième article : « J'ai open-sourcé
+  mon plugin Claude Code » reprend un post LinkedIn dont l'URL n'a pas été fournie ; il
+  se publie **sans source** plutôt qu'avec une adresse approchée. Le cinquième, lui, porte
+  la sienne, fournie telle quelle.
+- **Un article repris ailleurs porte le texte, il ne le réécrit pas** (issue #121). Le
+  titre, le plan et les formulations de l'auteur passent tels quels ; seules deux choses
+  les modifient : une **correction de véracité** (une affirmation plus large que ce qui est
+  établi se réécrit à la baisse) et la **mise à la forme** d'un article — orthographe,
+  syntaxe, chapô, sections titrées. La ligne éditoriale du site — vendre une décision,
+  finir sur ce que le lecteur peut trancher — s'applique à un article **écrit pour le
+  site** ; elle n'autorise pas à refaire l'angle d'un texte repris.
+- **`figure` est obligatoire, délibérément.** La laisser facultative aurait produit une liste
+  où certains articles ont une figure et d'autres pas, c'est-à-dire un rythme cassé sans
+  qu'aucune information ne le justifie. Deux articles peuvent partager une figure — rien ne
+  l'interdit — mais les articles publiés en ont chacun une, sans quoi elle cesserait de
+  distinguer.
 
 ### Règles portées par le service
 
@@ -123,10 +185,14 @@ un composant :
 - **Pas d'auteur.** Le site n'a qu'un auteur, déclaré une fois pour tout le site par le
   nœud `Person` du layout. Un champ `auteur` par article laisserait croire à une équipe
   de rédaction.
-- **Pas d'image.** Aucune illustration n'est servie ; déclarer une image dans le JSON-LD
-  ou dans `og:image` sans la servir serait une affirmation fausse de plus.
-- **Pas de rattachement à un pôle, pas de tags, pas de catégories.** Avec trois articles,
-  une taxonomie serait un classement sans classe. Le jour où elle s'impose, le
+- **Pas de FICHIER d'image**, et c'est différent de « pas d'illustration ». Un article porte
+  une figure depuis l'issue #108, mais c'est du SVG écrit dans le document : il n'existe
+  aucune ressource à servir, donc rien à déclarer dans `image` ni dans `og:image`. Y mettre
+  une URL qui rendrait 404 serait une affirmation fausse de plus. Le jour où une image est
+  réellement servie, le champ s'ajoute ; pas avant. Voir `docs/design.md`, « Les figures
+  d'article ».
+- **Pas de rattachement à un pôle, pas de tags, pas de catégories.** À cinq articles,
+  une taxonomie serait encore un classement sans classe. Le jour où elle s'impose, le
   rattachement dérivera de `PoleId` et de l'ordre porté par `POLES_NAV` — jamais d'une
   liste de pôles recopiée dans le blog. L'ordre est **la position dans `POLES_NAV`**, et
   nulle part ailleurs : une seconde liste d'ordre finirait par contredire la première.
@@ -135,8 +201,10 @@ un composant :
 ## La réalisation (`IRealisation`)
 
 C'est l'entité la plus exposée du site : le format « portfolio » dérive de lui-même vers
-« mon client X », et les entreprises citées sont des **employeurs**. Le modèle tient cette
-frontière par le **type**, pas par la relecture.
+« mon client X ». Le modèle tient cette frontière par le **type**, pas par la relecture —
+chaque fiche porte le **statut** sous lequel elle a été menée, et ce statut n'est pas
+uniforme : deux postes salariés (Acetelecom / MailingVox, Verhoeven Joaillier) et une
+mission en indépendant (Truffle Capital, 2017-2019).
 
 | Champ | Type | Obligatoire | Rôle |
 |-------|------|-------------|------|
@@ -144,7 +212,7 @@ frontière par le **type**, pas par la relecture.
 | `titre` | `string` | oui | `<h1>`, `name` du JSON-LD, dernier niveau du fil d'Ariane. À l'infinitif : un travail, pas une offre |
 | `chapo` | `string` | oui | Résumé. Teaser sur la liste, `description` du JSON-LD |
 | `meta` | `IPageMeta` | oui | `<title>` (60 car. max) et meta description (155 car. max) |
-| **`cadre`** | `IRealisationCadre` | **oui** | Employeur, intitulé de poste exact, période, équipe |
+| **`cadre`** | `IRealisationCadre` | **oui** | Statut, organisation, intitulé de poste exact, période, équipe |
 | `poles` | `readonly PoleId[]` | oui | Pôles réellement mobilisés. **Non contraint** |
 | `probleme` | `string` | oui | Le problème posé au départ, dans les termes de l'époque |
 | `etapes` | `readonly IRealisationEtape[]` | oui | Ce qui a été fait, étape par étape |
@@ -159,6 +227,11 @@ frontière par le **type**, pas par la relecture.
   compilateur qui ferme cette porte, parce que c'est le seul garde-fou qui ne s'oublie pas
   en relecture. Le champ `equipe` existe pour la même raison : il empêche « j'ai managé N
   développeurs », en obligeant à écrire ce qui a réellement été encadré.
+- **`statut` est obligatoire au même titre, et c'est lui qui manquait.** Tant que le cadre
+  ne portait que l'organisation, le poste, la période et l'équipe, l'espace pouvait
+  annoncer « trois postes salariés » sans que rien ne le contredise — alors que Truffle
+  Capital était une mission menée en auto-entrepreneur (issue #107). Un champ facultatif
+  aurait laissé revenir la même ambiguïté fiche par fiche.
 - **Le chiffre n'a qu'une porte d'entrée.** `IRealisationChiffre` est une entité à part,
   avec une `portee` obligatoire — ce que le chiffre **ne** dit **pas**. Un chiffre publié
   sans sa portée se fait élargir tout seul par celui qui le lit : « +50 % de panier moyen »
@@ -185,8 +258,8 @@ Elles vivent dans `src/@vitrine/services/find-realisation.ts` :
 | Règle | Comportement |
 |-------|--------------|
 | `listRealisations()` | Rend la liste **dans l'ordre déclaré**. Aucun tri : une réalisation n'est pas datée, il n'existe pas de clé de tri qui ne soit pas inventée |
-| `groupRealisationsByCadre()` | Groupe par employeur, dans l'ordre de `CADRES` (du poste le plus récent au plus ancien). Un cadre sans fiche ne produit pas de groupe vide |
-| `findRealisation(slug)` | Rend la fiche et jusqu'à `MAX_REALISATIONS_LIEES` (2) autres, choisies sur les **pôles partagés** — la liste groupe déjà par employeur, proposer trois fois le même employeur en bas de page n'apprendrait rien. **Lève** sur un slug inconnu |
+| `groupRealisationsByCadre()` | Groupe par organisation, dans l'ordre de `CADRES` (du poste le plus récent au plus ancien). Un cadre sans fiche ne produit pas de groupe vide |
+| `findRealisation(slug)` | Rend la fiche et jusqu'à `MAX_REALISATIONS_LIEES` (2) autres, choisies sur les **pôles partagés** — la liste groupe déjà par organisation, proposer trois fois la même organisation en bas de page n'apprendrait rien. **Lève** sur un slug inconnu |
 | `listPoles(ids)` (`find-pole`) | Ordonne les pôles selon `POLES_NAV`, jamais selon l'ordre déclaré par la fiche |
 
 ## Où vivent les données
@@ -197,13 +270,15 @@ src/@vitrine/contenu/blog/
 ├── blog-index.ts        ← l'en-tête éditoriale de /blog
 ├── export-statique.ts   ← un fichier par article
 ├── test-avant-code.ts
-└── mesurer-avant-arbitrer.ts
+├── mesurer-avant-arbitrer.ts
+├── plugin-claude-code.ts
+└── carte-de-l-architecture.ts
 
 src/@vitrine/contenu/realisations/
 ├── realisations.ts        ← la liste publiée : SOURCE UNIQUE de l'espace
 ├── realisations-index.ts  ← l'en-tête éditoriale de /realisations
-├── cadres.ts              ← les trois cadres d'emploi, partagés par les fiches
-├── mailingvox-produits.ts ← les fiches, groupées par employeur
+├── cadres.ts              ← les trois cadres, partagés par les fiches
+├── mailingvox-produits.ts ← les fiches, groupées par organisation
 ├── mailingvox-donnee.ts   ←   (MailingVox est scindé en deux : limite de 300 lignes)
 ├── verhoeven.ts
 └── truffle.ts

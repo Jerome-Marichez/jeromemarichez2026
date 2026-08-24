@@ -56,7 +56,7 @@ plus une file de quatre étapes qu'il faudrait toutes acheter :
 | Place | Pôle | Ce qu'il fait |
 |-------|------|---------------|
 | socle | **Ingénierie web** | construire le site, le SaaS, l'application mobile — et les exploiter |
-| passage | **Data** | comprendre le métier, bâtir ou reprendre la stratégie data, gouverner |
+| passage | **Data** | comprendre le métier, gouverner, bâtir ou reprendre la stratégie data, puis explorer |
 | suite | **IA** | choisir la solution — règle métier intégrée à l'existant, modèle, ou LLM |
 | suite | **SEA & UX** | trancher les parcours et les budgets sur la donnée, puis implémenter |
 
@@ -69,7 +69,7 @@ sans en cacher une.
 | De → vers | Ce qui est transmis | Si le client l'a déjà |
 |-----------|---------------------|-----------------------|
 | Ingénierie web → Data | un produit en production, exploité et mesuré : c'est le run qui fabrique la donnée | on part du produit existant, il n'est pas réécrit pour avoir le droit d'être mesuré |
-| Data → IA | un métier formalisé et une donnée gouvernée | la stratégie data est reprise telle quelle, elle ne se rachète pas |
+| Data → IA | un métier formalisé, une donnée gouvernée, et la réponse au test de déterminisme : cette suite ne s'ouvre que si elle est non | la stratégie data est reprise telle quelle, elle ne se rachète pas |
 | Data → SEA & UX | la même donnée, tournée vers l'arbitrage | on arbitre dessus dès le premier jour, et rien n'oblige à prendre l'IA |
 
 Cette seconde colonne est ce qui distingue une dépendance de **matière** — vraie et
@@ -128,10 +128,34 @@ bout. Elle mobilise toutes les compétences du parcours.
 
 ### Le passage obligé — Data
 
-**L'ordre est le contenu.** Ce pôle ne part pas de la technique, il y arrive. On
-comprend d'abord le métier, on traite ensuite la stratégie data, puis la gouvernance et
-le droit. Toute réécriture qui remettrait la technique en tête viderait l'offre de son
-sens.
+**L'ordre est le contenu.** Ce pôle ne part pas de la technique, il y arrive. On comprend
+d'abord le métier, on gouverne ensuite, on bâtit alors la stratégie data, et on finit sur
+une question posée puis explorée. Toute réécriture qui remettrait la technique en tête
+viderait l'offre de son sens.
+
+**La gouvernance précède la stratégie data** (arbitré par Jérôme MARICHEZ le 2026-08-23,
+issue #126). Ce n'est pas un détail de plan : ce qui a le droit d'être collecté borne ce
+qu'on décide de mesurer, jamais l'inverse. Un plan de collecte arbitré avant la question
+du droit se refait.
+
+L'enchaînement complet, celui qui doit rester lisible sur le site :
+
+```
+métier  →  gouvernance  →  stratégie data  →  problématique  →  exploration de données
+   →  [ le problème a-t-il une réponse déterministe ? ]
+         oui  →  on s'arrête. Pas d'IA.
+         non  →  alors seulement, on considère l'IA
+                 (supervisé, non supervisé, LLM, agents)
+```
+
+Le **test de déterminisme** est un test, pas une intuition : il se pose à un endroit
+précis, et sa réponse tombe soit **en amont** (le métier la porte déjà, elle est définie
+dès le cadrage), soit **pendant l'exploration de données**. Dans les deux cas on s'arrête
+là. Le cas « déterministe » s'écrit toujours comme un **bon résultat** : c'est un client à
+qui on évite une dépense inutile, jamais un projet raté.
+
+Le test ne gouverne que la suite IA. **Le SEA & UX ne l'attend pas** : les deux suites
+restent parallèles et de rang égal.
 
 C'est aussi le pôle par lequel tout passe — et celui qui **se livre pour lui-même**. Un
 client peut s'arrêter au document produit ici, sans jamais acheter d'IA ni de SEA. Cette
@@ -155,18 +179,7 @@ péage.
 - **Livrable propre** : ce que la donnée dit de l'activité, les règles formalisées, les
   profils identifiés, les questions sans réponse. Le client peut s'arrêter là.
 
-**2. La stratégie data — la déployer, ou s'appuyer sur celle qui existe.**
-
-- **Quand rien n'est en place** — définition des indicateurs à partir des questions du
-  métier, plan de collecte, pipelines d'ingestion, modélisation : PostgreSQL
-  (relationnel, séries temporelles, vectoriel), MySQL, Firebase.
-- **Quand la donnée existe** — reprise de l'existant, agrégation et réconciliation
-  multi-sources, dédoublonnage des identités, contrôles d'intégrité et de véracité dès
-  l'ingestion, détection d'anomalies. La qualité est un **prérequis**, pas un correctif.
-  *Preuve : système d'analyse multi-sources conforme RGPD mesurant la rentabilité client
-  à long terme, branché sur Google Ads et Bing Ads.*
-
-**3. Gouvernance et législation — avant la technique, jamais après.**
+**2. Gouvernance et législation — avant la technique, jamais après.**
 
 - **Qui possède quoi** — cartographie des sources et de leur propriété, ce qui peut
   sortir de chez le client et ce qui doit y rester.
@@ -179,6 +192,35 @@ péage.
   d'office un service tiers et ramène l'arbitrage entre modèle open-weight hébergé et
   règle explicite.
 
+**3. La stratégie data — la déployer, ou s'appuyer sur celle qui existe.**
+
+- **Quand rien n'est en place** — définition des indicateurs à partir des questions du
+  métier, plan de collecte, pipelines d'ingestion, modélisation : PostgreSQL
+  (relationnel, séries temporelles, vectoriel), MySQL, Firebase.
+- **Quand la donnée existe** — reprise de l'existant, agrégation et réconciliation
+  multi-sources, dédoublonnage des identités, contrôles d'intégrité et de véracité dès
+  l'ingestion, détection d'anomalies. La qualité est un **prérequis**, pas un correctif.
+  *Preuve : système d'analyse multi-sources conforme RGPD mesurant la rentabilité client
+  à long terme, branché sur Google Ads et Bing Ads.*
+
+**4. La problématique et l'exploration de données : l'étape qui produit le test.**
+
+- **Poser la problématique** : une question à laquelle une donnée peut répondre, et dont
+  la réponse change une décision. Un objectif large ne se traite pas, il se découpe en
+  questions.
+- **Explorer les données** : la question est posée, l'exploration ne cherche plus à
+  comprendre l'activité (c'est l'étape 1) mais à savoir si la réponse tient déjà dans un
+  seuil, une règle ou une requête.
+- **Le test de déterminisme** : « ce problème a-t-il une réponse déterministe ? ». Oui,
+  la réponse s'écrit, se vérifie et s'explique, et on s'arrête là, sans IA. Non, elle
+  dépend de régularités qu'aucune règle ne tient, et l'IA devient une option à examiner.
+  Le test est posé **ici, et une seule fois** : la page IA n'en rejoue pas la question,
+  elle part de son résultat. Et il ne préjuge de rien pour le SEA & UX, qui s'ouvre sur
+  la même exploration sans avoir à attendre cette réponse.
+- **S'arrêter est un résultat** : le cas déterministe n'est pas un projet raté, c'est un
+  projet répondu. Le client repart avec la règle qui tranche et sans le budget d'un
+  modèle à entraîner puis à maintenir.
+
 ### Une des deux suites — IA
 
 **La solution répond au problème posé au départ, pas à l'état de l'art**, et **elle
@@ -187,9 +229,14 @@ donnée gouvernée, un modèle apprend l'erreur de cadrage au lieu de la corrige
 ne se prend pas forcément : le SEA & UX s'ouvre en parallèle, et rien n'oblige à acheter
 de l'IA pour tirer parti de sa donnée.
 
-- **Une règle métier suffit souvent** — moins chère à faire tourner, plus facile à
-  expliquer à un régulateur, plus simple à corriger qu'un modèle. Intégrée aux systèmes
-  existants, c'est un **livrable complet**. *Preuve : règles anti-fraude définies puis
+Ce pôle ne s'ouvre que sur une réponse : celle du **test de déterminisme**, posé à
+l'étape 4 du pôle Data. Le site ne repose pas le test ici, il en reçoit le résultat et
+raconte ses deux issues. **Les quatre familles se nomment sans hiérarchie** : supervisé,
+non supervisé, LLM, agents. Aucune n'est un niveau au-dessus d'une autre.
+
+- **Réponse déterministe : une règle métier suffit** — moins chère à faire tourner, plus
+  facile à expliquer à un régulateur, plus simple à corriger qu'un modèle. Intégrée aux
+  systèmes existants, c'est un **livrable complet**. *Preuve : règles anti-fraude définies puis
   implémentées dans le produit — fraude en baisse, conversion des inscriptions en
   hausse, latence réduite ; flux commande, stock et facturation modélisés en BPMN puis
   intégrés entre un ERP et un site marchand — survente évitée sur des pièces uniques.*
@@ -199,6 +246,18 @@ de l'IA pour tirer parti de sa donnée.
   caractéristiques du signal audio selon une méthode publiée sur **arXiv**, implémentée
   par Jérôme lui-même, adaptée aux données réelles puis industrialisée. *Preuve : routes
   vocales coûteuses évitées.*
+- **Coût et propriété** : ce que la stratégie data rembourse. C'est l'argument le plus
+  différenciant du pôle. Si la stratégie data est assez solide en amont, on passe sur une
+  solution IA **dont le client est propriétaire**, à **coûts réduits**, via
+  l'implémentation d'un **workflow agentique de bas niveau cognitif** ; le cas échéant, on
+  passe par un **LLM classique, open source ou propriétaire**. Deux notions distinctes,
+  à ne jamais fondre en une :
+  - **La propriété** : le client possède la solution au lieu de louer indéfiniment
+    l'intelligence d'un tiers. Ce qui se lit sur ce qui reste s'il coupe, pas sur le prix
+    du mois.
+  - **Le niveau cognitif** : un workflow agentique de bas niveau cognitif coûte moins
+    cher qu'un LLM sollicité pour tout, parce que la donnée bien structurée a déjà fait
+    une fois le travail que le modèle aurait facturé à chaque appel.
 - **LLM, quand le problème est du langage** — Claude (Vertex AI, API Anthropic), OpenAI,
   Gemini, Llama. Context engineering, comparaison continue et arbitrage
   **coût / latence / qualité / confidentialité** par cas d'usage. Fine-tuning de
@@ -277,8 +336,17 @@ au-delà.
 **Règle de rédaction de cette section** : elle énonce ce qui est fait, elle ne **nomme
 jamais** un outil ou un niveau de certification proscrit par la table de véracité, même
 sous forme de négation. « Deux régies publicitaires, pas douze » plutôt que la liste de
-celles qui ne sont pas couvertes. Le test d'intégration `veracite-contenu.spec.ts`
-échoue si un terme proscrit réapparaît où que ce soit dans le contenu publié.
+celles qui ne sont pas couvertes.
+
+**État du contrôle** : la table des interdits du [`CLAUDE.md`](./CLAUDE.md) fait
+autorité, mais **aucun contrôle automatisé ne la vérifie à ce jour**. Le test
+d'intégration qui doit échouer dès qu'un terme proscrit réapparaît dans le contenu
+publié — `tests/integration/veracite-contenu.integration.spec.ts`, au nommage imposé
+par la [stratégie de tests](./docs/testing.md) — **reste à écrire**. Son intention
+complète (motifs couverts, jeu de données, cas limites) est spécifiée dans l'issue
+[#117](https://github.com/Jerome-Marichez/jeromemarichez2026/issues/117) et il revient
+à Jérôme MARICHEZ de le poser. D'ici là, la table s'applique à la relecture, pas à
+la CI.
 
 ---
 
@@ -317,35 +385,39 @@ ce qu'il faut réunir pour les quatre logos manquants.
 
 | Route | Rôle |
 |-------|------|
-| `/` | Accroche, promesse d'interlocuteur unique, le fil IA transverse, le schéma de la chaîne et de son embranchement, preuves chiffrées, limites assumées, certifications, les deux objections traitées (« et si je disparais ? » et « et si le projet dépasse une personne ? »), appel à contact |
+| `/` | **Vitrine, pas catalogue déplié.** Accroche et promesse d'interlocuteur unique, le schéma de la chaîne et de son embranchement, les **quatre portes** — nom du pôle, promesse, une preuve chiffrée, lien vers sa page —, les deux objections traitées (« et si je disparais ? » et « et si le projet me dépasse ? »), preuves chiffrées, limites assumées, certifications, et un **formulaire de contact** qui compose un `mailto:` avec l'adresse affichée en clair à côté. Le **détail de chaque pôle** vit sur `/services/<pole>/`, qui le disait déjà en plus long ; le **fil IA transverse** est descendu sur `/services/ingenierie-web/`, la page où le site dit comment le code est produit |
 | `/services/ingenierie-web` | Le socle en détail |
 | `/services/data` | Le passage obligé en détail |
 | `/services/ia` | Une des deux suites en détail |
 | `/services/sea-ux` | L'autre suite en détail |
-| `/realisations` | Liste des réalisations, groupées par cadre d'emploi (employeur, intitulé de poste exact, période, équipe) |
+| `/realisations` | Liste des réalisations, groupées par cadre (statut, organisation, intitulé de poste exact, période, équipe) |
 | `/realisations/<slug>` | Une réalisation. Une page statique par fiche, générée au build par `generateStaticParams` |
 | `/blog` | Liste des articles, du plus récent au plus ancien |
 | `/blog/<slug>` | Un article. Une page statique par article, générée au build par `generateStaticParams` |
 | `/parcours` | *(pas encore construite)* Parcours d'ingénieur et de chef de projet, formation |
-| `/contact` | *(reportée)* L'export statique ferme les routes API : un formulaire exigerait un service tiers ou un back séparé. L'accueil et le pied de page portent un `mailto:` direct, cohérent avec la promesse d'interlocuteur unique |
+| `/contact` | *(reportée)* Le contact vit dans la section `contact` de l'accueil. L'export statique ferme les routes API : le formulaire y **compose une URL `mailto:`** validée côté client, sans appel réseau, sans sous-traitant et sans cookie, et l'adresse reste affichée en clair en `mailto:` à côté pour qui n'a pas de client mail. Le pied de page porte le même `mailto:` direct |
 
 Chaque page de service porte ses propres métadonnées SEO, ses données structurées
 (`schema.org/Service` et `ProfessionalService`) et un appel à contact contextualisé.
 
 ### L'espace `/realisations/` — le nom est un arbitrage de véracité
 
-**Aucune des entreprises citées sur le site n'est un client** : ce sont trois postes
-salariés — Lead Tech chez Acetelecom / MailingVox (2023-2026), Développeur Full Stack chez
-Verhoeven Joaillier (2019-2022, poste unique), Développeur web & Chef de projet digital
-chez Truffle Capital (2017-2019). Artedrone est une **participation du fonds** Truffle, pas
-un client. Nommer l'espace « cas clients » affirmerait une relation commerciale qui n'a
-jamais existé, et réécrirait des intitulés de poste que le [`CLAUDE.md`](./CLAUDE.md)
-impose de reprendre à l'identique des CV.
+**Deux postes salariés et une mission en indépendant** — Lead Tech chez Acetelecom /
+MailingVox (2023-2026, salarié), Développeur Full Stack chez Verhoeven Joaillier
+(2019-2022, salarié, poste unique), Développeur web & Chef de projet digital chez Truffle
+Capital (2017-2019, **en auto-entrepreneur** : Truffle Capital était donc un client).
+**Truffle Capital est le seul client cité sur le site.** Artedrone n'en est pas un second :
+c'est une **participation du fonds**, au bénéfice de laquelle l'AMOA a été menée dans le
+cadre de la mission Truffle. Nommer l'espace « cas clients » ferait passer dix fiches sur
+treize pour une relation commerciale qui n'a jamais existé, et réécrirait des intitulés de
+poste que le [`CLAUDE.md`](./CLAUDE.md) impose de reprendre à l'identique des CV.
 
-L'espace s'appelle donc **`/realisations/`**, et **chaque fiche porte son cadre d'emploi** —
-intitulé exact, période, taille d'équipe. Le cadre est **obligatoire dans le type**
-(`IRealisationCadre`, aucun champ optionnel) : c'est le compilateur, et non la relecture,
-qui interdit qu'une fiche paraisse sans dire d'où elle vient.
+L'espace s'appelle donc **`/realisations/`**, et **chaque fiche porte son cadre** —
+statut, intitulé exact, période, taille d'équipe. Le cadre est **obligatoire dans le
+type** (`IRealisationCadre`, aucun champ optionnel, `statut` compris) : c'est le
+compilateur, et non la relecture, qui interdit qu'une fiche paraisse sans dire d'où elle
+vient ni à quel titre. Le `statut` a été ajouté après coup : sans lui, l'espace a publié
+« trois postes salariés » pendant plusieurs versions (issue #107).
 
 **Deux gabarits, et c'est structurant.** Trois fiches seulement portent un chiffre : ce
 sont les trois du mur de preuves — +50 % de panier moyen, 98/100 Lighthouse, 100 000 € de
@@ -374,8 +446,25 @@ une prestation vendue ou une œuvre détenue.
 Le **blog** n'est pas un quatrième pôle et la navigation le sépare de la chaîne : ce sont
 des notes courtes sur des décisions techniques réelles. Chaque article porte ses propres
 métadonnées, un `schema.org/BlogPosting`, un fil d'Ariane `Accueil → Blog → article` et sa
-**date** — c'est la seule partie du site dont le sitemap publie une date par page. Le
-modèle de l'entité est décrit dans [`docs/data-model.md`](./docs/data-model.md).
+**date** — c'est la seule partie du site dont le sitemap publie une date par page. Chaque
+article porte aussi une **figure construite** — du SVG rendu au serveur, jamais un fichier
+d'image — et, quand il en a une, un lien vers sa **publication d'origine**. Le modèle de
+l'entité est décrit dans [`docs/data-model.md`](./docs/data-model.md), la grammaire des
+figures dans [`docs/design.md`](./docs/design.md).
+
+Un article peut reprendre un post publié ailleurs. Il le **porte**, il ne le réécrit pas :
+le titre, le plan et les formulations de l'auteur passent tels quels, et seules deux choses
+les modifient. La **mise à la forme** d'abord — orthographe, syntaxe, chapô, sections
+titrées. La **véracité** ensuite : les règles s'y appliquent mot pour mot, et un post plus
+large que ce qui est établi se **réécrit à la baisse** — c'est ce qui s'est passé pour
+« J'ai open-sourcé mon plugin Claude Code », dont le post d'origine annonçait une CI plus
+validée qu'elle ne l'est. La ligne éditoriale du site — vendre une décision, finir sur ce
+que le lecteur peut trancher — vaut pour un article **écrit pour le site** ; elle
+n'autorise pas à refaire l'angle d'un texte repris (issue #121). Deux conséquences valables
+partout : aucun appel à l'action de réseau social (étoile, partage, contribution) n'entre
+dans le contenu publié, et un article dont l'**URL d'origine n'a pas été fournie se publie
+sans source** plutôt qu'avec une adresse approchée — même règle que les justificatifs de
+certification.
 
 ## ✅ Contraintes produit
 
@@ -383,8 +472,11 @@ modèle de l'entité est décrit dans [`docs/data-model.md`](./docs/data-model.m
   à la requête. Métadonnées, `canonical` et données structurées par page, sitemap et
   robots générés. Conséquence assumée : ni route API, ni ISR, ni Server Action
   (voir [architecture](./docs/architecture.md)).
-- **Performance** : Lighthouse ≥ 95 sur les 4 catégories, Core Web Vitals au vert —
-  le site est lui-même la démonstration de ce qui est vendu.
+- **Performance** : Lighthouse à 95 visé sur les 4 catégories, Core Web Vitals au vert.
+  Le site est lui-même la démonstration de ce qui est vendu. Le **plancher bloquant** de
+  la catégorie performance est à **80** depuis le 2026-08-24 (décision de Jérôme
+  MARICHEZ, issue #146) : sous 80 rien ne se livre, entre 80 et 95 le budget passe et le
+  rapport le signale. Accessibilité, bonnes pratiques et SEO gardent un plancher à 95.
 - **Accessibilité** : RGAA / WCAG AA, testée et non supposée (`uat/`).
 - **RGPD** : mesure d'audience conforme, consentement géré, aucune donnée personnelle
   collectée hors formulaire de contact explicite.

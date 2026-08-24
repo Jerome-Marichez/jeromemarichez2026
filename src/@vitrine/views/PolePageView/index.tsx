@@ -39,7 +39,13 @@ export function PolePageView({ pole, page, suites }: PolePageViewProps) {
     // `data-pole` est le porteur de la teinte : le bloc CSS qui mappe `--accent` sur
     // l'identifiant du pôle s'y accroche, et tout ce qui est dessous en hérite. Aucun
     // composant ne connaît la couleur d'un pôle, il ne connaît que `--accent`.
-    <div className={styles.page} data-pole={pole.id}>
+    //
+    // `lavis-pole` est ce qui fait que la page PORTE sa teinte au lieu de s'en servir en
+    // filets : le fond papier reçoit le lavis pastel du pôle sur toute la hauteur du
+    // gabarit (issue #104). Classe globale, comme `.fond-atelier`, parce que la recette
+    // est la même pour les quatre pôles et qu'elle ne nomme aucune couleur — elle
+    // consomme `--lavis-fond` et `--lavis-tache`, que `data-pole` vient de poser ici même.
+    <div className={`${styles.page} lavis-pole`} data-pole={pole.id}>
       <PoleHero pole={pole} suites={suites} />
       <PoleStickyBar pole={pole} />
 

@@ -1,9 +1,9 @@
 // HomeView/index.tsx — jeromemarichez-fr
-// La page d'accueil : la chaîne complète, d'un bout à l'autre.
+// La page d'accueil : la vitrine — la promesse, le modèle, les quatre portes, les preuves.
 
-import { MagneticAction } from '@/@shared/components/MagneticAction'
 import { Reveal } from '@/@shared/components/Reveal'
 import { SITE_IDENTITY } from '@/@shared/seo/site'
+import { ContactForm } from '../../components/_notPure/ContactForm'
 import { BoundaryList } from '../../components/BoundaryList'
 import { CertificationList } from '../../components/CertificationList'
 import { ChainDiagram } from '../../components/ChainDiagram'
@@ -14,15 +14,30 @@ import { ProofWall } from '../../components/ProofWall'
 import { SpaceEntries } from '../../components/SpaceEntries'
 import { PAGE_ACCUEIL, THESE_CHAINE } from '../../contenu/accueil'
 import { CERTIFICATIONS } from '../../contenu/certifications'
+import { CONTACT_DIRECT } from '../../contenu/contact'
 import { LIMITES } from '../../contenu/limites'
 import { PREUVES } from '../../contenu/preuves'
 import { MAX_GLASS_ACCUEIL, selectGlassSectionIds } from '../../services/glass-policy'
 import styles from './home-view.module.css'
 
 /**
- * L'accueil est la seule page qui déroule la chaîne entière : construire, exploiter et
- * mesurer, arbitrer. Les charnières y sont des sections à part entière — ce sont elles
- * qui distinguent une prise en charge continue d'un catalogue de prestations.
+ * L'accueil **montre** la chaîne, il ne la déroule plus (issue #103).
+ *
+ * Il la déroulait : trois pôles racontés en court, deux charnières, seize sections et
+ * douze mille pixels — dont deux sections identiques, à l'identifiant près, à celles des
+ * pages de pôle. Un visiteur devait traverser huit écrans de prestation avant d'atteindre
+ * la première preuve, et les pages qui vendent chaque pôle arrivaient en second sur leur
+ * propre sujet.
+ *
+ * Ce qu'il fait maintenant, dans cet ordre : dire la promesse (le seuil), montrer le
+ * modèle (la thèse et le schéma), ouvrir les quatre portes, traiter les deux objections,
+ * puis prouver — preuves chiffrées, limites assumées, certifications — et donner où
+ * regarder et comment écrire. Le détail de chaque pôle vit sur `/services/<pole>/`, où il
+ * était déjà dit en plus long.
+ *
+ * Une seule section éditoriale est encore rendue depuis `PAGE_ACCUEIL.sections` : les
+ * deux objections. Elle ne relève d'aucun pôle — elle porte sur la façon de travailler —
+ * et sa seconde moitié est tenue par les règles de véracité du `CLAUDE.md`.
  */
 export function HomeView() {
   const verre = selectGlassSectionIds(PAGE_ACCUEIL.sections, MAX_GLASS_ACCUEIL)
@@ -43,8 +58,9 @@ export function HomeView() {
         </section>
 
         {/* Les portes, juste après la thèse : le visiteur vient de lire ce qu'est la
-            chaîne, c'est le moment où il veut y entrer. Plus bas, il aurait dû traverser
-            tout le fil pour trouver un lien. */}
+            chaîne, c'est le moment où il veut y entrer. Ce sont elles qui portent le
+            report des sections descendues (issue #103) — chacune donne la promesse du
+            pôle, une preuve, et mène à sa page. */}
         <section aria-labelledby="poles-titre" className={styles.bloc} id="poles">
           <Reveal className={styles.corpsBloc}>
             <p className={styles.kicker}>Les quatre pôles</p>
@@ -106,9 +122,22 @@ export function HomeView() {
               Vous écrivez à la personne qui fera le travail. Si ce n'est pas pour moi, je vous le
               dis aussi.
             </p>
-            <MagneticAction className={styles.action} href={`mailto:${SITE_IDENTITY.email}`}>
-              {SITE_IDENTITY.email}
-            </MagneticAction>
+            {/* Le formulaire et l'adresse en clair sont côte à côte, et c'est une
+                obligation, pas une mise en page : le formulaire a besoin d'un client mail
+                installé sur le poste, ce qui n'est le cas ni en entreprise ni sur un
+                navigateur qui n'a que du webmail. Sans l'adresse à côté, ce visiteur-là
+                repartirait avec un bouton qui ne fait rien. */}
+            <div className={styles.grilleContact}>
+              <ContactForm destinataire={SITE_IDENTITY.email} titreId="contact-titre" />
+
+              <div className={styles.direct}>
+                <h3 className={styles.directTitre}>{CONTACT_DIRECT.titre}</h3>
+                <p className={styles.directTexte}>{CONTACT_DIRECT.texte}</p>
+                <a className={styles.action} href={`mailto:${SITE_IDENTITY.email}`}>
+                  {SITE_IDENTITY.email}
+                </a>
+              </div>
+            </div>
           </Reveal>
         </section>
       </div>

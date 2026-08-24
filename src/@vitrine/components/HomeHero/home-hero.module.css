@@ -61,9 +61,9 @@
   gap: var(--e-4);
 }
 
-/* Apparence seule : le `transform` appartient à `MagneticAction`, qui est le seul à en
-   poser un sur un bouton d'action. Deux règles concurrentes se départageraient à
-   l'ordre du paquet CSS, ce qui n'est pas une règle. */
+/* Aucun `transform` sur cette action, et c'est désormais la règle du site : un bouton
+   qui se déplace sous le pointeur a été refusé (issue #137). Le survol se dit par
+   l'ombre et par le soulignement, deux signaux qui n'exigent ni mouvement ni couleur. */
 .actionPrincipale {
   display: inline-block;
   padding: var(--e-2) var(--e-4);
@@ -92,19 +92,35 @@
     var(--elevation-posee),
     inset 0 calc(-1 * var(--verre-epaisseur-lueur)) 0 var(--verre-rebond),
     var(--elevation-levee);
+  /* Le soulignement double le signal d'ombre. Une ombre portée se perçoit mal sur un
+     petit écran mat, et WCAG 1.4.1 refuse qu'un état tienne à la seule couleur : un
+     trait sous le libellé est une forme, il se voit partout. C'est déjà ce que fait
+     l'invite d'une porte de pôle au survol. */
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.24em;
 }
 
 /* L'action secondaire devient une pastille de verre : c'est elle, et non l'action
    principale, qui peut porter la translucidité — son texte est en `--encre` sur le fond
    de la page, donc son contraste ne dépend pas du verre.
+   Elle prend les jetons de PANNEAU depuis l'issue #115, et c'est un changement de
+   famille assumé, pas un réglage. Elle empruntait `--verre-flou-bande` et
+   `--verre-voile-barre` alors qu'elle n'est pas une bande : elle ne fait pas la largeur
+   de l'écran, rien ne défile dessous — elle est posée sur le décor du seuil et le suit —
+   et son texte est en `--encre`, le jeton le plus contrasté du site. Aucune des trois
+   raisons qui obligent une bande à se voiler ne vaut ici. Ce qui la rangeait avec les
+   bandes était sa TAILLE, et la taille d'une surface ne dit rien de ce qui passe
+   derrière.
+
    Le flou et la couronne restent derrière `@supports` : là où `backdrop-filter` n'existe
-   pas, la pastille garde un fond opaque et reste parfaitement lisible. */
+   pas, la pastille garde son voile de panneau et reste parfaitement lisible. */
 .actionSecondaire {
   display: inline-block;
   padding: var(--e-2) var(--e-4);
   border: var(--verre-epaisseur) solid var(--verre-arete);
   border-radius: var(--rayon-petit);
-  background: color-mix(in srgb, var(--fond) var(--verre-voile-barre), transparent);
+  background: color-mix(in srgb, var(--fond) var(--verre-voile), transparent);
   color: var(--encre);
   text-decoration: none;
   text-underline-offset: 0.24em;
@@ -113,10 +129,15 @@
 
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   .actionSecondaire {
+    /* Le voile cède la place au flou, exactement comme sur un panneau : ne reste que la
+       teinte, et c'est le flou qui garantit la lecture en effaçant la trame au lieu de la
+       couvrir. C'est ce qui fait passer la pastille de « bouton un peu clair » à
+       « pastille de verre ». */
+    background: var(--verre-teinte);
     /* Préfixe AVANT le standard : le minifieur ne garde que la dernière des deux.
        Voir `GlassSurface/glass-surface.module.css`. */
-    -webkit-backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation));
-    backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation));
+    -webkit-backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation));
+    backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation));
     box-shadow:
       var(--elevation-posee),
       inset 0 calc(-1 * var(--verre-epaisseur-lueur)) 0 var(--verre-rebond);

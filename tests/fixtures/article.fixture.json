@@ -1,10 +1,13 @@
 {
-  "_lisezmoi": "Jeu de données d'articles (jeromemarichez-fr) — PAS un mock. Les vrais services (find-article, buildSitemapEntries, buildArticleSchema, formatDateFr) tournent sur ces articles réalistes ; aucune doublure de module n'est utilisée. Voir docs/testing.md et docs/data-model.md.",
+  "_lisezmoi": "Jeu de données d'articles (jeromemarichez-fr) — PAS un mock. Les vrais services (find-article, buildSitemapEntries, buildArticleSchema, formatDateFr) et les vrais composants (ArticleCard, ArticleFigure, ArticleSource, ArticleView) tournent sur ces articles réalistes ; aucune doublure de module n'est utilisée. Voir docs/testing.md et docs/data-model.md.",
   "_cas": {
     "articles": "Trois articles dans un ordre de déclaration volontairement différent de l'ordre chronologique : le plus récent est déclaré en deuxième position. Un tri absent ou inversé se voit immédiatement.",
     "articleRevise": "Porte une dateRevision postérieure à sa publication — c'est la date que le sitemap et dateModified doivent publier, alors que le tri de la liste doit continuer à s'appuyer sur datePublication.",
     "articleSeul": "Liste réduite à un article : findArticle doit rendre un tableau 'autres' vide, et la page ne propose alors aucune suite de lecture.",
-    "slugInconnu": "Slug absent de la liste : findArticle doit lever, jamais rendre undefined."
+    "slugInconnu": "Slug absent de la liste : findArticle doit lever, jamais rendre undefined.",
+    "figures": "Les trois articles portent trois figures distinctes — c'est la règle appliquée au blog réel. Un rendu qui servirait toujours le même tracé, ou qui retomberait sur un tracé par défaut, se voit sur cette liste.",
+    "articleAvecSource": "Article portant une source externe : la fiche doit afficher la note de republication, son lien en rel=\"noopener noreferrer\" et sa marque de lien sortant. Les trois articles de « articles » n'en ont AUCUN — c'est le cas nominal du site, et il doit rester silencieux. L'URL est en .invalid, un domaine réservé qui ne résoudra jamais : aucune adresse réelle n'est inventée dans un jeu de données, pas plus que dans le contenu publié.",
+    "sectionAvecListe": "La deuxième section de « article-le-plus-recent » porte une liste de trois points (IArticleSection.liste, issue #121) : le rendu doit produire un vrai <ul> de trois <li>, APRÈS les paragraphes de la section et à l'intérieur d'elle. Toutes les autres sections du jeu de données omettent le champ — le rendu ne doit alors écrire AUCUN <ul> dans le corps, pas même vide. Les deux cas comptent autant l'un que l'autre : une liste annoncée « liste de trois éléments » par un lecteur d'écran d'un côté, aucune liste fantôme de l'autre."
   },
   "articles": [
     {
@@ -16,6 +19,7 @@
         "description": "Article de jeu de données, publié le 3 mars 2026."
       },
       "datePublication": "2026-03-03",
+      "figure": "borne",
       "sections": [
         {
           "id": "une-section",
@@ -33,6 +37,7 @@
         "description": "Article de jeu de données, publié le 1er septembre 2026."
       },
       "datePublication": "2026-09-01",
+      "figure": "anteriorite",
       "sections": [
         {
           "id": "une-section",
@@ -42,7 +47,8 @@
         {
           "id": "une-autre-section",
           "titre": "Une autre section",
-          "paragraphes": ["Un paragraphe.", "Un autre paragraphe."]
+          "paragraphes": ["Un paragraphe.", "Un autre paragraphe."],
+          "liste": ["Un premier point.", "Un deuxième point.", "Un troisième point."]
         }
       ]
     },
@@ -56,6 +62,7 @@
       },
       "datePublication": "2026-06-12",
       "dateRevision": "2026-08-20",
+      "figure": "appui",
       "sections": [
         {
           "id": "une-section",
@@ -75,6 +82,7 @@
         "description": "Article de jeu de données, seul de sa liste."
       },
       "datePublication": "2026-01-15",
+      "figure": "borne",
       "sections": [
         {
           "id": "une-section",
@@ -84,10 +92,41 @@
       ]
     }
   ],
+  "articleAvecSource": {
+    "slug": "article-republie",
+    "titre": "Article republié",
+    "chapo": "Repris d'un post publié ailleurs : la fiche doit le dire, avec un lien sortant.",
+    "meta": {
+      "title": "Article republié",
+      "description": "Article de jeu de données portant une source externe."
+    },
+    "datePublication": "2026-07-04",
+    "figure": "anteriorite",
+    "source": {
+      "reseau": "linkedin",
+      "url": "https://exemple.invalid/post-d-origine"
+    },
+    "sections": [
+      {
+        "id": "une-section",
+        "titre": "Une section",
+        "paragraphes": ["Un paragraphe."]
+      }
+    ]
+  },
   "slugInconnu": "article-qui-n-existe-pas",
   "datesAFormater": [
-    { "iso": "2026-08-21", "attendu": "21 août 2026" },
-    { "iso": "2026-01-01", "attendu": "1 janvier 2026" },
-    { "iso": "2026-12-31", "attendu": "31 décembre 2026" }
+    {
+      "iso": "2026-08-21",
+      "attendu": "21 août 2026"
+    },
+    {
+      "iso": "2026-01-01",
+      "attendu": "1 janvier 2026"
+    },
+    {
+      "iso": "2026-12-31",
+      "attendu": "31 décembre 2026"
+    }
   ]
 }

@@ -4,13 +4,20 @@
   position: relative;
 }
 
+/* Le pas est `--e-6` et non `--e-7` depuis l'issue #103, et c'est une conséquence du
+   contenu, pas un réglage d'apparence. `--e-7` (136px) est le pas d'une page qui se lit
+   d'un bout à l'autre : il tenait seize sections à distance pour qu'on ne les confonde
+   pas en descendant. L'accueil en porte neuf, courtes, faites pour être balayées — le
+   même pas y ajoutait plus d'un écran de vide entre des blocs qu'on veut justement voir
+   se suivre. Les pages de pôle gardent le pas long : ce sont elles qui se lisent
+   maintenant. */
 .corps {
   display: flex;
   flex-direction: column;
-  gap: var(--e-7);
+  gap: var(--e-6);
   max-width: var(--largeur-page);
   margin-inline: auto;
-  padding: 0 var(--e-4) var(--e-7);
+  padding: 0 var(--e-4) var(--e-6);
 }
 
 /* La section ancrable ne porte que son identité : identifiant, marge d'ancre, et le
@@ -51,6 +58,22 @@
   line-height: 1.3;
 }
 
+/* Le bloc de contact — la seule zone à impact de l'accueil à devenir un vrai panneau de
+ * verre (issue #115).
+ *
+ * Il avait déjà la géométrie d'un panneau — arête d'accent, rayon de verre, voile de
+ * panneau — et rien de son matériau : pas de flou, donc pas d'épaisseur. Posé sur la
+ * trame de 32px, un voile sans flou se lit comme un calque de papier translucide, ce que
+ * `verre.css` désigne précisément comme le contraire du verre.
+ *
+ * C'est le bloc où l'on décide : c'est celui qui a le plus à gagner à ressortir, et il
+ * est le seul candidat de l'accueil dont le coût soit défendable. Les quatre portes de
+ * pôle et le mur de preuves sont écartés, et pour deux raisons distinctes —
+ * `docs/design.md` les nomme.
+ *
+ * Il n'est pas `sticky` : son fond défile AVEC lui, donc le compositeur n'a pas à le
+ * reflouter à chaque image comme il le fait des deux bandes. Une surface floutée de plus,
+ * mais pas une surface floutée en permanence. */
 .contact {
   padding: var(--e-5);
   border: var(--verre-epaisseur) solid var(--verre-arete);
@@ -62,6 +85,21 @@
   scroll-margin-top: var(--decalage-ancre);
 }
 
+/* Là où le flou existe, le voile cède : c'est lui qui garantit alors la lecture, en
+   effaçant la trame au lieu de la couvrir. Même recette que `GlassSurface`, mêmes
+   jetons de panneau, et le même repli — sans `backdrop-filter`, la règle ci-dessus
+   reste seule et le bloc est aussi lisible qu'avant.
+   Préfixe AVANT le standard : le minifieur ne garde que la dernière des deux.
+   Voir `GlassSurface/glass-surface.module.css`. */
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .contact {
+    background: var(--verre-teinte);
+    -webkit-backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation));
+    backdrop-filter: blur(var(--verre-flou)) saturate(var(--verre-saturation));
+    box-shadow: var(--elevation-posee), var(--verre-ombre);
+  }
+}
+
 .corpsContact {
   display: flex;
   flex-direction: column;
@@ -69,7 +107,47 @@
   align-items: flex-start;
 }
 
-/* Apparence seule : le `transform` appartient à `MagneticAction`. */
+/* Aucun `transform` : le déplacement au survol a été refusé (issue #137). Le survol se
+   dit par l'ombre et par le soulignement. */
+/* Le formulaire et la porte de sortie, côte à côte au-delà de 60rem (issue #105).
+ *
+ * `auto-fit` plutôt qu'un point de rupture : le bloc de contact vit dans un corps de page
+ * dont la largeur dépend déjà d'un `max-width` et d'un padding, et une requête média sur
+ * la fenêtre se serait décalée de ces deux marges. La colonne du formulaire garde la
+ * priorité de largeur — c'est elle qu'on remplit.
+ *
+ * En une seule colonne, l'ordre du DOM place l'adresse APRÈS le formulaire, et cet ordre
+ * est le bon dans les deux sens : c'est celui de la tabulation, et c'est celui de la
+ * lecture. On tombe sur la porte de sortie quand on a vu ce dont elle est la sortie. */
+.grilleContact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+  gap: var(--e-5);
+  align-items: start;
+  width: 100%;
+}
+
+.direct {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-2);
+  align-items: flex-start;
+}
+
+.directTitre {
+  font-size: var(--t-2);
+}
+
+.directTexte {
+  margin: 0;
+  max-width: var(--mesure-texte);
+  font-size: var(--t-note);
+  line-height: 1.55;
+  color: var(--encre-douce);
+}
+
+/* Apparence seule, et plus aucun `transform` : le composant qui en posait un a été
+   supprimé avec le déplacement au survol, refusé par Jérôme MARICHEZ (issue #137). */
 .action {
   display: inline-block;
   padding: var(--e-2) var(--e-4);
@@ -83,4 +161,7 @@
 
 .action:hover {
   box-shadow: var(--elevation-levee);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.24em;
 }

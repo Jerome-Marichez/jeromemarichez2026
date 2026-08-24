@@ -1,0 +1,43 @@
+/* article-source.module.css — la note de publication d'origine.
+ * Registre de note : la mention referme l'article, elle ne le relance pas. */
+
+.source {
+  max-width: var(--mesure-texte);
+  font-size: var(--t-note);
+  line-height: 1.55;
+  color: var(--encre-douce);
+}
+
+/* Le lien garde son soulignement — c'est le premier des trois porteurs du caractère externe,
+   et le seul qui tienne encore quand les images sont désactivées. Rien n'est déclaré ici sur
+   la couleur : `globals.css` pose déjà `--accent` sur tout `a`. */
+.lien {
+  white-space: nowrap;
+}
+
+/* La flèche sortante suit le texte du lien à la même chasse, jamais à une taille en pixels :
+   dimensionnée en `em`, elle grandit avec le texte si le visiteur agrandit la page. */
+.marque {
+  /* `globals.css` pose `display: block` sur tout `svg` — la règle qui empêche l'espace
+     fantôme sous une image. Ici elle poussait la flèche à la ligne, seule sous le mot
+     qu'elle accompagne : c'est le seul `svg` du site à vivre DANS une ligne de texte, et il
+     redéclare donc son display plutôt que d'affaiblir la règle globale pour les autres. */
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  margin-inline-start: 0.25em;
+  vertical-align: -0.08em;
+}
+
+/* Retiré du flux visuel, jamais du flux d'accessibilité : `display: none` et
+   `visibility: hidden` sortiraient aussi ce texte de l'arbre lu par les lecteurs d'écran, et
+   l'annonce « nouvel onglet » se perdrait — précisément ce qu'on veut dire ici. La recette
+   est celle du substitut de la scène des dalles (`chain-canvas.module.css`). */
+.horsEcran {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

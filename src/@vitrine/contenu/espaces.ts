@@ -11,9 +11,10 @@
 // devant treize est un défaut de véracité, pas une coquille.
 //
 // Ce que ces accroches n'ont PAS le droit de faire : élargir. Elles reprennent ce que
-// chaque espace dit déjà de lui-même dans son propre chapô — les réalisations ne sont pas
-// des cas clients, et trois fiches seulement portent un chiffre. Une accroche d'accueil
-// qui laisserait croire à treize références chiffrées vendrait ce qui n'existe pas.
+// chaque espace dit déjà de lui-même dans son propre chapô — les réalisations portent
+// chacune leur cadre, deux postes salariés et une mission en indépendant, et trois fiches
+// seulement portent un chiffre. Une accroche d'accueil qui laisserait croire à treize
+// références chiffrées vendrait ce qui n'existe pas.
 
 import { ROUTES } from '@/@shared/routes'
 import type { IEspaceEditorial } from '@/interfaces/IEspaceEditorial'
@@ -28,8 +29,8 @@ export const ESPACES_EDITORIAUX: IEspaceEditorial[] = [
     titre: 'Réalisations',
     route: ROUTES.realisations,
     accroche:
-      'Ce que j’ai construit, et dans quel cadre : intitulé de poste exact, période, équipe. ' +
-      'Pas des cas clients.',
+      'Ce que j’ai construit, et dans quel cadre : statut, intitulé de poste exact, ' +
+      'période, équipe.',
     volume: `${REALISATIONS.length} fiches, dont ${CHIFFREES} portent un chiffre`,
   },
   {

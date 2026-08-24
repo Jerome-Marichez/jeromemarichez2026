@@ -1,6 +1,30 @@
 /* realisation-card.module.css — une réalisation dans une liste.
  * Pas de panneau ni de vignette : un filet supérieur suffit à séparer. Le verre est
- * réservé aux offres (docs/design.md), et une réalisation n'en est pas une. */
+ * réservé aux offres (docs/design.md), et une réalisation n'en est pas une.
+ *
+ * ## Pas de lavis de pôle ici, et ce n'est pas un oubli (issue #114)
+ *
+ * Une carte ne PEUT pas porter un lavis, parce qu'une réalisation ne porte pas un pôle :
+ * `IRealisation.poles` est un `readonly PoleId[]`. Relevé sur l'index des réalisations,
+ * les treize fiches se répartissent en 1, 2 ou 3 pôles — la majorité en portent deux.
+ *
+ * Trois issues, et deux sont fausses :
+ *
+ *   - **un seul lavis, celui du « pôle principal »** : il n'existe pas de pôle principal.
+ *     En choisir un affirmerait une hiérarchie entre les pôles d'un même travail, ce que
+ *     le modèle de l'offre nie explicitement (voir CLAUDE.md) ;
+ *   - **un dégradé des pôles rattachés** : `listPoles` les ordonne par la chaîne, donc un
+ *     dégradé de gauche à droite se lirait comme une succession. Sur une carte
+ *     `['data', 'ia', 'sea-ux']`, il dirait que l'IA vient avant le SEA & UX. C'est
+ *     précisément l'affirmation que la palette de `poles.css` est construite pour rendre
+ *     impossible ;
+ *   - **aucun lavis** : les pôles sont déjà rendus, tous, côte à côte et à facture
+ *     strictement identique, par `PoleTagList`. Aucun n'est privilégié parce qu'aucun
+ *     n'est peint plus que les autres.
+ *
+ * C'est la troisième qui est retenue. Le lavis dit « ce bloc parle de CE pôle » ; une
+ * carte de réalisation parle de plusieurs, et la seule façon honnête de le dire est de
+ * les nommer tous, pas d'en teinter un. */
 
 .carte {
   display: flex;

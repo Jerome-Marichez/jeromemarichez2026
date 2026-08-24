@@ -48,9 +48,12 @@ test-system: ## Tests système (vrai serveur HTTP via listen(0))
 test-acceptance: ## Tests d'acceptation / UAT (runner Node natif)
 	node --test tests/acceptance/
 
-# Budgets exécutables — Lighthouse >= 95 sur les 4 categories et accessibilite WCAG AA.
+# Budgets exécutables — Lighthouse et accessibilite WCAG AA. Cible 95 sur les 4
+# categories ; plancher bloquant a 80 en performance (decision de Jerome MARICHEZ du
+# 2026-08-24, issue #146) et a 95 sur les trois autres.
 # Construisent l'export statique s'il manque, le servent, mesurent, et sortent en echec
-# en nommant la page et la categorie fautives. Seuils : scripts/budgets/pages.mjs.
+# en nommant la page et la categorie fautives. Un score entre plancher et cible passe et
+# se signale. Seuils et cibles : scripts/budgets/pages.mjs.
 # Prerequis local : npx puppeteer browsers install chrome (une fois).
 budgets: ## Budgets perf + accessibilite sur les pages representatives
 	node scripts/budgets.mjs

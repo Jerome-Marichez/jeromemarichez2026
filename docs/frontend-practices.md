@@ -56,6 +56,33 @@ Une **seule** stratégie de style par projet, décidée dans [`design.md`](./des
 - Logique métier hors des composants : dans `hooks/` (état/effets réutilisables) ou
   `services/` (appels, transformations pures).
 
+## SVG : une largeur CSS ne dimensionne pas un `<svg>` imbriqué
+
+Piège relevé en conditions réelles sur ce site (issue #102), à connaître avant de
+construire le prochain visuel en SVG.
+
+Un `<svg>` **racine dans du HTML** se dimensionne très bien en CSS : `width` et `height`
+s'appliquent comme sur n'importe quelle boîte, et un jeton (`--taille-glyphe`) suffit à
+tenir toute une série de marques.
+
+Le même composant **imbriqué dans un autre `<svg>`** ignore cette largeur. L'élément
+interne retombe sur sa valeur par défaut `100 %` du viewport parent, et son `viewBox` est
+mis à l'échelle de la scène entière : mesuré ici **271 px de tracé au lieu de 33**, six
+fois trop grand, dans une scène large de 457 px.
+
+Règles :
+
+- Dans un contexte imbriqué, la taille passe par les **attributs** `width` / `height`,
+  seuls fiables — jamais par le CSS.
+- Ne pas poser les deux « pour être sûr » : une règle CSS l'emporte sur un attribut de
+  présentation, donc la taille demandée serait perdue précisément là où elle est la seule
+  à fonctionner. Un composant servant dans les deux contextes expose une prop de taille
+  optionnelle et **n'applique sa classe de dimensionnement CSS que lorsqu'elle est
+  absente** (voir `PoleGlyph` et `SlabScene`).
+- Une règle CSS rendue morte par ce choix (un `--taille-…` posé sur le parent imbriqué)
+  se supprime : laissée en place, elle se lit comme la source de la taille et fera perdre
+  une heure au prochain lecteur.
+
 ## Accessibilité et tests
 
 L'a11y (WCAG 2.1 AA) est traitée dans [`accessibility.md`](./accessibility.md) et

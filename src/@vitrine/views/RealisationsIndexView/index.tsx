@@ -15,16 +15,18 @@ interface RealisationsIndexViewProps {
 }
 
 /**
- * **Le regroupement par cadre d'emploi n'est pas un classement, c'est l'argument.**
+ * **Le regroupement par cadre n'est pas un classement, c'est l'argument.**
  *
  * Une liste plate de treize fiches se lirait comme un portfolio d'agence, et le lecteur
- * supposerait treize commanditaires. Groupées sous trois employeurs, avec l'intitulé de
- * poste et la période en tête de chaque groupe, les mêmes fiches disent ce qu'elles sont :
- * du travail salarié, mené sur trois postes en neuf ans. Le cadre est donc rendu **avant**
- * les fiches qu'il porte, jamais en note sous chacune d'elles.
+ * supposerait treize commanditaires. Groupées sous trois organisations, avec le statut,
+ * l'intitulé de poste et la période en tête de chaque groupe, les mêmes fiches disent ce
+ * qu'elles sont : deux postes salariés et une mission en indépendant, sur neuf ans. Le
+ * cadre est donc rendu **avant** les fiches qu'il porte, jamais en note sous chacune
+ * d'elles.
  *
- * Chaque groupe est une `<section>` étiquetée par le nom de l'employeur : au clavier comme
- * au lecteur d'écran, on peut passer d'un poste au suivant sans traverser ses fiches.
+ * Chaque groupe est une `<section>` étiquetée par le nom de l'organisation : au clavier
+ * comme au lecteur d'écran, on peut passer d'un cadre au suivant sans traverser ses
+ * fiches.
  */
 export function RealisationsIndexView({ index, groupes }: RealisationsIndexViewProps) {
   return (

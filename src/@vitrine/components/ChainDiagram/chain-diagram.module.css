@@ -9,7 +9,7 @@
 .chaine {
   display: flex;
   flex-direction: column;
-  gap: var(--e-4);
+  gap: var(--e-3);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -18,23 +18,30 @@
 .maillon {
   display: flex;
   flex-direction: column;
-  gap: var(--e-3);
+  gap: var(--e-2);
 }
 
 .maillon:nth-child(2) {
   padding-left: clamp(0rem, 4vw, 3.5rem);
 }
 
+/* La plaque ne porte plus que la place et le nom (issue #103) : elle se resserre en
+   conséquence. Un schéma dont les nœuds ont la corpulence d'un paragraphe cesse de se
+   lire comme un schéma. */
 .plaque {
   display: flex;
   flex-direction: column;
-  gap: var(--e-1);
+  gap: var(--e-0);
   max-width: 34rem;
-  padding: var(--e-4);
+  padding: var(--e-3) var(--e-4);
   border: var(--verre-epaisseur) solid var(--verre-arete);
   border-radius: var(--rayon-verre);
-  background: color-mix(in srgb, var(--fond) var(--verre-voile), transparent);
   box-shadow: var(--elevation-posee);
+  /* Le fond n'est PAS déclaré ici : la plaque porte la classe globale `lavis-feuille`
+     (issue #114), qui empile le lavis pastel de son pôle SOUS le voile de verre. Le voile
+     n'a pas disparu — il est la première couche de cette classe, à la valeur identique
+     (`--fond` à `--verre-voile`). Le déclarer aussi ici le poserait en concurrence de
+     spécificité avec la classe globale, et la couche du dessous ne se verrait jamais. */
 }
 
 .place {
@@ -56,9 +63,8 @@
   text-decoration-color: var(--accent-vif);
 }
 
-.promesse {
-  color: var(--encre-douce);
-}
+/* Le style de la promesse a disparu avec elle : la plaque ne porte plus que la place et
+   le nom. */
 
 /* L'arête dit deux choses : la matière transmise, et le fait qu'elle ne se rachète pas.
    Sans la seconde, les plaques redeviennent quatre offres à acheter dans l'ordre. */
@@ -66,7 +72,7 @@
   display: flex;
   align-items: baseline;
   gap: var(--e-2);
-  max-width: 40rem;
+  max-width: 48rem;
   padding-left: clamp(0rem, 4vw, 3.5rem);
   font-size: var(--t-note);
   color: var(--encre-douce);

@@ -14,11 +14,14 @@ import { SITE_IDENTITY, SITE_PROMESSE, SITE_THEME_COLORS, SITE_URL } from '@/@sh
 import { buildPersonSchema, buildProfessionalServiceSchema } from '@/@shared/seo/structured-data'
 import { FONT_VARIABLES } from '@/@shared/typography/fonts'
 import './globals.css'
-// Après `globals.css`, et pas avant : les deux fichiers s'appuient sur ses jetons
+// Après `globals.css`, et pas avant : les trois fichiers s'appuient sur ses jetons
 // (`--cuivre`, `--encre`, `--verre-lueur`). Ils n'en sont séparés que par la limite de
 // 300 lignes du projet.
 import './poles.css'
 import './verre.css'
+// Après `poles.css` : les jetons de lavis sont dérivés de `--accent`, que `poles.css`
+// mappe sur le pôle courant.
+import './lavis.css'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
