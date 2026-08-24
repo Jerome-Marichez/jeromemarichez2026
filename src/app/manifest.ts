@@ -17,7 +17,7 @@ export const dynamic = 'force-static'
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: `${SITE_IDENTITY.nom} — ${SITE_IDENTITY.titre} à ${SITE_IDENTITY.ville}`,
+    name: `${SITE_IDENTITY.nom} | ${SITE_IDENTITY.titre} à ${SITE_IDENTITY.ville}`,
     short_name: SITE_IDENTITY.nom,
     description: SITE_PROMESSE,
     lang: 'fr',

@@ -36,7 +36,7 @@ export function MotionToggle() {
     >
       <span aria-hidden="true" className={styles.temoin} data-fige={actif} />
       {actif ? 'Animation figée' : "Figer l'animation"}
-      {reduced && !fige ? <span className={styles.precision}> — réglage système</span> : null}
+      {reduced && !fige ? <span className={styles.precision}> (réglage système)</span> : null}
     </button>
   )
 }
