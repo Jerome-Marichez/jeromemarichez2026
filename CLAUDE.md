@@ -139,7 +139,7 @@ considération marketing.
   ne sont donc plus à rouvrir : la certification **Google Ads est datée de 2021** (le CV
   Tracking Specialist indiquait 2022 — c'est 2021 qui fait foi), et la certification
   **Microsoft Ads est confirmée**, sans année connue : elle s'affiche donc sans millésime.
-  `README.md` et `src/@vitrine/contenu/certifications.ts` appliquent déjà cet arbitrage.
+  `README.md` et `src/contenu/certifications.ts` appliquent déjà cet arbitrage.
 - Les **CV de référence** vivent dans `/Users/nicolasb/Documents/CV/`
   (`cv-ingenieur-fullstack.md`, `cv-ai-engineer.md`, `cv-tracking-specialist.md`) : en cas
   de doute sur un chiffre, une date ou un périmètre, ce sont eux qui font foi — pas la
@@ -157,7 +157,7 @@ considération marketing.
   d'agence, pas d'emoji dans le contenu publié.
 - **Jamais de tiret cadratin dans un texte destiné à être lu.** Ce caractère signe une
   écriture de machine, et ce site vend un interlocuteur humain. La règle couvre le
-  contenu publié (`src/@vitrine/contenu/`), la documentation (`docs/`, `README.md`) et ce
+  contenu publié (`src/contenu/`), la documentation (`docs/`, `README.md`) et ce
   fichier. Les **commentaires de code en sont exclus** : ils sont denses et raisonnés,
   personne ne les lit de l'extérieur, les reformuler abîmerait leur propos sans bénéfice.
   Ce n'est **pas une substitution de caractère** : le tiret y sert de ponctuation, donc la
@@ -315,16 +315,24 @@ indisponible) est **refusé**.
   direct (`as`) d'une donnée externe.
 - **Composant = un dossier** : chaque composant React vit dans son dossier PascalCase
   avec un `index.tsx` et ses styles/assets **colocalisés**
-  (`components/Button/index.tsx` + `button.module.css`). Les composants sont **purs**
-  par défaut ; ceux qui portent des effets (store, réseau, auth…) sont isolés dans un
-  sous-dossier **`_notPure/`**.
-- **`views/` vs `pages/`** : `pages/` (ou `app/`) ne fait **que le routage** ; les
-  sections d'écran composées vivent dans `src/views/<domaine>/` et assemblent les
-  composants.
-- **Découpage par domaine** : quand l'app grandit, regrouper le code front par domaine
-  métier sous `src/@<domaine>/` (ex. `@core` pour le socle applicatif, `@vitrine` pour
-  le site public, `@shared` pour le transverse), chaque domaine portant ses propres
-  `components/`, `hooks/`, `services/`, `utils/`, `interfaces/`.
+  (`components/Button/index.tsx` + `button.module.css`). **Aucune séparation entre
+  composants purs et composants à effets** : la règle `_notPure/` est **retirée**. Elle
+  n'avait jamais été appliquée, et sur un site statique sans store, sans authentification
+  et sans appel réseau, isoler les composants à effets n'ajoutait qu'un niveau de dossier.
+  Les composants portant `'use client'` vivent donc dans `src/components/` comme les
+  autres. *(Règle retirée à la demande explicite de Jérôme MARICHEZ, 2026-08-24,
+  issue #143.)*
+- **`views/` vs `pages/`** : `src/app/` est le **système de pages de Next.js** et ne fait
+  **que le routage** ; les sections d'écran composées vivent dans `src/views/` et
+  assemblent les composants. Cette règle est **conservée**.
+- **Découpage par domaine : non retenu ici.** Regrouper le front sous `src/@<domaine>/`
+  (`@core` pour le socle applicatif, `@vitrine` pour le site public, `@shared` pour le
+  transverse) est un recours pour une application qui grandit. Ce site est une vitrine
+  statique : deux domaines pour 33 composants ajoutaient un niveau de chemin sans rien
+  trancher. Le code front vit donc **directement sous `src/`** : `components/`, `views/`,
+  `services/`, `hooks/`, `contenu/`, `seo/`, `motion/`, `typography/`, `utils/`,
+  `interfaces/`, `schemas/`. *(Découpage retiré à la demande explicite de Jérôme
+  MARICHEZ, 2026-08-24, issue #143.)*
 
 ## Politique de documentation
 

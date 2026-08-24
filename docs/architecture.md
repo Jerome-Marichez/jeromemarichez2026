@@ -38,12 +38,12 @@ statique leur impose les mêmes règles :
   la main : publier un article ou une fiche suffit à créer sa page. `dynamicParams = false`
   est écrit noir sur blanc, pour qu'un futur passage au rendu serveur n'ouvre pas
   silencieusement `/blog/<n-importe-quoi>` ni `/realisations/<n-importe-quoi>`.
-- **Le sitemap devient composé.** `INDEXABLE_ROUTES` (`@shared/routes`) n'énumère que les
+- **Le sitemap devient composé.** `INDEXABLE_ROUTES` (`src/routes`) n'énumère que les
   routes **fixes** ; les URL d'articles et de fiches ne sont pas des routes mais des
   instances de deux routes, et leur nombre change à chaque publication.
-  `@shared/seo/sitemap-entries` les ajoute avec **une date par article** — et donne à
+  `src/seo/sitemap-entries` les ajoute avec **une date par article** — et donne à
   `/blog` la date de son article le plus récent, parce que c'est exactement ce qui la fait
-  changer. C'est le seul module de `@shared/seo` qui lit le contenu de `@vitrine` : un
+  changer. C'est le seul module de `src/seo/` qui lit le contenu éditorial : un
   sitemap est par définition l'inventaire du contenu publié, il n'y a pas d'autre source
   d'où tirer la liste.
 - **Une réalisation n'est pas datée**, et le sitemap le respecte : elle porte la révision
@@ -58,7 +58,7 @@ statique leur impose les mêmes règles :
 - **Un seul fil d'Ariane.** `buildBreadcrumbSchema` accepte les niveaux qui suivent
   l'accueil — celui-ci est un invariant du site, il est posé par la fonction et ne peut
   pas être oublié par un appelant. La même liste alimente le fil **visible**
-  (`@shared/components/Breadcrumb`) : l'affiché et le déclaré ne peuvent pas diverger.
+  (`src/components/Breadcrumb`) : l'affiché et le déclaré ne peuvent pas diverger.
 - **Ni le blog ni les réalisations ne sont des pôles**, et la navigation le dit : ils
   occupent un bloc distinct de la liste numérotée de la chaîne, dans l'en-tête comme dans
   le pied de page.
@@ -92,12 +92,12 @@ dans le HTML généré.
 
 Les règles qui en découlent :
 
-- **`src/@shared/seo/open-graph.ts` porte le socle** (`SITE_OPEN_GRAPH` : `type`,
+- **`src/seo/open-graph.ts` porte le socle** (`SITE_OPEN_GRAPH` : `type`,
   `locale`, `siteName`, `images`). C'est la parade recommandée par Next : sortir les
   champs communs dans une constante et l'étaler dans chaque segment qui surcharge
   `openGraph`.
 - **Le socle s'étale dans le constructeur commun, jamais page par page.** Les deux
-  fonctions de `@shared/seo/page-metadata` (`buildPageMetadata` et
+  fonctions de `src/seo/page-metadata` (`buildPageMetadata` et
   `buildArticleMetadata`) écrivent `{ ...SITE_OPEN_GRAPH, url: … }`, et toutes les pages
   passent par elles. Une route ajoutée demain hérite sans y penser — c'est la seule
   raison pour laquelle ces constructeurs existent.
@@ -115,12 +115,25 @@ Les règles qui en découlent :
   `make build`, puis inspecter les balises `og:` de `out/<route>/index.html`. Une page
   de référence qui ne surcharge rien (`out/404.html`) sert de témoin.
 
-### Découpage par domaine
+### L'organisation des sources
 
-| Domaine | Contenu |
+Le code front vit **directement sous `src/`**, sans découpage par domaine. Le regroupement
+sous `src/@<domaine>/` a existé (`@vitrine` pour l'éditorial, `@shared` pour le transverse) :
+il est **retiré**. Pour une vitrine statique de 33 composants, deux domaines ajoutaient un
+niveau de chemin sans rien trancher, et aucun nom n'entrait en collision entre les deux.
+*(Retrait décidé par Jérôme MARICHEZ le 2026-08-24, issue #143.)*
+
+| Dossier | Contenu |
 |---------|---------|
-| `src/@vitrine/` | Sections éditoriales : offres, parcours, preuves, certifications, **articles du blog**, **fiches de réalisation** |
-| `src/@shared/` | Design system, layout, composants transverses, SEO/métadonnées |
+| `src/app/` | Le **système de pages de Next.js**. Routage seul, aucune section composée. |
+| `src/views/` | Les écrans composés, un dossier par vue (`HomeView`, `ArticleView`, `PolePageView`) |
+| `src/components/` | Les 33 composants, un dossier PascalCase chacun, styles colocalisés |
+| `src/contenu/` | Sections éditoriales : offres, parcours, preuves, certifications, **articles du blog**, **fiches de réalisation** |
+| `src/services/` | La règle métier : sélection d'un article, d'un pôle, d'une réalisation, politique de verre |
+| `src/hooks/` | La logique de rendu : état d'écran, abonnements, viewport |
+| `src/seo/` | Métadonnées, Open Graph, sitemap, données structurées |
+| `src/interfaces/`, `src/schemas/`, `src/utils/` | Entités typées, validation Zod, helpers purs |
+| `src/motion/`, `src/typography/`, `src/routes.ts` | Socle d'animation, fontes, table des routes |
 
 Le **contenu éditorial est de la donnée, pas du JSX** : offres, expériences,
 certifications et articles vivent dans des structures typées (`src/interfaces/`, une
@@ -130,22 +143,24 @@ est décrit dans [data-model](./data-model.md).
 
 **Les illustrations sont de la donnée aussi.** Le site ne sert aucune image matricielle :
 l'illustration d'un article n'est pas un chemin de fichier mais une **valeur d'union close**
-(`IArticle.figure`), rendue en SVG au serveur par `@vitrine/components/ArticleFigure`. Un
+(`IArticle.figure`), rendue en SVG au serveur par `src/components/ArticleFigure`. Un
 article ne peut donc pas réclamer une figure qui n'existe pas — le compilateur le dit avant
 le build, et aucune ressource ne peut manquer à l'exécution. La grammaire de ces figures est
 décrite dans [design](./design.md).
 
 ## Front (Next.js (App Router) + TypeScript)
 
-- **Organisation** : par domaine **métier**, pas par type technique. Quand l'app
-  grandit, chaque domaine vit sous `src/@<domaine>/` (ex. `@core` = socle applicatif,
-  `@vitrine` = site public, `@shared` = transverse) et porte ses propres
-  `components/`, `hooks/`, `services/`, `utils/`, `interfaces/`.
+- **Organisation** : **par type technique, directement sous `src/`**. Le découpage par
+  domaine (`src/@<domaine>/`) n'est **pas retenu** sur ce site : voir « L'organisation des
+  sources » ci-dessus.
 - **Composant = un dossier** : `components/Button/index.tsx` + styles et assets
-  colocalisés (`button.module.css`). Composants **purs** par défaut ; ceux qui portent
-  des effets (store, réseau, auth) sont isolés dans `_notPure/`.
-- **`views/` vs `pages/`** : `pages/` (ou `app/`) ne fait que le **routage** ; les
-  sections d'écran composées vivent dans `src/views/<domaine>/`.
+  colocalisés (`button.module.css`). **Aucune distinction entre composants purs et
+  composants à effets** : la règle `_notPure/` est **retirée**, un site statique sans
+  store, sans authentification et sans appel réseau n'en tirait aucun bénéfice. Les
+  composants portant `'use client'` vivent avec les autres.
+  *(Retrait décidé par Jérôme MARICHEZ le 2026-08-24, issue #143.)*
+- **`views/` vs `pages/`** : `src/app/` est le **système de pages de Next.js** et ne fait
+  que le **routage** ; les sections d'écran composées vivent dans `src/views/`.
 - **Nommage des fichiers** : PascalCase pour les **composants** et **vues**
   (`Button.tsx`, `HomeView.tsx`) ; **minuscules** pour tout le reste
   (services, hooks, utilitaires, configs).

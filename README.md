@@ -324,7 +324,7 @@ le code.
 
 ## 🚫 Les limites assumées
 
-Le site porte une section **« Ce que je ne fais pas »** ([`src/@vitrine/contenu/limites.ts`](./src/@vitrine/contenu/limites.ts)).
+Le site porte une section **« Ce que je ne fais pas »** ([`src/contenu/limites.ts`](./src/contenu/limites.ts)).
 Ce n'est pas un aveu, c'est l'argument qui rend le reste croyable : un prestataire qui
 sait tout faire ne sait rien faire.
 

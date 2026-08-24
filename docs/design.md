@@ -30,7 +30,7 @@ système entier coûterait plus en poids et en contraintes qu'il ne ferait gagne
 
 | Choix | Notes |
 |-------|-------|
-| Composants maison | `src/@shared/components/` (transverse) et `src/@vitrine/components/` (éditorial) |
+| Composants maison | `src/components/` (transverse) et `src/components/` (éditorial) |
 
 **Aucune dépendance d'effet visuel.** Le verre est du CSS — voir « Le verre » plus bas
 pour les deux bibliothèques essayées et écartées, et pourquoi.
@@ -113,9 +113,9 @@ Hors de tout `data-pole` — accueil, blog, en-tête, pied de page — `--accent
 cuivre : la teinte de marque, qui est aussi celle du socle.
 
 Trois endroits posent `data-pole` : la page de pôle
-([`PolePageView`](../src/@vitrine/views/PolePageView/index.tsx)), chaque maillon du
-schéma de la chaîne ([`ChainDiagram`](../src/@vitrine/components/ChainDiagram/index.tsx)),
-et chaque entrée du menu ([`SiteHeader`](../src/@shared/components/SiteHeader/index.tsx)) —
+([`PolePageView`](../src/views/PolePageView/index.tsx)), chaque maillon du
+schéma de la chaîne ([`ChainDiagram`](../src/components/ChainDiagram/index.tsx)),
+et chaque entrée du menu ([`SiteHeader`](../src/components/SiteHeader/index.tsx)) —
 l'en-tête devient ainsi la légende de la palette.
 
 #### Le choix des teintes
@@ -332,7 +332,7 @@ personnalisé.
 
 | Geste | Où | Détail |
 |-------|-----|--------|
-| **Poser** | toute section qui entre dans l'écran | `opacity: 0` → `1` et `translateY(24px)` → `none`, `--duree-poser`. Porté par [`Reveal`](../src/@shared/components/Reveal/index.tsx), qui s'appuie sur `useInViewport` — voir « La révélation » ci-dessous |
+| **Poser** | toute section qui entre dans l'écran | `opacity: 0` → `1` et `translateY(24px)` → `none`, `--duree-poser`. Porté par [`Reveal`](../src/components/Reveal/index.tsx), qui s'appuie sur `useInViewport` — voir « La révélation » ci-dessous |
 | **Tracer** | les deux charnières | filet cuivre 2px, `scaleY(0)` → `scaleY(1)`, `--duree-tracer`. Seul mouvement porteur de sens : la chaîne se trace. Déclenché à l'entrée de la charnière dans l'écran, et non au chargement de la page |
 | **Traverser** | le fil IA | filets cuivre **horizontaux**, `scaleX(0)` → `scaleX(1)`, même durée, même déclenchement. Perpendiculaires à ceux des charnières : la chaîne descend, le fil la coupe — la géométrie dit « ceci n'est pas une quatrième offre » |
 | **Dériver** | la scène des quatre dalles | deux fréquences lentes qui ne se referment jamais ensemble, en `transform` seul — assez pour faire lire du volume, jamais assez pour appeler le regard. Le filet de tenue en est **exclu** : ce qui tient ne dérive pas |
@@ -398,7 +398,7 @@ ce que le bouton promet.
 
 ### La révélation
 
-Une révélation au défilement se paie normalement de deux défauts, et [`Reveal`](../src/@shared/components/Reveal/index.tsx)
+Une révélation au défilement se paie normalement de deux défauts, et [`Reveal`](../src/components/Reveal/index.tsx)
 n'en accepte aucun :
 
 - **Rien n'est masqué au rendu serveur.** L'état caché n'est armé qu'après montage. Sans
@@ -437,7 +437,7 @@ l'écran et la révélation ne s'arme pas.
 ## Les bandes collantes
 
 Deux bandes s'empilent en haut d'une page de pôle : l'en-tête du site, puis
-l'**en-tête de pôle** ([`PoleStickyBar`](../src/@vitrine/components/PoleStickyBar/index.tsx)).
+l'**en-tête de pôle** ([`PoleStickyBar`](../src/components/PoleStickyBar/index.tsx)).
 Une page de pôle se lit sur plusieurs écrans ; passé le seuil, plus rien ne disait lequel
 des pôles on lisait, et l'action de contact était restée en bas.
 
@@ -457,7 +457,7 @@ son fond n'a plus une seule valeur qui lui soit propre.
 ## Le verre
 
 Le verre est du **CSS**, dans un seul fichier :
-[`GlassSurface/glass-surface.module.css`](../src/@shared/components/GlassSurface/glass-surface.module.css).
+[`GlassSurface/glass-surface.module.css`](../src/components/GlassSurface/glass-surface.module.css).
 Rien à amorcer, rien à charger, rien à démonter, aucun seuil de largeur. Il est là au
 premier octet de HTML servi, identique avec et sans JavaScript.
 
@@ -523,7 +523,7 @@ navigateur ne se défend pas **sous cette forme**. La technique, elle, se défen
 
 **`feImage` + `feDisplacementMap`, deux primitives, zéro dépendance** — la même technique
 que `liquid-glass-react`, en ~30 lignes de SVG rendues au serveur
-([`GlassRefraction`](../src/@shared/components/GlassRefraction/index.tsx)). Le filtre est
+([`GlassRefraction`](../src/components/GlassRefraction/index.tsx)). Le filtre est
 déclaré une fois par la mise en page racine ; les panneaux le consomment par le jeton
 `--verre-refraction`, jamais en écrivant `url(#…)` dans un module.
 
@@ -631,7 +631,7 @@ moteurs, ou qu'un `@supports` sache tester le rendu et non la seule syntaxe.
 elle ne bouge pas d'elle-même, mais le compositeur la recalcule à chaque image où le fond
 défile derrière le panneau. Les deux gardes sont indépendantes — requête média sans
 JavaScript d'un côté, attribut publié sur `<html>` par
-[`MotionState`](../src/@shared/components/MotionState/index.tsx) de l'autre (WCAG 2.2.2).
+[`MotionState`](../src/components/MotionState/index.tsx) de l'autre (WCAG 2.2.2).
 
 ## La scène des quatre dalles
 
@@ -669,7 +669,7 @@ n'était lisible par personne. Ce qui est gagné se mesure au premier chargement
 scène s'affiche désormais **aussi sous 1024px**, là où le WebGL n'était jamais monté.
 
 - **Forme** : `viewBox="0 0 420 360"`, quatre rectangles arrondis et un filet de 2
-  unités. [`ChainCanvas/SlabScene.tsx`](../src/@shared/components/ChainCanvas/SlabScene.tsx).
+  unités. [`ChainCanvas/SlabScene.tsx`](../src/components/ChainCanvas/SlabScene.tsx).
   Le rapport 7/6 se retrouve tel quel dans `chain-canvas.module.css` : les deux valeurs
   se suivent, sinon la réservation d'espace cesse de réserver la bonne place.
 - **Teintes** : chaque dalle porte son `data-pole` dans le SVG, et `poles.css` lui pose
@@ -738,7 +738,7 @@ que pour les chiffres de `preuves.ts`.
 
 Le blog était entièrement textuel : sur `/blog/` comme sur une fiche, rien ne distinguait
 un article d'un autre à l'œil. Chaque article porte désormais une **figure**
-([`ArticleFigure`](../src/@vitrine/components/ArticleFigure/index.tsx)), et elle obéit à la
+([`ArticleFigure`](../src/components/ArticleFigure/index.tsx)), et elle obéit à la
 même doctrine que les marques de pôle — c'est ce qui fait que le blog appartient au même
 site que l'accueil.
 
@@ -814,7 +814,7 @@ La hauteur n'a **pas** de jeton : elle suit le `viewBox` (48 × 32), et deux val
 d'accord divergent à la première retouche.
 
 Le registre de liste tient à une contrainte posée ailleurs : la liste du blog est « une
-liste, pas une grille » ([`BlogIndexView`](../src/@vitrine/views/BlogIndexView/index.tsx)).
+liste, pas une grille » ([`BlogIndexView`](../src/views/BlogIndexView/index.tsx)).
 Une vignette pleine largeur en ferait un magazine et promettrait des catégories qui
 n'existent pas. La figure partage donc la **ligne de la date** au lieu de s'empiler dessus :
 elle distingue les articles à l'œil sans ajouter une seule ligne au rythme de la liste.
@@ -837,7 +837,7 @@ n'appartient à aucun pôle. Les deux thèmes suivent sans qu'une ligne y soit c
 ## La note de publication d'origine
 
 Un article peut reprendre un texte d'abord paru sur un réseau
-([`ArticleSource`](../src/@vitrine/components/ArticleSource/index.tsx)). Le champ est
+([`ArticleSource`](../src/components/ArticleSource/index.tsx)). Le champ est
 **optionnel** et le restera. Un seul article publié porte une source à ce jour ; les autres
 ont été écrits pour ce site, **ou bien reprennent un post dont l'adresse n'a pas été
 fournie** — c'est le cas de « Un générateur de projets, public et personnel », et il se

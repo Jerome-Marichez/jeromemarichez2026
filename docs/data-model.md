@@ -1,7 +1,7 @@
 # Modèle de données
 
 Le site n'a **ni base de données, ni API, ni CMS** : tout le contenu est versionné en
-TypeScript dans `src/@vitrine/contenu/`, et sa forme est tenue par des interfaces de
+TypeScript dans `src/contenu/`, et sa forme est tenue par des interfaces de
 `src/interfaces/` (une entité par fichier, préfixe `I`). Ce document décrit ces entités.
 
 > **Pas de Zod ici, et c'est volontaire.** Zod est obligatoire sur les **entrées
@@ -171,7 +171,7 @@ construction du site, ou elles restent à la charge de l'auteur :
 
 ### Règles portées par le service
 
-Elles vivent dans `src/@vitrine/services/find-article.ts`, jamais dans le contenu ni dans
+Elles vivent dans `src/services/find-article.ts`, jamais dans le contenu ni dans
 un composant :
 
 | Règle | Comportement |
@@ -253,7 +253,7 @@ mission en indépendant (Truffle Capital, 2017-2019).
 
 ### Règles portées par le service
 
-Elles vivent dans `src/@vitrine/services/find-realisation.ts` :
+Elles vivent dans `src/services/find-realisation.ts` :
 
 | Règle | Comportement |
 |-------|--------------|
@@ -265,7 +265,7 @@ Elles vivent dans `src/@vitrine/services/find-realisation.ts` :
 ## Où vivent les données
 
 ```
-src/@vitrine/contenu/blog/
+src/contenu/blog/
 ├── articles.ts          ← la liste publiée : SOURCE UNIQUE du blog
 ├── blog-index.ts        ← l'en-tête éditoriale de /blog
 ├── export-statique.ts   ← un fichier par article
@@ -274,7 +274,7 @@ src/@vitrine/contenu/blog/
 ├── plugin-claude-code.ts
 └── carte-de-l-architecture.ts
 
-src/@vitrine/contenu/realisations/
+src/contenu/realisations/
 ├── realisations.ts        ← la liste publiée : SOURCE UNIQUE de l'espace
 ├── realisations-index.ts  ← l'en-tête éditoriale de /realisations
 ├── cadres.ts              ← les trois cadres, partagés par les fiches
@@ -285,7 +285,7 @@ src/@vitrine/contenu/realisations/
 ```
 
 `articles.ts` et `realisations.ts` alimentent **tout** : la liste, les pages générées au
-build (`generateStaticParams`), le sitemap (`@shared/seo/sitemap-entries`) et les données
+build (`generateStaticParams`), le sitemap (`src/seo/sitemap-entries`) et les données
 structurées. Retirer une entrée de ces tableaux la fait disparaître partout — il n'y a pas
 de second endroit à mettre à jour.
 
