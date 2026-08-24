@@ -10,22 +10,22 @@ Les tests **conditionnent la fusion** d'une PR vers `dev` (voir le
 | **unitaire** | composants, hooks, logique pure | **Jest + React Testing Library** | `tests/unitaire/**/*.spec.ts(x)` |
 | **intégration** | plusieurs unités ensemble (composant ↔ service ↔ vraie frontière HTTP pilotée par fixtures) | **Jest + RTL** (+ MSW à la frontière réseau) | `tests/integration/**/*.integration.spec.ts(x)` |
 | **e2e** | parcours **navigateur** contre l'app réelle | **Cypress** | `tests/e2e/**/*.cy.ts` |
-| **système** | **vrai serveur HTTP** (`listen(0)`, port éphémère) appelé par un client réel (`fetch`) — bout en bout **sans navigateur** | **Jest + fetch** | `tests/systeme/**/*.test.ts` |
+| **système** | **vrai serveur HTTP** (`listen(0)`, port éphémère) appelé par un client réel (`fetch`), bout en bout **sans navigateur** | **Jest + fetch** | `tests/systeme/**/*.test.ts` |
 | **système API (rejouable)** | validation documentée de l'API de bout en bout | **Postman** (collection versionnée) | `tests/systeme/postman_collection.json` |
 
 **Acceptation / non-fonctionnel** : parcours métier de bout en bout **et** volets
 **UAT** (disponibilité, sécurité, performance, robustesse) sur la stack réellement
-lancée — runner Node natif (`node:test` + `fetch`), dans `tests/acceptance/` et
+lancée : runner Node natif (`node:test` + `fetch`), dans `tests/acceptance/` et
 `tests/acceptance/uat/<catégorie>/`.
 
 ## Cycle : le test d'abord, écrit par le développeur
 
-L'ordre n'est pas négociable — il est appliqué par le hook
+L'ordre n'est pas négociable. Il est appliqué par le hook
 `.claude/hooks/require-test-first.sh` (PreToolUse) :
 
 1. **Intention.** Le comportement attendu est formulé explicitement : ce qui doit se
    passer, les cas limites, le niveau visé (**unitaire**, **intégration** ou
-   **système** — au moins l'un des trois), le jeu de données utilisé. L'assistant
+   **système** ; au moins l'un des trois), le jeu de données utilisé. L'assistant
    propose cette intention et le contenu du test **dans le chat**.
 2. **Le test est posé par Jérôme MARICHEZ.** L'assistant n'écrit pas les fichiers de test :
    le hook refuse toute écriture sur `*.spec.*`, `*.test.*`, `*.cy.ts` et sur les
@@ -51,10 +51,10 @@ exige alors que chaque test porte en tête un bloc d'intention :
 describe('CartService.total', () => { /* … */ });
 ```
 
-Le garde-fou complet se désarme par `REQUIRE_TEST_FIRST=0` — décision de Jérôme MARICHEZ,
+Le garde-fou complet se désarme par `REQUIRE_TEST_FIRST=0`, décision de Jérôme MARICHEZ,
 jamais de l'assistant.
 
-## Jeux de données — jamais de mocks
+## Jeux de données : jamais de mocks
 
 Un test qui remplace la logique métier par une doublure ne prouve rien. Ici, les
 **vrais services collaborent entre eux** et tournent sur des **jeux de données
@@ -72,18 +72,18 @@ vers un mock.
 
 **Autorisé, parce que ce sont des frontières et non des doublures de métier** :
 
-- **MSW** (`setupServer`) à la frontière réseau — les réponses viennent des fixtures ;
+- **MSW** (`setupServer`) à la frontière réseau : les réponses viennent des fixtures ;
 - **Supertest** ou un **vrai serveur** (`listen(0)`) pour le niveau système ;
 - une **base de test dédiée** (jamais celle de dev/prod), rechargée depuis les fixtures ;
 - `jest.fn()` / `jest.spyOn` pour **observer** un appel (callback, événement) sans
   remplacer un module métier.
 
-Le hook se désarme par `ALLOW_TEST_DOUBLES=1` — décision de Jérôme MARICHEZ, à justifier.
+Le hook se désarme par `ALLOW_TEST_DOUBLES=1`, décision de Jérôme MARICHEZ, à justifier.
 
-## Qualité des tests — mutation testing (Stryker)
+## Qualité des tests : mutation testing (Stryker)
 
 **Stryker** mesure la capacité des tests unitaires/intégration à détecter de vraies
-régressions (score de mutation, seuils dans `stryker.config.json` — le build casse
+régressions (score de mutation, seuils dans `stryker.config.json` : le build casse
 sous le seuil `break`). Lancer : `make test-mutation`.
 
 ## Règles
@@ -96,10 +96,10 @@ sous le seuil `break`). Lancer : `make test-mutation`.
   base propre entre les suites ; garde-fou anti-prod dans le setup.
 - **e2e réservé aux parcours navigateur** ; le bout-en-bout back sans navigateur est le
   niveau **système**.
-- **Couverture** : seuil défini dans la config de test — la CI échoue en dessous.
+- **Couverture** : seuil défini dans la config de test. La CI échoue en dessous.
   <!-- TODO : fixer le seuil (ex. 90 %). -->
 
-## Harnais statique — l'export servi en local
+## Harnais statique : l'export servi en local
 
 Le site est en **export statique** (`output: 'export'`) : il n'y a ni back, ni route
 API, ni serveur applicatif. La « stack » se réduit donc à **servir le dossier `out/`**.
@@ -112,13 +112,13 @@ toujours le second qui laisse un serveur orphelin en CI.
 
 1. **build si nécessaire** : `npm run build` si `out/index.html` manque ;
 2. **serveur statique** : `scripts/serve-out.mjs` sert `out/` sur `127.0.0.1:E2E_PORT`
-   (**4173** par défaut), sans aucune dépendance — `node:http` suffit ;
+   (**4173** par défaut), sans aucune dépendance : `node:http` suffit ;
 3. **attente réelle** : le harnais sonde `GET /` jusqu'à obtenir une réponse HTTP
    (30 s max). Jamais de `sleep` arbitraire ;
 4. **Cypress headless** : `npx cypress run` (les arguments passés à `scripts/e2e.mjs`
    lui sont transmis, ex. `--spec`) ;
 5. **arrêt propre garanti** : le serveur est fermé dans un `finally` et sur
-   `SIGINT`/`SIGTERM` — aucun processus orphelin, même quand les tests échouent. Le
+   `SIGINT`/`SIGTERM` : aucun processus orphelin, même quand les tests échouent. Le
    **code de sortie reste celui de Cypress** : aucun échec n'est absorbé.
 
 `cypress.config.ts` dérive son `baseUrl` du même `E2E_PORT` : le port ne peut pas
@@ -132,7 +132,7 @@ chaque route en `<route>/index.html`. `serve-out.mjs` applique exactement les r�
 statique qui ignorerait cette règle ferait échouer les specs pour la mauvaise raison.
 La traversée de répertoire hors de `out/` est refusée.
 
-## Budgets exécutables — performance et accessibilité
+## Budgets exécutables : performance et accessibilité
 
 Le `CLAUDE.md` pose deux contraintes produit non négociables : **Lighthouse à 95 visé sur
 les quatre catégories** et **accessibilité WCAG AA**. Elles étaient écrites, elles ne sont
@@ -170,8 +170,8 @@ dans `scripts/budgets/`, pas dans `tests/`.
 
 ```bash
 make budgets       # accessibilité + performance
-make budget-a11y   # axe-core seul — rapide (~2 min)
-make budget-perf   # Lighthouse seul — lent (3 passes x 3 pages)
+make budget-a11y   # axe-core seul, rapide (~2 min)
+make budget-perf   # Lighthouse seul, lent (3 passes x 3 pages)
 ```
 
 Prérequis local, une fois : `npx puppeteer browsers install chrome`.
@@ -179,24 +179,24 @@ Prérequis local, une fois : `npx puppeteer browsers install chrome`.
 ### Ce qui est mesuré, et pourquoi
 
 **Trois pages, trois gabarits** (`scripts/budgets/pages.mjs`) : l'accueil (scène animée,
-verre — le gabarit le plus lourd), une page de pôle (sections, preuves, palette dédiée)
+verre, le gabarit le plus lourd), une page de pôle (sections, preuves, palette dédiée)
 et une page d'article (corps long, typographie, fil d'Ariane, JSON-LD). Mesurer le seul
 accueil ne dit rien des deux autres, et c'est là que les régressions se logent.
 
 **Profil de mesure : mobile émulé, réseau bridé « slow 4G », CPU ×4.** C'est le profil
 par défaut de PageSpeed Insights, et le cas sur lequel un prospect jugera le site. Un
-profil desktop sans bridage donnerait des scores flatteurs qui ne protègent de rien — sur
+profil desktop sans bridage donnerait des scores flatteurs qui ne protègent de rien : sur
 ce site, l'écart entre les deux profils est de **dix-sept points** (voir plus bas).
 
 **Médiane de trois passes.** Lighthouse varie de quelques points d'une exécution à
 l'autre. Un budget qui échoue au hasard une fois sur cinq se fait désactiver en une
 semaine ; la médiane le rend crédible. `BUDGET_PASSES` permet de réduire le nombre de
-passes en local pour itérer vite — jamais en CI.
+passes en local pour itérer vite, jamais en CI.
 
 **Un seul Chrome pour toute la campagne** : Lighthouse s'y connecte par le port de
 débogage, axe par l'API puppeteer. Deux navigateurs mesureraient deux sites.
 
-### Première exécution — 2026-08-22
+### Première exécution : 2026-08-22
 
 Mesuré sur l'export de `dev` (commit `596aafd`), médiane de 3 passes, profil mobile.
 
@@ -213,14 +213,14 @@ la page qu'on corrige, jamais le seuil (règle 8 du `CLAUDE.md`). Le diagnostic 
 consigné dans [`ameliorations.md`](./ameliorations.md).
 
 Pour situer : en profil **desktop** non bridé, les mêmes pages sortent à **99 / 100 / 100
-/ 100**. Le site n'est donc pas lent dans l'absolu — il l'est sur un mobile en 4G
+/ 100**. Le site n'est donc pas lent dans l'absolu : il l'est sur un mobile en 4G
 médiocre, ce qui est précisément le cas qui compte.
 
 ## Vérification des types
 
 `make type-check` exécute `tsc --noEmit` : le compilateur vérifie tout le dépôt sans
-écrire un seul fichier. Ce n'est pas un niveau de test — c'est le filet qui attrape ce
-qu'aucun test ne voit (unions fermées, `satisfies`, signatures) — mais il tourne au même
+écrire un seul fichier. Ce n'est pas un niveau de test : c'est le filet qui attrape ce
+qu'aucun test ne voit (unions fermées, `satisfies`, signatures), mais il tourne au même
 titre qu'eux, dans le job `ci-dev-types` de toute PR vers `dev`, et il **fait échouer la
 PR**. `cypress.config.ts` et `tests/e2e` en sont exclus par `tsconfig.json` : leurs types
 Cypress chargent le `expect()` de Chai, qui écrase celui de Jest et casserait la

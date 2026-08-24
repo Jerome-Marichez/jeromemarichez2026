@@ -14,7 +14,7 @@ base pour les revues design et les tests visuels.
 - Les stories utilisent des **fixtures réalistes** (jamais de lorem ipsum pour les données métier).
 
 > **Sans Storybook** : si le projet n'active pas Storybook, ce sont les **tests
-> unitaires (RTL)** qui couvrent ces mêmes états significatifs — ils tiennent lieu
+> unitaires (RTL)** qui couvrent ces mêmes états significatifs : ils tiennent lieu
 > de catalogue. Le routage vers `opus-frontend` reste conditionnel à la présence de
 > Storybook (voir [`model-routing.md`](./model-routing.md)).
 

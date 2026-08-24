@@ -1,7 +1,7 @@
 # Captures de référence
 
 Planches **avant / après** attachées à une décision de design documentée. Ce ne sont pas
-des pages de documentation : ce sont les **pièces** d'un raisonnement qui vit ailleurs —
+des pages de documentation : ce sont les **pièces** d'un raisonnement qui vit ailleurs :
 ici [`docs/design.md`](../design.md).
 
 Elles ne sont **pas servies** : `next.config.mjs` exporte `src/app` et `public`, jamais
@@ -29,8 +29,8 @@ Deux pièges, rencontrés et corrigés dans le script :
 
 | Fichier | Ce qu'elle montre | Issue |
 |---|---|---|
-| `115-verre-bandes.png` | l'en-tête et la barre de pôle empilés, à la position où la mesure a trouvé le pire fond sous la barre — `/services/data/`, 4440px | #115 |
-| `115-verre-entete.png` | l'en-tête seul, à la position du pire cas en thème clair : l'aplat d'accent du bouton du seuil passe dessous — accueil, 528px | #115 |
+| `115-verre-bandes.png` | l'en-tête et la barre de pôle empilés, à la position où la mesure a trouvé le pire fond sous la barre (`/services/data/`, 4440px) | #115 |
+| `115-verre-entete.png` | l'en-tête seul, à la position du pire cas en thème clair : l'aplat d'accent du bouton du seuil passe dessous (accueil, 528px) | #115 |
 | `115-verre-actions.png` | les deux actions du seuil : l'action principale reste un aplat, l'action secondaire devient une pastille de verre | #115 |
 | `115-verre-contact.png` | le bloc de contact, qui passe d'un voile sans flou à un vrai panneau de verre | #115 |
 

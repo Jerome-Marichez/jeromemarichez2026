@@ -1,11 +1,11 @@
 # Design & UI
 
 Direction retenue : **« L'Établi »**. Le site est un plan de travail vu à travers des
-panneaux de verre — on voit littéralement au travers parce qu'il n'y a rien à cacher,
+panneaux de verre : on voit littéralement au travers parce qu'il n'y a rien à cacher,
 ni chaîne de prestataires ni couche commerciale. Les quatre pôles ne sont pas quatre
 offres côte à côte au catalogue, et ce n'est pas non plus une file de quatre maillons :
-ce sont des plaques teintées chacune par sa propre teinte, dont les deux dernières —
-l'IA et le SEA & UX — sont écartées **côte à côte**, à égalité. Un seul filet vertical
+ce sont des plaques teintées chacune par sa propre teinte, dont les deux dernières (l'IA
+et le SEA & UX) sont écartées **côte à côte**, à égalité. Un seul filet vertical
 les traverse toutes : l'interlocuteur unique.
 
 Le verre ne réfracte **jamais du texte**, seulement le fond d'atelier (dégradé + trame
@@ -21,7 +21,7 @@ exactement l'arbitrage que le site vend, appliqué à lui-même.
   jamais un prérequis de lecture. La scène des quatre dalles, elle, est du SVG : elle
   s'affiche partout, au même coût sur un téléphone et sur un poste de travail.
 - **Thème** : clair et sombre, via `prefers-color-scheme`. Les deux palettes sont
-  complètes et vérifiées en contraste — aucune couleur n'est définie dans un seul thème.
+  complètes et vérifiées en contraste : aucune couleur n'est définie dans un seul thème.
 
 ## Bibliothèque UI
 
@@ -32,7 +32,7 @@ système entier coûterait plus en poids et en contraintes qu'il ne ferait gagne
 |-------|-------|
 | Composants maison | `src/components/`, un dossier par composant |
 
-**Aucune dépendance d'effet visuel.** Le verre est du CSS — voir « Le verre » plus bas
+**Aucune dépendance d'effet visuel.** Le verre est du CSS, voir « Le verre » plus bas
 pour les deux bibliothèques essayées et écartées, et pourquoi.
 
 ## Stratégie de style
@@ -54,9 +54,9 @@ site, et aucune n'est autorisée.
 **Le flou des panneaux n'a plus de seuil ; leur réfraction en a un.** Les deux ne se
 confondent pas : le flou est le verre lui-même et il est servi partout, la réfraction est
 un enrichissement desktop qui coûtait un point de budget sur mobile pour un écart de
-2/255 — voir « La réfraction » plus bas.
+2/255, voir « La réfraction » plus bas.
 
-**Le flou des panneaux, donc, n'a plus de seuil.** Il en avait un — 1024px — pour deux raisons
+**Le flou des panneaux, donc, n'a plus de seuil.** Il en avait un (1024px) pour deux raisons
 qui appartenaient toutes deux à liquidGL : Safari devenait instable dès qu'une lentille
 dépassait la moitié du viewport, et le flou promettait une couche GPU pour un mouvement
 qui n'arrivait jamais sur un petit écran. La bibliothèque partie, il ne reste qu'un
@@ -68,7 +68,7 @@ Les **bandes collantes** gardent le seuil, pour une raison qui n'a rien à voir 
 liquidGL : une bande `sticky` pleine largeur est reflouée à **chaque image de
 défilement**, puisque ce qui passe dessous change en permanence. C'est le cas d'école du
 jank au défilement, sur les appareils qui en ont le moins les moyens. Sous 1024px les
-deux bandes sont donc **opaques** — jamais translucides sans flou, ce qui laisserait
+deux bandes sont donc **opaques**, jamais translucides sans flou, ce qui laisserait
 passer un fantôme de texte.
 
 ## Jetons
@@ -76,23 +76,23 @@ passer un fantôme de texte.
 Valeurs réelles dans [`globals.css`](../src/app/globals.css). Les ratios de contraste
 ci-dessous sont ceux des couples texte/fond effectivement utilisés.
 
-### Couleurs — thème clair
+### Couleurs : thème clair
 
 | Jeton | Valeur | Usage | Contraste sur `--fond` |
 |-------|--------|-------|------------------------|
-| `--fond` | `#F2EFE8` | fond de page, papier chaud | — |
-| `--fond-creux` | `#E7E2D7` | bandes de section en retrait | — |
+| `--fond` | `#F2EFE8` | fond de page, papier chaud | *sans objet* |
+| `--fond-creux` | `#E7E2D7` | bandes de section en retrait | *sans objet* |
 | `--encre` | `#14171A` | texte courant et titres | 15.67:1 |
 | `--encre-douce` | `#4A5157` | texte secondaire, chapôs | 7.02:1 |
 | `--cuivre` | `#8F4520` | teinte de marque, et teinte du pôle « ingénierie web » | 6.02:1 |
 | `--cuivre-vif` | `#B4623A` | **non-texte uniquement** : filets, arêtes | 3.85:1 |
-| `--signal` | `#1F5F52` | **la décision, et rien d'autre** — voir plus bas | 6.49:1 |
+| `--signal` | `#1F5F52` | **la décision, et rien d'autre**, voir plus bas | 6.49:1 |
 
-### Couleurs — thème sombre
+### Couleurs : thème sombre
 
 | Jeton | Valeur | Contraste sur `--fond` |
 |-------|--------|------------------------|
-| `--fond` | `#0E1114` | — |
+| `--fond` | `#0E1114` | *sans objet* |
 | `--encre` | `#ECE7DE` (jamais `#FFF`) | 15.38:1 |
 | `--encre-douce` | `#9BA3AA` | 7.41:1 |
 | `--cuivre` | `#E08B4C` | 7.18:1 |
@@ -106,52 +106,52 @@ tient en trois lignes, dans [`poles.css`](../src/app/poles.css) :
 
 1. une page ou une section de pôle pose `data-pole="<id>"` ;
 2. un bloc CSS mappe `--accent` et `--accent-vif` sur la teinte de ce pôle ;
-3. **aucun composant ne connaît la couleur d'un pôle** — les dix-huit modules CSS du
+3. **aucun composant ne connaît la couleur d'un pôle** : les dix-huit modules CSS du
    site ne consomment que `--accent` et `--accent-vif`.
 
-Hors de tout `data-pole` — accueil, blog, en-tête, pied de page — `--accent` vaut le
+Hors de tout `data-pole` (accueil, blog, en-tête, pied de page), `--accent` vaut le
 cuivre : la teinte de marque, qui est aussi celle du socle.
 
 Trois endroits posent `data-pole` : la page de pôle
 ([`PolePageView`](../src/views/PolePageView/index.tsx)), chaque maillon du
 schéma de la chaîne ([`ChainDiagram`](../src/components/ChainDiagram/index.tsx)),
-et chaque entrée du menu ([`SiteHeader`](../src/components/SiteHeader/index.tsx)) —
+et chaque entrée du menu ([`SiteHeader`](../src/components/SiteHeader/index.tsx)) :
 l'en-tête devient ainsi la légende de la palette.
 
 #### Le choix des teintes
 
 Les quatre teintes sont posées en **OKLCH**, sur une seule clarté et une seule chroma par
 variante : **seule la teinte change**. C'est ce qui interdit de lire une progression là où
-il n'y en a pas — en particulier entre l'IA et le SEA & UX, qui sont deux branches
+il n'y en a pas, en particulier entre l'IA et le SEA & UX, qui sont deux branches
 **parallèles** de la donnée et non deux étapes successives (`CLAUDE.md`). Deux couleurs
 d'éclat différent auraient affirmé dans le pixel un ordre que le modèle nie.
 
 | Pôle | Place | Teinte OKLCH | Lecture |
 |------|-------|--------------|---------|
-| Ingénierie web | socle, temps 1 | h ≈ 45 — cuivre | inchangée : c'est la couleur de la maison |
-| Data | passage, temps 2 | h = 215 — bleu d'encre | le tronc refroidit en passant du construire au mesurer |
-| IA | suite, temps 3 | h = 300 — violet | à **+85°** du bleu de la donnée |
-| SEA & UX | suite, temps 3 | h = 130 — vert | à **−85°** du bleu de la donnée |
+| Ingénierie web | socle, temps 1 | h ≈ 45, cuivre | inchangée : c'est la couleur de la maison |
+| Data | passage, temps 2 | h = 215, bleu d'encre | le tronc refroidit en passant du construire au mesurer |
+| IA | suite, temps 3 | h = 300, violet | à **+85°** du bleu de la donnée |
+| SEA & UX | suite, temps 3 | h = 130, vert | à **−85°** du bleu de la donnée |
 
 Les deux suites sont **équidistantes** de la teinte de leur parent, à clarté et chroma
 strictement égales : la branche ne progresse pas, elle se dédouble.
 
-#### Contraste — les 16 valeurs, mesurées
+#### Contraste : les 16 valeurs, mesurées
 
 Luminance relative WCAG 2.x, calculée sur les valeurs sRGB effectives. **Aucune n'est
 arrondie ni estimée.**
 
 | Pôle | `--accent` clair | `--accent-vif` clair | `--accent` sombre | `--accent-vif` sombre |
 |------|------------------|----------------------|-------------------|-----------------------|
-| Ingénierie web | `#8F4520` — **6.02:1** | `#B4623A` — **3.85:1** | `#E08B4C` — **7.18:1** | `#F0A468` — **9.21:1** |
-| Data | `#00697B` — **5.53:1** | `#008AA1` — **3.55:1** | `#01B6D4` — **7.79:1** | `#48CBE7` — **9.89:1** |
-| IA | `#674D91` — **6.00:1** | `#8669B7` — **3.88:1** | `#AF8FE8` — **7.14:1** | `#C3A6F8` — **9.14:1** |
-| SEA & UX | `#48691D` — **5.52:1** | `#638937` — **3.54:1** | `#87B357` — **7.77:1** | `#9FC774` — **9.83:1** |
+| Ingénierie web | `#8F4520`, **6.02:1** | `#B4623A`, **3.85:1** | `#E08B4C`, **7.18:1** | `#F0A468`, **9.21:1** |
+| Data | `#00697B`, **5.53:1** | `#008AA1`, **3.55:1** | `#01B6D4`, **7.79:1** | `#48CBE7`, **9.89:1** |
+| IA | `#674D91`, **6.00:1** | `#8669B7`, **3.88:1** | `#AF8FE8`, **7.14:1** | `#C3A6F8`, **9.14:1** |
+| SEA & UX | `#48691D`, **5.52:1** | `#638937`, **3.54:1** | `#87B357`, **7.77:1** | `#9FC774`, **9.83:1** |
 
 - **`--accent` porte du texte** : seuil 4.5:1. Les huit valeurs le passent, la plus basse
   à 5.52:1 (SEA & UX en thème clair).
 - **`--accent-vif` ne porte JAMAIS de texte** : seuil non-texte 3:1. Les quatre valeurs
-  claires sont entre 3.54:1 et 3.88:1 — au-dessus de 3:1, **sous** 4.5:1. C'est la même
+  claires sont entre 3.54:1 et 3.88:1, au-dessus de 3:1, **sous** 4.5:1. C'est la même
   règle que celle qui s'appliquait déjà au cuivre vif, étendue aux quatre pôles : filets,
   arêtes, liserés, jamais un mot.
 - En thème sombre, les seize valeurs dépassent 7:1 : aucune contrainte n'y est tendue.
@@ -160,23 +160,23 @@ arrondie ni estimée.**
 
 Le bleu de la donnée est la seule teinte dont la **chroma est bridée par le gamut sRGB**
 en thème clair : 0.084 au lieu des 0.110 des trois autres. Le cyan profond n'existe pas
-plus saturé à cette clarté. La conséquence est visible — la donnée paraît légèrement
-moins colorée que ses voisines sur fond clair — et elle est assumée : baisser les trois
+plus saturé à cette clarté. La conséquence est visible (la donnée paraît légèrement
+moins colorée que ses voisines sur fond clair) et elle est assumée : baisser les trois
 autres à 0.084 aurait éteint toute la palette pour aligner une seule teinte.
 
 Le **daltonisme** est la limite réelle de cette issue, et elle mérite d'être dite en
 clair. Quatre teintes à clarté et chroma égales ne peuvent pas rester toutes
 distinguables entre elles sous une vision dichromate : c'est une propriété de l'espace
 des couleurs, pas un défaut d'implémentation. Le choix a donc porté sur la paire qui
-compte le plus — les deux sœurs :
+compte le plus, les deux sœurs :
 
 | Paire | Protanopie | Deutéranopie | Tritanopie |
 |-------|-----------|--------------|------------|
 | IA / SEA & UX (retenue, h 300 / 130) | ΔE 0.199 | ΔE 0.180 | ΔE 0.024 |
 | *cyan / magenta voisins (écartée, h 210 / 320)* | *ΔE 0.061* | *ΔE 0.003* | *ΔE 0.115* |
 
-ΔE en OKLab, simulation Viénot 1999. La paire voisine — celle qui aurait le mieux dit
-« même famille chromatique » — rend les deux suites **strictement identiques** pour une
+ΔE en OKLab, simulation Viénot 1999. La paire voisine (celle qui aurait le mieux dit
+« même famille chromatique ») rend les deux suites **strictement identiques** pour une
 deutéranopie, qui touche environ 5 % des hommes. La paire retenue les sépare franchement
 sur les deux formes courantes de daltonisme, et faiblement sur la tritanopie, qui touche
 moins de 0.01 % de la population. Le prix payé est un écart de teinte plus large que
@@ -191,7 +191,7 @@ chaque pôle porte aussi son nom, son libellé de place et son temps.
 ### `--signal` : la décision, et rien d'autre
 
 `--signal` n'est pas une couleur d'ambiance. Il marque **la ligne « vous tranchez »**,
-partout où un bloc éditorial en porte une (`decision:` dans les contenus — une trentaine
+partout où un bloc éditorial en porte une (`decision:` dans les contenus, une trentaine
 d'occurrences), et le **témoin de mise en pause** du `MotionToggle`. Trois emplois, une
 seule idée : *ici, une décision*.
 
@@ -220,7 +220,7 @@ d'un panneau, ce texte ressortirait en traînée colorée sous l'en-tête.
 | Jeton | Valeur | Où |
 |-------|--------|-----|
 | `--verre-flou` | `22px` | les panneaux, à toutes les largeurs. En dessous de 22px, le verre se lit comme un calque translucide posé sur la trame, pas comme une épaisseur |
-| `--verre-saturation` | `1.7` | les panneaux. C'est la « vibrancy » : ce qui passe derrière ressort plus coloré qu'il n'entre — le réglage qui distingue un verre d'Apple d'un simple dépoli |
+| `--verre-saturation` | `1.7` | les panneaux. C'est la « vibrancy » : ce qui passe derrière ressort plus coloré qu'il n'entre, le réglage qui distingue un verre d'Apple d'un simple dépoli |
 | `--verre-flou-bande` | `14px` | les deux bandes collantes, au-delà de 1024px |
 | `--verre-saturation-bande` | `1.1` | les bandes : ce qui passe dessous est du texte, pas un décor |
 | `--verre-teinte-part` | `8%` (clair) / `13%` (sombre) | part d'`--accent` lavée dans le **haut** du panneau, éteinte avant la moitié. Le verre prend la couleur du pôle qu'il porte |
@@ -232,7 +232,7 @@ d'un panneau, ce texte ressortirait en traînée colorée sous l'en-tête.
 | `--verre-voile-bande` | `88%` | en-tête du site |
 | `--verre-voile-barre` | `82%` | barre de pôle |
 
-L'**échelle d'élévation** compte trois crans, dans l'ordre, et pas un de plus — un cran
+L'**échelle d'élévation** compte trois crans, dans l'ordre, et pas un de plus. Un cran
 sans emploi serait un jeton mort, exactement le défaut corrigé ici :
 
 | Jeton | Sens | Où |
@@ -259,7 +259,7 @@ emmène ensemble au lieu d'en laisser six derrière.
 
 ### Typographie
 
-Deux familles chargées par `next/font/google` — donc auto-hébergées au build : aucune
+Deux familles chargées par `next/font/google`, donc auto-hébergées au build : aucune
 requête vers `fonts.googleapis.com`, rien à déclarer côté RGPD. La troisième est servie
 par la pile système, pour zéro octet. C'est un budget autant qu'un parti pris : chaque
 fonte préchargée est un fichier que le navigateur va chercher avant de peindre le texte.
@@ -274,12 +274,12 @@ fonte préchargée est un fichier que le navigateur va chercher avant de peindre
 `--t-note` (15px) et `--t-chiffre` (40→64px) pour le mur de preuves. Mesures : 64ch sur
 le corps, 30ch sur les `h2`, 18ch sur le `h1`, 46ch dans un panneau de verre.
 
-`--t-note` n'est pas un cran de confort : sept modules écrivaient `0.9375rem` en dur —
+`--t-note` n'est pas un cran de confort : sept modules écrivaient `0.9375rem` en dur :
 menus, repères de charnière, notes de bas de section. Un demi-cran manquait à l'échelle,
 et chacun le réinventait chez lui.
 
 L'**interlettrage** est un jeton, jamais une valeur locale. Une fonte de titre se
-resserre à mesure qu'elle grandit — à 68 px, l'approche dessinée pour du labeur laisse
+resserre à mesure qu'elle grandit : à 68 px, l'approche dessinée pour du labeur laisse
 des trous entre les lettres ; les étiquettes font l'inverse, capitales de 13 px qui ont
 besoin d'air.
 
@@ -304,7 +304,7 @@ Trois jetons tiennent l'empilement collant, et un seul endroit les déclare :
 
 ### Le fond d'atelier
 
-`.fond-atelier` est un calque peint, séparé du contenu — c'est ce que le verre floute, et
+`.fond-atelier` est un calque peint, séparé du contenu : c'est ce que le verre floute, et
 il fait plus de 9 000 px de haut sur l'accueil. **Tout ce qu'on y pose doit être une
 tuile.** Un `repeating-linear-gradient` sans `background-size` est généré une fois aux
 dimensions de son élément, soit ici plus de 9 000 px de haut.
@@ -321,7 +321,7 @@ défilerait pas derrière les panneaux, et le verre n'aurait rien à montrer qui
 Le grain est volontairement **une tuile de plus, et pas un filtre** : `filter: invert()`
 sur ce calque pour l'adapter au thème sombre forcerait une couche de compositing de la
 hauteur du document. Sous 4 % d'alpha, aucun couple texte/fond documenté ci-dessus ne
-descend sous son seuil AA — et l'audit de contraste n'est de toute façon pas concerné,
+descend sous son seuil AA, et l'audit de contraste n'est de toute façon pas concerné,
 le calque étant un frère du contenu, pas son ancêtre.
 
 ## Mouvement
@@ -332,10 +332,10 @@ personnalisé.
 
 | Geste | Où | Détail |
 |-------|-----|--------|
-| **Poser** | toute section qui entre dans l'écran | `opacity: 0` → `1` et `translateY(24px)` → `none`, `--duree-poser`. Porté par [`Reveal`](../src/components/Reveal/index.tsx), qui s'appuie sur `useInViewport` — voir « La révélation » ci-dessous |
+| **Poser** | toute section qui entre dans l'écran | `opacity: 0` → `1` et `translateY(24px)` → `none`, `--duree-poser`. Porté par [`Reveal`](../src/components/Reveal/index.tsx), qui s'appuie sur `useInViewport`, voir « La révélation » ci-dessous |
 | **Tracer** | les deux charnières | filet cuivre 2px, `scaleY(0)` → `scaleY(1)`, `--duree-tracer`. Seul mouvement porteur de sens : la chaîne se trace. Déclenché à l'entrée de la charnière dans l'écran, et non au chargement de la page |
-| **Traverser** | le fil IA | filets cuivre **horizontaux**, `scaleX(0)` → `scaleX(1)`, même durée, même déclenchement. Perpendiculaires à ceux des charnières : la chaîne descend, le fil la coupe — la géométrie dit « ceci n'est pas une quatrième offre » |
-| **Dériver** | la scène des quatre dalles | deux fréquences lentes qui ne se referment jamais ensemble, en `transform` seul — assez pour faire lire du volume, jamais assez pour appeler le regard. Le filet de tenue en est **exclu** : ce qui tient ne dérive pas |
+| **Traverser** | le fil IA | filets cuivre **horizontaux**, `scaleX(0)` → `scaleX(1)`, même durée, même déclenchement. Perpendiculaires à ceux des charnières : la chaîne descend, le fil la coupe. La géométrie dit « ceci n'est pas une quatrième offre » |
+| **Dériver** | la scène des quatre dalles | deux fréquences lentes qui ne se referment jamais ensemble, en `transform` seul : assez pour faire lire du volume, jamais assez pour appeler le regard. Le filet de tenue en est **exclu** : ce qui tient ne dérive pas |
 | **Micro-états** | liens et boutons | épaisseur de soulignement, ombre qui monte au survol, `--duree-micro`. Aucun déplacement de mise en page, et aucun déplacement tout court : voir « Le survol d'un bouton d'action » ci-dessous |
 
 **Dès qu'un mouvement dure, se répète ou porte du sens, seuls `transform` et `opacity`
@@ -378,7 +378,7 @@ Le focus clavier reste celui de `:focus-visible` dans `globals.css`, un contour 
 en `--accent` à 3 px d'écart.
 
 Sous `prefers-reduced-motion: reduce` : les animations CSS sont coupées et la scène est
-rendue **figée** — les dalles gardent leur pose. **Le verre, lui, n'est pas concerné** :
+rendue **figée** : les dalles gardent leur pose. **Le verre, lui, n'est pas concerné** :
 il ne bouge pas. Un `backdrop-filter` est une propriété de peinture, pas une animation ;
 le couper sous mouvement réduit retirerait une qualité visuelle sans rien apporter à
 personne. C'est la boucle de rendu permanente de liquidGL qui était une animation, pas le
@@ -387,9 +387,9 @@ verre.
 Le bouton `MotionToggle` offre le même arrêt depuis la page, comme l'exige WCAG 2.2.2 :
 une préférence système n'est pas un mécanisme de mise en pause, elle ne se change pas
 depuis le site. Il est rendu par le **pied de page**, donc par la mise en page racine,
-donc sur **toute page** — accueil, les quatre pôles, le blog. Il n'existait auparavant que
+donc sur **toute page** : accueil, les quatre pôles, le blog. Il n'existait auparavant que
 dans `HomeHero` : une page de pôle révélait ses sections au défilement sans offrir nulle
-part le moyen d'arrêter ça. L'accueil en porte donc deux, et c'est voulu — les deux lisent
+part le moyen d'arrêter ça. L'accueil en porte donc deux, et c'est voulu : les deux lisent
 le même magasin, mais celui du seuil est au pied de la scène, là où le mouvement se voit.
 
 Tout ce qui est encore en attente se pose alors **sans transition** : figer l'animation et
@@ -402,14 +402,14 @@ Une révélation au défilement se paie normalement de deux défauts, et [`Revea
 n'en accepte aucun :
 
 - **Rien n'est masqué au rendu serveur.** L'état caché n'est armé qu'après montage. Sans
-  JavaScript — ou si l'hydratation échoue — la page reste entièrement lisible. Une
+  JavaScript (ou si l'hydratation échoue), la page reste entièrement lisible. Une
   révélation qui laisse du contenu à `opacity: 0` n'est pas un effet, c'est une panne, et
   elle est invisible à celui qui l'écrit.
 - **Ce qui est déjà à l'écran n'est jamais caché puis remontré.** Au montage, seul ce qui
   est *sous la ligne de flottaison* est armé. C'est le clignotement typique des
   révélations au défilement, et il frappe d'abord le premier écran.
 
-L'état posé ne déclare **aucun** `transform` — pas même l'identité. Un
+L'état posé ne déclare **aucun** `transform`, pas même l'identité. Un
 `translate3d(0, 0, 0)` résiduel créerait sur chaque section un contexte d'empilement et
 une couche de compositing **permanents**, pour une animation qui ne dure que le temps de
 l'arrivée : sur l'accueil, une douzaine de couches promises au GPU jusqu'à la fin de la
@@ -425,13 +425,13 @@ règle paie deux fois :
 - une section **ancrable** ne bouge pas. Un `transform` sur l'élément que vise une ancre
   décale la cible du `scrollIntoView` de la hauteur de la révélation : la section se pose
   ensuite 24 px plus haut, et arrive sous l'en-tête. Les cinq sections ancrables de
-  l'accueil gardent donc leur `<section>` — identifiant et `scroll-margin-top` — et la
+  l'accueil gardent donc leur `<section>` (identifiant et `scroll-margin-top`) et la
   révélation passe à l'intérieur.
 
 Les charnières et le fil font exception : ce sont les seules révélations qui *sont* leur
 section, parce que le filet qui se trace est un `::before` de la section. Aucun lien ne
 pointe vers leur identifiant, et un lien profond arrivant de l'extérieur est exact de
-toute façon — le navigateur défile avant que React ne monte, donc la cible est déjà à
+toute façon : le navigateur défile avant que React ne monte, donc la cible est déjà à
 l'écran et la révélation ne s'arme pas.
 
 ## Les bandes collantes
@@ -443,9 +443,9 @@ des pôles on lisait, et l'action de contact était restée en bas.
 
 | Contrainte | Parade |
 |------------|--------|
-| Une bande `sticky` est **reflouée à chaque image** de défilement : ce qui passe dessous change en permanence | Flou **au-delà de 1024px seulement** — même recette pour les deux. C'est la seule surface du site où le seuil de largeur a encore un sens, et il n'a rien à voir avec l'ancien seuil de liquidGL |
+| Une bande `sticky` est **reflouée à chaque image** de défilement : ce qui passe dessous change en permanence | Flou **au-delà de 1024px seulement**, même recette pour les deux. C'est la seule surface du site où le seuil de largeur a encore un sens, et il n'a rien à voir avec l'ancien seuil de liquidGL |
 | Sans flou, la translucidité laisse passer un **fantôme de texte** | En dessous de 1024px, la bande est **opaque**. La transparence du site est celle du verre, et le verre floute ; là où le flou n'est pas payé, la bande est pleine |
-| Ce qui passe dessous est du **texte**, pas un décor | Jetons de bande, jamais de panneau : `--verre-flou-bande` (14px) et `--verre-saturation-bande` (1.1). Au réglage d'un panneau — 22px et 1.7 — le texte ressortirait en traînée colorée |
+| Ce qui passe dessous est du **texte**, pas un décor | Jetons de bande, jamais de panneau : `--verre-flou-bande` (14px) et `--verre-saturation-bande` (1.1). Au réglage d'un panneau (22px et 1.7), le texte ressortirait en traînée colorée |
 | L'en-tête est bien plus haut sous 720px (il passe en colonne) | La barre de pôle y reste **dans le flux**. Deux bandes collantes sur un téléphone prendraient la place de ce qu'elles annoncent |
 | Une ancre ne doit pas se poser sous les bandes | `--decalage-ancre`, redéfini localement sur la page de pôle |
 
@@ -462,8 +462,8 @@ Rien à amorcer, rien à charger, rien à démonter, aucun seuil de largeur. Il 
 premier octet de HTML servi, identique avec et sans JavaScript.
 
 **Le contenu est DANS le verre.** `GlassSurface` est le conteneur de son contenu et se
-dimensionne dessus. Le contrat précédent était l'inverse — une div vide posée *derrière*
-le texte — et ce n'était pas un choix de design : liquidGL mutait l'élément dont il
+dimensionne dessus. Le contrat précédent était l'inverse (une div vide posée *derrière*
+le texte), et ce n'était pas un choix de design : liquidGL mutait l'élément dont il
 faisait une lentille (`opacity: 0`, puis `pointer-events: none` jamais restauré) et
 effaçait son `background` en styles en ligne. Le calque vide était une parade ; la
 bibliothèque partie, la parade n'a plus d'objet.
@@ -483,7 +483,7 @@ trois `z-index` qui l'accompagnaient ont disparu avec la bibliothèque qui les e
 | lavis d'`--accent`, éteint avant la moitié | le verre prend la couleur du pôle qu'il porte. Une teinte uniforme se lirait comme un fond coloré ; une teinte qui décroît se lit comme de la lumière prise par la tranche haute |
 | arête spéculaire (`::before` masqué en anneau) | vive en haut, éteinte au milieu, rebond faible en bas. Elle suit le `border-radius`, ce qu'un `box-shadow: inset` ne sait pas faire |
 | `--verre-ombre`, basse et très étalée | le panneau flotte de peu. Un rayon court et sombre en ferait une carte |
-| réfraction SVG (`--verre-refraction`), ≥ 1024px, Blink seul | l'épaisseur prend une **forme** : au ras de l'arête, le verre va chercher son image un peu plus loin vers le dedans. Mesurée à 2/255 sur ce fond — voir « La réfraction » |
+| réfraction SVG (`--verre-refraction`), ≥ 1024px, Blink seul | l'épaisseur prend une **forme** : au ras de l'arête, le verre va chercher son image un peu plus loin vers le dedans. Mesurée à 2/255 sur ce fond, voir « La réfraction » |
 | repli `@supports` | là où `backdrop-filter` manque, le voile opaque `--verre-voile` reprend la garantie de contraste du texte |
 
 Le plafond de panneaux par page (`glass-policy.ts` : **1 sur l'accueil**, 3 sur une page
@@ -492,7 +492,7 @@ monter ; au-delà de trois, l'effet cesse simplement d'être un signal et devien
 
 L'accueil est passé de 3 à 1 avec l'issue #103, et ce n'est pas un réglage : le plafond
 suit le nombre de sections **éditoriales réellement présentes**, et l'accueil devenu
-vitrine n'en porte plus qu'une — les deux objections. Ses trois sections de pôle sont
+vitrine n'en porte plus qu'une : les deux objections. Ses trois sections de pôle sont
 descendues sur `/services/<pole>/`, où c'est `MAX_GLASS_PAGE_POLE` qui les vitre. La
 page n'est pas pour autant sans verre : le seuil, les plaques du schéma de la chaîne et
 le bloc de contact portent les mêmes jetons de surface, posés par leurs propres modules.
@@ -501,12 +501,12 @@ le bloc de contact portent les mêmes jetons de surface, posés par leurs propre
 
 **liquidGL** (WebGL) a été retirée. **`liquid-glass-react`** (rdev, MIT, 33 ko gzip) a été
 installée, mesurée et retirée le même jour. Elle ne peut pas rendre un panneau éditorial
-pleine largeur, et le défaut est structurel, pas esthétique — mesuré sur un panneau réel
+pleine largeur, et le défaut est structurel, pas esthétique, mesuré sur un panneau réel
 de 1164 × 282 px :
 
 | Ce que la bibliothèque impose | Conséquence ici |
 |-------------------------------|-----------------|
-| `position: relative` par défaut, avec 3 calques de recouvrement **restés dans le flux** | un conteneur de **880 px** pour un panneau de 282 : trois blocs vides empilés sous lui. Le contournement est `position: absolute`, mais un panneau absolu ne peut plus être dimensionné par son contenu — et c'est exactement ce qu'on venait de regagner |
+| `position: relative` par défaut, avec 3 calques de recouvrement **restés dans le flux** | un conteneur de **880 px** pour un panneau de 282 : trois blocs vides empilés sous lui. Le contournement est `position: absolute`, mais un panneau absolu ne peut plus être dimensionné par son contenu, et c'est exactement ce qu'on venait de regagner |
 | `display: inline-flex` en style **en ligne** | le panneau se rétracte sur son contenu au lieu de tenir la largeur de la page. Un style en ligne ne se corrige que par `!important` |
 | `padding: 24px 32px`, `box-shadow: rgba(0,0,0,.25) 0 12px 40px` en ligne | l'échelle d'espacement et les jetons d'élévation du site sont court-circuités, au profit d'un noir codé en dur étranger à la palette |
 | `font: 500 20px/1 system-ui` et `text-shadow: rgba(0,0,0,.4) 0 2px 12px` en ligne, hérités | `line-height: 20px` **calculé sur les `h2`** du panneau, et un halo noir sur chaque texte. Sur le papier chaud du site, cela se lit comme du texte sale |
@@ -521,16 +521,16 @@ navigateur ne se défend pas **sous cette forme**. La technique, elle, se défen
 
 ### La réfraction : ce qu'elle coûte, ce qu'elle rend
 
-**`feImage` + `feDisplacementMap`, deux primitives, zéro dépendance** — la même technique
+**`feImage` + `feDisplacementMap`, deux primitives, zéro dépendance** : la même technique
 que `liquid-glass-react`, en ~30 lignes de SVG rendues au serveur
 ([`GlassRefraction`](../src/components/GlassRefraction/index.tsx)). Le filtre est
 déclaré une fois par la mise en page racine ; les panneaux le consomment par le jeton
 `--verre-refraction`, jamais en écrivant `url(#…)` dans un module.
 
 **Les artefacts en losange du premier essai ont disparu par construction, pas par
-réglage.** La carte de déplacement pose un **plateau neutre au centre** — l'effet ne vit
+réglage.** La carte de déplacement pose un **plateau neutre au centre** (l'effet ne vit
 que sur ~10 % de chaque bord, le seul endroit où un vrai verre courbe ce qu'il y a
-derrière — et **échantillonne toujours vers l'intérieur** aux quatre bords. Aucun pixel ne
+derrière) et **échantillonne toujours vers l'intérieur** aux quatre bords. Aucun pixel ne
 va donc chercher hors de la région du filtre, ce qui rend la frange impossible plutôt
 qu'improbable. Vérifié sur damier haute fréquence jusqu'à six fois l'amplitude retenue.
 
@@ -553,7 +553,7 @@ crée pas du contraste qui n'existe pas.**
 Un piège mérite d'être noté, parce qu'il aurait fait livrer l'inverse de ce qu'on croyait :
 la variante qui « faisait le plus d'effet » (7/255) donnait **exactement les mêmes chiffres
 avec un filtre identité**, qui ne fait rien. Ces sept niveaux n'étaient pas de la
-réfraction mais le `blur(22px)` qui se dégradait faute de matière près des bords — la
+réfraction mais le `blur(22px)` qui se dégradait faute de matière près des bords : la
 version « visible » **abîmait** le verre. D'où la région élargie à 40 % de la boîte : il
 faut au moins trois écarts-types de flou de matière autour du panneau.
 
@@ -566,8 +566,8 @@ l'arbitrage ci-dessous ne change pas) :
 | Accueil | Perf |
 |---|---|
 | sans réfraction | 96 |
-| réfraction sur toutes les largeurs | **95** — tout le reste de marge |
-| réfraction ≥ 1024px (livré) | **96** — la marge est rendue |
+| réfraction sur toutes les largeurs | **95**, tout le reste de marge |
+| réfraction ≥ 1024px (livré) | **96**, la marge est rendue |
 
 Le seuil rend le point, et il faut dire pourquoi sans se payer de mots : **le budget est
 mesuré en mobile bridé, donc il ne mesure plus la réfraction du tout.** Le coût d'un point
@@ -577,15 +577,15 @@ les 2/255 du desktop.
 
 Un point de budget pour un effet à 2/255, c'est trop cher, et **un budget pile sur le
 seuil échoue en CI au tirage au sort**. La réfraction est donc **desktop seulement
-(≥ 1024px)** : c'est déjà la règle posée en tête de ce document — le verre réfractant est
+(≥ 1024px)** : c'est déjà la règle posée en tête de ce document. Le verre réfractant est
 un enrichissement, jamais un prérequis de lecture. Sur un téléphone le panneau fait ~350px,
 la rampe de 10 % n'y couvre plus que 35px, et il y a encore moins à voir qu'en desktop.
 **Le seuil ne concerne que la réfraction** : le flou, lui, n'a plus de seuil et reste sur
-tous les téléphones — c'est le gain du lot précédent, il n'est pas repris.
+tous les téléphones : c'est le gain du lot précédent, il n'est pas repris.
 
 #### Le test de moteur, et pourquoi il existe
 
-La réfraction est servie **à Blink seulement**, derrière un test de moteur explicite —
+La réfraction est servie **à Blink seulement**, derrière un test de moteur explicite,
 **la seule entorse de ce genre dans le projet**, et elle est assumée :
 
 ```css
@@ -595,27 +595,27 @@ La réfraction est servie **à Blink seulement**, derrière un test de moteur ex
 ```
 
 `@supports` ne teste que la **grammaire**, jamais l'implémentation. WebKit et Gecko peuvent
-accepter `backdrop-filter: url(…)` puis ne rien en faire — et une déclaration acceptée
+accepter `backdrop-filter: url(…)` puis ne rien en faire, et une déclaration acceptée
 **remplace** celle du dessus : ils perdraient leur flou, c'est-à-dire tout leur verre.
 
 On ne peut pas s'en remettre à l'ordre des déclarations, et c'est un **défaut mesuré sur le
-CSS livré** : Lightning CSS **synthétise le préfixe** — il écrit
-`-webkit-backdrop-filter: url(…)` à l'intérieur du bloc — **et élargit la condition** en
+CSS livré** : Lightning CSS **synthétise le préfixe** (il écrit
+`-webkit-backdrop-filter: url(…)` à l'intérieur du bloc) **et élargit la condition** en
 `(-webkit-backdrop-filter: url(…)) or (backdrop-filter: url(…))`. Écrire le préfixe avant,
 après ou pas du tout n'y change rien, et sur Safari 18+ les deux formes sont des alias.
 C'est la **même famille que le bug de production déjà corrigé** (le minifieur ne gardant
-que la dernière des deux formes), par une autre porte — et il ne se voit pas en `next dev`,
+que la dernière des deux formes), par une autre porte, et il ne se voit pas en `next dev`,
 où rien n'est minifié.
 
 Les deux sondes sont choisies pour être **vérifiables des deux côtés**, pas pour leur
 exotisme. `-webkit-backdrop-filter` écarte WebKit : Blink y répond `false` (mesuré), et
-Safari y répond **forcément** `true` — c'est la propriété même par laquelle le site lui
+Safari y répond **forcément** `true` : c'est la propriété même par laquelle le site lui
 livre son flou aujourd'hui ; s'il y répondait `false`, il n'aurait déjà aucun verre.
 L'exclusion de Safari n'est donc pas une supposition sur un moteur, elle est **forcée par
 une propriété dont le site dépend déjà**. `-moz-appearance` écarte Gecko, `false` dans
 Blink (mesuré).
 
-**Le rendu de Safari et de Firefox reste raisonné et non observé** — l'automation Safari
+**Le rendu de Safari et de Firefox reste raisonné et non observé** : l'automation Safari
 est désactivée sur le poste et Firefox n'y est pas installé. C'est précisément pourquoi le
 gate est construit ainsi : l'incertitude porte sur ce que ces moteurs *feraient* d'un
 `url()`, et le gate fait en sorte qu'ils n'y soient jamais confrontés. Ils gardent
@@ -629,7 +629,7 @@ moteurs, ou qu'un `@supports` sache tester le rendu et non la seule syntaxe.
 
 `prefers-reduced-motion` et le `MotionToggle` coupent la réfraction et gardent le flou :
 elle ne bouge pas d'elle-même, mais le compositeur la recalcule à chaque image où le fond
-défile derrière le panneau. Les deux gardes sont indépendantes — requête média sans
+défile derrière le panneau. Les deux gardes sont indépendantes : requête média sans
 JavaScript d'un côté, attribut publié sur `<html>` par
 [`MotionState`](../src/components/MotionState/index.tsx) de l'autre (WCAG 2.2.2).
 
@@ -641,11 +641,11 @@ modèle de l'offre rendu en volume. Aucun texte, aucun logo, aucune particule.
 La topologie est celle du `CLAUDE.md`, pas une composition libre :
 
 ```
-  ┌───────────────┐      ingénierie web — temps 1, dans l'axe
+  ┌───────────────┐      ingénierie web : temps 1, dans l'axe
   └───────────────┘
-  ┌───────────────┐      data — temps 2, dans l'axe, décalée
+  ┌───────────────┐      data : temps 2, dans l'axe, décalée
   └───────────────┘
-┌─────────┐ ┌─────────┐  IA  et  SEA & UX — temps 3, écartées côte à côte
+┌─────────┐ ┌─────────┐  IA  et  SEA & UX : temps 3, écartées côte à côte
 └─────────┘ └─────────┘
         (un filet vertical descend derrière les quatre)
 ```
@@ -654,7 +654,7 @@ La topologie est celle du `CLAUDE.md`, pas une composition libre :
 une quatrième puis une cinquième étape. Même largeur, même hauteur, même dégradé, même
 classe CSS, même durée d'animation ; seul un décalage vertical de 12 unités casse la
 symétrie mécanique, et un décalage n'a ni premier ni second. Toute retouche de la scène
-doit préserver cette égalité — c'est l'argument que le site vend.
+doit préserver cette égalité : c'est l'argument que le site vend.
 
 Le **filet de tenue** est l'interlocuteur unique. Il est le seul élément **non animé** de
 la scène, et le seul à ne porter aucun `data-pole` : il prend le cuivre de la racine, qui
@@ -664,7 +664,7 @@ et ressort dans l'écart qui sépare les deux sœurs, là où on le lit le mieux
 Elle a d'abord été une scène WebGL (`three` + `@react-three/fiber`, ~235 ko gzip). Elle
 est aujourd'hui **un SVG d'environ 1,7 ko rendu au serveur**, et le compromis n'en est pas
 un : le site vend une performance tenue, il ne pouvait pas payer un moteur 3D pour un
-décor. Ce qui est perdu — la réfraction physique, la rotation pilotée par le défilement —
+décor. Ce qui est perdu (la réfraction physique, la rotation pilotée par le défilement)
 n'était lisible par personne. Ce qui est gagné se mesure au premier chargement, et la
 scène s'affiche désormais **aussi sous 1024px**, là où le WebGL n'était jamais monté.
 
@@ -694,40 +694,40 @@ L'accueil déroulait sa chaîne dans le fil du texte : on y entrait en lisant, o
 menu. Un visiteur qui scanne ne trouvait aucune porte. Deux composants la lui donnent, et
 leur **disposition porte le modèle** plutôt que de le décrire.
 
-### `PoleEntries` — les quatre pôles
+### `PoleEntries` : les quatre pôles
 
 Quatre plaques alignées à égalité diraient un catalogue, ce que le site refuse d'être. La
-grille rend donc la chaîne réelle : **Ingénierie web** puis **Data** en pleine largeur —
-le socle, puis le passage obligé — et **IA** et **SEA & UX** partageant une rangée,
+grille rend donc la chaîne réelle : **Ingénierie web** puis **Data** en pleine largeur
+(le socle, puis le passage obligé) et **IA** et **SEA & UX** partageant une rangée,
 côte à côte. Les deux suites partagent une ligne parce qu'elles partagent un temps ;
 les empiler aurait réintroduit l'ordre que le modèle nie.
 
 Chaque plaque porte `data-pole` : sa marque et son filet prennent `--accent` sans qu'aucune
 règle du composant ne nomme une couleur.
 
-### `PoleGlyph` — des marques produites, jamais trouvées
+### `PoleGlyph` : des marques produites, jamais trouvées
 
-Le site n'a **aucune photographie utilisable** — ni portrait, ni capture de projet
+Le site n'a **aucune photographie utilisable** : ni portrait, ni capture de projet
 autorisée, ni logo client. Tout visuel est donc construit, en SVG rendu au serveur :
 quatre marques pèsent moins de 700 octets dans le document, là où la moindre image
 matricielle ferait tomber un budget qui ne tient qu'à un point.
 
-**Aucune de ces marques ne simule une donnée.** Un pictogramme qui mimerait un graphique —
-courbe qui monte, barres qui progressent — afficherait un chiffre inventé, ce que les
+**Aucune de ces marques ne simule une donnée.** Un pictogramme qui mimerait un graphique
+(courbe qui monte, barres qui progressent) afficherait un chiffre inventé, ce que les
 règles de véracité interdisent. Ce sont des **figures de structure**, pas des
 visualisations.
 
 L'IA n'est pas dessinée par le nœud à trois entrées, c'est-à-dire le neurone : c'est le
 cliché attendu, et il dirait quelque chose de faux, puisque ce pôle promet que « la
 réponse n'est pas toujours un modèle ». Sa marque est un embranchement dont une branche
-est retenue et l'autre écartée — la promesse, littéralement. Les deux sœurs partagent la
+est retenue et l'autre écartée : la promesse, littéralement. Les deux sœurs partagent la
 même grammaire de trait, même poids et même nombre de tracés : deux figures de décision de
 rang égal.
 
-### `SpaceEntries` — les deux espaces éditoriaux
+### `SpaceEntries` : les deux espaces éditoriaux
 
 Registre volontairement **plus sobre** que celui des pôles : un filet à gauche plutôt
-qu'une plaque encadrée. Un espace ne se vend pas, il déplie — et la hiérarchie visuelle
+qu'une plaque encadrée. Un espace ne se vend pas, il déplie, et la hiérarchie visuelle
 doit le dire sans qu'un mot ait à l'expliquer.
 
 Le volume annoncé est **dérivé des listes sources**, jamais écrit à la main : l'accueil ne
@@ -739,7 +739,7 @@ que pour les chiffres de `preuves.ts`.
 Le blog était entièrement textuel : sur `/blog/` comme sur une fiche, rien ne distinguait
 un article d'un autre à l'œil. Chaque article porte désormais une **figure**
 ([`ArticleFigure`](../src/components/ArticleFigure/index.tsx)), et elle obéit à la
-même doctrine que les marques de pôle — c'est ce qui fait que le blog appartient au même
+même doctrine que les marques de pôle : c'est ce qui fait que le blog appartient au même
 site que l'accueil.
 
 ### Construite, jamais matricielle
@@ -747,58 +747,58 @@ site que l'accueil.
 Le site n'a **aucune image matricielle** : quatre SVG en tout, `next/image` écarté
 délibérément. Une illustration d'article n'allait pas en introduire la première. Les figures
 sont du **SVG rendu au serveur**, elles pèsent quelques centaines d'octets dans le
-document, et le budget Lighthouse — qui ne tient qu'à un point — n'en sait rien.
+document, et le budget Lighthouse (qui ne tient qu'à un point) n'en sait rien.
 
 Elles n'ont **aucun fichier**, ce qui a une conséquence en dehors du design : le JSON-LD
-d'un article ne déclare toujours pas de champ `image`. La raison a changé — le site sert
-désormais une illustration — mais il n'existe aucune ressource qu'un moteur puisse aller
+d'un article ne déclare toujours pas de champ `image`. La raison a changé (le site sert
+désormais une illustration), mais il n'existe aucune ressource qu'un moteur puisse aller
 chercher, et déclarer une URL qui rendrait 404 serait un mensonge de plus.
 
 ### Rien qui simule une donnée
 
 C'est la règle des marques de pôle, appliquée mot pour mot. Le site vend la mesure : un
-pictogramme qui mimerait un graphique — une courbe qui monte, des barres qui progressent —
+pictogramme qui mimerait un graphique (une courbe qui monte, des barres qui progressent)
 afficherait un chiffre inventé, ce que les règles de véracité du `CLAUDE.md` interdisent.
 Ce sont des **figures de structure**, pas des visualisations.
 
 Le cas le plus tendu est celui de « Mesurer avant d'arbitrer », dont la figure est une
 balance : son **fléau est strictement horizontal**, et ce n'est pas un détail de dessin. Une
 balance qui penche affiche un verdict, c'est-à-dire un chiffre. Ce qui est dessiné, c'est
-qu'un arbitrage repose sur une collecte — jamais lequel des deux plateaux l'emporte.
+qu'un arbitrage repose sur une collecte, jamais lequel des deux plateaux l'emporte.
 
 ### La grammaire, reprise trait pour trait
 
 | Signe | Sens | Où on l'a déjà vu |
 |-------|------|-------------------|
 | trait plein | ce qui est retenu | les quatre marques de pôle |
-| trait tireté, opacité 0.65 | ce qui est écarté | `PoleGlyph` — l'IA et le SEA & UX |
-| croix | une voie fermée | `PoleGlyph` — la branche écartée de l'IA |
+| trait tireté, opacité 0.65 | ce qui est écarté | `PoleGlyph`, l'IA et le SEA & UX |
+| croix | une voie fermée | `PoleGlyph`, la branche écartée de l'IA |
 | point plein | un aboutissement | les quatre marques de pôle |
 | trait épais (2.4) | une assise | le socle de l'ingénierie web |
 
 Une seule chose diffère, et elle corrige une lecture : **la croix n'est pas tiretée**. Ses
 branches mesurent 5,1 unités, soit à peine deux tirets ; tiretées, elles ne rendent que leur
-amorce et la croix se lit comme une **coche** — l'exact contraire de ce qu'elle dit. Mesuré
+amorce et la croix se lit comme une **coche**, l'exact contraire de ce qu'elle dit. Mesuré
 au rendu, pas supposé.
 
 | Article | Figure | Ce qu'elle dessine |
 |---------|--------|--------------------|
 | Pourquoi ce site est un export statique | `borne` | Trois plaques écrites, un aboutissement, une ligne que rien ne franchit ; au-delà, tireté, le serveur applicatif qui n'existe plus |
-| Le test avant le code, même avec un agent | `anteriorite` | Deux temps sur un axe — le point posé d'abord, la boîte ouverte ensuite ; dessous, tiretée et fermée d'une croix, la voie inverse |
+| Le test avant le code, même avec un agent | `anteriorite` | Deux temps sur un axe : le point posé d'abord, la boîte ouverte ensuite ; dessous, tiretée et fermée d'une croix, la voie inverse |
 | Mesurer avant d'arbitrer | `appui` | Un fléau à l'horizontale et deux plateaux identiques, la décision au sommet du mât, portés par une assise et sa trame de mesure |
 | Un générateur de projets, public et personnel | `gabarit` | Une forme à trois compartiments, ouverte du côté de la sortie, et ce qui en sort : un cadre fermé, complet, jusqu'à son aboutissement |
-| Le premier risque n'est pas le code, c'est l'endroit | `liaison` | Des ensembles séparés, un lieu commun plus grand qu'eux, deux liens qui portent — et un troisième, tireté, qui n'aboutit à rien |
+| Le premier risque n'est pas le code, c'est l'endroit | `liaison` | Des ensembles séparés, un lieu commun plus grand qu'eux, deux liens qui portent, et un troisième, tireté, qui n'aboutit à rien |
 
 Deux ajouts de l'issue #109 étendent la grammaire sans la contredire, et il vaut mieux
 l'écrire ici que le redécouvrir :
 
 - **Le trait tireté couvre une nuance de plus.** Sur `liaison`, « écarté » devient
-  « annoncé, jamais emprunté » — la dépendance déclarée que rien n'importe. C'est le même
+  « annoncé, jamais emprunté » : la dépendance déclarée que rien n'importe. C'est le même
   sens au fond, un chemin qui n'a pas lieu ; le signe n'a donc pas eu à être dédoublé.
 - **La longueur d'un tracé tireté est une contrainte, pas un hasard.** C'est le constat déjà
   fait sur la croix de `anteriorite` : à 2,6 unités de tiret, un segment court ne rend que
   son amorce. Là où la croix a été traitée en **retirant** le tiretage, le lien de `liaison`
-  l'est en **allongeant** le tracé — quinze unités, soit trois tirets pleins.
+  l'est en **allongeant** le tracé : quinze unités, soit trois tirets pleins.
 
 Ce que ces deux figures se sont **interdit** relève de la même règle que le fléau horizontal
 de `appui` : ne rien dessiner qui se compte. Pas de pile de formes produites sur `gabarit`,
@@ -809,7 +809,7 @@ nommer.
 ### Deux registres, un seul jeton
 
 `--taille-figure-article` vaut **3rem** partout, et la fiche d'article le redéfinit chez elle
-à `clamp(6.5rem, 22vw, 9rem)` — le même geste que `--decalage-ancre` sur les pages de pôle.
+à `clamp(6.5rem, 22vw, 9rem)`, le même geste que `--decalage-ancre` sur les pages de pôle.
 La hauteur n'a **pas** de jeton : elle suit le `viewBox` (48 × 32), et deux valeurs à tenir
 d'accord divergent à la première retouche.
 
@@ -821,7 +821,7 @@ elle distingue les articles à l'œil sans ajouter une seule ligne au rythme de 
 
 Le registre est aussi ce qui distingue la figure d'une marque de pôle : une marque est
 carrée (32 × 32), une figure d'article est **couchée** (48 × 32). Une page de pôle vend, un
-article raconte — et une figure large se pose au-dessus d'un texte sans prétendre à l'insigne.
+article raconte, et une figure large se pose au-dessus d'un texte sans prétendre à l'insigne.
 
 ### Décor, jamais information
 
@@ -831,7 +831,7 @@ toutes lettres, juste à côté (WCAG 1.1.1 et 1.4.1). C'est aussi ce qui autori
 
 Aucune couleur n'est nommée dans le module : le tracé est en `currentColor` et le module pose
 `color: var(--accent)`. Le blog n'est sous aucun `data-pole`, donc `--accent` y vaut le cuivre
-de la racine — la teinte de la maison, exactement ce que doit prendre un contenu qui
+de la racine : la teinte de la maison, exactement ce que doit prendre un contenu qui
 n'appartient à aucun pôle. Les deux thèmes suivent sans qu'une ligne y soit consacrée.
 
 ## La note de publication d'origine
@@ -840,9 +840,9 @@ Un article peut reprendre un texte d'abord paru sur un réseau
 ([`ArticleSource`](../src/components/ArticleSource/index.tsx)). Le champ est
 **optionnel** et le restera. Un seul article publié porte une source à ce jour ; les autres
 ont été écrits pour ce site, **ou bien reprennent un post dont l'adresse n'a pas été
-fournie** — c'est le cas de « Un générateur de projets, public et personnel », et il se
+fournie** : c'est le cas de « Un générateur de projets, public et personnel », et il se
 publie donc sans source. **Une URL absente ne se devine pas** : c'est déjà la règle des
-justificatifs de certification. Sans source, rien n'est rendu — ni ligne vide, ni filet
+justificatifs de certification. Sans source, rien n'est rendu : ni ligne vide, ni filet
 orphelin.
 
 Le lien sort du site, et **son caractère externe ne repose pas sur la couleur** (WCAG 1.4.1).
@@ -857,7 +857,7 @@ Trois porteurs, dont chacun survit à la disparition des deux autres :
 La flèche est dessinée plutôt qu'écrite en caractère (« ↗ ») : le glyphe manque à plusieurs
 polices système et s'y remplace par un rectangle, et son dessin varie assez d'une fonte à
 l'autre pour ne plus faire série avec les figures du site. Elle redéclare `display:
-inline-block` — c'est le **seul `svg` du site à vivre dans une ligne de texte**, et le
+inline-block` : c'est le **seul `svg` du site à vivre dans une ligne de texte**, et le
 `display: block` global de `globals.css` la poussait seule à la ligne.
 
 `rel="noopener noreferrer"`, comme le lien de justificatif d'une certification : un lien
@@ -865,18 +865,18 @@ sortant est traité pareil partout, ou il finit par ne l'être nulle part.
 
 ## Le lavis de pôle
 
-Le fond était un lavis radial unique, une trame de 32 px et un grain. Correct, sobre —
+Le fond était un lavis radial unique, une trame de 32 px et un grain. Correct, sobre,
 et **sans matière**. C'est ce qui explique l'échec des trois tentatives de verre
 réfractant : un verre ne montre rien par lui-même, il montre **ce qu'il déforme**. Sur un
 lavis uniforme, la réfraction a été mesurée à **2 niveaux sur 255**, c'est-à-dire rien.
 
 La première réponse fut une **maille** : quatre lavis larges, un par pôle, posés en
-descendant dans `.fond-atelier` — ingénierie en haut à gauche, donnée à droite, les deux
+descendant dans `.fond-atelier` : ingénierie en haut à gauche, donnée à droite, les deux
 suites plus bas. Elle a été **remplacée** (issue #104), pour deux défauts qui n'étaient
 pas des réglages :
 
 1. **Ses coordonnées étaient fixes et le document ne les connaissait pas.** Sur
-   `/services/ia/`, le haut de page recevait le lavis d'ingénierie — non parce qu'on y
+   `/services/ia/`, le haut de page recevait le lavis d'ingénierie, non parce qu'on y
    parlait d'ingénierie, mais parce que c'est le haut du document. Le fond racontait la
    chaîne à un lecteur qui, lui, lisait une page.
 2. **Étalés sur plus de 9 000 px, les quatre lavis n'atteignaient nulle part leur propre
@@ -891,8 +891,8 @@ hauteur ; les quatre portes de l'accueil sont quatre taches de couleur côte à 
 
 ### Le mécanisme
 
-`poles.css` mappe `--accent` sous `data-pole`. `lavis.css` en dérive quatre jetons —
-`--lavis-fond`, `--lavis-tache`, et leurs équivalents d'échelle bloc — **déclarés sur
+`poles.css` mappe `--accent` sous `data-pole`. `lavis.css` en dérive quatre jetons
+(`--lavis-fond`, `--lavis-tache`, et leurs équivalents d'échelle bloc) **déclarés sur
 `[data-pole]` lui-même**, jamais seulement sur `:root` : une propriété personnalisée est
 substituée au *computed-value time*, sur l'élément qui la déclare. Déclarés à la racine,
 ils figeraient le cuivre et descendraient tels quels dans les quatre pages de pôle. C'est
@@ -910,18 +910,18 @@ ne connaissent que les jetons :
 ### Deux couches, et pourquoi pas trois
 
 Le lavis est un **fond plat translucide** plus une **tache dégradée** par-dessus. Le fond
-plat garantit que le bloc du pôle est teinté *partout* — c'est lui qui fait qu'on lit une
+plat garantit que le bloc du pôle est teinté *partout* : c'est lui qui fait qu'on lit une
 couleur et non une éclaircie, et c'est exactement ce qui manquait à la maille. La tache
 fait le dégradé et empêche l'aplat.
 
 Deux couches et pas plus, parce que **les alphas se composent** : là où deux taches se
 recouvrent, la densité vaut `1-(1-a)(1-b)` et non `a`. Un troisième calque rendrait le
 pire cas dépendant de la géométrie, donc de la hauteur du bloc, donc invérifiable. Ici il
-est fixe et calculable — et c'est ce nombre-là qui est mesuré.
+est fixe et calculable, et c'est ce nombre-là qui est mesuré.
 
 La **répartition** entre les deux change avec la surface, le plafond jamais. À l'échelle
 d'une page, la tache a mille pixels pour s'installer et porte la moitié du plafond. À
-l'échelle d'un bloc — une porte de l'accueil fait 160 px de haut — une tache qui décroît
+l'échelle d'un bloc (une porte de l'accueil fait 160 px de haut), une tache qui décroît
 sur cette hauteur laisse le bas de la carte au fond plat seul : mesuré à l'écran, les
 quatre portes se lisaient alors quasiment beiges. La part constante monte donc à 6 %, et
 la tache se réduit à une modulation.
@@ -935,8 +935,8 @@ la tache se réduit à une modulation.
 
 **Il ne vient pas du texte.** `--encre-douce` tient encore 5,95:1 à 7,88 %, très au-dessus
 du seuil AA de 4,5:1. Il vient des jetons `--accent-vif`, qui portent les filets et les
-arêtes et doivent tenir **3:1** (WCAG 1.4.11). Sur le fond réellement peint — `#EDE9E0`,
-le bas du dégradé d'atelier et non `--fond` — `--pole-data-vif` n'est déjà qu'à **3,29:1**
+arêtes et doivent tenir **3:1** (WCAG 1.4.11). Sur le fond réellement peint (`#EDE9E0`,
+le bas du dégradé d'atelier et non `--fond`), `--pole-data-vif` n'est déjà qu'à **3,29:1**
 nu. Il reste 0,29 point de marge, et le lavis en consomme la quasi-totalité : à 9 % il
 passe sous 3:1.
 
@@ -945,7 +945,7 @@ d'abord de rouvrir la palette des `-vif`, dont les seize valeurs sont plus haut.
 
 En thème sombre le plafond change de nature : tout y tient au-dessus de 6:1, et la
 contrainte n'est plus le contraste mais la teinte elle-même. Les couleurs de pôle y sont
-choisies **claires** pour porter du texte sur un fond à 6 % de luminance — `--pole-data`
+choisies **claires** pour porter du texte sur un fond à 6 % de luminance : `--pole-data`
 passe de `#00697B` à `#01B6D4`. À part égale, le même lavis y serait deux fois plus
 présent et virerait au fond coloré.
 
@@ -953,7 +953,7 @@ présent et virerait au fond coloré.
 
 Le calque plein document ne porte plus aucune couleur de pôle. Il garde le grain, la
 trame, le dégradé d'atelier, et **une seule tache** en haut du document, dans
-`--lavis-tache` — c'est-à-dire, hors de tout `data-pole`, dans le cuivre : la couleur de
+`--lavis-tache`, c'est-à-dire, hors de tout `data-pole`, dans le cuivre : la couleur de
 la maison. Ce n'est pas la maille par une autre porte. La maille prétendait dire quel pôle
 on lisait, à des coordonnées qui ne le savaient pas ; celle-ci ne dit rien d'un pôle, elle
 éclaire l'entrée du document et donne au verre de l'en-tête de la matière à courber.
@@ -969,11 +969,11 @@ on lisait, à des coordonnées qui ne le savaient pas ; celle-ci ne dit rien d'u
 | Aucune information portée par la seule couleur | Le lavis est un décor : le nom du pôle, son libellé de place et son temps restent écrits en toutes lettres (WCAG 1.4.1). |
 | Lighthouse à la cible de 95 | Mesuré après le lot : accueil 96, page de pôle 96, blog / article / réalisations 97 ; A11y, bonnes pratiques et SEO à 100. (Le plancher bloquant de performance est passé à 80 le 2026-08-24, issue #146 ; la cible visée reste 95.) |
 
-### Contraste — mesuré, pas supposé
+### Contraste : mesuré, pas supposé
 
 Deux mesures indépendantes, et les deux sont dans le dépôt de la PR #104 : le calcul
-analytique sur la couleur composée, puis la **lecture au pixel du rendu réel** — grain,
-trame et lueur de seuil compris — dans les deux thèmes.
+analytique sur la couleur composée, puis la **lecture au pixel du rendu réel** (grain,
+trame et lueur de seuil compris) dans les deux thèmes.
 
 Calcul, pire cas : lavis à sa densité maximale, sur le fond le plus défavorable du dégradé
 d'atelier (`#EDE9E0` en clair, `#14181D` en sombre).
@@ -1004,7 +1004,7 @@ Le seuil AA du texte est à 4.5:1, celui des éléments non-texte à 3:1 : les d
 le second de justesse et par construction.
 
 **Le verre par-dessus.** Le lavis est ce que `GlassSurface` floute : un fond plus coloré
-change ce qu'il rend. Contrôlé sur les quatre teintes, dans les deux thèmes —
+change ce qu'il rend. Contrôlé sur les quatre teintes, dans les deux thèmes :
 `--encre-douce` sur un panneau posé sur le lavis le plus dense vaut **6.79 à 6.82:1** en
 clair et **5.23 à 5.28:1** en sombre. Le panneau *améliore* le contraste en clair (son
 voile blanc éclaircit le fond) et le réduit en sombre sans jamais l'approcher du seuil.
@@ -1012,13 +1012,13 @@ voile blanc éclaircit le fond) et le réduit en sombre sans jamais l'approcher 
 > **Un écart relevé au passage, toujours valable.** Les ratios des tableaux de jetons plus
 > haut sont mesurés sur `--fond` (`#F2EFE8`), alors que le fond réellement peint est le
 > dégradé de `.fond-atelier`, qui descend à `#EDE9E0`. Les vrais ratios sont donc
-> légèrement plus bas que ceux affichés — `--encre-douce` est à 6.65:1 et non 7.02:1.
+> légèrement plus bas que ceux affichés : `--encre-douce` est à 6.65:1 et non 7.02:1.
 > Tous restent au-dessus du seuil, mais la documentation est optimiste d'environ un tiers
 > de point. C'est cet écart qui rend le plafond du lavis si serré : la marge des `-vif`
 > est comptée sur `#EDE9E0`, pas sur `#F2EFE8`.
 
-> **Un filet non conforme, antérieur au lavis.** `--accent` dilué à 45 % — le chiffre de
-> place de `PoleHero`, le filet de preuve de `PoleEntries` — est à **1,9 à 2,5:1** sur le
+> **Un filet non conforme, antérieur au lavis.** `--accent` dilué à 45 % (le chiffre de
+> place de `PoleHero`, le filet de preuve de `PoleEntries`) est à **1,9 à 2,5:1** sur le
 > fond, et l'était déjà avant ce lot (le lavis lui coûte 0,07 point, teinte et fond
 > bougeant ensemble). Les deux sont décoratifs et l'information qu'ils accompagnent est
 > écrite à côté, mais le point est ouvert et n'est pas traité ici.
@@ -1041,14 +1041,14 @@ Le constat : dans `ChainDiagram`, le maillon « data » **contient** les deux br
 ```
 
 Peindre `.maillon` et `.branche` empilerait donc deux lavis sous les plaques de l'IA et du
-SEA & UX, à `1-(1-7,88 %)(1-7,88 %) = 15,14 %` — le double du plafond.
+SEA & UX, à `1-(1-7,88 %)(1-7,88 %) = 15,14 %`, le double du plafond.
 
 La conclusion « donc on ne peint pas » ne suit pas, parce qu'il existe dans cet arbre un
 niveau où la composition est **impossible par construction** : la `.plaque`. Aucune plaque
-n'en contient une autre — c'est une **feuille**. Peindre la feuille plutôt que le nœud
+n'en contient une autre : c'est une **feuille**. Peindre la feuille plutôt que le nœud
 supprime le problème au lieu de le surveiller : il n'y a plus de pire cas géométrique à
-tenir, puisqu'il n'y a plus de recouvrement possible. Les `<li>` gardent `data-pole` — ils
-portent la teinte pour toute leur descendance — mais ne peignent plus rien du tout.
+tenir, puisqu'il n'y a plus de recouvrement possible. Les `<li>` gardent `data-pole` (ils
+portent la teinte pour toute leur descendance), mais ne peignent plus rien du tout.
 
 C'est une règle générale, pas une astuce locale : **la teinte descend par la cascade, la
 peinture reste sur les feuilles.** Tout porteur de `data-pole` susceptible d'en contenir un
@@ -1063,12 +1063,12 @@ de la place au lavis supprimerait le matériau. Ni l'un ni l'autre.
 
 Le lavis passe donc **sous** le voile, en couches de `background` empilées sur la plaque
 elle-même. L'ordre se lit de l'avant vers l'arrière : voile de verre, puis tache, puis fond
-plat. Le voile n'est ni retiré ni affaibli — il est déplacé d'une propriété du module vers
+plat. Le voile n'est ni retiré ni affaibli : il est déplacé d'une propriété du module vers
 la première couche de `.lavis-feuille`, à la valeur identique.
 
 La troisième couche ne rouvre pas la règle « deux couches et pas plus » : ce qu'elle
 interdisait, c'est une troisième **tache**, dont le recouvrement dépendrait de la
-géométrie. Le voile est un aplat plein cadre — il ne se recouvre avec rien, il recouvre
+géométrie. Le voile est un aplat plein cadre : il ne se recouvre avec rien, il recouvre
 tout, également. Le pire cas reste `1-(1-fond)(1-tache)`, atténué d'un facteur constant.
 
 #### La compensation est dérivée, jamais réglée
@@ -1095,23 +1095,23 @@ disent la même opacité, l'une du côté du verre, l'autre du côté de ce qu'i
 **elles bougent ensemble**. Remonter le voile sans descendre cette valeur ferait pâlir
 toutes les feuilles d'un coup, sans qu'aucune règle ne le signale.
 
-### Les autres porteurs de `data-pole` — peints ou écartés
+### Les autres porteurs de `data-pole` : peints ou écartés
 
 Aucun n'est laissé sans décision.
 
 | Porteur | Décision | Raison |
 |---|---|---|
 | `ChainDiagram` | **peint** | `.lavis-feuille` sur `.plaque`, la feuille de l'arbre. Non-composition mesurée au pixel. |
-| `PoleTagList` | **écarté, et corrigé** | Il portait déjà un lavis, écrit à la main à 8 % — voir ci-dessous. |
-| `RealisationCard` | **écarté** | `IRealisation.poles` est un tableau : les fiches portent 1, 2 ou 3 pôles. Aucun lavis unique n'est possible sans affirmer une hiérarchie que le modèle nie, et un dégradé des pôles rattachés se lirait comme une succession — sur `['data','ia','sea-ux']`, il dirait que l'IA vient avant le SEA & UX. Les pôles sont déjà rendus **tous**, à facture identique, par `PoleTagList`. |
-| `PoleStickyBar` | **écarté** | C'est une **bande**, pas un panneau. `verre.css` documente pourquoi les deux ne partagent pas leurs réglages : une bande collante passe sur du texte et compense par un voile plus opaque (`--verre-voile-barre`, 82 %), qui ne laisserait passer que 18 % d'un lavis. La barre porte déjà son pôle par `--accent` — le chiffre de temps et le filet du bas. |
+| `PoleTagList` | **écarté, et corrigé** | Il portait déjà un lavis, écrit à la main à 8 %, voir ci-dessous. |
+| `RealisationCard` | **écarté** | `IRealisation.poles` est un tableau : les fiches portent 1, 2 ou 3 pôles. Aucun lavis unique n'est possible sans affirmer une hiérarchie que le modèle nie, et un dégradé des pôles rattachés se lirait comme une succession : sur `['data','ia','sea-ux']`, il dirait que l'IA vient avant le SEA & UX. Les pôles sont déjà rendus **tous**, à facture identique, par `PoleTagList`. |
+| `PoleStickyBar` | **écarté** | C'est une **bande**, pas un panneau. `verre.css` documente pourquoi les deux ne partagent pas leurs réglages : une bande collante passe sur du texte et compense par un voile plus opaque (`--verre-voile-barre`, 82 %), qui ne laisserait passer que 18 % d'un lavis. La barre porte déjà son pôle par `--accent`, le chiffre de temps et le filet du bas. |
 | `SiteHeader` | **écarté** | Bande également, et surtout : ses quatre entrées portent **quatre** `data-pole` différents dans une seule barre de navigation. Quatre lavis côte à côte sur 40 px de haut ne se liraient pas comme quatre pôles mais comme un dégradé sale. Le chiffre de temps porte déjà la teinte. |
 | `SlabScene` | **écarté** | La scène du seuil a déjà ses dégradés par pôle, **en SVG**, un par dalle. Un lavis HTML par-dessus dupliquerait la même information dans un second système de couleur. |
 
-### `PoleTagList` — le dernier littéral de densité, et il était hors norme
+### `PoleTagList` : le dernier littéral de densité, et il était hors norme
 
 L'étiquette était le seul endroit du site où une surface était teintée à la teinte de son
-pôle par un **littéral écrit à la main** — `--accent` à 8 %, puis 16 % au survol —
+pôle par un **littéral écrit à la main** (`--accent` à 8 %, puis 16 % au survol)
 antérieur au plafond. Lui ajouter `.lavis-bloc` aurait empilé un second lavis sur le
 premier : exactement la composition que ce lot supprime ailleurs.
 
@@ -1120,16 +1120,16 @@ Mesuré au pixel sur `/realisations/` en thème clair, cet aplat mettait l'étiq
 (seuil 3:1, WCAG 1.4.11) ; le SEA & UX suivait à 2,97:1. La cause est propre à ce
 composant : ailleurs le lavis porte de l'**encre**, ici il portait **sa propre teinte**.
 Les seize ratios des tableaux de jetons sont mesurés sur `--fond`, jamais sur un lavis de
-la couleur qu'ils servent — un `--accent` posé sur son propre lavis perd des deux côtés à
+la couleur qu'ils servent : un `--accent` posé sur son propre lavis perd des deux côtés à
 la fois, la teinte et le fond se rapprochant ensemble.
 
 Baisser l'aplat au jeton gouverné (`--lavis-bloc-fond`, 6 %) a été essayé et **mesuré** :
 la donnée remonte à 4,41:1, toujours sous le seuil, et la marge restante dépend de
-l'endroit de la page où la carte tombe — le dégradé d'atelier n'a pas la même clarté en
+l'endroit de la page où la carte tombe : le dégradé d'atelier n'a pas la même clarté en
 haut et en bas de la liste. Un seuil qui se tient à 0,09 point près selon la position d'une
 carte n'est pas tenu.
 
-**L'aplat est donc retiré, pas rebaissé** — et c'est ce que disait déjà la première ligne
+**L'aplat est donc retiré, pas rebaissé**, et c'est ce que disait déjà la première ligne
 du module : *un filet à gauche plutôt qu'une pastille pleine*. L'aplat contredisait
 l'intention qu'il était censé servir. Le filet passe de `--accent-vif` à `--accent` :
 `--accent-vif` est documenté « non-texte » et tient 3:1 sur `--fond`, pas sur un lavis de
@@ -1148,28 +1148,28 @@ d'ombres**.
 
 Trois couches, et chacune dit une chose :
 
-1. la **lumière** au ras du haut — la tranche qui prend le jour ;
-2. le **rebond** au ras du bas — la face inférieure, qui ne reçoit que ce que le papier lui
+1. la **lumière** au ras du haut, la tranche qui prend le jour ;
+2. le **rebond** au ras du bas, la face inférieure, qui ne reçoit que ce que le papier lui
    renvoie : plus faible, et jamais blanche ;
-3. l'**ombre portée** sous la bande — sans elle, le verre est dans le plan de la page au
+3. l'**ombre portée** sous la bande : sans elle, le verre est dans le plan de la page au
    lieu de flotter au-dessus. C'est ce décollement qui manquait.
 
 L'ombre portée est large et très diluée : une ombre courte et dense se lirait comme une
 bordure, pas comme de la distance.
 
-La **réfraction** arrive aussi sur la bande, sous le même verrou que les panneaux — Blink
+La **réfraction** arrive aussi sur la bande, sous le même verrou que les panneaux : Blink
 seul, Safari et Firefox exclus par une clause `not (…)` qui survit à la minification. Le
 gate est recopié plutôt que factorisé : une classe partagée entre un panneau et une bande
 obligerait l'une à porter les réglages de l'autre, et c'est exactement ce qui produit les
-traînées colorées. Elle n'a de sens que depuis que le fond porte de la couleur — le lavis
+traînées colorées. Elle n'a de sens que depuis que le fond porte de la couleur : le lavis
 du pôle qu'on lit, désormais, plus la lueur de seuil de `.fond-atelier`.
 
 
-## Le verre marqué — la recalibration mesurée du 2026-08-23
+## Le verre marqué : la recalibration mesurée du 2026-08-23
 
 Section ajoutée **à côté** de « Le verre de la bande » ci-dessus, qu'elle révise sans la
 remplacer : le raisonnement d'origine reste juste sur le matériau, il l'était moins sur
-ce qui coûte la lisibilité. Demande de Jérôme MARICHEZ, issue #115 — **un effet de verre
+ce qui coûte la lisibilité. Demande de Jérôme MARICHEZ, issue #115 : **un effet de verre
 plus marqué sur la navigation, les boutons, les appels à l'action et les zones à impact**.
 
 Les planches avant / après sont dans [`captures/`](./captures/), quatre cases chacune
@@ -1185,16 +1185,16 @@ L'effet existait déjà partout où il était demandé. S'il ne se voyait pas, c
 n'est pas la même selon la bande ni selon le thème.
 
 **Les 88 % de l'en-tête n'étaient pas prudents : ils étaient déjà le plancher.** Au pire
-cas mesuré — l'**aplat d'`--accent` du bouton d'action du seuil**, qui passe sous
-l'en-tête vers 528px de défilement sur l'accueil — `--pole-data` à 13px n'y valait que
+cas mesuré (l'**aplat d'`--accent` du bouton d'action du seuil**, qui passe sous
+l'en-tête vers 528px de défilement sur l'accueil), `--pole-data` à 13px n'y valait que
 **4.74:1**, soit 0,24 point au-dessus du seuil AA. Ce n'était pas un réglage confortable
 qu'on pouvait dépenser : c'était la marge entière.
 
 **Le flou n'achète pas de transparence, contrairement à ce qu'on pouvait attendre.** À
 32px comme à 20px, le plancher de voile de l'en-tête ne bouge pas d'un point (85 %). Un
 flou ne moyenne que ce qui a du **dessin** ; le pire cas de ce site est un aplat de
-150 × 40px, plus large que le noyau. Le flou reste ce qui fait le **matériau** — c'est lui
-qui dissout la trame de 32px sous la bande et la laisse nette dehors — mais il ne fait pas
+150 × 40px, plus large que le noyau. Le flou reste ce qui fait le **matériau** (c'est lui
+qui dissout la trame de 32px sous la bande et la laisse nette dehors), mais il ne fait pas
 de marge de contraste. La saturation, elle, ne coûte qu'un point de plancher entre 1.1
 et 1.3.
 
@@ -1203,14 +1203,14 @@ où le fond porte un aplat d'accent.**
 
 ### Les réglages, avant et après
 
-| Jeton | Avant | Après — clair | Après — sombre |
+| Jeton | Avant | Après (clair) | Après (sombre) |
 |---|---|---|---|
 | `--verre-flou-bande` | `14px` | `20px` | `20px` |
 | `--verre-saturation-bande` | `1.1` | `1.3` | `1.3` |
 | `--verre-voile-bande` (en-tête) | `88%` | **`86%`** | **`73%`** |
 | `--verre-voile-barre` (barre de pôle) | `82%` | **`76%`** | **`58%`** |
 
-Ce que cela change en part de fond réellement traversée — c'est elle qu'on voit, pas le
+Ce que cela change en part de fond réellement traversée, c'est elle qu'on voit, pas le
 voile :
 
 | Bande | Thème | Avant | Après |
@@ -1221,8 +1221,8 @@ voile :
 | barre de pôle | sombre | 18 % | **42 %** |
 
 Les voiles deviennent **dépendants du thème**, et c'est une conséquence de la palette, pas
-un goût. En thème sombre `--accent` est **clair** — les quatre teintes de pôle y sont
-choisies claires pour porter du texte sur un fond à 6 % de luminance — tandis que le fond
+un goût. En thème sombre `--accent` est **clair** (les quatre teintes de pôle y sont
+choisies claires pour porter du texte sur un fond à 6 % de luminance), tandis que le fond
 composé sous la bande reste très sombre. Le texte et son fond s'y éloignent au lieu de se
 rapprocher, l'aplat du bouton cesse d'être le pire cas, et le plancher tombe de 15 points
 sur l'en-tête, de 21 sur la barre.
@@ -1230,7 +1230,7 @@ sur l'en-tête, de 21 sur la barre.
 ### La méthode, et les trois pièges qui la faussent
 
 Le plancher est relevé **au pixel sur le rendu servi**, pas calculé sur une couleur
-supposée. Le contenu de la bande est masqué (`visibility: hidden` — la mise en page ne
+supposée. Le contenu de la bande est masqué (`visibility: hidden`, la mise en page ne
 bouge pas), la bande est rendue transparente, et ce qui est capturé est le fond **déjà
 filtré** par `backdrop-filter`. Le voile n'étant qu'une composition alpha par-dessus, il
 se balaie ensuite analytiquement ; le modèle a été contrôlé contre le composé réel et
@@ -1241,17 +1241,17 @@ rencontrés :
 
 | Piège | Conséquence | Parade |
 |---|---|---|
-| `page.screenshot({ clip })` interprète `clip` dans les coordonnées du **document**, `getBoundingClientRect()` dans celles du **viewport** | sur une bande `sticky`, dont le rect vaut toujours y≈0, chaque capture relit la même bande de haut de document — la mesure ne dépend plus du défilement et paraît stable | capturer le **viewport entier**, recadrer au canvas |
+| `page.screenshot({ clip })` interprète `clip` dans les coordonnées du **document**, `getBoundingClientRect()` dans celles du **viewport** | sur une bande `sticky`, dont le rect vaut toujours y≈0, chaque capture relit la même bande de haut de document : la mesure ne dépend plus du défilement et paraît stable | capturer le **viewport entier**, recadrer au canvas |
 | `document.querySelector('header')` ne suffit pas : `EditorialSection` rend un `<header>` lui aussi | une règle `header > * { visibility: hidden }` masque les **titres de section**, c'est-à-dire exactement le contenu sombre dont on cherche le pire cas ; le fond mesuré ressort bien plus clair qu'il n'est | sélecteur porté sur la classe du module |
-| un pas de défilement de 70 ou 110px | il **saute** le pire cas, atteint quand un aplat ou un `h1` se trouve pile sous la bande — une trentaine de pixels de défilement | pas de **24px**, page entière |
+| un pas de défilement de 70 ou 110px | il **saute** le pire cas, atteint quand un aplat ou un `h1` se trouve pile sous la bande, une trentaine de pixels de défilement | pas de **24px**, page entière |
 
 Pages balayées : accueil, `/services/data/`, `/services/sea-ux/`, un article. Les deux
 bandes, les deux thèmes, à 1440 × 900.
 
-### Contraste — le pire cas, pas le cas moyen
+### Contraste : le pire cas, pas le cas moyen
 
-Planchers relevés, et ce qui les bloque. Le jeton qui bloque n'est ni `--encre` — qui
-tient jusqu'à un voile de 30 % — ni `--encre-douce`, mais **`--accent` à 13px** : les
+Planchers relevés, et ce qui les bloque. Le jeton qui bloque n'est ni `--encre` (qui
+tient jusqu'à un voile de 30 %) ni `--encre-douce`, mais **`--accent` à 13px** : les
 quatre chiffres de temps de l'en-tête, et celui de la barre de pôle.
 
 | Bande | Thème | Plancher | Bloqué par | Pire fond composé | Où |
@@ -1265,8 +1265,8 @@ Les valeurs retenues sont posées **au-dessus** de ces planchers, d'un à cinq p
 la bande : le balayage a un pas de 24px et porte sur quatre gabarits, il n'épuise pas les
 positions possibles.
 
-Contraste effectivement obtenu **aux valeurs retenues**, sur le pire pixel rencontré —
-c'est le tableau qui compte, les planchers ci-dessus ne servaient qu'à les choisir :
+Contraste effectivement obtenu **aux valeurs retenues**, sur le pire pixel rencontré.
+C'est le tableau qui compte, les planchers ci-dessus ne servaient qu'à les choisir :
 
 | Bande | Thème | Voile retenu | Pire contraste | Seuil | Marge |
 |---|---|---|---|---|---|
@@ -1279,14 +1279,14 @@ Dans les quatre cas, le texte qui fixe la marge est `--accent` à 13px. Le reste
 portent les bandes est très au-dessus : `--encre` à 15 et 18px vaut 10.2 à 13.1:1, et
 `--encre-douce` à 13px vaut 4.93 à 5.86:1.
 
-Le relevé a été **rejoué après l'intégration de `dev`** — le lavis de `ChainDiagram`, les
+Le relevé a été **rejoué après l'intégration de `dev`** : le lavis de `ChainDiagram`, les
 nouvelles sections de pôle et les articles ajoutés changent ce qui défile sous les bandes.
 Les quatre valeurs sont inchangées au centième près ; seule la position du pire cas de la
 barre a suivi l'allongement de la page de pôle (3288 → 4440px).
 
 Ces marges sont **minces, et c'est leur nature** : un plancher mesuré est par définition
 une valeur qu'on approche. Elles sont du même ordre que celle du lavis de pôle (0,02 point
-sur `--pole-data-vif`, issue #104) et se lisent de la même façon — toute baisse future
+sur `--pole-data-vif`, issue #104) et se lisent de la même façon : toute baisse future
 d'un voile de bande demande de rouvrir cette mesure, pas de l'estimer.
 
 Le **bouton d'action** de chaque bande n'entre pas dans ce tableau, et c'est volontaire :
@@ -1297,19 +1297,19 @@ Il vaut 6.02:1 en clair et 7.18:1 en sombre, comme avant.
 
 Il faut le dire tel quel plutôt que de le laisser deviner : **en thème clair, l'en-tête ne
 descend que de deux points**. La demande d'un verre plus marqué sur la **navigation** y
-est arrêtée par un contraste, pas par un choix de réglage — et ce contraste était déjà
+est arrêtée par un contraste, pas par un choix de réglage, et ce contraste était déjà
 juste avant ce lot.
 
 Ce qui bloque est identifié, et ce n'est pas le verre : ce sont **les quatre chiffres de
 temps de l'en-tête, en `--accent` à 13px, qui passent au-dessus de l'aplat d'`--accent` du
 bouton du seuil**. Deux couleurs de la même famille, donc de luminances voisines. Le même
-en-tête tiendrait un voile de **68 %** si ces chiffres prenaient `--encre-douce` — c'est
+en-tête tiendrait un voile de **68 %** si ces chiffres prenaient `--encre-douce` (c'est
 la valeur relevée sur le sous-titre « Ingénieur-conseil… », qui est exactement ce jeton à
-la même taille dans la même bande — et de **30 %** avec `--encre`.
+la même taille dans la même bande) et de **30 %** avec `--encre`.
 
 Les prendre à `--encre` rendrait le verre franchement visible sur la navigation, dans les
 deux thèmes. Mais ce serait renoncer à ce que l'en-tête soit **la légende de la palette du
-site** — chaque entrée y porte `data-pole`, et son chiffre prend la teinte de son pôle.
+site** : chaque entrée y porte `data-pole`, et son chiffre prend la teinte de son pôle.
 C'est un arbitrage de **système de design**, pas un réglage de verre : il revient à
 Jérôme MARICHEZ et n'est pas pris ici.
 
@@ -1317,23 +1317,23 @@ Jérôme MARICHEZ et n'est pas pris ici.
 
 | Surface | Décision | Raison |
 |---|---|---|
-| `SiteHeader` — bande | voile au plancher, flou 20px, saturation 1.3 | aucune ligne du module n'a bougé : la recalibration est entièrement dans les jetons, ce que l'extraction de `verre.css` promettait |
-| `PoleStickyBar` — bande | idem, **plus** la pile d'ombres de l'en-tête | deux bandes qui s'empilent doivent se ressembler ; à 82 % l'écart ne se voyait pas, à 76 % la barre serait la seule sans tranche éclairée ni décollement |
-| `HomeHero` — action **secondaire** | passe des jetons de **bande** à ceux de **panneau** | elle n'est pas une bande : rien ne défile dessous, elle ne fait pas la largeur de l'écran, son texte est en `--encre`. Ce qui la rangeait avec les bandes était sa taille, et la taille ne dit rien de ce qui passe derrière |
-| `HomeView` — bloc de **contact** | devient un vrai panneau de verre (`backdrop-filter` derrière `@supports`) | il avait la géométrie d'un panneau et rien de son matériau. C'est le bloc où l'on décide, et il n'est pas `sticky` : son fond défile avec lui, le compositeur n'a pas à le reflouter à chaque image |
-| `HomeHero` — action **principale** | **écartée**, reste un aplat | c'est le seul élément du seuil dont le contraste texte/fond est critique. Un fond translucide le rendrait dépendant de ce qui passe derrière — et c'est précisément cet aplat qui bloque déjà l'en-tête |
+| `SiteHeader`, bande | voile au plancher, flou 20px, saturation 1.3 | aucune ligne du module n'a bougé : la recalibration est entièrement dans les jetons, ce que l'extraction de `verre.css` promettait |
+| `PoleStickyBar`, bande | idem, **plus** la pile d'ombres de l'en-tête | deux bandes qui s'empilent doivent se ressembler ; à 82 % l'écart ne se voyait pas, à 76 % la barre serait la seule sans tranche éclairée ni décollement |
+| `HomeHero`, action **secondaire** | passe des jetons de **bande** à ceux de **panneau** | elle n'est pas une bande : rien ne défile dessous, elle ne fait pas la largeur de l'écran, son texte est en `--encre`. Ce qui la rangeait avec les bandes était sa taille, et la taille ne dit rien de ce qui passe derrière |
+| `HomeView`, bloc de **contact** | devient un vrai panneau de verre (`backdrop-filter` derrière `@supports`) | il avait la géométrie d'un panneau et rien de son matériau. C'est le bloc où l'on décide, et il n'est pas `sticky` : son fond défile avec lui, le compositeur n'a pas à le reflouter à chaque image |
+| `HomeHero`, action **principale** | **écartée**, reste un aplat | c'est le seul élément du seuil dont le contraste texte/fond est critique. Un fond translucide le rendrait dépendant de ce qui passe derrière, et c'est précisément cet aplat qui bloque déjà l'en-tête |
 | Mur de preuves | **écarté** | il est déjà **dans** un `GlassSurface` : la section « preuves » est vitrable (`glass-policy.ts`), et vitrer ses tuiles ferait du verre dans du verre |
 | Les quatre portes de pôle | **écarté** | elles portent déjà leur lavis (issue #104), et quatre `backdrop-filter` de plus sur la page qui porte le LCP dépenseraient la marge de budget que la réfraction avait déjà montrée épaisse d'un point |
 
 ### Coût
 
-Une surface floutée de plus sur l'accueil — le bloc de contact — et aucune sur les pages
+Une surface floutée de plus sur l'accueil (le bloc de contact) et aucune sur les pages
 de pôle. Les deux bandes `sticky`, qui sont les seules refloutées **à chaque image** de
 défilement, n'ont pas changé de nombre ni de taille ; leur flou passe de 14 à 20px, sur
 une bande de 68px de haut. Le repli `@supports` est intact partout, préfixe `-webkit-`
 **avant** le standard, et le seuil de 1024px des bandes n'a pas bougé.
 
-Mesuré après le lot, `make budgets` — **identique au relevé d'avant**, page pour page :
+Mesuré après le lot, `make budgets` (**identique au relevé d'avant**, page pour page) :
 
 | Page | Perf | A11y | Bonnes prat. | SEO |
 |---|---|---|---|---|
@@ -1342,5 +1342,5 @@ Mesuré après le lot, `make budgets` — **identique au relevé d'avant**, page
 | blog, article, réalisations, fiche | 97 | 100 | 100 | 100 |
 
 axe-core : **0 violation** sur les six gabarits. La surface floutée ajoutée n'a rien coûté,
-et c'est cohérent avec ce qui la distingue des bandes — elle n'est pas `sticky`, son fond
+et c'est cohérent avec ce qui la distingue des bandes : elle n'est pas `sticky`, son fond
 défile avec elle, le compositeur n'a pas à la reflouter image par image.
