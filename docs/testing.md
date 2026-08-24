@@ -134,10 +134,35 @@ La traversée de répertoire hors de `out/` est refusée.
 
 ## Budgets exécutables — performance et accessibilité
 
-Le `CLAUDE.md` pose deux contraintes produit non négociables : **Lighthouse ≥ 95 sur les
-quatre catégories** et **accessibilité WCAG AA**. Elles étaient écrites, elles ne sont
-plus seulement écrites : `make budgets` échoue quand le site descend sous le seuil, et
+Le `CLAUDE.md` pose deux contraintes produit non négociables : **Lighthouse à 95 visé sur
+les quatre catégories** et **accessibilité WCAG AA**. Elles étaient écrites, elles ne sont
+plus seulement écrites : `make budgets` échoue quand le site descend sous le plancher, et
 dit **quelle page** sur **quelle catégorie**.
+
+### Plancher, cible, et les trois états du rapport
+
+Le **plancher bloquant** de la catégorie performance est à **80** depuis le 2026-08-24 :
+« Pour le LCP j'autorise 80/100 mais pas moins » (décision de Jérôme MARICHEZ,
+issue #146). Accessibilité, bonnes pratiques et SEO gardent un plancher à 95. La
+**cible** reste 95 partout, y compris en performance.
+
+Le plancher n'est donc pas la cible, et le rapport distingue trois états au lieu de deux :
+
+| Marque | Ce qu'elle dit | Effet sur le budget |
+|--------|----------------|---------------------|
+| `✓` | le score atteint la cible | passe |
+| `~` | le score passe le plancher, sous la cible | passe, et le rapport le liste nommément |
+| `✗` | le score est sous le plancher | **échec**, rien ne se livre |
+
+Les scores en `~` sont repris sous le tableau, page par page et catégorie par catégorie :
+un tableau entièrement vert ne se relit pas, une ligne nommée si.
+
+Les valeurs vivent dans `scripts/budgets/pages.mjs` (`SEUILS_LIGHTHOUSE`,
+`CIBLES_LIGHTHOUSE`), source unique lue par la CI comme par la doc. La règle 8 du
+`CLAUDE.md` reste entière : l'assistant n'abaisse jamais un seuil pour faire passer un
+contrôle, aucun `|| true`, aucune catégorie exemptée, aucune page retirée de la mesure.
+Une révision de plancher ne vient que de Jérôme MARICHEZ, et s'écrit datée et attribuée
+dans le fichier qui la porte.
 
 Ce ne sont pas des tests au sens des quatre niveaux ci-dessus : ils ne décrivent pas un
 comportement attendu du code, ils mesurent une propriété du site rendu. Ils vivent donc

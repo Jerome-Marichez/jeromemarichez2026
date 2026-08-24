@@ -1,14 +1,14 @@
 // mesure-lighthouse.mjs — jeromemarichez-fr
 //
-// Mesure Lighthouse d'une page servie, et verdict par rapport aux seuils du
-// `CLAUDE.md` (voir `scripts/budgets/pages.mjs`).
+// Mesure Lighthouse d'une page servie, et verdict par rapport aux planchers bloquants
+// et aux cibles déclarés dans `scripts/budgets/pages.mjs`.
 //
 // Le navigateur est fourni par l'appelant : lancer un Chrome par page coûterait plus
 // cher que la mesure elle-même, et ferait diverger les conditions d'exécution entre
 // deux pages du même rapport.
 
 import lighthouse from 'lighthouse'
-import { SEUILS_LIGHTHOUSE } from './pages.mjs'
+import { evaluerScores, SEUILS_LIGHTHOUSE } from './pages.mjs'
 
 /**
  * Profil de mesure. Mobile émulé et réseau bridé : c'est le cas défavorable, celui que
@@ -69,9 +69,9 @@ export async function mesurerPage({ page, url, portDebogage }) {
     scores[categorie] = mediane(brut)
   }
 
-  const echecs = Object.entries(SEUILS_LIGHTHOUSE)
-    .filter(([categorie, seuil]) => scores[categorie] < seuil)
-    .map(([categorie, seuil]) => ({ categorie, obtenu: scores[categorie], seuil }))
+  // Le verdict bloquant est calculé par `evaluerScores` : la même fonction, pure, qu'on
+  // peut soumettre à un jeu de scores fictif pour vérifier qu'elle refuse encore.
+  const echecs = evaluerScores(scores)
 
   // Les audits en échec de la catégorie performance : sans eux, un budget rouge dit
   // « c'est trop lent » sans jamais dire pourquoi, et personne ne le corrige.

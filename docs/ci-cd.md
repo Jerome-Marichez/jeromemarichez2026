@@ -36,15 +36,18 @@ Deux familles de pipelines, alignées sur le [workflow Git](./git-workflow.md) :
   cent fois moins cher le jour où elle est écrite. Ce contrôle ne vaut **pas** un audit
   RGAA — il couvre la part mécanisable de WCAG AA, voir
   [accessibility](./accessibility.md).
-- **budgets (main)** : `make budgets` — axe **et** Lighthouse (≥ 95 sur les quatre
-  catégories, mobile émulé + réseau bridé, médiane de trois passes) sur les mêmes pages.
+- **budgets (main)** : `make budgets`, soit axe **et** Lighthouse (plancher bloquant : 80 en
+  performance depuis le 2026-08-24, 95 sur les trois autres catégories ; cible 95
+  partout ; mobile émulé + réseau bridé, médiane de trois passes) sur les mêmes pages.
   Placé sur `main` **parce qu'il est lent** : trois passes par page, et la variance de
   Lighthouse impose la répétition. Le payer à chaque PR vers `dev` taxerait tout le monde
   pour une métrique qui bouge rarement d'un commit à l'autre ; le placer sur la PR de
   mise en production le met là où la question se pose — *est-ce que ce qu'on publie tient
   les chiffres qu'on vend ?* Un `workflow_dispatch` permet de le lancer à la demande
-  depuis `dev` sans attendre la PR de production. Seuils : `scripts/budgets/pages.mjs`,
-  repris du `CLAUDE.md`. Détail : [testing](./testing.md).
+  depuis `dev` sans attendre la PR de production. Seuils et cibles :
+  `scripts/budgets/pages.mjs`, source unique. Un score entre le plancher et la cible ne
+  fait pas échouer le contrôle, il est listé nommément dans le rapport.
+  Détail : [testing](./testing.md).
 - **nginx (dev)** : `make nginx-check` — monte `docker/nginx.conf` là où le
   `Dockerfile` le copie et lance **`nginx -t`** dans l'image `nginx:1.29-alpine`. Placé
   sur `dev` **parce qu'il est rapide** : aucun build applicatif, un pull d'image et un

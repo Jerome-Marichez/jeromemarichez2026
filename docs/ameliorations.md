@@ -14,7 +14,12 @@ le bénéfice attendu et l'effort estimé.
 
 Les budgets sont devenus exécutables (`make budgets`, voir [testing](./testing.md)). Leur
 première exécution rapporte **80 / 81 / 82** en performance mobile, contre un seuil de
-**95**. Le seuil n'a pas été touché : ce qui suit est ce qu'il faut corriger.
+**95** alors en vigueur. Le seuil n'a pas été touché ce jour-là : ce qui suit est ce
+qu'il faut corriger.
+
+*(Depuis, le 2026-08-24, le plancher bloquant de performance est passé à 80 sur décision
+de Jérôme MARICHEZ, issue #146 : « Pour le LCP j'autorise 80/100 mais pas moins ». La
+cible reste 95, et les pistes listées ici restent donc entières.)*
 
 Le profil des trois pages est identique et sans ambiguïté :
 
