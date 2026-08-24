@@ -385,7 +385,7 @@ ce qu'il faut réunir pour les quatre logos manquants.
 
 | Route | Rôle |
 |-------|------|
-| `/` | **Vitrine, pas catalogue déplié.** Accroche et promesse d'interlocuteur unique, le schéma de la chaîne et de son embranchement, les **quatre portes** — nom du pôle, promesse, une preuve chiffrée, lien vers sa page —, les deux objections traitées (« et si je disparais ? » et « et si le projet me dépasse ? »), preuves chiffrées, limites assumées, certifications, appel à contact. Le **détail de chaque pôle** vit sur `/services/<pole>/`, qui le disait déjà en plus long ; le **fil IA transverse** est descendu sur `/services/ingenierie-web/`, la page où le site dit comment le code est produit |
+| `/` | **Vitrine, pas catalogue déplié.** Accroche et promesse d'interlocuteur unique, le schéma de la chaîne et de son embranchement, les **quatre portes** — nom du pôle, promesse, une preuve chiffrée, lien vers sa page —, les deux objections traitées (« et si je disparais ? » et « et si le projet me dépasse ? »), preuves chiffrées, limites assumées, certifications, et un **formulaire de contact** qui compose un `mailto:` avec l'adresse affichée en clair à côté. Le **détail de chaque pôle** vit sur `/services/<pole>/`, qui le disait déjà en plus long ; le **fil IA transverse** est descendu sur `/services/ingenierie-web/`, la page où le site dit comment le code est produit |
 | `/services/ingenierie-web` | Le socle en détail |
 | `/services/data` | Le passage obligé en détail |
 | `/services/ia` | Une des deux suites en détail |
@@ -395,7 +395,7 @@ ce qu'il faut réunir pour les quatre logos manquants.
 | `/blog` | Liste des articles, du plus récent au plus ancien |
 | `/blog/<slug>` | Un article. Une page statique par article, générée au build par `generateStaticParams` |
 | `/parcours` | *(pas encore construite)* Parcours d'ingénieur et de chef de projet, formation |
-| `/contact` | *(reportée)* L'export statique ferme les routes API : un formulaire exigerait un service tiers ou un back séparé. L'accueil et le pied de page portent un `mailto:` direct, cohérent avec la promesse d'interlocuteur unique |
+| `/contact` | *(reportée)* Le contact vit dans la section `contact` de l'accueil. L'export statique ferme les routes API : le formulaire y **compose une URL `mailto:`** validée côté client, sans appel réseau, sans sous-traitant et sans cookie, et l'adresse reste affichée en clair en `mailto:` à côté pour qui n'a pas de client mail. Le pied de page porte le même `mailto:` direct |
 
 Chaque page de service porte ses propres métadonnées SEO, ses données structurées
 (`schema.org/Service` et `ProfessionalService`) et un appel à contact contextualisé.

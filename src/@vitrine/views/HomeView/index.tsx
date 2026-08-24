@@ -3,6 +3,7 @@
 
 import { Reveal } from '@/@shared/components/Reveal'
 import { SITE_IDENTITY } from '@/@shared/seo/site'
+import { ContactForm } from '../../components/_notPure/ContactForm'
 import { BoundaryList } from '../../components/BoundaryList'
 import { CertificationList } from '../../components/CertificationList'
 import { ChainDiagram } from '../../components/ChainDiagram'
@@ -13,6 +14,7 @@ import { ProofWall } from '../../components/ProofWall'
 import { SpaceEntries } from '../../components/SpaceEntries'
 import { PAGE_ACCUEIL, THESE_CHAINE } from '../../contenu/accueil'
 import { CERTIFICATIONS } from '../../contenu/certifications'
+import { CONTACT_DIRECT } from '../../contenu/contact'
 import { LIMITES } from '../../contenu/limites'
 import { PREUVES } from '../../contenu/preuves'
 import { MAX_GLASS_ACCUEIL, selectGlassSectionIds } from '../../services/glass-policy'
@@ -120,9 +122,22 @@ export function HomeView() {
               Vous écrivez à la personne qui fera le travail. Si ce n'est pas pour moi, je vous le
               dis aussi.
             </p>
-            <a className={styles.action} href={`mailto:${SITE_IDENTITY.email}`}>
-              {SITE_IDENTITY.email}
-            </a>
+            {/* Le formulaire et l'adresse en clair sont côte à côte, et c'est une
+                obligation, pas une mise en page : le formulaire a besoin d'un client mail
+                installé sur le poste, ce qui n'est le cas ni en entreprise ni sur un
+                navigateur qui n'a que du webmail. Sans l'adresse à côté, ce visiteur-là
+                repartirait avec un bouton qui ne fait rien. */}
+            <div className={styles.grilleContact}>
+              <ContactForm destinataire={SITE_IDENTITY.email} titreId="contact-titre" />
+
+              <div className={styles.direct}>
+                <h3 className={styles.directTitre}>{CONTACT_DIRECT.titre}</h3>
+                <p className={styles.directTexte}>{CONTACT_DIRECT.texte}</p>
+                <a className={styles.action} href={`mailto:${SITE_IDENTITY.email}`}>
+                  {SITE_IDENTITY.email}
+                </a>
+              </div>
+            </div>
           </Reveal>
         </section>
       </div>

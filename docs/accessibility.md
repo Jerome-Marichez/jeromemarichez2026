@@ -234,6 +234,58 @@ Deux points à garder en tête :
   `make budget-a11y` vert ne dit **rien** sur ce point : seul le relevé au pixel ci-dessus
   le couvre, et il est à rejouer dès qu'un voile de bande bouge.
 
+### Le formulaire de contact, premier élément interactif complexe du site
+
+Le site n'avait jusqu'ici que des liens et deux bascules. Un formulaire ouvre une famille
+de problèmes qu'aucun d'eux ne posait : un état d'erreur, un focus à déplacer, et un texte
+qui apparaît après une action. Les choix sont écrits ici, parce qu'ils ne se relisent pas
+dans le CSS et qu'axe-core n'en juge presque aucun.
+
+- **Un `label` visible et associé par champ** (`htmlFor` / `id`), jamais un `placeholder`
+  en guise de libellé : un `placeholder` disparaît dès la première frappe, et c'est
+  exactement au moment où l'on écrit qu'on veut relire ce qui est demandé.
+- **Le caractère obligatoire est ÉCRIT** : « (obligatoire) » à côté de chaque libellé, pas
+  un astérisque, pas une couleur (WCAG 1.4.1). L'attribut natif `required` le porte aussi
+  aux technologies d'assistance. La mention est rendue en casse normale à l'intérieur d'un
+  libellé en majuscules : « (OBLIGATOIRE) » se lit comme un avertissement, et certaines
+  synthèses vocales l'épellent.
+- **Chaque champ est décrit par son aide, puis par son erreur** (`aria-describedby`), dans
+  cet ordre. Un lecteur d'écran restitue les descriptions dans l'ordre donné, et on veut
+  entendre ce que le champ attend avant d'entendre pourquoi ce qui y est ne convient pas.
+  Le champ de message y ajoute son compteur de caractères.
+- **`aria-invalid` marque le champ fautif**, et l'état se dit trois fois : le message écrit
+  dessous, l'attribut, et seulement en dernier l'arête en `--cuivre` (6.02:1 en clair,
+  7.18:1 en sombre). La couleur n'est jamais seule.
+- **La validation n'a lieu qu'à la soumission, jamais à la frappe.** Valider pendant qu'on
+  écrit fait passer le champ en erreur au deuxième caractère, et le lecteur d'écran
+  l'annonce. Les erreurs posées restent affichées jusqu'à la soumission suivante.
+- **Deux régions vivantes distinctes, présentes dès le premier rendu, vides.** Un
+  `role="alert"` inséré dans le document en même temps que son texte n'est pas annoncé de
+  façon fiable ; une région déjà là au chargement l'est. Elles sont effacées par `:empty`,
+  jamais par une condition de rendu. Le refus passe par `role="alert"`, qui interrompt ; la
+  réussite par `role="status"`, qui attend une pause. Un envoi qui marche n'a aucune raison
+  de couper la parole.
+- **Le focus part au résumé d'erreurs, pas au premier champ fautif.** Le résumé liste les
+  erreurs et renvoie vers chaque champ par un vrai lien : on entend tout, on choisit quoi
+  corriger, on y arrive d'une touche. Sauter d'office au premier champ ferait perdre les
+  autres. Le bloc est `tabIndex={-1}` : focusable sans entrer dans l'ordre de tabulation.
+  Deux refus de suite sur les mêmes champs produisent le même état d'erreur, d'où un
+  compteur de refus plutôt qu'un booléen : sans lui, le second refus passerait inaperçu.
+- **`noValidate` sur le formulaire.** Sans lui, le navigateur affiche ses propres bulles,
+  dans sa langue et avec ses formulations, et court-circuite les messages écrits.
+- **Le champ de message n'est pas borné par `maxLength`.** Un `maxLength` tronque un texte
+  collé sans le dire, ce qui est le piège même que ce formulaire doit éviter. Le visiteur
+  peut dépasser, le compteur le lui montre, et la validation le lui dit en toutes lettres.
+- **Le bouton d'envoi ne bouge pas.** Aucun effet de déplacement au survol (issue #137) :
+  il est atteint au clavier bien plus souvent qu'un lien de fin de page, et le survol se
+  dit par une élévation et un anneau intérieur, deux changements de forme, pas par la
+  teinte seule.
+- **Ordre de tabulation vérifié**, du premier champ à l'envoi : nom, sujet, message,
+  bouton. Aucun piège de focus, aucun arrêt parasite, contour de focus global visible.
+- **L'adresse reste affichée en clair, en `mailto:`, à côté du formulaire.** Ce n'est pas
+  une redondance : le formulaire a besoin d'un client mail installé sur le poste, et sans
+  cette sortie un visiteur qui n'en a pas repartirait avec un bouton qui ne fait rien.
+
 ### Pages contrôlées
 
 Les mêmes que les budgets de performance — accueil, page de pôle, liste du blog, page
@@ -248,5 +300,7 @@ non protégé. La liste vit dans `scripts/budgets/pages.mjs`.
 | Non-composition des lavis dans `ChainDiagram` | témoins rendus + mesure au pixel | **prouvée** — 2026-08-23, écart nul avec le cas « un seul lavis » |
 | Étiquettes de pôle (`PoleTagList`) | mesure au pixel, deux thèmes | **corrigé** — 2026-08-23, deux valeurs étaient sous le seuil |
 | Contrastes sur les bandes de verre | mesure au pixel, page balayée, deux thèmes | **tenu** — 2026-08-24, rejoué après intégration de `dev`, marges de 0,10 à 0,35 point |
-| Clavier + lecteur d'écran | manuel | _à réaliser_ |
+| Formulaire de contact : ordre de tabulation, envoi au clavier, deux thèmes | manuel | **tenu** le 2026-08-24, du premier champ à l'envoi, sur l'export statique |
+| Formulaire de contact : lecteur d'écran | manuel | _à réaliser_ |
+| Clavier + lecteur d'écran (reste du site) | manuel | _à réaliser_ |
 | WCAG 2.2.2 — pause des animations | manuel | _à réaliser_ |
