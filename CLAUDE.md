@@ -328,10 +328,10 @@ indisponible) est **refusé**.
 - **Découpage par domaine : non retenu ici.** Regrouper le front sous `src/@<domaine>/`
   (`@core` pour le socle applicatif, `@vitrine` pour le site public, `@shared` pour le
   transverse) est un recours pour une application qui grandit. Ce site est une vitrine
-  statique : deux domaines pour 33 composants ajoutaient un niveau de chemin sans rien
-  trancher. Le code front vit donc **directement sous `src/`** : `components/`, `views/`,
-  `services/`, `hooks/`, `contenu/`, `seo/`, `motion/`, `typography/`, `utils/`,
-  `interfaces/`, `schemas/`. *(Découpage retiré à la demande explicite de Jérôme
+  statique : deux domaines pour 34 composants ajoutaient un niveau de chemin sans rien
+  trancher. Le code front vit donc **directement sous `src/`** : `app/`, `components/`,
+  `views/`, `services/`, `hooks/`, `contenu/`, `seo/`, `motion/`, `typography/`,
+  `utils/`, `interfaces/`, `schemas/`. *(Découpage retiré à la demande explicite de Jérôme
   MARICHEZ, 2026-08-24, issue #143.)*
 
 ## Politique de documentation

@@ -30,7 +30,7 @@ système entier coûterait plus en poids et en contraintes qu'il ne ferait gagne
 
 | Choix | Notes |
 |-------|-------|
-| Composants maison | `src/components/` (transverse) et `src/components/` (éditorial) |
+| Composants maison | `src/components/`, un dossier par composant |
 
 **Aucune dépendance d'effet visuel.** Le verre est du CSS — voir « Le verre » plus bas
 pour les deux bibliothèques essayées et écartées, et pourquoi.

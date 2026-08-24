@@ -119,7 +119,7 @@ Les règles qui en découlent :
 
 Le code front vit **directement sous `src/`**, sans découpage par domaine. Le regroupement
 sous `src/@<domaine>/` a existé (`@vitrine` pour l'éditorial, `@shared` pour le transverse) :
-il est **retiré**. Pour une vitrine statique de 33 composants, deux domaines ajoutaient un
+il est **retiré**. Pour une vitrine statique de 34 composants, deux domaines ajoutaient un
 niveau de chemin sans rien trancher, et aucun nom n'entrait en collision entre les deux.
 *(Retrait décidé par Jérôme MARICHEZ le 2026-08-24, issue #143.)*
 
@@ -127,7 +127,7 @@ niveau de chemin sans rien trancher, et aucun nom n'entrait en collision entre l
 |---------|---------|
 | `src/app/` | Le **système de pages de Next.js**. Routage seul, aucune section composée. |
 | `src/views/` | Les écrans composés, un dossier par vue (`HomeView`, `ArticleView`, `PolePageView`) |
-| `src/components/` | Les 33 composants, un dossier PascalCase chacun, styles colocalisés |
+| `src/components/` | Les 34 composants, un dossier PascalCase chacun, styles colocalisés |
 | `src/contenu/` | Sections éditoriales : offres, parcours, preuves, certifications, **articles du blog**, **fiches de réalisation** |
 | `src/services/` | La règle métier : sélection d'un article, d'un pôle, d'une réalisation, politique de verre |
 | `src/hooks/` | La logique de rendu : état d'écran, abonnements, viewport |
