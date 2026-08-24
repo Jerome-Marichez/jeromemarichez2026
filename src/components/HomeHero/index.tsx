@@ -51,7 +51,7 @@ export function HomeHero() {
       </div>
 
       <div className={styles.volume}>
-        <ChainCanvas description="Quatre dalles de verre — ingénierie web, donnée, puis IA et SEA & UX côte à côte — traversées par un même filet vertical : un seul interlocuteur, du cadrage au run." />
+        <ChainCanvas description="Quatre dalles de verre : ingénierie web, donnée, puis IA et SEA & UX côte à côte. Un même filet vertical les traverse : un seul interlocuteur, du cadrage au run." />
         {/* Le contrôle est posé au pied de la scène, là où le mouvement se voit.
             WCAG 2.2.2 demande un mécanisme de mise en pause : la préférence système
             n'en est pas un, elle ne se change pas depuis la page. */}

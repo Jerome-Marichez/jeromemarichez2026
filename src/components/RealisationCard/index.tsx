@@ -44,7 +44,7 @@ export function RealisationCard({ realisation }: RealisationCardProps) {
 
       <p className={styles.chapo}>{realisation.chapo}</p>
 
-      <PoleTagList legende={`Pôles mobilisés — ${realisation.titre}`} poles={realisation.poles} />
+      <PoleTagList legende={`Pôles mobilisés pour ${realisation.titre}`} poles={realisation.poles} />
     </article>
   )
 }

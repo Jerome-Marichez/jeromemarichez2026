@@ -75,11 +75,11 @@ export function PoleHero({ pole, suites }: PoleHeroProps) {
         </p>
       ) : (
         <p className={styles.suite}>
-          Ce qui est décidé ici retourne dans le produit —{' '}
+          Ce qui est décidé ici retourne dans le produit,{' '}
           <Link className={styles.lienSuite} href={ROUTES['ingenierie-web']}>
             l'ingénierie web
-          </Link>{' '}
-          — et c'est la même personne qui l'implémente.
+          </Link>
+          , et c'est la même personne qui l'implémente.
         </p>
       )}
     </section>

@@ -26,8 +26,8 @@ import './lavis.css'
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_IDENTITY.nom} — ${SITE_IDENTITY.titre} à ${SITE_IDENTITY.ville}`,
-    template: `%s — ${SITE_IDENTITY.nom}`,
+    default: `${SITE_IDENTITY.nom} | ${SITE_IDENTITY.titre} à ${SITE_IDENTITY.ville}`,
+    template: `%s | ${SITE_IDENTITY.nom}`,
   },
   description: SITE_PROMESSE,
   authors: [{ name: SITE_IDENTITY.nom, url: SITE_URL }],

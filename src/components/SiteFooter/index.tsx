@@ -86,7 +86,7 @@ export function SiteFooter() {
 
       <div className={styles.bas}>
         <p className={styles.mentions}>
-          {SITE_IDENTITY.nom} — {SITE_IDENTITY.titre} à {SITE_IDENTITY.ville}. Site conçu, développé
+          {SITE_IDENTITY.nom}. {SITE_IDENTITY.titre} à {SITE_IDENTITY.ville}. Site conçu, développé
           et exploité par moi-même.
         </p>
         <MotionToggle />

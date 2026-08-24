@@ -29,7 +29,7 @@ export const SITE_IDENTITY = {
  */
 export const SITE_PROMESSE =
   'Un seul interlocuteur pour vos projets digitaux, du cadrage au run. ' +
-  'Celui qui cadre est celui qui code, qui mesure et qui exploite — et qui répond de tout.'
+  "Celui qui cadre est celui qui code, qui mesure et qui exploite. C'est lui qui répond de tout."
 
 /** Rayon d'intervention réellement couvert. */
 export const SITE_ZONE = ['Lille', 'Hauts-de-France', 'France'] as const
