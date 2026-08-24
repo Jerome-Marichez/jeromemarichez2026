@@ -88,9 +88,17 @@ Ce fichier-ci porte les règles qui encadrent la façon de l'écrire et de le d�
 échéant) ; **Zod** pour la validation des entrées.
 
 **Contraintes produit non négociables** : rendu statique ou ISR et métadonnées par page
-(SEO), Lighthouse ≥ 95 sur les 4 catégories, accessibilité RGAA / WCAG AA testée dans
-`uat/`, mesure d'audience conforme RGPD avec consentement. Le site est la démonstration
-de ce qu'il vend : un défaut de perf ou d'accessibilité y coûte plus cher qu'ailleurs.
+(SEO), Lighthouse à **95 visé sur les 4 catégories**, accessibilité RGAA / WCAG AA testée
+dans `uat/`, mesure d'audience conforme RGPD avec consentement. Le site est la
+démonstration de ce qu'il vend : un défaut de perf ou d'accessibilité y coûte plus cher
+qu'ailleurs.
+
+**Le plancher bloquant de performance est à 80**, décidé par Jérôme MARICHEZ le
+2026-08-24 : « Pour le LCP j'autorise 80/100 mais pas moins » (issue #146). Sous 80, le
+budget échoue et rien ne se livre. **Accessibilité, bonnes pratiques et SEO ne bougent
+pas** : leur plancher reste 95. 80 n'est pas la cible : entre 80 et 95, le budget passe
+mais le rapport le signale, et le score reste à corriger. Valeurs exécutables dans
+`scripts/budgets/pages.mjs`, elles ne se recopient nulle part.
 
 > Projet géré par Jérôme MARICHEZ.
 

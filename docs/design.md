@@ -559,7 +559,9 @@ faut au moins trois écarts-types de flou de matière autour du panneau.
 
 #### Ce qu'elle coûte, et où elle est donc coupée
 
-Lighthouse, mobile bridé, seuil ≥ 95 :
+Lighthouse, mobile bridé, relevé sous le seuil de 95 alors en vigueur (le plancher
+bloquant de performance est passé à 80 le 2026-08-24, issue #146 ; la cible reste 95, et
+l'arbitrage ci-dessous ne change pas) :
 
 | Accueil | Perf |
 |---|---|
@@ -965,7 +967,7 @@ on lisait, à des coordonnées qui ne le savaient pas ; celle-ci ne dit rien d'u
 | Pas de rasterisation géante | `.lavis-pole` dimensionne sa tache en **pixels** et la répète en Y : elle est rasterisée une fois, sur 1600 × 1100 px, jamais à la hauteur d'un gabarit de 6 000 px. `.lavis-bloc` ne sert que des blocs de la taille d'une carte. |
 | Aucune animation | Le lavis est statique. `prefers-reduced-motion` n'a rien à couper. |
 | Aucune information portée par la seule couleur | Le lavis est un décor : le nom du pôle, son libellé de place et son temps restent écrits en toutes lettres (WCAG 1.4.1). |
-| Lighthouse ≥ 95 | Mesuré après le lot : accueil 96, page de pôle 96, blog / article / réalisations 97 ; A11y, bonnes pratiques et SEO à 100. |
+| Lighthouse à la cible de 95 | Mesuré après le lot : accueil 96, page de pôle 96, blog / article / réalisations 97 ; A11y, bonnes pratiques et SEO à 100. (Le plancher bloquant de performance est passé à 80 le 2026-08-24, issue #146 ; la cible visée reste 95.) |
 
 ### Contraste — mesuré, pas supposé
 

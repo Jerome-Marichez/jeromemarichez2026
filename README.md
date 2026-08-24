@@ -472,8 +472,11 @@ certification.
   à la requête. Métadonnées, `canonical` et données structurées par page, sitemap et
   robots générés. Conséquence assumée : ni route API, ni ISR, ni Server Action
   (voir [architecture](./docs/architecture.md)).
-- **Performance** : Lighthouse ≥ 95 sur les 4 catégories, Core Web Vitals au vert —
-  le site est lui-même la démonstration de ce qui est vendu.
+- **Performance** : Lighthouse à 95 visé sur les 4 catégories, Core Web Vitals au vert.
+  Le site est lui-même la démonstration de ce qui est vendu. Le **plancher bloquant** de
+  la catégorie performance est à **80** depuis le 2026-08-24 (décision de Jérôme
+  MARICHEZ, issue #146) : sous 80 rien ne se livre, entre 80 et 95 le budget passe et le
+  rapport le signale. Accessibilité, bonnes pratiques et SEO gardent un plancher à 95.
 - **Accessibilité** : RGAA / WCAG AA, testée et non supposée (`uat/`).
 - **RGPD** : mesure d'audience conforme, consentement géré, aucune donnée personnelle
   collectée hors formulaire de contact explicite.
