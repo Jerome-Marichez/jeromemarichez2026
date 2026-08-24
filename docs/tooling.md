@@ -12,6 +12,22 @@ Toutes les opérations passent par `make` (voir `Makefile`) : agnostique, docume
   `console.*` dans le code applicatif : passer par le **service de log** du projet
   (voir [`frontend-practices.md`](./frontend-practices.md)) ; l'`override` de
   `biome.json` lève la règle pour les fichiers de log, config et scripts.
+- **Version épinglée à l'exact : `2.5.7`.** Sans `^` ni `~`, et aux trois endroits qui
+  invoquent l'outil : `package.json`, le `Makefile` et le workflow `ci-dev-lint.yml`.
+  Deux raisons. D'abord, Biome durcit ses règles en mineure : la 2.5.7 a rendu
+  `lint/performance/noImgElement` plus sévère, et une prochaine mineure peut transformer
+  un avertissement en erreur sur un fichier que personne n'aura touché. Ensuite, la CI et
+  le poste local doivent juger le code avec le même outil : un contrôle dont la définition
+  change toute seule n'est plus un contrôle. La montée de version devient ainsi un acte
+  volontaire, visible dans un diff, plutôt qu'un effet de bord de la résolution npm. Le
+  champ `$schema` de `biome.json` suit la même version.
+  *(Arbitrage de Jérôme MARICHEZ, issue #150, 2026-08-24.)*
+- **Une règle qui a tort se lève à l'endroit exact**, avec sa raison écrite
+  (`// biome-ignore <règle>: <raison>`), jamais dans `biome.json` pour tout le dépôt.
+  Seul cas en vigueur : `noImgElement` sur `src/components/CertificationList/index.tsx`.
+  Les logos de certification sont des SVG, et `/_next/image` les refuse tant que
+  `dangerouslyAllowSVG` vaut `false`, ce qu'il doit rester pour des raisons de sécurité.
+  La règle garde toute sa valeur partout ailleurs, elle n'est donc pas assouplie.
 - **`scripts/check-max-lines.sh`** : échoue si un fichier source (`.ts`, `.tsx`,
   `.js`, `.jsx`) dépasse **300 lignes**. Exécuté par `make lint`, par la CI et par
   un hook Claude Code. Remède : extraire (sous-composants, hooks, services),

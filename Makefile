@@ -14,7 +14,7 @@ help: ## Liste les commandes disponibles
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
 
 lint: ## Biome sur tout le dépôt + limite 300 lignes/fichier
-	npx @biomejs/biome@^2.0.0 check .
+	npx @biomejs/biome@2.5.7 check .
 	./scripts/check-max-lines.sh
 
 type-check: ## Vérification des types TypeScript, sans émission de fichiers
