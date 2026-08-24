@@ -45,6 +45,7 @@ export function CertificationList({ certifications }: CertificationListProps) {
         <li className={styles.item} key={certification.intitule}>
           <span className={styles.plaque}>
             {certification.logo ? (
+              // biome-ignore lint/performance/noImgElement: les logos sont des SVG, et /_next/image les refuse tant que `dangerouslyAllowSVG` vaut `false`, ce qu'il doit rester pour des raisons de sécurité. La règle vise le cas général de l'image bitmap non optimisée ; ici elle a tort, pas le code. Raisonnement complet dans le commentaire de tête du composant.
               <img
                 alt={certification.organisme}
                 className={styles.logo}

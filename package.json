@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@axe-core/puppeteer": "^4.13.0",
-    "@biomejs/biome": "^2.0.0",
+    "@biomejs/biome": "2.5.7",
     "@stryker-mutator/core": "^9.0.0",
     "@stryker-mutator/jest-runner": "^9.0.0",
     "@testing-library/react": "^16.3.0",
