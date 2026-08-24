@@ -7,7 +7,7 @@ le bénéfice attendu et l'effort estimé.
 |---|--------------|----------|--------|--------|
 | 1 | Compression du HTML en production (`gzip` dans `docker/nginx.conf`) | Budget de performance mobile : premier levier, de loin | faible | **fait** (issue #76) — 80/81/82 → 96/97/97 |
 | 2 | Stratégie de chargement des polices (sous-ensemble, `preload`, `size-adjust`) | LCP mobile | moyen | proposé — **c'est là que se joue désormais la marge** (voir plus bas) |
-| 3 | Réduction du JavaScript inutilisé (~153 Kio) et du JavaScript hérité (~43 Kio) | Budget de performance mobile | moyen | proposé |
+| 3 | Réduction du JavaScript inutilisé (~153 Kio) et du JavaScript hérité (~43 Kio) | Budget de performance mobile | moyen | **entamé** (issue #145) : Zod sorti du groupage client, 53 Kio de moins ; le reste est chiffré plus bas et revient à l'issue #80 |
 | 4 | Préchargement RSC de toutes les routes de pôle depuis l'accueil | Bande passante mobile après le LCP | faible | proposé |
 
 ## Budget de performance — diagnostic du 2026-08-22
@@ -87,3 +87,58 @@ strict nécessaire (variable, sous-ensemble latin, axe `opsz` seul depuis le ret
 `SOFT` et `WONK`, registre monospace confié à la pile système). Alléger davantage
 suppose d'arbitrer sur le dessin — `preload` sélectif, `size-adjust`, sous-ensemble de
 glyphes — et cet arbitrage revient à Jérôme MARICHEZ, pas à un lot de performance.
+
+## Résultat : Zod sorti du groupage client le 2026-08-24 (issue #145)
+
+L'accueil était retombé à **93** après l'arrivée du formulaire de contact. La mesure a
+désigné un coupable qu'aucune des hypothèses de départ ne visait.
+
+**Le LCP de l'accueil est son `h1`** (« Je construis, j'exploite, je mesure… »), et il se
+peint, sans bridage, **145 ms** après le premier octet. Le texte n'est donc lent nulle
+part : ce sont les octets qui l'entourent qui coûtent. Lighthouse simule le lien bridé en
+imputant au LCP **tout ce qui a fini de se charger avant cette peinture**, et il y avait
+**359 Kio** dans cette fenêtre pour un document de 20 Kio et 13 Kio de feuilles de style.
+
+Le plus gros poste réductible était **Zod, livré en entier au navigateur** : 294 Kio
+bruts, 68 Kio transférés, dont Lighthouse relevait **82 % jamais exécutés**. Le schéma de
+contact est le seul du site évalué côté client (il n'y a pas de serveur), et
+`import { z } from 'zod'` importe un objet de portée dont chaque constructeur reste
+atteignable par une propriété : rien ne s'élague au groupage. `zod/mini` est le même Zod,
+même noyau, même `safeParse`, mêmes `issues`, même `z.infer`, mais ses contrôles sont des
+fonctions passées à `check()`, donc élagables. **Le morceau passe de 68 à 13 Kio
+transférés.** La règle du `CLAUDE.md` est tenue à la lettre : la validation reste un
+schéma Zod dont le type est dérivé.
+
+| Page | Perf avant | Perf après | A11y | Bonnes prat. | SEO |
+|------|-----------|-----------|------|--------------|-----|
+| **accueil** | **93** | **95** | 100 | 100 | 100 |
+| `/services/ingenierie-web/` | 96 | 96 | 100 | 100 | 100 |
+| blog | 97 | 97 | 100 | 100 | 100 |
+| article | 97 | 97 | 100 | 100 | 100 |
+| article-avec-source | 97 | 97 | 100 | 100 | 100 |
+| realisations | 97 | 97 | 100 | 100 | 100 |
+| realisation | 97 | 97 | 100 | 100 | 100 |
+
+LCP de l'accueil : **3 169 ms → 2 933 ms**, mesuré à cinq passes, écart-type 20 ms, et
+**95 aux cinq passes**. Le blocage total tombe de 86 à 9 ms au passage, le JavaScript en
+moins n'ayant plus à être analysé. Les six autres pages ne perdent rien : elles ne rendent
+pas le formulaire, donc elles ne portaient pas Zod.
+
+**Méthode.** `node scripts/budgets.mjs`, Lighthouse mobile bridé (slow 4G : 150 ms de RTT,
+1 638 kbps, processeur ÷ 4), médiane de trois passes, sept pages. Le score de la catégorie
+performance ne dépend que de cinq métriques pondérées ; sur l'accueil, quatre étaient déjà
+à 100 et **le LCP portait à lui seul tout l'écart** (73/100 avant, 80/100 après).
+
+**Le `bfcache` était un défaut du harnais, pas du site.** Les deux motifs de refus que
+Lighthouse relevait sur chaque page venaient du `Cache-Control: no-store` que
+`scripts/serve-out.mjs` posait sur toute réponse, là où `docker/nginx.conf` sert
+`immutable` sur `/_next/static/` et `must-revalidate` ailleurs. Le serveur de mesure
+reflète désormais la production, comme il le fait déjà pour la compression : le budget
+condamnait le site pour un en-tête qu'aucun visiteur ne reçoit. Sans effet sur le score
+(`bf-cache` est un diagnostic de poids nul), vérifié avant et après.
+
+**Ce qui reste, et à qui.** Après ce lot, il reste **305 Kio** dans la fenêtre du LCP,
+dont **117 Kio de react-dom et du routeur d'App Router** (plancher du cadriciel, non
+réductible sans en changer) et **116 Kio des deux `woff2`**. Ces deux postes valent
+chacun plus que tout ce qui est encore réductible dans le code applicatif, et le second
+reste un arbitrage de dessin. Le détail chiffré est reporté à l'issue **#80**.
