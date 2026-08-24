@@ -107,6 +107,43 @@
   align-items: flex-start;
 }
 
+/* Le formulaire et la porte de sortie, côte à côte au-delà de 60rem (issue #105).
+ *
+ * `auto-fit` plutôt qu'un point de rupture : le bloc de contact vit dans un corps de page
+ * dont la largeur dépend déjà d'un `max-width` et d'un padding, et une requête média sur
+ * la fenêtre se serait décalée de ces deux marges. La colonne du formulaire garde la
+ * priorité de largeur — c'est elle qu'on remplit.
+ *
+ * En une seule colonne, l'ordre du DOM place l'adresse APRÈS le formulaire, et cet ordre
+ * est le bon dans les deux sens : c'est celui de la tabulation, et c'est celui de la
+ * lecture. On tombe sur la porte de sortie quand on a vu ce dont elle est la sortie. */
+.grilleContact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+  gap: var(--e-5);
+  align-items: start;
+  width: 100%;
+}
+
+.direct {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-2);
+  align-items: flex-start;
+}
+
+.directTitre {
+  font-size: var(--t-2);
+}
+
+.directTexte {
+  margin: 0;
+  max-width: var(--mesure-texte);
+  font-size: var(--t-note);
+  line-height: 1.55;
+  color: var(--encre-douce);
+}
+
 /* Apparence seule : le `transform` appartient à `MagneticAction`. */
 .action {
   display: inline-block;

@@ -1,0 +1,88 @@
+/* contact-form.module.css — le formulaire de contact.
+ *
+ * Une seule colonne, quelle que soit la largeur : les trois champs se remplissent dans
+ * l'ordre, et une grille à deux colonnes rendrait l'ordre de tabulation moins évident
+ * qu'il ne le paraît à l'œil. Le formulaire ne cherche pas à remplir la place, il cherche
+ * à se remplir vite. */
+
+.formulaire {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-3);
+  width: 100%;
+  max-width: var(--mesure-texte);
+}
+
+.consigne {
+  margin: 0;
+  max-width: var(--mesure-texte);
+  font-size: var(--t-note);
+  line-height: 1.55;
+  color: var(--encre-douce);
+}
+
+/* Les deux régions d'annonce sont dans le document dès le premier rendu, vides. C'est
+   `:empty` qui les efface, et non une condition de rendu : une région vivante insérée en
+   même temps que son texte n'est pas annoncée de façon fiable. */
+.annonce:empty {
+  display: none;
+}
+
+.annonce {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-1);
+}
+
+.resumeTitre {
+  margin: 0;
+  font-weight: 600;
+  color: var(--cuivre);
+}
+
+.resumeListe {
+  margin: 0;
+  padding-left: var(--e-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-0);
+  font-size: var(--t-note);
+  line-height: 1.5;
+}
+
+.resumeListe a {
+  color: var(--cuivre);
+}
+
+.succes {
+  margin: 0;
+  max-width: var(--mesure-texte);
+  font-size: var(--t-note);
+  line-height: 1.55;
+  color: var(--encre);
+}
+
+/* Un `button` ordinaire, sans aucun effet de déplacement : un bouton d'envoi qui bouge
+   sous le pointeur se rate, et celui-ci est atteint au clavier bien plus souvent qu'un
+   lien de fin de page.
+   Le survol se dit par une ÉLÉVATION et par un anneau intérieur qui apparaît : deux
+   changements de forme. La teinte du bouton, elle, ne bouge pas — un état de survol
+   porté par la seule couleur ne se voit pas sous vision dichromate. */
+.bouton {
+  align-self: flex-start;
+  padding: var(--e-2) var(--e-4);
+  border: 0;
+  border-radius: var(--rayon-petit);
+  background: var(--accent);
+  color: var(--fond);
+  font-family: var(--police-mono-pile);
+  font-size: var(--t-0);
+  cursor: pointer;
+  transition: box-shadow var(--duree-micro) ease-out;
+}
+
+.bouton:hover {
+  box-shadow:
+    var(--elevation-levee),
+    inset 0 0 0 2px var(--fond);
+}
