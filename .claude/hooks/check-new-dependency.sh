@@ -12,6 +12,15 @@
 # Sortie : rien = laisser passer ; sinon "deny" (critère non respecté) ou
 # "ask" (vérification impossible : réseau, rate limit… — ou publication ancienne :
 # un paquet mature en maintenance n'est pas refusé d'office, l'humain tranche).
+#
+# Détection d'une installation dans une commande Bash — le découpage suit les
+# règles du shell et vit dans lib/extract-install-packages.awk : un texte entre
+# guillemets reste un seul mot, un corps de heredoc est de la donnée, et seul le
+# premier mot d'une commande simple peut être le gestionnaire de paquets. Une
+# ligne d'installation citée dans l'argument d'une autre commande n'est donc plus
+# prise pour une installation.
+# (Correction demandée par Jérôme MARICHEZ le 2026-08-24, issue #157, au titre de
+# la règle 10 du CLAUDE.md. Aucun seuil n'a changé.)
 
 set -u
 MIN_CONTRIBUTORS="${MIN_CONTRIBUTORS:-3}"
@@ -28,15 +37,21 @@ tool=$(printf '%s' "$input" | jq -r '.tool_name // empty')
 deny() { jq -n --arg r "$1" '{hookSpecificOutput:{hookEventName:"PreToolUse",permissionDecision:"deny",permissionDecisionReason:$r}}'; exit 0; }
 ask()  { jq -n --arg r "$1" '{hookSpecificOutput:{hookEventName:"PreToolUse",permissionDecision:"ask",permissionDecisionReason:$r}}'; exit 0; }
 
+# Extraction des paquets d'une commande Bash : un découpage respectant les règles
+# du shell, pour qu'une ligne d'installation CITÉE dans l'argument d'une autre
+# commande ne passe plus pour une installation réelle. Détail et limites assumées
+# dans l'extracteur lui-même.
+HOOK_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+EXTRACTOR="$HOOK_DIR/lib/extract-install-packages.awk"
+
 pkgs=""
 case "$tool" in
   Bash)
     cmd=$(printf '%s' "$input" | jq -r '.tool_input.command // empty')
-    printf '%s' "$cmd" | grep -qE '(npm (install|i|add)|yarn add|pnpm (add|install|i)|bun add)( |$)' || exit 0
-    pkgs=$(printf '%s' "$cmd" \
-      | grep -oE '(npm (install|i|add)|yarn add|pnpm (add|install|i)|bun add)[^&|;]*' \
-      | sed -E 's/^[a-z]+ (install|i|add)//' \
-      | tr ' ' '\n' \
+    # Extracteur manquant : on ne laisse pas passer en silence, on demande.
+    [ -r "$EXTRACTOR" ] || ask "Garde-fou dépendances : extracteur $EXTRACTOR illisible — impossible d'analyser la commande, confirmation manuelle requise."
+    pkgs=$(printf '%s\n' "$cmd" \
+      | awk -f "$EXTRACTOR" \
       | grep -vE '^(-|$)' \
       | sed -E 's/(.)@[^@]*$/\1/' \
       | sort -u)
