@@ -3,16 +3,16 @@
 
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
-import { GlassRefraction } from '@/@shared/components/GlassRefraction'
-import { MotionState } from '@/@shared/components/MotionState'
-import { SiteFooter } from '@/@shared/components/SiteFooter'
-import { SiteHeader } from '@/@shared/components/SiteHeader'
-import { SkipLink } from '@/@shared/components/SkipLink'
-import { StructuredData } from '@/@shared/components/StructuredData'
-import { SITE_OPEN_GRAPH } from '@/@shared/seo/open-graph'
-import { SITE_IDENTITY, SITE_PROMESSE, SITE_THEME_COLORS, SITE_URL } from '@/@shared/seo/site'
-import { buildPersonSchema, buildProfessionalServiceSchema } from '@/@shared/seo/structured-data'
-import { FONT_VARIABLES } from '@/@shared/typography/fonts'
+import { GlassRefraction } from '@/components/GlassRefraction'
+import { MotionState } from '@/components/MotionState'
+import { SiteFooter } from '@/components/SiteFooter'
+import { SiteHeader } from '@/components/SiteHeader'
+import { SkipLink } from '@/components/SkipLink'
+import { StructuredData } from '@/components/StructuredData'
+import { SITE_OPEN_GRAPH } from '@/seo/open-graph'
+import { SITE_IDENTITY, SITE_PROMESSE, SITE_THEME_COLORS, SITE_URL } from '@/seo/site'
+import { buildPersonSchema, buildProfessionalServiceSchema } from '@/seo/structured-data'
+import { FONT_VARIABLES } from '@/typography/fonts'
 import './globals.css'
 // Après `globals.css`, et pas avant : les trois fichiers s'appuient sur ses jetons
 // (`--cuivre`, `--encre`, `--verre-lueur`). Ils n'en sont séparés que par la limite de
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   description: SITE_PROMESSE,
   authors: [{ name: SITE_IDENTITY.nom, url: SITE_URL }],
   // Ni `alternates.canonical` ni `openGraph.url` ici : hérités, ils désignent l'accueil
-  // depuis n'importe quelle page. Chaque page pose les siens (@shared/seo/page-metadata).
+  // depuis n'importe quelle page. Chaque page pose les siens (src/seo/page-metadata).
   //
   // Ce socle ne suffit pas à lui seul : Next fusionne les métadonnées de segments en
   // surface, donc toute page qui exporte un `openGraph` remplace celui-ci en entier.

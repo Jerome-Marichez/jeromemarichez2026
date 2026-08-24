@@ -1,14 +1,14 @@
 // src/app/realisations/page.tsx — jeromemarichez-fr
-// Routage seul : la liste est composée dans src/@vitrine/views/RealisationsIndexView.
+// Routage seul : la liste est composée dans src/views/RealisationsIndexView.
 
 import type { Metadata } from 'next'
-import { StructuredData } from '@/@shared/components/StructuredData'
-import { toRealisationRoute } from '@/@shared/routes'
-import { buildPageMetadata } from '@/@shared/seo/page-metadata'
-import { buildBreadcrumbSchema, buildCollectionPageSchema } from '@/@shared/seo/structured-data'
-import { REALISATIONS_INDEX } from '@/@vitrine/contenu/realisations/realisations-index'
-import { groupRealisationsByCadre, listRealisations } from '@/@vitrine/services/find-realisation'
-import { RealisationsIndexView } from '@/@vitrine/views/RealisationsIndexView'
+import { StructuredData } from '@/components/StructuredData'
+import { REALISATIONS_INDEX } from '@/contenu/realisations/realisations-index'
+import { toRealisationRoute } from '@/routes'
+import { buildPageMetadata } from '@/seo/page-metadata'
+import { buildBreadcrumbSchema, buildCollectionPageSchema } from '@/seo/structured-data'
+import { groupRealisationsByCadre, listRealisations } from '@/services/find-realisation'
+import { RealisationsIndexView } from '@/views/RealisationsIndexView'
 
 export const metadata: Metadata = buildPageMetadata(REALISATIONS_INDEX)
 

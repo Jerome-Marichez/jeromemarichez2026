@@ -1,14 +1,14 @@
 // src/app/blog/[slug]/page.tsx — jeromemarichez-fr
-// Routage seul : l'article est composé dans src/@vitrine/views/ArticleView.
+// Routage seul : l'article est composé dans src/views/ArticleView.
 
 import type { Metadata } from 'next'
-import { StructuredData } from '@/@shared/components/StructuredData'
-import { toArticleRoute } from '@/@shared/routes'
-import { buildArticleMetadata } from '@/@shared/seo/page-metadata'
-import { buildArticleSchema, buildBreadcrumbSchema } from '@/@shared/seo/structured-data'
-import { BLOG_INDEX } from '@/@vitrine/contenu/blog/blog-index'
-import { articleRevisionDate, findArticle, listArticles } from '@/@vitrine/services/find-article'
-import { ArticleView } from '@/@vitrine/views/ArticleView'
+import { StructuredData } from '@/components/StructuredData'
+import { BLOG_INDEX } from '@/contenu/blog/blog-index'
+import { toArticleRoute } from '@/routes'
+import { buildArticleMetadata } from '@/seo/page-metadata'
+import { buildArticleSchema, buildBreadcrumbSchema } from '@/seo/structured-data'
+import { articleRevisionDate, findArticle, listArticles } from '@/services/find-article'
+import { ArticleView } from '@/views/ArticleView'
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>

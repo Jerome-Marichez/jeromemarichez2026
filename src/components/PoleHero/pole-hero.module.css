@@ -1,0 +1,91 @@
+/* pole-hero.module.css — ouverture d'une page de pôle. */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-3);
+  max-width: var(--largeur-page);
+  margin-inline: auto;
+  padding: var(--e-6) var(--e-4) var(--e-5);
+}
+
+/* Le fil d'Ariane a été extrait dans src/components/Breadcrumb : il est désormais
+   partagé avec les pages du blog, et ses styles sont colocalisés avec lui. */
+
+/* La place, et non le rang : les deux suites de la donnée partagent le même temps, et
+   aucune numérotation ne doit laisser croire qu'elles se suivent. */
+.place {
+  display: flex;
+  align-items: baseline;
+  gap: var(--e-2);
+}
+
+.numero {
+  font-family: var(--police-mono-pile);
+  font-weight: 500;
+  font-size: var(--t-chiffre);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.placeTexte {
+  font-family: var(--police-mono-pile);
+  font-size: var(--t--1);
+  text-transform: uppercase;
+  letter-spacing: var(--suivi-etiquette);
+  color: var(--encre-douce);
+}
+
+.titre {
+  margin: 0;
+}
+
+.promesse {
+  max-width: 44ch;
+  font-family: var(--police-titre-pile);
+  font-variation-settings: "opsz" 28;
+  font-size: var(--t-2);
+  line-height: 1.3;
+  color: var(--accent);
+}
+
+.accroche {
+  max-width: var(--mesure-texte);
+  font-size: var(--t-1);
+  line-height: 1.45;
+  color: var(--encre-douce);
+}
+
+/* L'arête entrante : ce que le pôle amont remet, puis ce qui se passe quand le client
+   l'a déjà. Le liseré d'accent à gauche la détache du récit du pôle — ce n'est pas une
+   promesse de plus, c'est la condition d'entrée et son démenti dans la même phrase. */
+.jointure {
+  max-width: var(--mesure-texte);
+  padding-left: var(--e-3);
+  border-left: 2px solid var(--accent-vif);
+  font-size: var(--t-note);
+  color: var(--encre-douce);
+}
+
+.matiere {
+  color: var(--encre-douce);
+}
+
+.dejaEnPlace {
+  color: var(--encre);
+  font-weight: 500;
+}
+
+.suite {
+  margin-top: var(--e-3);
+  padding-top: var(--e-3);
+  border-top: 1px solid color-mix(in srgb, var(--encre) 12%, transparent);
+  max-width: var(--mesure-texte);
+  font-size: var(--t-note);
+  color: var(--encre-douce);
+}
+
+.lienSuite {
+  font-weight: 500;
+}

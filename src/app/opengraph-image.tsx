@@ -9,9 +9,9 @@
 // feuille de style, donc sans variable CSS à résoudre. Elles suivent `globals.css`.
 
 import { ImageResponse } from 'next/og'
-import { OG_IMAGE_ALT, OG_IMAGE_SIZE, OG_IMAGE_TYPE } from '@/@shared/seo/open-graph'
-import { SITE_IDENTITY, SITE_PROMESSE } from '@/@shared/seo/site'
-import { POLES_NAV } from '@/@vitrine/contenu/poles-nav'
+import { POLES_NAV } from '@/contenu/poles-nav'
+import { OG_IMAGE_ALT, OG_IMAGE_SIZE, OG_IMAGE_TYPE } from '@/seo/open-graph'
+import { SITE_IDENTITY, SITE_PROMESSE } from '@/seo/site'
 
 // Alt, dimensions et type MIME viennent de `open-graph.ts`, qui sert aussi à décrire
 // cette image dans les métadonnées de chaque page. Les redéclarer ici les laisserait

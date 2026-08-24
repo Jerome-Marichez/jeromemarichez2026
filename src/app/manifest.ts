@@ -2,7 +2,7 @@
 // Manifeste d'application web : ce que le navigateur retient du site s'il est épinglé.
 
 import type { MetadataRoute } from 'next'
-import { SITE_IDENTITY, SITE_PROMESSE, SITE_THEME_COLORS } from '@/@shared/seo/site'
+import { SITE_IDENTITY, SITE_PROMESSE, SITE_THEME_COLORS } from '@/seo/site'
 
 // `output: 'export'` exige que les routes de métadonnées soient déclarées statiques.
 export const dynamic = 'force-static'

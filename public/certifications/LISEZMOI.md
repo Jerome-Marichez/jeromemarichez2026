@@ -6,7 +6,7 @@ Un fichier dont on ne saurait pas dire d'où il vient n'a rien à faire ici.
 
 Pour publier un logo : déposer le **SVG** (ou un PNG à défaut), l'inscrire dans le tableau
 ci-dessous, puis renseigner le champ `logo` de la certification correspondante dans
-`src/@vitrine/contenu/certifications.ts` — avec `largeur` et `hauteur`, les dimensions
+`src/contenu/certifications.ts` — avec `largeur` et `hauteur`, les dimensions
 intrinsèques du fichier : ce sont elles qui réservent la place et évitent tout décalage de
 mise en page au chargement (CLS).
 
