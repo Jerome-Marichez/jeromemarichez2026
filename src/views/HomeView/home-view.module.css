@@ -165,3 +165,24 @@
   text-decoration-thickness: 2px;
   text-underline-offset: 0.24em;
 }
+
+/* L'ancrage régional (issue #136) : une note de bas de section, jamais un argument.
+   Même registre typographique que `.directTexte` — corps de note, encre douce — parce
+   qu'il joue le même rôle qu'elle : renseigner sans réclamer le regard. Un filet le
+   sépare de la grille : sans lui, le paragraphe se collait sous la colonne de gauche et
+   se lisait comme une aide du formulaire. */
+.ancrage {
+  margin: 0;
+  width: 100%;
+  padding-top: var(--e-3);
+  border-top: 1px solid color-mix(in srgb, var(--encre) 10%, transparent);
+  /* Le filet tient toute la largeur du panneau, la ligne de texte s'arrête à la mesure.
+     Un `max-width` aurait fait les deux à la fois, et le filet se serait arrêté juste
+     sous la colonne du formulaire : il aurait alors désigné le formulaire au lieu de
+     fermer la section. La marge intérieure vaut zéro dès que le bloc est plus étroit
+     que la mesure, donc rien à corriger sur petit écran. */
+  padding-inline-end: max(0px, calc(100% - var(--mesure-texte)));
+  font-size: var(--t-note);
+  line-height: 1.55;
+  color: var(--encre-douce);
+}

@@ -17,7 +17,35 @@
 // espaces, le contact.
 
 import type { IEditorialPage } from '@/interfaces/IEditorialPage'
+import { SITE_IDENTITY } from '@/seo/site'
 import { SECTION_OBJECTIONS } from './objections'
+
+/**
+ * L'ancrage régional (issue #136), rendu une seule fois, dans le bloc de contact.
+ *
+ * Ce que le texte dit, et pourquoi il ne peut pas dire plus. Les CV de référence
+ * n'établissent que trois choses : l'exercice à Lille, le Bac +3 Développeur à Dunkerque
+ * en 2022, le Bac +5 Expert en informatique et systèmes d'information à Lille en 2025.
+ * Aucune source ne porte un lieu de naissance, une origine ni une enfance dans le Nord,
+ * donc le site n'en affirme aucun : arbitrage de Jérôme MARICHEZ du 2026-08-24, ancrage
+ * régional sans revendication d'origine. Un parcours de formation régional n'est pas une
+ * origine, et il ne s'en déduit pas.
+ *
+ * Les intitulés de diplôme sont repris à l'identique des CV, comme les intitulés de
+ * poste. La troisième phrase est là pour empêcher la lecture « CV » : ce site vend neuf
+ * ans d'expérience et des preuves chiffrées, pas des diplômes. La formation n'est ici
+ * qu'un signal de proximité.
+ *
+ * La ville et la région viennent de `SITE_IDENTITY`, qui reste la source unique de la
+ * localisation. Dunkerque est écrite en clair : c'est un fait de parcours, pas la
+ * localisation de l'activité, et elle n'a rien à faire dans les données structurées.
+ */
+export const ANCRAGE_REGIONAL =
+  `Je travaille depuis ${SITE_IDENTITY.ville}, et c’est aussi en ${SITE_IDENTITY.region} que je me ` +
+  'suis formé : Bac +3 Développeur à Dunkerque en 2022, puis Bac +5 Expert en informatique et ' +
+  `systèmes d’information à ${SITE_IDENTITY.ville} en 2025. Ces diplômes ne sont pas l’argument ` +
+  'de ce site, les neuf ans et les chiffres plus haut le sont. Ils situent, rien de plus : j’y ' +
+  'suis installé, pas de passage.'
 
 /** Le seuil : promesse, et trois chiffres pour qu'elle ne reste pas un slogan. */
 export const HERO_ACCUEIL = {

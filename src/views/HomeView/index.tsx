@@ -12,7 +12,7 @@ import { HomeHero } from '../../components/HomeHero'
 import { PoleEntries } from '../../components/PoleEntries'
 import { ProofWall } from '../../components/ProofWall'
 import { SpaceEntries } from '../../components/SpaceEntries'
-import { PAGE_ACCUEIL, THESE_CHAINE } from '../../contenu/accueil'
+import { ANCRAGE_REGIONAL, PAGE_ACCUEIL, THESE_CHAINE } from '../../contenu/accueil'
 import { CERTIFICATIONS } from '../../contenu/certifications'
 import { CONTACT_DIRECT } from '../../contenu/contact'
 import { LIMITES } from '../../contenu/limites'
@@ -138,6 +138,17 @@ export function HomeView() {
                 </a>
               </div>
             </div>
+
+            {/* L'ancrage régional, une seule fois sur tout le site (issue #136).
+                Il est ici, et pas au seuil ni au pied de page : c'est le moment où le
+                visiteur décide d'écrire, donc le seul où savoir d'où travaille son
+                interlocuteur change quelque chose. Au seuil il aurait concurrencé la
+                promesse et les trois chiffres ; au pied de page, rendu sur les sept
+                pages, il serait devenu du bas de casse permanent — l'issue demande un
+                endroit, pas un essaimage.
+                Après la grille, pas avant : c'est une note de bas de section, pas un
+                préalable à remplir avant le formulaire. */}
+            <p className={styles.ancrage}>{ANCRAGE_REGIONAL}</p>
           </Reveal>
         </section>
       </div>
