@@ -33,6 +33,21 @@
          Voir `GlassSurface/glass-surface.module.css`. */
       -webkit-backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation-bande));
       backdrop-filter: blur(var(--verre-flou-bande)) saturate(var(--verre-saturation-bande));
+      /* La pile d'ombres de `SiteHeader`, et c'est la conséquence directe de la phrase
+         d'ouverture de ce fichier : deux bandes qui s'empilent doivent se ressembler.
+         L'en-tête l'a reçue au lot précédent, la barre était restée sans — à 82 % de
+         voile l'écart ne se voyait pas ; à 64 %, la barre serait la seule des deux à
+         n'avoir ni tranche éclairée ni décollement, et l'empilement se lirait comme un
+         défaut.
+         Deux nuances lui appartiennent en propre. Le rebond bas est laissé au
+         `border-bottom` d'accent qu'elle porte déjà : deux traits d'un pixel au même
+         endroit ne font pas deux tranches, ils font un trait épais et sale. Et l'ombre
+         portée est plus courte que celle de l'en-tête — la barre flotte SOUS lui et non
+         au-dessus de la page ; une ombre aussi longue que celle du dessus les mettrait
+         au même plan. */
+      box-shadow:
+        inset 0 var(--verre-epaisseur-lueur) 0 var(--verre-lueur),
+        0 6px 18px -16px color-mix(in srgb, var(--encre) 60%, transparent);
     }
   }
 }

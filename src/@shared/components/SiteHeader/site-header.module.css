@@ -1,9 +1,14 @@
 /* site-header.module.css — en-tête collant.
  *
  * Une bande n'est pas un panneau, et ne prend pas les mêmes jetons : `--verre-flou-bande`
- * et `--verre-saturation-bande` floutent et saturent nettement moins que le verre des
- * panneaux. Ce qui passe sous une bande est du TEXTE en défilement, pas un décor — au
- * réglage d'un panneau, il en ressortirait en traînée colorée. Voir `verre.css`. */
+ * et `--verre-saturation-bande` restent sous le verre des panneaux. Ce qui passe sous une
+ * bande est du TEXTE en défilement, pas un décor — à la saturation d'un panneau, il en
+ * ressortirait en traînée colorée. Voir `verre.css`.
+ *
+ * Ce module n'a pas changé d'une ligne avec l'issue #115 : la recalibration est
+ * entièrement dans les JETONS, parce que c'est là qu'ils vivent. C'est exactement ce que
+ * l'extraction de `verre.css` promettait — intensifier le verre du site sans rouvrir les
+ * modules qui le consomment, ni en oublier un en route. */
 
 .entete {
   position: sticky;
