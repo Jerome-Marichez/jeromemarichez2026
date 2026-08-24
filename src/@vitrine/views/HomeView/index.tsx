@@ -1,7 +1,6 @@
 // HomeView/index.tsx — jeromemarichez-fr
 // La page d'accueil : la vitrine — la promesse, le modèle, les quatre portes, les preuves.
 
-import { MagneticAction } from '@/@shared/components/MagneticAction'
 import { Reveal } from '@/@shared/components/Reveal'
 import { SITE_IDENTITY } from '@/@shared/seo/site'
 import { ContactForm } from '../../components/_notPure/ContactForm'
@@ -134,9 +133,9 @@ export function HomeView() {
               <div className={styles.direct}>
                 <h3 className={styles.directTitre}>{CONTACT_DIRECT.titre}</h3>
                 <p className={styles.directTexte}>{CONTACT_DIRECT.texte}</p>
-                <MagneticAction className={styles.action} href={`mailto:${SITE_IDENTITY.email}`}>
+                <a className={styles.action} href={`mailto:${SITE_IDENTITY.email}`}>
                   {SITE_IDENTITY.email}
-                </MagneticAction>
+                </a>
               </div>
             </div>
           </Reveal>

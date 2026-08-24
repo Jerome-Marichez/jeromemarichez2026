@@ -107,6 +107,8 @@
   align-items: flex-start;
 }
 
+/* Aucun `transform` : le déplacement au survol a été refusé (issue #137). Le survol se
+   dit par l'ombre et par le soulignement. */
 /* Le formulaire et la porte de sortie, côte à côte au-delà de 60rem (issue #105).
  *
  * `auto-fit` plutôt qu'un point de rupture : le bloc de contact vit dans un corps de page
@@ -144,7 +146,8 @@
   color: var(--encre-douce);
 }
 
-/* Apparence seule : le `transform` appartient à `MagneticAction`. */
+/* Apparence seule, et plus aucun `transform` : le composant qui en posait un a été
+   supprimé avec le déplacement au survol, refusé par Jérôme MARICHEZ (issue #137). */
 .action {
   display: inline-block;
   padding: var(--e-2) var(--e-4);
@@ -158,4 +161,7 @@
 
 .action:hover {
   box-shadow: var(--elevation-levee);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.24em;
 }

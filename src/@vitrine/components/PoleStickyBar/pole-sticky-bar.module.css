@@ -86,8 +86,10 @@
   color: var(--encre);
 }
 
-/* Aucun `transform` ici : il appartient à `MagneticAction`, qui est le seul à le poser
-   sur un bouton d'action. */
+/* Aucun `transform` ici, et plus nulle part sur un bouton d'action : le déplacement au
+   survol a été refusé (issue #137). Cette action n'avait aucun état de survol en propre,
+   elle empruntait celui du module retiré. Elle porte maintenant le sien, aux mêmes
+   signaux que l'action du seuil : l'ombre monte, le libellé se souligne. */
 .action {
   flex: none;
   padding: var(--e-1) var(--e-3);
@@ -97,4 +99,12 @@
   font-size: var(--t-note);
   font-weight: 500;
   text-decoration: none;
+  transition: box-shadow var(--duree-micro) ease-out;
+}
+
+.action:hover {
+  box-shadow: var(--elevation-levee);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.24em;
 }
