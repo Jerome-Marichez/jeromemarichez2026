@@ -70,7 +70,7 @@ export function buildServiceSchema(params: {
  * fil amputé de sa racine — que Google refuse d'afficher. Le premier niveau est donc
  * posé ici, et il ne peut pas être oublié par un appelant.
  *
- * La même liste alimente le fil visible (`@shared/components/Breadcrumb`), pour que
+ * La même liste alimente le fil visible (`src/components/Breadcrumb`), pour que
  * l'affiché et le déclaré ne puissent pas diverger.
  */
 export function buildBreadcrumbSchema(fil: IBreadcrumbItem[]): Record<string, unknown> {

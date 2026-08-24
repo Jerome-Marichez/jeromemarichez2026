@@ -21,7 +21,7 @@ interface EditorialSectionProps {
  * charnière quand elle en porte une.
  *
  * Le contenu vient d'une structure typée : ajouter un point d'expertise se fait dans
- * `@vitrine/contenu`, jamais ici. C'est la contrainte d'architecture du projet — le
+ * `src/contenu`, jamais ici. C'est la contrainte d'architecture du projet — le
  * rendu ne connaît pas le fond.
  */
 export function EditorialSection({ section, glass = false }: EditorialSectionProps) {

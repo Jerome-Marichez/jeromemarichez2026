@@ -7,7 +7,7 @@
 //
 // L'ORDRE DE CE TABLEAU EST L'ORDRE D'AFFICHAGE, à l'intérieur de chaque cadre d'emploi.
 // Le regroupement, lui, est une règle métier : il vit dans
-// `@vitrine/services/find-realisation` et suit l'ordre de `CADRES`.
+// `src/services/find-realisation` et suit l'ordre de `CADRES`.
 //
 // Une convention tenue à la main : chaque cadre s'ouvre sur sa fiche chiffrée quand il en
 // a une, puis déroule du produit vers la donnée. Le type ne peut pas l'imposer — trois

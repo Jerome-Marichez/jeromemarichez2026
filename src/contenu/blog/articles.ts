@@ -6,7 +6,7 @@
 // partout — il n'y a pas de second endroit à mettre à jour.
 //
 // L'ORDRE DE CE TABLEAU N'EST PAS L'ORDRE D'AFFICHAGE : le classement par date est une
-// règle métier, elle vit dans `@vitrine/services/find-article`.
+// règle métier, elle vit dans `src/services/find-article`.
 
 import type { IArticle } from '@/interfaces/IArticle'
 import { ARTICLE_CARTE_DE_L_ARCHITECTURE } from './carte-de-l-architecture'

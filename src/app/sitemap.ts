@@ -13,7 +13,7 @@ export const dynamic = 'force-static'
  * laissant croire qu'ils pilotent le passage du robot.
  *
  * La composition des entrées — quelles URL, avec quelle date — vit dans
- * `@shared/seo/sitemap-entries`, où elle se vérifie sans démarrer Next.
+ * `src/seo/sitemap-entries`, où elle se vérifie sans démarrer Next.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   return buildSitemapEntries()

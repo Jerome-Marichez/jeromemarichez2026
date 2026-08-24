@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   description: SITE_PROMESSE,
   authors: [{ name: SITE_IDENTITY.nom, url: SITE_URL }],
   // Ni `alternates.canonical` ni `openGraph.url` ici : hérités, ils désignent l'accueil
-  // depuis n'importe quelle page. Chaque page pose les siens (@shared/seo/page-metadata).
+  // depuis n'importe quelle page. Chaque page pose les siens (src/seo/page-metadata).
   //
   // Ce socle ne suffit pas à lui seul : Next fusionne les métadonnées de segments en
   // surface, donc toute page qui exporte un `openGraph` remplace celui-ci en entier.

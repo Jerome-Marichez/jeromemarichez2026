@@ -4,7 +4,7 @@
 // La logique vit ici et non dans `src/app/sitemap.ts` : `app/` ne fait que du routage
 // (docs/architecture.md), et cette liste-ci se vérifie sans démarrer Next.
 //
-// C'est le seul module de `@shared/seo` qui lit le contenu de `@vitrine`. C'est assumé :
+// C'est le seul module de `src/seo/` qui lit le contenu éditorial. C'est assumé :
 // un sitemap est par définition l'inventaire du contenu publié, il n'existe aucune autre
 // source d'où tirer la liste des articles et des réalisations.
 

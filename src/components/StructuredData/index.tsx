@@ -2,7 +2,7 @@
 // Injecte un ou plusieurs graphes JSON-LD dans la page.
 
 interface StructuredDataProps {
-  /** Graphes schema.org construits par `@shared/seo/structured-data`. */
+  /** Graphes schema.org construits par `src/seo/structured-data`. */
   schemas: Record<string, unknown>[]
 }
 

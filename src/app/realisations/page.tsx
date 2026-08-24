@@ -1,5 +1,5 @@
 // src/app/realisations/page.tsx — jeromemarichez-fr
-// Routage seul : la liste est composée dans src/@vitrine/views/RealisationsIndexView.
+// Routage seul : la liste est composée dans src/views/RealisationsIndexView.
 
 import type { Metadata } from 'next'
 import { StructuredData } from '@/components/StructuredData'

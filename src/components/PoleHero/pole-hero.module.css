@@ -9,7 +9,7 @@
   padding: var(--e-6) var(--e-4) var(--e-5);
 }
 
-/* Le fil d'Ariane a été extrait dans @shared/components/Breadcrumb : il est désormais
+/* Le fil d'Ariane a été extrait dans src/components/Breadcrumb : il est désormais
    partagé avec les pages du blog, et ses styles sont colocalisés avec lui. */
 
 /* La place, et non le rang : les deux suites de la donnée partagent le même temps, et

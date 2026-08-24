@@ -1,5 +1,5 @@
 // src/app/blog/[slug]/page.tsx — jeromemarichez-fr
-// Routage seul : l'article est composé dans src/@vitrine/views/ArticleView.
+// Routage seul : l'article est composé dans src/views/ArticleView.
 
 import type { Metadata } from 'next'
 import { StructuredData } from '@/components/StructuredData'

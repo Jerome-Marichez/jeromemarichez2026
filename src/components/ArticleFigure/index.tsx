@@ -2,7 +2,7 @@
 // Une figure par article. Construite, jamais trouvée — comme les marques de pôle.
 //
 // Le site n'a AUCUNE image matricielle : quatre SVG en tout, et `next/image` est écarté
-// délibérément (voir `@vitrine/components/CertificationList`). Une illustration d'article
+// délibérément (voir `src/components/CertificationList`). Une illustration d'article
 // n'allait pas en introduire la première : ces figures sont du SVG rendu au serveur, elles
 // pèsent quelques centaines d'octets dans le document, et le budget Lighthouse — qui ne
 // tient qu'à un point — n'en sait rien.

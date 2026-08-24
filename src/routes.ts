@@ -26,7 +26,7 @@ export const ROUTES = {
  * Les URL d'articles et de réalisations n'y figurent pas : ce ne sont pas des routes du
  * site mais des instances de deux routes dynamiques, et leur nombre change à chaque
  * publication. C'est le sitemap qui les ajoute, à partir des listes de contenu
- * (`@shared/seo/sitemap-entries`).
+ * (`src/seo/sitemap-entries`).
  */
 export const INDEXABLE_ROUTES = [
   ROUTES.accueil,

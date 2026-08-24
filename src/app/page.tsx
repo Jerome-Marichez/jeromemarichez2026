@@ -1,5 +1,5 @@
 // src/app/page.tsx — jeromemarichez-fr
-// Routage seul : la page d'accueil est composée dans src/@vitrine/views/HomeView.
+// Routage seul : la page d'accueil est composée dans src/views/HomeView.
 
 import type { Metadata } from 'next'
 import { PAGE_ACCUEIL } from '@/contenu/accueil'

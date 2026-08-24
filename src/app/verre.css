@@ -61,7 +61,7 @@
  * Un flou dit « il y a une épaisseur entre le fond et moi ». Une **réfraction** dit « et
  * cette épaisseur a une forme » : au ras de l'arête, un vrai verre va chercher son image
  * un peu plus loin vers le dedans. `--verre-refraction` porte la référence au filtre SVG
- * qui le fait (`@shared/components/GlassRefraction`) : le module CSS n'écrit donc jamais
+ * qui le fait (`src/components/GlassRefraction`) : le module CSS n'écrit donc jamais
  * `url(#…)`, il consomme un jeton comme pour tout le reste.
  *
  * Le jeton ne s'applique qu'aux **panneaux**. Une bande collante passe sur du texte, et

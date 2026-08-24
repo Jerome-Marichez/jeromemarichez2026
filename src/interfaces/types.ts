@@ -49,7 +49,7 @@ export type SectionKind = 'pole' | 'chapitre' | 'charniere' | 'fil' | 'preuves'
  *
  * Le site ne sert aucune image matricielle, et une illustration d'article n'allait pas
  * en introduire la première : chaque valeur de cette union désigne un tracé SVG rendu au
- * serveur par `@vitrine/components/ArticleFigure`. L'union est close, donc un article ne
+ * serveur par `src/components/ArticleFigure`. L'union est close, donc un article ne
  * peut pas réclamer une figure qui n'existe pas — le compilateur le dit avant le build.
  *
  * Les noms disent la STRUCTURE dessinée, pas le sujet de l'article : c'est la même règle

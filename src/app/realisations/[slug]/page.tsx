@@ -1,5 +1,5 @@
 // src/app/realisations/[slug]/page.tsx — jeromemarichez-fr
-// Routage seul : la fiche est composée dans src/@vitrine/views/RealisationView.
+// Routage seul : la fiche est composée dans src/views/RealisationView.
 
 import type { Metadata } from 'next'
 import { StructuredData } from '@/components/StructuredData'
