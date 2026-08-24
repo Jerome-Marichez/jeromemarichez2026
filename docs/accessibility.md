@@ -25,9 +25,9 @@ Conformité **WCAG 2.1 AA** sur les parcours principaux.
   chiffres à l'appui, plutôt que passée sous silence.
 - **Images** : `alt` pertinent (ou vide si décorative).
 - **L'état de survol d'un bouton d'action ne tient ni au mouvement ni à la couleur.**
-  Les trois actions du site (le seuil, la barre collante d'un pôle, le bloc de contact de
-  l'accueil) répondaient au survol en se déplaçant vers le pointeur. Ce geste a été
-  **refusé par Jérôme MARICHEZ** (issue #137) et son module supprimé. Deux signaux le
+  Les trois actions concernées (le seuil, la barre collante d'un pôle, le bloc de contact
+  de l'accueil) répondaient au survol en se déplaçant vers le pointeur. **Jérôme MARICHEZ
+  n'a pas voulu de ce geste** (issue #137), et son module a été supprimé. Deux signaux le
   remplacent, et ils sont posés ensemble : l'ombre monte (`--elevation-levee`) et le
   libellé se souligne. Le soulignement est là pour WCAG 1.4.1 : une ombre portée se
   perçoit mal sur un écran mat, un trait sous le libellé est une forme et se voit
