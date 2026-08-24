@@ -1,7 +1,6 @@
 // PoleStickyBar/index.tsx — jeromemarichez-fr
 // L'en-tête de pôle collant : où l'on est, et la seule action de la page.
 
-import { MagneticAction } from '@/@shared/components/MagneticAction'
 import { SITE_IDENTITY } from '@/@shared/seo/site'
 import type { IPole } from '@/interfaces/IPole'
 import styles from './pole-sticky-bar.module.css'
@@ -38,9 +37,9 @@ export function PoleStickyBar({ pole }: PoleStickyBarProps) {
           <span className={styles.nom}>{pole.nom}</span>
         </p>
 
-        <MagneticAction className={styles.action} href={`mailto:${SITE_IDENTITY.email}`}>
+        <a className={styles.action} href={`mailto:${SITE_IDENTITY.email}`}>
           Décrire mon besoin
-        </MagneticAction>
+        </a>
       </div>
     </div>
   )

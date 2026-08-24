@@ -61,9 +61,9 @@
   gap: var(--e-4);
 }
 
-/* Apparence seule : le `transform` appartient à `MagneticAction`, qui est le seul à en
-   poser un sur un bouton d'action. Deux règles concurrentes se départageraient à
-   l'ordre du paquet CSS, ce qui n'est pas une règle. */
+/* Aucun `transform` sur cette action, et c'est désormais la règle du site : un bouton
+   qui se déplace sous le pointeur a été refusé (issue #137). Le survol se dit par
+   l'ombre et par le soulignement, deux signaux qui n'exigent ni mouvement ni couleur. */
 .actionPrincipale {
   display: inline-block;
   padding: var(--e-2) var(--e-4);
@@ -92,6 +92,13 @@
     var(--elevation-posee),
     inset 0 calc(-1 * var(--verre-epaisseur-lueur)) 0 var(--verre-rebond),
     var(--elevation-levee);
+  /* Le soulignement double le signal d'ombre. Une ombre portée se perçoit mal sur un
+     petit écran mat, et WCAG 1.4.1 refuse qu'un état tienne à la seule couleur : un
+     trait sous le libellé est une forme, il se voit partout. C'est déjà ce que fait
+     l'invite d'une porte de pôle au survol. */
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.24em;
 }
 
 /* L'action secondaire devient une pastille de verre : c'est elle, et non l'action

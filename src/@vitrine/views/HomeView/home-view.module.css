@@ -107,7 +107,8 @@
   align-items: flex-start;
 }
 
-/* Apparence seule : le `transform` appartient à `MagneticAction`. */
+/* Aucun `transform` : le déplacement au survol a été refusé (issue #137). Le survol se
+   dit par l'ombre et par le soulignement. */
 .action {
   display: inline-block;
   padding: var(--e-2) var(--e-4);
@@ -121,4 +122,7 @@
 
 .action:hover {
   box-shadow: var(--elevation-levee);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.24em;
 }
