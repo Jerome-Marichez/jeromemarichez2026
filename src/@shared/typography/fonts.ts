@@ -12,6 +12,30 @@
 // en capitales espacées, où la personnalité d'une fonte de labeur ne se lit pas. Il est
 // donc servi par la pile système, qui coûte zéro octet : voir `--police-mono-pile` dans
 // `globals.css`.
+//
+// ## Le préchargement reste actif, et ce n'est pas par défaut d'y avoir pensé
+//
+// Les deux `woff2` préchargés pèsent 67 et 49 ko : c'est le premier poste du chemin
+// critique de l'accueil, dont le LCP est le `h1`. Trois variantes ont donc été mesurées
+// pendant l'issue #145, sur l'accueil, tout le reste égal, cinq passes chacune :
+//
+//   les deux préchargées (ce fichier)  perf 95 aux cinq passes, LCP 2 933 ms ± 20
+//   aucune préchargée                  perf 94 à 96 selon la passe, LCP 2 337 à 2 989
+//   Inter seule préchargée             perf 94 à 96 selon la passe, LCP 2 959 ms
+//
+// Retirer le préchargement fait bien tomber le LCP, mais il le fait de façon instable, et
+// la raison est mécanique : Lighthouse impute au LCP tout ce qui a fini de se charger
+// avant la peinture observée. Non préchargée, une fonte n'est demandée qu'après l'analyse
+// des feuilles de style ; elle arrive alors tantôt avant cette peinture, tantôt après, et
+// le score bascule de trois points selon le côté où elle tombe. Préchargées, les deux
+// fontes arrivent toujours du même côté : le score ne bouge plus d'une passe à l'autre.
+// Un budget qui échoue une fois sur trois au hasard se fait désactiver en une semaine.
+//
+// Surtout, le préchargement sélectif est nommément un arbitrage de dessin, au même titre
+// que le sous-ensemble de glyphes ou le `size-adjust` : il revient à Jérôme MARICHEZ et
+// pas à un lot de performance. Voir `docs/ameliorations.md` et l'issue #80, qui portent
+// déjà ce poste. Ce fichier n'a donc pas changé de comportement, il porte seulement la
+// mesure pour que la question ne se rouvre pas sans elle.
 
 import { Fraunces, Inter } from 'next/font/google'
 

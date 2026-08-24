@@ -129,6 +129,31 @@ async function resoudre(racine, cheminUrl) {
 }
 
 /**
+ * `Cache-Control`, repris de `docker/nginx.conf` — même sens de dépendance que la
+ * compression : la production décide, ce fichier reflète.
+ *
+ * Ce serveur répondait `no-store` à tout, ce que nginx ne fait nulle part. La divergence
+ * n'était pas neutre pour la mesure : Lighthouse relevait sur chaque page deux motifs de
+ * refus du `bfcache` (`MainResourceHasCacheControlNoStore` et
+ * `JsNetworkRequestReceivedCacheControlNoStoreResource`), tous deux causés par cet
+ * en-tête et par lui seul. Le budget condamnait donc le site pour un défaut du harnais.
+ *
+ * Aucun effet sur le score de performance : `bf-cache` est un audit de diagnostic, de
+ * poids nul dans la catégorie, et Lighthouse vide le cache entre deux passes — mesuré
+ * avant et après, les cinq métriques pondérées ne bougent pas (issue #145).
+ */
+const ENTETES_CACHE = {
+  /** `location /_next/static/` — noms versionnés par le build, donc immuables. */
+  immuable: { 'Cache-Control': 'public, max-age=31536000, immutable' },
+  /** `location /` — le HTML se revalide, sinon une mise en production reste invisible. */
+  revalide: { 'Cache-Control': 'public, max-age=0, must-revalidate' },
+}
+
+/** L'en-tête de cache que nginx poserait sur cette URL. */
+const cachePour = (cheminUrl) =>
+  cheminUrl.startsWith('/_next/static/') ? ENTETES_CACHE.immuable : ENTETES_CACHE.revalide
+
+/**
  * Décide de la compression exactement comme nginx : le client doit l'accepter, le type
  * doit figurer dans la liste, et la réponse doit peser au moins `gzip_min_length`.
  */
@@ -172,14 +197,15 @@ export async function demarrerServeurStatique({ racine, port = PORT_PAR_DEFAUT }
 
   const serveur = createServer(async (requete, reponse) => {
     try {
+      const cheminUrl = (requete.url ?? '/').split('?')[0]
       const fichier = await resoudre(dossier, requete.url ?? '/')
       if (fichier) {
-        await envoyer(requete, reponse, 200, fichier, { 'Cache-Control': 'no-store' })
+        await envoyer(requete, reponse, 200, fichier, cachePour(cheminUrl))
         return
       }
       const page404 = await fichierExistant(join(dossier, '404.html'))
       if (page404) {
-        await envoyer(requete, reponse, 404, page404, { 'Cache-Control': 'no-store' })
+        await envoyer(requete, reponse, 404, page404, ENTETES_CACHE.revalide)
         return
       }
       reponse.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' })
