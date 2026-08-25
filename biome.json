@@ -29,6 +29,7 @@
       "!dist",
       "!build",
       "!coverage",
+      "!storybook-static",
       "!.claude/worktrees",
       "!**/postman_collection.json",
       "!next-env.d.ts"

@@ -515,6 +515,20 @@ L'application est servie sur **http://localhost:3000**. Les variables d'environn
 requises sont décrites dans `.env.example` (elles sont validées par un schéma Zod au
 démarrage).
 
+### Catalogue de composants
+
+```bash
+make storybook          # catalogue local (http://localhost:6006)
+make storybook-build    # build statique, dans storybook-static/ (non versionné)
+```
+
+Trente et un composants sur trente-quatre y ont une story, chacune colocalisée avec son
+composant. Le catalogue charge les
+jetons CSS du site et ouvre deux réglages que les pages ne permettent pas : le thème
+clair ou sombre, et les quatre teintes de pôle. Les paquets Storybook sont uniquement en
+`devDependencies`, donc rien n'en part au navigateur d'un visiteur. Détails,
+conventions et exclusions motivées : [`docs/storybook.md`](./docs/storybook.md).
+
 ## 🧪 Tests & qualité
 
 ```bash

@@ -6,7 +6,7 @@ Deux familles de pipelines, alignées sur le [workflow Git](./git-workflow.md) :
 
 | Déclencheur | Workflows | Objectif |
 |-------------|-----------|----------|
-| **PR → `dev`** | `ci-dev-lint`, `ci-dev-types`, `ci-dev-tests`, `ci-dev-a11y`, `ci-dev-nginx`, `ci-dev-docker` | Checks **rapides** : lint (Biome + limite 300 lignes), vérification des types, tests unitaires et intégration, contrôle d'accessibilité (axe), validation de la configuration nginx de production. |
+| **PR → `dev`** | `ci-dev-lint`, `ci-dev-types`, `ci-dev-tests`, `ci-dev-a11y`, `ci-dev-nginx`, `ci-dev-docker`, `ci-dev-storybook` | Checks **rapides** : lint (Biome + limite 300 lignes), vérification des types, tests unitaires et intégration, contrôle d'accessibilité (axe), validation de la configuration nginx de production, build du catalogue de composants. |
 | **PR → `main`** | `ci-main-e2e`, `ci-main-system`, `ci-main-build`, `ci-main-budgets` | Checks **complets** avant production : e2e navigateur, tests système, build, budgets Lighthouse + axe. |
 
 ## Jobs
@@ -23,6 +23,14 @@ Deux familles de pipelines, alignées sur le [workflow Git](./git-workflow.md) :
   Cypress y chargent le `expect()` de Chai, qui écrase celui de Jest ; Cypress
   type-vérifie ses propres specs.
 - **tests (dev)** : unitaires + intégration, front et back.
+- **storybook (dev)** : `make storybook-build`, le build statique du catalogue de
+  composants. C'est un **ajout** de contrôle, pas l'assouplissement d'un autre, et il a
+  une raison datée : le dépôt a annoncé Storybook pendant des mois sans l'avoir installé,
+  et personne ne s'en est aperçu parce que rien ne le construisait (issue #140).
+  `storybook build` compile toutes les stories : une story qui référence un composant
+  supprimé, une prop renommée ou un contenu disparu fait échouer la PR. Sans ce job, la
+  rupture n'apparaîtrait qu'au prochain développeur qui ouvrirait le catalogue, c'est-à-dire
+  potentiellement jamais.
 - **e2e (main)** : `make test-e2e`, le harnais `scripts/e2e.mjs` construit l'export
   statique si `out/` manque, le sert sur `127.0.0.1:E2E_PORT` (4173 par défaut) avec les
   règles de résolution de `docker/nginx.conf`, **attend que le port réponde** (sonde

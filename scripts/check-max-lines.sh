@@ -16,7 +16,8 @@ while IFS= read -r f; do
   fi
 done < <(find "$ROOT" \
   \( -path '*/node_modules' -o -path '*/.next' -o -path '*/out' -o -path '*/dist' \
-     -o -path '*/build' -o -path '*/coverage' -o -path '*/.git' \) -prune -o \
+     -o -path '*/build' -o -path '*/coverage' -o -path '*/.git' \
+     -o -path '*/storybook-static' \) -prune -o \
   -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' \) \
   ! -name '*.test.*' ! -name '*.spec.*' ! -name '*.cy.ts' ! -name '*.config.*' ! -name '*.d.ts' \
   ! -path '*/tests/*' \

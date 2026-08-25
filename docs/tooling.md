@@ -37,6 +37,27 @@ Toutes les opérations passent par `make` (voir `Makefile`) : agnostique, docume
 make lint
 ```
 
+Biome et `check-max-lines.sh` écartent les mêmes sorties de build : `node_modules`,
+`.next`, `out`, `dist`, `build`, `coverage` et `storybook-static`. Ce sont des fichiers générés,
+jamais du code du dépôt : les écarter n'assouplit aucun contrôle.
+
+## Storybook : le catalogue de composants
+
+Storybook est installé et en service. Trois paquets, tous en `devDependencies` : `storybook`,
+`@storybook/nextjs-vite` (le framework, seul à savoir résoudre `next/font` hors d'un
+serveur Next) et `vite`. Rien n'entre dans `next build`, donc le poids du JavaScript des
+pages est inchangé.
+
+```bash
+make storybook          # http://localhost:6006
+make storybook-build    # build statique, dans storybook-static/ (non versionné)
+```
+
+Les stories sont **colocalisées** avec leur composant. La configuration charge les quatre
+feuilles de jetons du site dans l'ordre de `src/app/layout.tsx`, et ajoute deux contrôles
+de barre d'outils : le thème, et la teinte de pôle. Conventions, mécanique et exclusions
+motivées : [`storybook.md`](./storybook.md).
+
 ## Hooks Claude Code (`.claude/`)
 
 | Hook | Événement | Rôle |
