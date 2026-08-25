@@ -64,7 +64,7 @@ budget-perf: ## Budget de performance seul (Lighthouse, mobile bride)
 budget-a11y: ## Budget d'accessibilite seul (axe-core) — rapide
 	node scripts/budgets.mjs a11y
 
-storybook: ## Storybook en local (http://localhost:6006) — après npx storybook@latest init
+storybook: ## Catalogue de composants en local (http://localhost:6006)
 	@if [ -d front ]; then cd front && npm run storybook; else npm run storybook; fi
 
 storybook-build: ## Build statique Storybook
