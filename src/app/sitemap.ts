@@ -11,6 +11,14 @@ const RACINE = 'https://jeromemarichez.fr'
  * `next.config.mjs` : le plan du site et la balise canonique doivent designer
  * exactement la meme adresse, sinon le moteur voit deux pages la ou il y en a une.
  */
+/**
+ * `output: 'export'` exige que cette route se declare statique explicitement :
+ * Next refuse de collecter une route de metadonnees sans savoir si elle doit etre
+ * rejouee a chaque requete. Sur un site sans donnees changeantes, la reponse est
+ * toujours la meme, donc on la fige au build.
+ */
+export const dynamic = 'force-static'
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const dateDeSortie = new Date()
 
