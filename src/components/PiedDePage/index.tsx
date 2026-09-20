@@ -1,6 +1,7 @@
 import { BoutonMouvement } from '@/components/BoutonMouvement';
 import { contact } from '@/contenu/contact';
 import { navigation } from '@/contenu/navigation';
+import { versTel, versUrl } from '@/utils/lien';
 import styles from './pied-de-page.module.css';
 
 /**
@@ -22,9 +23,7 @@ export function PiedDePage() {
           <h2 className={styles.intitule}>Me joindre</h2>
           <ul className={styles.liste}>
             <li>
-              <a href={`tel:${contact.telephone.replace(/\s/g, '')}`}>
-                {contact.telephone}
-              </a>
+              <a href={versTel(contact.telephone)}>{contact.telephone}</a>
             </li>
             <li>
               <a href={`mailto:${contact.email}`}>{contact.email}</a>
@@ -37,12 +36,12 @@ export function PiedDePage() {
           <h2 className={styles.intitule}>Ailleurs</h2>
           <ul className={styles.liste}>
             <li>
-              <a href={contact.linkedin} rel="me noopener" target="_blank">
+              <a href={versUrl(contact.linkedin)} rel="me noopener" target="_blank">
                 LinkedIn
               </a>
             </li>
             <li>
-              <a href={contact.github} rel="me noopener" target="_blank">
+              <a href={versUrl(contact.github)} rel="me noopener" target="_blank">
                 GitHub
               </a>
             </li>
