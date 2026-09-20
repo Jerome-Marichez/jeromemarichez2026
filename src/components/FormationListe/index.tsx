@@ -5,18 +5,18 @@ interface IFormationListeProps {
   readonly formations: readonly IFormation[]
 }
 
-/** Les diplômes obtenus, en liste de définitions alignée sur la même colonne. */
+/**
+ * Les diplômes obtenus, dans leur ordre de déclaration.
+ *
+ * Aucune année n'est rendue : c'est l'ordre de la liste qui fait le classement.
+ */
 export function FormationListe({ formations }: IFormationListeProps) {
   return (
     <dl className={styles.liste}>
       {formations.map((formation) => (
         <div className={styles.entree} key={formation.diplome}>
           <dt className={styles.diplome}>{formation.diplome}</dt>
-          <dd className={styles.detail}>
-            {formation.ville}
-            <span aria-hidden="true"> · </span>
-            {formation.annee}
-          </dd>
+          <dd className={styles.detail}>{formation.ville}</dd>
         </div>
       ))}
     </dl>

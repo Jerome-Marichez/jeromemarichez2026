@@ -122,7 +122,7 @@ export const PAGES = [
     chemin: '/a-propos/',
     pourquoi:
       'gabarit de prose longue, plus les certifications. La seule page dont un champ ' +
-      "peut être vide (`annee: null` sur Google Ads) : son rendu sans année se contrôle ici",
+      'peut être vide (`annee: null` sur Google Ads) : son rendu sans année se contrôle ici',
   },
   {
     id: 'parcours',
