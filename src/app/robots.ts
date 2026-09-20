@@ -1,4 +1,4 @@
-import type { MetadataRoute } from 'next';
+import type { MetadataRoute } from 'next'
 
 /**
  * Le site est un CV : il est fait pour etre indexe en entier. Rien n'est exclu,
@@ -9,5 +9,5 @@ export default function robots(): MetadataRoute.Robots {
     rules: [{ userAgent: '*', allow: '/' }],
     sitemap: 'https://jeromemarichez.fr/sitemap.xml',
     host: 'https://jeromemarichez.fr',
-  };
+  }
 }

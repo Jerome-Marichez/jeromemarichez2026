@@ -1,8 +1,8 @@
-import type { IAxe } from '@/interfaces/IAxe';
-import styles from './axe-liste.module.css';
+import type { IAxe } from '@/interfaces/IAxe'
+import styles from './axe-liste.module.css'
 
 interface IAxeListeProps {
-  readonly axes: readonly IAxe[];
+  readonly axes: readonly IAxe[]
 }
 
 /**
@@ -23,7 +23,7 @@ export function AxeListe({ axes }: IAxeListeProps) {
         <div className={styles.axe} key={axe.nom}>
           <dt className={styles.nom}>
             <span className={styles.marqueur} aria-hidden="true">
-              //
+              {'//'}
             </span>
             {axe.nom}
           </dt>
@@ -41,5 +41,5 @@ export function AxeListe({ axes }: IAxeListeProps) {
         </div>
       ))}
     </dl>
-  );
+  )
 }

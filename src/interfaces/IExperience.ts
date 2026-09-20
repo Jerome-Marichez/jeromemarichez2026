@@ -1,4 +1,4 @@
-import type { StatutExperience } from "./types";
+import type { StatutExperience } from './types'
 
 /**
  * Une expérience professionnelle. `posteIntitule` est repris à l'identique du CV
@@ -6,13 +6,13 @@ import type { StatutExperience } from "./types";
  * de poste historiques ».
  */
 export interface IExperience {
-  periode: string;
-  entreprise: string;
-  secteur: string;
-  statut: StatutExperience;
-  posteIntitule: string;
-  contexte: string;
-  realisations: string[];
-  stackTechnique: string[];
-  encadrement: string | null;
+  periode: string
+  entreprise: string
+  secteur: string
+  statut: StatutExperience
+  posteIntitule: string
+  contexte: string
+  realisations: string[]
+  stackTechnique: string[]
+  encadrement: string | null
 }

@@ -1,5 +1,5 @@
-import type { NomAxe } from "./types";
-import type { IPreuve } from "./IPreuve";
+import type { IPreuve } from './IPreuve'
+import type { NomAxe } from './types'
 
 /**
  * Un des quatre axes de la pratique (Full Stack, IA, QA, Data-Driven). Les quatre
@@ -7,7 +7,7 @@ import type { IPreuve } from "./IPreuve";
  * « Positionnement ».
  */
 export interface IAxe {
-  nom: NomAxe;
-  phrase: string;
-  preuves: IPreuve[];
+  nom: NomAxe
+  phrase: string
+  preuves: IPreuve[]
 }

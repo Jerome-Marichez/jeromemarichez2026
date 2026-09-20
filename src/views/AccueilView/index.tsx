@@ -1,13 +1,13 @@
-import { Annotation } from '@/components/Annotation';
-import { AxeListe } from '@/components/AxeListe';
-import { Bouton } from '@/components/Bouton';
-import { Mug } from '@/components/Mug';
-import { TitreMachine } from '@/components/TitreMachine';
-import { TitreSection } from '@/components/TitreSection';
-import { accroches } from '@/contenu/accroches';
-import { axes } from '@/contenu/axes';
-import { profil } from '@/contenu/profil';
-import styles from './accueil-view.module.css';
+import { Annotation } from '@/components/Annotation'
+import { AxeListe } from '@/components/AxeListe'
+import { Bouton } from '@/components/Bouton'
+import { Mug } from '@/components/Mug'
+import { TitreMachine } from '@/components/TitreMachine'
+import { TitreSection } from '@/components/TitreSection'
+import { accroches } from '@/contenu/accroches'
+import { axes } from '@/contenu/axes'
+import { profil } from '@/contenu/profil'
+import styles from './accueil-view.module.css'
 
 /**
  * L'accueil. Il a trente secondes pour empecher une elimination, puis il doit
@@ -79,5 +79,5 @@ export function AccueilView() {
         </div>
       </section>
     </>
-  );
+  )
 }

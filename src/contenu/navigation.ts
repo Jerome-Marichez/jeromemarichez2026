@@ -8,10 +8,10 @@
  */
 
 export interface IEntreeNavigation {
-  readonly libelle: string;
-  readonly href: string;
+  readonly libelle: string
+  readonly href: string
   /** Nom du fichier affiche dans l'onglet d'editeur de l'en-tete. */
-  readonly onglet: string;
+  readonly onglet: string
 }
 
 export const navigation: readonly IEntreeNavigation[] = [
@@ -21,4 +21,4 @@ export const navigation: readonly IEntreeNavigation[] = [
   { libelle: 'Projets', href: '/projets/', onglet: 'projets.tsx' },
   { libelle: 'Compétences', href: '/competences/', onglet: 'competences.tsx' },
   { libelle: 'Contact', href: '/contact/', onglet: 'contact.tsx' },
-];
+]

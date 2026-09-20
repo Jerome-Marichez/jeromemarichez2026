@@ -1,7 +1,7 @@
-import styles from './annotation.module.css';
+import styles from './annotation.module.css'
 
 interface IAnnotationProps {
-  readonly children: React.ReactNode;
+  readonly children: React.ReactNode
 }
 
 /**
@@ -34,5 +34,5 @@ export function Annotation({ children }: IAnnotationProps) {
       </svg>
       <p className={styles.texte}>{children}</p>
     </aside>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import styles from './lien-evitement.module.css';
+import styles from './lien-evitement.module.css'
 
 /**
  * Premier element focusable de la page. Invisible jusqu'au focus clavier, il
@@ -9,5 +9,5 @@ export function LienEvitement() {
     <a className={styles.lien} href="#contenu">
       Aller au contenu
     </a>
-  );
+  )
 }

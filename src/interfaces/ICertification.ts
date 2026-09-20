@@ -5,8 +5,8 @@
  * une URL inventée ni un lien mort.
  */
 export interface ICertification {
-  nom: string;
-  organisme: string;
-  annee: number | null;
-  justificatif: string | null;
+  nom: string
+  organisme: string
+  annee: number | null
+  justificatif: string | null
 }

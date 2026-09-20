@@ -14,7 +14,7 @@
   text-decoration-color: var(--cafe);
 }
 
-.bouton[aria-pressed='true'] {
+.bouton[aria-pressed="true"] {
   color: var(--cafe);
 }
 
