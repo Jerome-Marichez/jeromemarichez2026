@@ -14,6 +14,7 @@ se tranche par un raccourci technique.
 |-------|------|---------------|
 | **Test de fumée e2e périmé** | `tests/e2e/fumee.cy.ts` vérifie `/services/*`, `/realisations/` et `/blog/`, routes supprimées | Le test appartient à Jérôme MARICHEZ, et la règle 8 interdit de le modifier pour faire passer la CI. Il ne tourne que sur les PR vers `main`, donc il bloque la mise en production, pas la fusion vers `dev` |
 | **Storybook sans stories** | Les 31 stories vivaient dans `src/` et sont parties avec les composants supprimés | À reconstruire pour les composants du nouveau site. `make storybook-build` tourne en CI sur toute PR vers `dev` |
+| **Deux fichiers morts dans `.storybook/`** | `theme-media.ts` (bascule clair et sombre, sans objet, le site n'a qu'un thème) et `jeux-de-donnees.ts` (importe des modules de contenu supprimés) | Rien ne les importe plus. Suppression sans risque, refusée à l'assistant par les permissions de session |
 | **Tests unitaires du nouveau site** | Seul `tests/unitaire/exemple.spec.ts` subsiste, générique | Les tests sont écrits par Jérôme MARICHEZ. L'intention des tests à écrire lui est exposée, il pose les fichiers |
 | **CV téléchargeable à « 9 ans »** | Le site annonce dix ans, les six PDF en annoncent neuf | Les PDF sont générés par les scripts Python de `MES CV/sources/`, hors de ce dépôt. Correction à autoriser |
 | **Année de la certification Google Ads** | Champ à `null`, aucune année affichée | Les CV disent 2022, un arbitrage antérieur disait 2021. Arbitrage de Jérôme MARICHEZ attendu |

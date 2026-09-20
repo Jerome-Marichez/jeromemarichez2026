@@ -1,65 +1,43 @@
-// .storybook/preview.tsx — jeromemarichez-fr
+// preview.tsx, jeromemarichez-fr
 //
-// L'enveloppe commune à toutes les stories. Elle a un seul travail, mais il commande
-// tout le reste : rendre un composant dans les mêmes conditions que le site.
+// L'enveloppe commune a toutes les stories. Elle a un seul travail : placer un
+// composant dans les memes conditions que sur le site, sinon le catalogue montre
+// un composant faux plutot qu'un composant sobre.
 //
-// Les composants du dépôt ne portent aucune couleur en dur, par règle (docs/design.md) :
-// ils consomment des jetons (`--fond`, `--encre`, `--accent`) déclarés dans les quatre
-// feuilles globales. Une story qui ne les charge pas n'affiche pas un composant sobre,
-// elle affiche un composant faux.
+// Trois conditions, et elles suffisent :
+//   1. les jetons, car aucun composant du site ne porte de couleur en dur ;
+//   2. les deux polices, car la mise en page entiere s'aligne sur la cellule de
+//      caractere de Fira Code : sans elle, toutes les largeurs en `ch` sont fausses ;
+//   3. le fond sombre, pose par `globals.css` sur le `<body>`.
 
 import type { Decorator, Preview } from '@storybook/nextjs-vite'
-import { useEffect } from 'react'
-import { GlassRefraction } from '../src/components/GlassRefraction'
-import { FONT_VARIABLES } from '../src/typography/fonts'
-import { appliquerTheme, type Theme } from './theme-media'
+import { policeCode, policeMain } from '../src/app/polices'
 
-// L'ordre est celui de `src/app/layout.tsx`, et il n'est pas indifférent : `poles.css`,
-// `verre.css` et `lavis.css` s'appuient sur les jetons de `globals.css`, et `lavis.css`
-// dérive les siens de `--accent`, que `poles.css` mappe sur le pôle courant.
+// `globals.css` importe lui-meme `jetons.css` : une seule feuille a charger, et
+// l'ordre ne peut donc pas se desynchroniser de celui du site.
 import '../src/app/globals.css'
-import '../src/app/poles.css'
-import '../src/app/verre.css'
-import '../src/app/lavis.css'
-
-/** Les valeurs du contrôle de pôle. `aucun` est le cuivre du socle, hors `data-pole`. */
-const POLES = ['aucun', 'ingenierie-web', 'data', 'ia', 'sea-ux'] as const
 
 /**
- * Pose les jetons, les fontes et la teinte de pôle autour de chaque story.
- *
- * `data-pole` est posé sur l'enveloppe, exactement comme une section de pôle le fait sur
- * le site : `poles.css` fait tout le reste, et aucun composant n'a besoin de savoir de
- * quelle couleur il est. C'est la même mécanique qu'en production, pas une imitation.
+ * L'enveloppe ne peint **aucun fond**. Celui de la page vient de `globals.css`,
+ * pose sur le `<body>`, d'ou il se propage au canevas de Storybook. Le repeindre
+ * ici masquerait une regression du fond reel sans que personne le voie.
  */
 const enveloppe: Decorator = (Story, contexte) => {
-  const theme = contexte.globals.theme as Theme
-  const pole = contexte.globals.pole as (typeof POLES)[number]
+  const mouvement = contexte.globals.mouvement as 'anime' | 'pause'
 
-  // Après la peinture : les feuilles injectées par Vite doivent être dans le document
-  // avant qu'on en réécrive les règles média. Le `color-scheme` va sur la racine et non
-  // sur l'enveloppe, parce que c'est lui qui commande le fond du canevas et l'apparence
-  // native des contrôles de formulaire.
-  useEffect(() => {
-    document.documentElement.style.colorScheme = appliquerTheme(theme)
-  }, [theme])
+  // Le site pose `data-mouvement` sur la racine, pas sur un conteneur : le
+  // catalogue fait donc pareil, sinon les regles globales de mise en pause ne
+  // s'appliqueraient pas.
+  if (typeof document !== 'undefined') {
+    if (mouvement === 'pause') {
+      document.documentElement.dataset.mouvement = 'pause'
+    } else {
+      delete document.documentElement.dataset.mouvement
+    }
+  }
 
   return (
-    // `position: relative` et **aucun fond** : c'est exactement ce que `globals.css` fait
-    // au `<body>`. Le fond de la page vient de la feuille du site et se propage au
-    // canevas ; peindre un fond ici passerait par-dessus `.fond-atelier`, dont le
-    // `z-index: -1` le place derrière le contenu mais devant le canevas. Le verre
-    // n'aurait alors plus aucune trame à laisser voir.
-    <div
-      className={FONT_VARIABLES}
-      data-pole={pole === 'aucun' ? undefined : pole}
-      style={{ minHeight: '100vh', padding: '2rem', position: 'relative' }}
-    >
-      {/* Le fond d'atelier et le filtre de réfraction sont déclarés une fois par page sur
-          le site. Sans eux, les panneaux de verre perdent la trame qu'ils sont censés
-          laisser voir, et l'effet ne se juge plus. */}
-      <div aria-hidden="true" className="fond-atelier" />
-      <GlassRefraction />
+    <div className={`${policeCode.variable} ${policeMain.variable}`}>
       <Story />
     </div>
   )
@@ -69,38 +47,34 @@ const preview: Preview = {
   decorators: [enveloppe],
 
   globalTypes: {
-    theme: {
-      description: 'Thème clair ou sombre. « auto » suit le système, comme le site.',
+    /**
+     * Le seul controle de la barre d'outils, et il correspond a un vrai bouton du
+     * site : la mise en pause exigee par WCAG 2.2.2, qui vit dans le pied de page.
+     *
+     * Il n'y a **pas** de controle de theme : le site n'a qu'un theme, sombre, et
+     * c'est un choix assume (voir docs/design.md). Un selecteur clair ou sombre
+     * dans le catalogue laisserait croire a une variante qui n'existe pas.
+     */
+    mouvement: {
+      name: 'Mouvement',
+      description: 'Anime les composants ou met toute animation en pause',
+      defaultValue: 'anime',
       toolbar: {
-        title: 'Thème',
-        icon: 'contrast',
+        icon: 'play',
         items: [
-          { value: 'auto', title: 'Auto (système)' },
-          { value: 'clair', title: 'Clair' },
-          { value: 'sombre', title: 'Sombre' },
+          { value: 'anime', title: 'Animé' },
+          { value: 'pause', title: 'En pause' },
         ],
-        dynamicTitle: true,
-      },
-    },
-    pole: {
-      description: 'Teinte de pôle appliquée par `data-pole`, comme sur le site.',
-      toolbar: {
-        title: 'Pôle',
-        icon: 'paintbrush',
-        items: POLES.map((valeur) => ({ value: valeur, title: valeur })),
         dynamicTitle: true,
       },
     },
   },
 
-  initialGlobals: { theme: 'auto', pole: 'aucun' },
-
   parameters: {
-    // Le fond vient des jetons du site, pas d'une palette de Storybook : deux sources de
-    // couleur donneraient deux vérités, et celle qui compte est celle du site.
+    // Le site est sombre : le canevas du catalogue doit l'etre aussi, sinon chaque
+    // story s'ouvre sur un flash blanc.
     backgrounds: { disable: true },
-    controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
-    layout: 'fullscreen',
+    layout: 'padded',
   },
 }
 
