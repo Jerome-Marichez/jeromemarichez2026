@@ -68,6 +68,28 @@ règles vérifiables, ce qu'une chaîne perdue dans un JSX n'est pas.
 `index.ts` : c'est la limite de 300 lignes par fichier qui l'impose, et le découpage
 rend au passage chaque expérience relisible seule.
 
+### Les vues déléguent leur unité répétée à un composant
+
+Une vue qui rend une liste d'entrées riches (une expérience, une fiche de projet, un
+diplôme) n'écrit pas le gabarit de l'entrée : elle le délègue.
+
+| Composant | Rendu pour |
+|-----------|-----------|
+| `ExperienceBloc` | une expérience du parcours |
+| `ProjetFiche` | un projet, en Contexte, Enjeu, Mon rôle, Résultat |
+| `FormationListe` | les diplômes |
+| `AxeListe` | les quatre axes de la pratique |
+| `MurDeStack` | les neuf familles de compétences |
+
+C'est la limite de 300 lignes par fichier qui force cette extraction, et c'est un bon
+forçage : le gabarit d'une entrée devient relisible seul, et il se rend dans Storybook
+sans monter la page entière.
+
+Aucun de ces composants n'est une **carte**. Ils rendent des listes de définitions
+séparées par des filets, ce qui est la structure retenue par la direction visuelle : une
+grille de cartes de même taille traiterait dix ans comme des vignettes
+interchangeables. Voir [design.md](./design.md).
+
 ### Les composants n'ont pas de bibliothèque
 
 Aucune bibliothèque de composants, aucune dépendance d'effet visuel. Le site compte

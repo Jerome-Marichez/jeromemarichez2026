@@ -1,0 +1,7 @@
+.bloc {
+  padding-block: var(--e6) var(--e6);
+}
+
+.liste {
+  margin-top: var(--e4);
+}
