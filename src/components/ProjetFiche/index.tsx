@@ -18,7 +18,7 @@ export function ProjetFiche({ projet }: IProjetFicheProps) {
   return (
     <article className={styles.fiche}>
       <header className={styles.entete}>
-        <h3 className={styles.titre}>{projet.titre}</h3>
+        <h2 className={styles.titre}>{projet.titre}</h2>
         <p className={styles.meta}>
           <span className={styles.entreprise}>{projet.entreprise}</span>
           <span aria-hidden="true">·</span>

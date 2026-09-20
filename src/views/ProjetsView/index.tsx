@@ -1,5 +1,4 @@
 import { ProjetFiche } from '@/components/ProjetFiche'
-import { TitreSection } from '@/components/TitreSection'
 import { projets } from '@/contenu/projets'
 import styles from './projets-view.module.css'
 
@@ -14,7 +13,7 @@ import styles from './projets-view.module.css'
 export function ProjetsView() {
   return (
     <section className={`cadre ${styles.bloc}`}>
-      <TitreSection>Les projets en détail</TitreSection>
+      <h1 className={styles.titre}>Les projets en détail</h1>
       <div className={styles.liste}>
         {projets.map((projet) => (
           <ProjetFiche key={projet.titre} projet={projet} />
