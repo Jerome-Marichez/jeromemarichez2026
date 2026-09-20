@@ -95,59 +95,61 @@ export const ETIQUETTES_AXE = [
 ]
 
 /**
- * Les pages mesurées. Trois familles, parce qu'un site ne se juge pas sur son accueil :
- * les gabarits diffèrent (scène animée, sections de pôle, corps d'article long), et
- * c'est justement là que les régressions se logent.
+ * Les pages mesurées. **Les six routes du site, sans exception.**
  *
- * Ajouter un gabarit ici suffit à l'inclure partout — budgets locaux comme CI.
+ * Le site en compte six : les mesurer toutes coûte moins cher que de choisir
+ * lesquelles sacrifier, et supprime la question « ce gabarit est-il protégé ». Un
+ * gabarit non mesuré est un gabarit non protégé.
+ *
+ * Cette liste a été **remplacée le 2026-09-20** : elle visait les routes du site
+ * vitrine à quatre pôles (`/services/*`, `/realisations/`, `/blog/`), retiré à la
+ * demande de Jérôme MARICHEZ. Ce n'est pas une page soustraite au contrôle, c'est une
+ * liste remise en face du site qui existe, et la couverture y gagne au lieu d'y perdre.
+ *
+ * **Aucun seuil n'a été touché** à cette occasion : le plancher de performance reste à
+ * 80, les trois autres catégories à 95.
  */
 export const PAGES = [
   {
     id: 'accueil',
     chemin: '/',
-    pourquoi: 'la scène animée et le verre — le gabarit le plus lourd du site',
-  },
-  {
-    id: 'pole-ingenierie-web',
-    chemin: '/services/ingenierie-web/',
-    pourquoi: 'gabarit de pôle : sections, preuves chiffrées, palette dédiée',
-  },
-  {
-    id: 'blog',
-    chemin: '/blog/',
     pourquoi:
-      "gabarit de liste d'articles : cartes datées, figures construites, JSON-LD de blog. " +
-      "Ajouté avec les figures d'article (issue #108) — un gabarit non mesuré est un gabarit " +
-      'non protégé',
+      'le gabarit le plus lourd : le titre qui se révèle caractère par caractère et le ' +
+      'mug animé en continu. Si une régression de performance existe, elle est ici',
   },
   {
-    id: 'article',
-    chemin: '/blog/pourquoi-ce-site-est-un-export-statique/',
-    pourquoi: "gabarit d'article : corps long, typographie, fil d'Ariane, JSON-LD",
-  },
-  {
-    id: 'article-avec-source',
-    chemin: '/blog/de-la-doc-qui-pilote-une-ia-a-une-carte-de-l-architecture/',
+    id: 'a-propos',
+    chemin: '/a-propos/',
     pourquoi:
-      "variante du gabarit d'article : la note de publication d'origine et son lien sortant " +
-      'en target=_blank. Ajoutée avec le premier article qui en porte une (issue #109) — le ' +
-      "composant existait depuis l'issue #108, mais aucune page mesurée ne le rendait, donc " +
-      "son contraste et l'intitulé de son lien n'étaient contrôlés nulle part. C'est aussi " +
-      'la seule page mesurée qui rende une LISTE de prose (`IArticleSection.liste`, issue ' +
-      '#121) : ses puces et leur contraste sont contrôlés ici, et nulle part ailleurs',
+      'gabarit de prose longue, plus les certifications. La seule page dont un champ ' +
+      "peut être vide (`annee: null` sur Google Ads) : son rendu sans année se contrôle ici",
   },
   {
-    id: 'realisations',
-    chemin: '/realisations/',
+    id: 'parcours',
+    chemin: '/parcours/',
     pourquoi:
-      "gabarit d'index de réalisations : groupes par cadre d'emploi, cartes, étiquettes de " +
-      'pôle et JSON-LD de collection',
+      "gabarit d'entrées riches répétées : trois expériences, chacune avec ses " +
+      'réalisations, sa stack et son encadrement',
   },
   {
-    id: 'realisation',
-    chemin: '/realisations/verhoeven-parcours-achat/',
+    id: 'projets',
+    chemin: '/projets/',
     pourquoi:
-      "gabarit de fiche : cadre d'emploi en liste de définitions, chiffre et sa portée, " +
-      'étapes numérotées, étiquettes de pôle',
+      'la page la plus longue du site : une dizaine de fiches en listes de définitions. ' +
+      "C'est le pire cas de poids de document et de profondeur de plan",
+  },
+  {
+    id: 'competences',
+    chemin: '/competences/',
+    pourquoi:
+      'le mur de stack : une région qui saigne sur toute la largeur, en flux de colonnes, ' +
+      'avec soixante-et-onze entrées. Le contraste de sa typographie dense se contrôle ici',
+  },
+  {
+    id: 'contact',
+    chemin: '/contact/',
+    pourquoi:
+      'la page la plus dépouillée, et la seule à porter des liens sortants et des liens ' +
+      "d'appel et de courriel : leurs intitulés accessibles ne sont contrôlés que là",
   },
 ]
