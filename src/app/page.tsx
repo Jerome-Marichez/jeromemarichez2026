@@ -1,15 +1,14 @@
-// src/app/page.tsx — jeromemarichez-fr
-// Routage seul : la page d'accueil est composée dans src/@vitrine/views/HomeView.
-
 import type { Metadata } from 'next'
-import { buildPageMetadata } from '@/@shared/seo/page-metadata'
-import { PAGE_ACCUEIL } from '@/@vitrine/contenu/accueil'
-import { HomeView } from '@/@vitrine/views/HomeView'
+import { descriptions } from '@/seo/descriptions'
+import { AccueilView } from '@/views/AccueilView'
 
-// Sans cet export, la description écrite pour l'accueil restait du code mort et Google
-// lisait la promesse générique du layout à sa place.
-export const metadata: Metadata = buildPageMetadata(PAGE_ACCUEIL)
+export const metadata: Metadata = {
+  // Le gabarit racine porte deja le titre complet pour l'accueil : le redefinir
+  // ici avec le modele « %s · Jerome Marichez » doublerait son nom.
+  description: descriptions.accueil,
+  alternates: { canonical: '/' },
+}
 
-export default function HomePage() {
-  return <HomeView />
+export default function PageAccueil() {
+  return <AccueilView />
 }

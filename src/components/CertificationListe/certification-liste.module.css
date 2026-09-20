@@ -1,0 +1,37 @@
+/* Une certification par ligne, separee par un filet. Le lien vers le
+   justificatif n'apparait que quand une URL reelle existe : voir index.tsx. */
+
+.liste {
+  display: flex;
+  flex-direction: column;
+}
+
+.entree {
+  padding-block: var(--e3);
+  border-top: var(--largeur-filet) solid var(--filet);
+}
+
+.entree:last-child {
+  border-bottom: var(--largeur-filet) solid var(--filet);
+}
+
+.nom {
+  max-width: var(--colonne);
+  color: var(--encre);
+  font-weight: 500;
+}
+
+.lien {
+  color: var(--cafe);
+  text-underline-offset: 0.2em;
+}
+
+.lien:hover {
+  color: var(--cafe-vif);
+}
+
+.detail {
+  margin-top: var(--e1);
+  color: var(--encre-faible);
+  font-size: var(--t-petit);
+}

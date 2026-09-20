@@ -1,0 +1,84 @@
+/* Quatre lignes alignees sur la meme colonne de caracteres, separees par un
+   filet et non par une carte : c'est un bloc de code commente, pas un catalogue. */
+
+.liste {
+  display: flex;
+  flex-direction: column;
+}
+
+.axe {
+  display: grid;
+  /* La colonne du nom est fixee en `ch` : les quatre noms s'alignent donc au
+     caractere, et les phrases demarrent toutes a la meme colonne. */
+  grid-template-columns: 18ch minmax(0, 1fr);
+  gap: var(--gouttiere);
+  padding-block: var(--e4);
+  border-top: var(--largeur-filet) solid var(--filet);
+}
+
+.axe:last-child {
+  border-bottom: var(--largeur-filet) solid var(--filet);
+}
+
+.nom {
+  display: flex;
+  align-items: baseline;
+  gap: 1ch;
+  color: var(--cafe);
+  font-size: var(--t-grand);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.marqueur {
+  color: var(--cafe-sourd);
+  font-weight: 400;
+}
+
+.corps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e3);
+}
+
+.phrase {
+  max-width: var(--colonne);
+  color: var(--encre);
+  line-height: 1.6;
+}
+
+.preuves {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e2);
+}
+
+/* La preuve est indentee sous sa phrase, comme une valeur sous sa cle. */
+.preuve {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 1.5ch;
+  padding-left: 2ch;
+  border-left: var(--largeur-filet) solid var(--cafe-sourd);
+  font-size: var(--t-petit);
+}
+
+.chiffre {
+  color: var(--encre);
+  font-weight: 500;
+}
+
+.contexte {
+  color: var(--encre-faible);
+}
+
+@media (max-width: 52rem) {
+  .axe {
+    /* Sous cette largeur, 18ch de colonne de nom ne laissent plus de mesure
+       lisible a la phrase : on repasse en une seule colonne. */
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e2);
+    padding-block: var(--e3);
+  }
+}

@@ -1,0 +1,91 @@
+/* Le premier ecran : le propos a gauche sur la colonne de caracteres, la tasse a
+   droite. Aucune carte, aucun encadre : les sections se separent par le vide et
+   par un filet, comme les panneaux d'un editeur. */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--e5) var(--e6);
+  /* L'en-tete occupe trois lignes : on retire sa hauteur pour que le premier
+     ecran tienne reellement dans la fenetre, sans la depasser d'un cheveu. */
+  min-height: calc(100svh - var(--ligne) * 3);
+  padding-block: var(--e6);
+}
+
+.propos {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--e3);
+}
+
+.metier {
+  color: var(--cafe);
+  font-size: var(--t-chapo);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.reperes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 1.5ch;
+  color: var(--encre-douce);
+  font-size: var(--t-petit);
+}
+
+.separateur {
+  color: var(--cafe-sourd);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e2);
+  margin-top: var(--e2);
+}
+
+.note {
+  margin-top: var(--e3);
+}
+
+.tasse {
+  display: flex;
+  justify-content: center;
+}
+
+/* ---- Les sections de lecture --------------------------------------------- */
+
+.bloc {
+  padding-bottom: var(--e2);
+}
+
+.paragraphe {
+  max-width: var(--colonne);
+  color: var(--encre-douce);
+  font-size: var(--t-grand);
+  line-height: 1.65;
+}
+
+.axes {
+  margin-top: var(--e4);
+}
+
+/* ---- Adaptation ---------------------------------------------------------- */
+
+@media (max-width: 64rem) {
+  .hero {
+    /* La tasse passe sous le propos : le nom et le metier restent la premiere
+       chose lue, ce qui est l'ordre voulu. */
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    min-height: 0;
+    padding-block: var(--e5) var(--e6);
+  }
+
+  .tasse {
+    justify-content: flex-start;
+  }
+}

@@ -1,0 +1,65 @@
+/* Le pied de page est la region en retrait : le fond descend d'un cran, comme
+   le panneau du bas d'un editeur. Pas de carte, un filet suffit a separer. */
+
+.pied {
+  margin-top: var(--e7);
+  padding-top: var(--e5);
+  border-top: var(--largeur-filet) solid var(--filet);
+  background-color: var(--fond-creux);
+  color: var(--encre-douce);
+  font-size: var(--t-petit);
+}
+
+.grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(26ch, 1fr));
+  gap: var(--e5) var(--gouttiere);
+  padding-bottom: var(--e5);
+}
+
+.bloc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e2);
+}
+
+.intitule {
+  color: var(--cafe);
+  font-size: var(--t-micro);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.liste {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e1);
+}
+
+.liste a {
+  color: var(--encre);
+  text-decoration-color: var(--filet-fort);
+}
+
+.liste a:hover {
+  color: var(--cafe);
+}
+
+.lieu {
+  color: var(--encre-faible);
+}
+
+.note {
+  max-width: 40ch;
+  color: var(--encre-faible);
+  font-size: var(--t-micro);
+  line-height: 1.5;
+}
+
+.bas {
+  padding-block: var(--e3);
+  border-top: var(--largeur-filet) solid var(--filet);
+  color: var(--encre-faible);
+  font-size: var(--t-micro);
+}
