@@ -1,0 +1,18 @@
+name: ci-main-system
+# Check complet (PR -> main) : tests système back (vrai serveur HTTP + client réel).
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  system:
+    name: Tests système
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+      - name: Installation
+        run: make install
+      - name: Tests système
+        run: make test-system

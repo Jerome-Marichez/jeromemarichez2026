@@ -1,0 +1,25 @@
+.bouton {
+  padding: var(--e1) 0;
+  color: var(--encre-faible);
+  font-size: var(--t-petit);
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: var(--filet-fort);
+  text-underline-offset: 0.28em;
+  transition: color var(--duree-court) ease;
+}
+
+.bouton:hover {
+  color: var(--cafe);
+  text-decoration-color: var(--cafe);
+}
+
+.bouton[aria-pressed='true'] {
+  color: var(--cafe);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bouton {
+    transition: none;
+  }
+}

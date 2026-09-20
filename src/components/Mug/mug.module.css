@@ -1,0 +1,129 @@
+/* Le mug : seul mouvement permanent du site.
+   Vapeur a vitesse constante donc `linear`, survol en `ease`, et rien d'anime
+   d'autre que `transform` et `opacity`. */
+
+.scene {
+  position: relative;
+  width: 100%;
+  max-width: 34ch;
+  /* La lampe du site est le cafe : le mug la porte, donc il la diffuse. */
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.55));
+}
+
+.mug {
+  width: 100%;
+  height: auto;
+  /* La vapeur sort du cadre par le haut : on lui laisse la place. */
+  overflow: visible;
+}
+
+.corps {
+  /* Une seule lampe, donc une seule direction d'ombre portee. */
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.45));
+}
+
+/* ---- La vapeur ----------------------------------------------------------- */
+
+.vapeurs {
+  /* Les volutes montent en continu : la couche GPU est reellement utilisee. */
+  will-change: transform, opacity;
+}
+
+.volute1,
+.volute2,
+.volute3 {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  opacity: 0;
+}
+
+.volute1 {
+  animation: monte 6.2s linear infinite;
+}
+
+.volute2 {
+  animation: monte 5.1s linear infinite 1.4s;
+}
+
+.volute3 {
+  animation: monte 7s linear infinite 2.9s;
+}
+
+@keyframes monte {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scaleY(0.72) scaleX(0.9);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  72% {
+    opacity: 0.55;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-34px) scaleY(1.22) scaleX(1.16);
+  }
+}
+
+/* ---- Le cafe qui tourne -------------------------------------------------- */
+
+.tourbillon {
+  transform-box: fill-box;
+  transform-origin: center;
+  /* Rotation lente et permanente : la tasse vient d'etre posee. */
+  animation: tourne 26s linear infinite;
+}
+
+@keyframes tourne {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Au survol la tasse s'incline un peu et le cafe accelere. Reserve aux
+   pointeurs fins : sur tactile, un appui declencherait un faux survol. */
+@media (hover: hover) and (pointer: fine) {
+  .scene {
+    transition: transform var(--duree) var(--sortie);
+  }
+
+  .scene:hover {
+    transform: rotate(-3deg) scale(1.03);
+  }
+
+  .scene:hover .tourbillon {
+    animation-duration: 5s;
+  }
+}
+
+/* ---- Accessibilite ------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .volute1,
+  .volute2,
+  .volute3 {
+    animation: none;
+    /* La vapeur reste visible, simplement immobile : le dessin garde son sens. */
+    opacity: 0.6;
+  }
+
+  .tourbillon {
+    animation: none;
+  }
+
+  .scene,
+  .scene:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 40rem) {
+  .scene {
+    max-width: 22ch;
+  }
+}

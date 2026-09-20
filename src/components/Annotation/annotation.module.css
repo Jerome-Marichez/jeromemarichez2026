@@ -1,0 +1,34 @@
+.annotation {
+  display: flex;
+  align-items: flex-start;
+  gap: 1ch;
+  color: var(--cafe);
+}
+
+.fleche {
+  flex-shrink: 0;
+  width: 4ch;
+  margin-top: 0.35em;
+  color: var(--cafe-sourd);
+}
+
+.texte {
+  font-family: var(--police-main), cursive;
+  /* La manuscrite a un oeil plus petit que Fira Code a taille egale : elle est
+     remontee pour rester lisible, et sa mesure reste courte, comme une vraie
+     note ecrite dans une marge. */
+  font-size: calc(var(--t-grand) * 1.28);
+  line-height: 1.32;
+  max-width: 34ch;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 40rem) {
+  .fleche {
+    display: none;
+  }
+
+  .texte {
+    font-size: calc(var(--t-base) * 1.3);
+  }
+}

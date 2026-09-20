@@ -1,0 +1,85 @@
+# Makefile — jeromemarichez-fr
+# Interface de commandes unique (local + CI). `make help` liste les cibles.
+
+.DEFAULT_GOAL := help
+.PHONY: help install dev build lint type-check test test-unit test-int test-mutation
+.PHONY: test-e2e
+.PHONY: test-system
+.PHONY: test-acceptance
+.PHONY: budgets budget-perf budget-a11y
+.PHONY: storybook storybook-build
+.PHONY: docker-up docker-down logs nginx-check docker-smoke
+
+help: ## Liste les commandes disponibles
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
+
+lint: ## Biome sur tout le dépôt + limite 300 lignes/fichier
+	npx @biomejs/biome@2.5.7 check .
+	./scripts/check-max-lines.sh
+
+type-check: ## Vérification des types TypeScript, sans émission de fichiers
+	npx tsc --noEmit
+
+test: test-unit test-int ## Tests unitaires + intégration (rapides)
+
+install: ## Installe les dépendances
+	npm install
+
+dev: ## Démarrage local en mode développement
+	npm run dev
+
+build: ## Build de production
+	npm run build
+
+test-unit: ## Tests unitaires
+	npx jest tests/unitaire --passWithNoTests
+
+test-int: ## Tests d'intégration
+	npx jest tests/integration --passWithNoTests
+
+test-mutation: ## Tests de mutation (Stryker) — qualité des tests unitaires/intégration
+	npx stryker run
+test-e2e: ## Tests e2e navigateur — construit et sert l'export statique, puis Cypress headless
+	node scripts/e2e.mjs
+
+test-system: ## Tests système (vrai serveur HTTP via listen(0))
+	npx jest tests/systeme --passWithNoTests
+	@echo "Collection Postman rejouable : npx newman run tests/systeme/postman_collection.json (stack démarrée)"
+test-acceptance: ## Tests d'acceptation / UAT (runner Node natif)
+	node --test tests/acceptance/
+
+# Budgets exécutables — Lighthouse et accessibilite WCAG AA. Cible 95 sur les 4
+# categories ; plancher bloquant a 80 en performance (decision de Jerome MARICHEZ du
+# 2026-08-24, issue #146) et a 95 sur les trois autres.
+# Construisent l'export statique s'il manque, le servent, mesurent, et sortent en echec
+# en nommant la page et la categorie fautives. Un score entre plancher et cible passe et
+# se signale. Seuils et cibles : scripts/budgets/pages.mjs.
+# Prerequis local : npx puppeteer browsers install chrome (une fois).
+budgets: ## Budgets perf + accessibilite sur les pages representatives
+	node scripts/budgets.mjs
+
+budget-perf: ## Budget de performance seul (Lighthouse, mobile bride)
+	node scripts/budgets.mjs perf
+
+budget-a11y: ## Budget d'accessibilite seul (axe-core) — rapide
+	node scripts/budgets.mjs a11y
+
+storybook: ## Catalogue de composants en local (http://localhost:6006)
+	@if [ -d front ]; then cd front && npm run storybook; else npm run storybook; fi
+
+storybook-build: ## Build statique Storybook
+	@if [ -d front ]; then cd front && npm run build-storybook; else npm run build-storybook; fi
+docker-up: ## Build + démarrage de la stack conteneurisée
+	docker compose up -d --build
+
+docker-down: ## Arrêt des conteneurs
+	docker compose down
+
+logs: ## Logs agrégés des conteneurs
+	docker compose logs -f
+
+nginx-check: ## Valide docker/nginx.conf avec le vrai nginx (nginx -t) — rapide
+	./scripts/nginx-check.sh
+
+docker-smoke: ## Construit l'image de production et vérifie qu'elle sert le site
+	./scripts/docker-smoke.sh

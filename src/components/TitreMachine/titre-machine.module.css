@@ -1,0 +1,74 @@
+/* Le titre se revele caractere par caractere. Chaque cellule entre, donc
+   `ease-out`, et elle part d'une position deja presque juste : jamais de
+   `scale(0)` ni de translation longue, qui donneraient un titre qui tremble. */
+
+.titre {
+  font-size: var(--t-heros);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  color: var(--encre);
+  /* Le titre est du code : on lui rend ses ligatures. */
+  font-variant-ligatures: contextual;
+}
+
+.frappe {
+  display: inline;
+}
+
+.cellule {
+  display: inline-block;
+  white-space: pre;
+  opacity: 0;
+  animation: apparait 220ms var(--sortie) forwards;
+}
+
+@keyframes apparait {
+  from {
+    opacity: 0;
+    transform: translateY(0.14em);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Le curseur de saisie, qui clignote une fois la frappe terminee. */
+.curseur {
+  display: inline-block;
+  width: 0.58ch;
+  height: 0.86em;
+  margin-left: 0.14ch;
+  vertical-align: -0.08em;
+  background-color: var(--cafe);
+  opacity: 0;
+  animation: clignote 1.06s steps(1, end) infinite;
+}
+
+@keyframes clignote {
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cellule {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .curseur {
+    /* Le curseur reste, il cesse seulement de clignoter : c'est un signe de
+       lecture, pas une decoration. */
+    animation: none;
+    opacity: 1;
+  }
+}

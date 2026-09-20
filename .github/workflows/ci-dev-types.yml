@@ -1,0 +1,21 @@
+name: ci-dev-types
+# Check rapide (PR -> dev) : vérification des types TypeScript, sans émission.
+# Job dédié et non un step de ci-dev-lint : `tsc` a besoin des dépendances
+# installées (types de Next, React, Jest), là où ci-dev-lint tourne
+# volontairement sans `make install` (Biome via npx seul).
+on:
+  pull_request:
+    branches: [dev]
+jobs:
+  type-check:
+    name: Vérification des types (tsc --noEmit)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+      - name: Installation
+        run: make install
+      - name: Vérification des types
+        run: make type-check
