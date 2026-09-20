@@ -14,7 +14,7 @@ help: ## Liste les commandes disponibles
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
 
 lint: ## Biome sur tout le dépôt + limite 300 lignes/fichier
-	npx @biomejs/biome@^2.0.0 check .
+	npx @biomejs/biome@2.5.7 check .
 	./scripts/check-max-lines.sh
 
 type-check: ## Vérification des types TypeScript, sans émission de fichiers
@@ -64,7 +64,7 @@ budget-perf: ## Budget de performance seul (Lighthouse, mobile bride)
 budget-a11y: ## Budget d'accessibilite seul (axe-core) — rapide
 	node scripts/budgets.mjs a11y
 
-storybook: ## Storybook en local (http://localhost:6006) — après npx storybook@latest init
+storybook: ## Catalogue de composants en local (http://localhost:6006)
 	@if [ -d front ]; then cd front && npm run storybook; else npm run storybook; fi
 
 storybook-build: ## Build statique Storybook

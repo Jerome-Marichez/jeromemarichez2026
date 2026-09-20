@@ -1,19 +1,21 @@
-// robots.ts — jeromemarichez-fr
-// robots.txt généré, pointant vers le sitemap.
-
 import type { MetadataRoute } from 'next'
-import { SITE_URL } from '@/@shared/seo/site'
-
-// `output: 'export'` exige que les routes de métadonnées soient déclarées statiques.
-export const dynamic = 'force-static'
 
 /**
- * Pas de directive `Host` : elle n'a jamais été comprise que par Yandex, et Google
- * l'ignore. Le domaine canonique se dit par `<link rel="canonical">` et le sitemap.
+ * Le site est un CV : il est fait pour etre indexe en entier. Rien n'est exclu,
+ * et le plan du site est annonce explicitement plutot que laisse a la decouverte.
  */
+/**
+ * `output: 'export'` exige que cette route se declare statique explicitement :
+ * Next refuse de collecter une route de metadonnees sans savoir si elle doit etre
+ * rejouee a chaque requete. Sur un site sans donnees changeantes, la reponse est
+ * toujours la meme, donc on la fige au build.
+ */
+export const dynamic = 'force-static'
+
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: '*', allow: '/' },
-    sitemap: `${SITE_URL}/sitemap.xml`,
+    rules: [{ userAgent: '*', allow: '/' }],
+    sitemap: 'https://jeromemarichez.fr/sitemap.xml',
+    host: 'https://jeromemarichez.fr',
   }
 }

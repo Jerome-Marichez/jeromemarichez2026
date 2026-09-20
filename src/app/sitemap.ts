@@ -1,20 +1,31 @@
-// sitemap.ts — jeromemarichez-fr
-// Sitemap généré à partir des routes et des articles, jamais tenu à la main.
-
 import type { MetadataRoute } from 'next'
-import { buildSitemapEntries } from '@/@shared/seo/sitemap-entries'
+import { navigation } from '@/contenu/navigation'
 
-// `output: 'export'` exige que les routes de métadonnées soient déclarées statiques.
-export const dynamic = 'force-static'
+const RACINE = 'https://jeromemarichez.fr'
 
 /**
- * Seul `lastModified` est renseigné. Google ignore `changeFrequency` et `priority`
- * depuis 2023 : les garder reviendrait à publier des champs que personne ne lit, en
- * laissant croire qu'ils pilotent le passage du robot.
+ * Le plan du site, derive de la navigation : une route ajoutee au menu y entre
+ * automatiquement. Une liste tenue a la main finirait par mentir.
  *
- * La composition des entrées — quelles URL, avec quelle date — vit dans
- * `@shared/seo/sitemap-entries`, où elle se vérifie sans démarrer Next.
+ * Les URL portent la barre finale parce que `trailingSlash` est actif dans
+ * `next.config.mjs` : le plan du site et la balise canonique doivent designer
+ * exactement la meme adresse, sinon le moteur voit deux pages la ou il y en a une.
  */
+/**
+ * `output: 'export'` exige que cette route se declare statique explicitement :
+ * Next refuse de collecter une route de metadonnees sans savoir si elle doit etre
+ * rejouee a chaque requete. Sur un site sans donnees changeantes, la reponse est
+ * toujours la meme, donc on la fige au build.
+ */
+export const dynamic = 'force-static'
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  return buildSitemapEntries()
+  const dateDeSortie = new Date()
+
+  return navigation.map((entree) => ({
+    url: `${RACINE}${entree.href}`,
+    lastModified: dateDeSortie,
+    changeFrequency: 'monthly',
+    priority: entree.href === '/' ? 1 : 0.7,
+  }))
 }

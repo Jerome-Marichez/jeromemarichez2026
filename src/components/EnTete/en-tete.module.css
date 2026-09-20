@@ -1,0 +1,133 @@
+/* Barre d'onglets d'editeur. Volontairement opaque : une bande `sticky`
+   translucide est reflouee a chaque image de defilement, ce qui est le cas
+   d'ecole du jank sur les appareils qui en ont le moins les moyens. */
+
+.entete {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--fond-releve);
+  border-bottom: var(--largeur-filet) solid var(--filet);
+}
+
+.barre {
+  display: flex;
+  align-items: stretch;
+  gap: var(--gouttiere);
+  max-width: calc(var(--colonne-large) + var(--marge-page) * 2);
+  margin-inline: auto;
+  padding-inline: var(--marge-page);
+}
+
+/* ---- La marque ----------------------------------------------------------- */
+
+.marque {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.35ch;
+  padding-right: var(--gouttiere);
+  border-right: var(--largeur-filet) solid var(--filet);
+  color: var(--encre);
+  font-size: var(--t-base);
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.chevron {
+  color: var(--cafe);
+  transition: color var(--duree-court) ease;
+}
+
+.marque:hover {
+  color: var(--encre);
+}
+
+.marque:hover .chevron {
+  color: var(--cafe-vif);
+}
+
+.initiales {
+  color: inherit;
+}
+
+/* ---- Les onglets --------------------------------------------------------- */
+
+.onglets {
+  display: flex;
+  align-items: stretch;
+  /* La barre defile lateralement plutot que de se replier. */
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.onglets::-webkit-scrollbar {
+  display: none;
+}
+
+.onglet {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.1em;
+  height: calc(var(--ligne) * 3);
+  padding-inline: 1.6ch;
+  border-top: 2px solid transparent;
+  color: var(--encre-douce);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color var(--duree-court) ease,
+    background-color var(--duree-court) ease,
+    border-color var(--duree-court) ease;
+}
+
+.onglet:hover {
+  background-color: var(--fond);
+  color: var(--encre);
+}
+
+/* L'onglet ouvert : filet de lampe en haut, fond de page en dessous, comme un
+   onglet reellement au premier plan dans un editeur. */
+.onglet[data-actif] {
+  border-top-color: var(--cafe);
+  background-color: var(--fond);
+  color: var(--encre);
+}
+
+.libelle {
+  font-size: var(--t-petit);
+  line-height: 1.2;
+}
+
+.fichier {
+  color: var(--encre-faible);
+  font-size: var(--t-micro);
+  line-height: 1.2;
+}
+
+.onglet[data-actif] .fichier {
+  color: var(--cafe);
+}
+
+@media (max-width: 52rem) {
+  /* Sous cette largeur le nom de fichier n'apporte plus rien et vole la place
+     du libelle, qui est l'information utile. */
+  .fichier {
+    display: none;
+  }
+
+  .onglet {
+    height: calc(var(--ligne) * 2.4);
+    padding-inline: 1.2ch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .onglet,
+  .chevron {
+    transition: none;
+  }
+}

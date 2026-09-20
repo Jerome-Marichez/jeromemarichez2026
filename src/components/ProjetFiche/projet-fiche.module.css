@@ -1,0 +1,75 @@
+/* Une fiche projet : titre puis meta en tete, quatre lignes de definition
+   dessous. Separee de la suivante par un filet, jamais par une carte. */
+
+.fiche {
+  padding-block: var(--e5);
+  border-top: var(--largeur-filet) solid var(--filet);
+}
+
+.fiche:last-child {
+  border-bottom: var(--largeur-filet) solid var(--filet);
+}
+
+.entete {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e1);
+  margin-bottom: var(--e4);
+}
+
+.titre {
+  color: var(--encre);
+  font-size: var(--t-chapo);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 1.5ch;
+  color: var(--encre-douce);
+  font-size: var(--t-petit);
+}
+
+.entreprise {
+  color: var(--cafe);
+  font-weight: 500;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e3);
+}
+
+.ligne {
+  display: grid;
+  /* La colonne d'intitule est fixee en `ch`, comme dans AxeListe : les quatre
+     libelles s'alignent ainsi sur le meme caractere. */
+  grid-template-columns: 14ch minmax(0, 1fr);
+  gap: var(--gouttiere);
+}
+
+.intitule {
+  color: var(--encre-faible);
+  font-size: var(--t-petit);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.valeur {
+  max-width: var(--colonne);
+  color: var(--encre-douce);
+  line-height: 1.6;
+}
+
+@media (max-width: 52rem) {
+  .ligne {
+    /* Sous cette largeur, 14ch de colonne d'intitule ne laissent plus de
+       mesure lisible a la valeur : on repasse en une seule colonne. */
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e1);
+  }
+}

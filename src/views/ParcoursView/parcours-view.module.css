@@ -1,0 +1,25 @@
+/* La liste des experiences se separe par des filets, comme AxeListe : jamais
+   par une carte. Chaque entree porte son propre rythme interne, defini dans
+   experience-bloc.module.css. */
+
+.titre {
+  margin-block: var(--e6) var(--e4);
+  font-size: var(--t-heros);
+  font-weight: 500;
+  color: var(--encre);
+}
+
+.liste {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: var(--e7);
+}
+
+.item {
+  padding-block: var(--e5);
+  border-top: var(--largeur-filet) solid var(--filet);
+}
+
+.item:last-child {
+  border-bottom: var(--largeur-filet) solid var(--filet);
+}

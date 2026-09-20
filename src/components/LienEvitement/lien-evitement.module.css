@@ -1,0 +1,26 @@
+.lien {
+  position: fixed;
+  top: var(--e2);
+  left: var(--e2);
+  z-index: 100;
+  padding: var(--e1) var(--e2);
+  background-color: var(--cafe);
+  color: #1b1918;
+  font-size: var(--t-petit);
+  text-decoration: none;
+  /* Hors focus il est retire de l'ecran par une translation, pas par
+     `display: none` : il reste ainsi dans l'ordre de tabulation. */
+  transform: translateY(-200%);
+  transition: transform var(--duree-court) var(--sortie);
+}
+
+.lien:focus-visible {
+  transform: none;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lien {
+    transition: none;
+  }
+}

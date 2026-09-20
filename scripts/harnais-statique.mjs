@@ -18,7 +18,7 @@
 // laisse un serveur orphelin en CI.
 
 import { spawn } from 'node:child_process'
-import { access } from 'node:fs/promises'
+import { access, readdir, stat } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { demarrerServeurStatique, PORT_PAR_DEFAUT } from './serve-out.mjs'
@@ -71,10 +71,55 @@ async function attendreReponse(url) {
   )
 }
 
-/** Construit l'export statique s'il manque. Lève si le build échoue. */
+/** Sources dont une modification rend l'export périmé. */
+const SOURCES_SURVEILLEES = ['src', 'public', 'next.config.mjs', 'package.json']
+
+/**
+ * Date de modification la plus récente sous un chemin, dossiers compris.
+ * Rend 0 si le chemin n'existe pas.
+ *
+ * @param {string} chemin
+ * @returns {Promise<number>}
+ */
+async function derniereModification(chemin) {
+  let infos
+  try {
+    infos = await stat(chemin)
+  } catch {
+    return 0
+  }
+  if (!infos.isDirectory()) return infos.mtimeMs
+
+  const entrees = await readdir(chemin, { withFileTypes: true })
+  const dates = await Promise.all(
+    entrees.map((entree) => derniereModification(join(chemin, entree.name))),
+  )
+  return Math.max(infos.mtimeMs, ...dates, 0)
+}
+
+/**
+ * Construit l'export statique s'il manque **ou s'il est périmé**. Lève si le
+ * build échoue.
+ *
+ * La version précédente ne construisait que si `out/index.html` était absent.
+ * C'était plus grave qu'un simple faux échec : un export vieux d'une heure se
+ * servait en silence, donc les tests et les budgets pouvaient rendre un **faux
+ * succès** sur du code qui n'était pas celui du disque. Un contrôle qui valide la
+ * version précédente ne protège de rien.
+ */
 export async function construireSiNecessaire() {
-  if (await existe(join(DOSSIER_EXPORT, 'index.html'))) return
-  console.log('Export statique absent : construction (`npm run build`)…')
+  const exportFait = await derniereModification(join(DOSSIER_EXPORT, 'index.html'))
+
+  if (exportFait > 0) {
+    const sources = await Promise.all(
+      SOURCES_SURVEILLEES.map((chemin) => derniereModification(join(RACINE, chemin))),
+    )
+    if (Math.max(...sources) <= exportFait) return
+    console.log('Export statique périmé : reconstruction (`npm run build`)…')
+  } else {
+    console.log('Export statique absent : construction (`npm run build`)…')
+  }
+
   const code = await executer('npm', ['run', 'build'])
   if (code !== 0) throw new Error(`Le build a échoué (code ${code})`)
 }

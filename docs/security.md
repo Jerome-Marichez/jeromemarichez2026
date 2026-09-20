@@ -4,7 +4,7 @@
 
 ## Règles de base
 
-- **Secrets** : jamais en dur ni commités — variables d'environnement (`.env` gitignoré,
+- **Secrets** : jamais en dur ni commités. Variables d'environnement (`.env` gitignoré,
   `.env.example` documenté). Le serveur **refuse de démarrer** si un secret obligatoire manque
   (pas de valeur par défaut pour un secret).
 - **Authentification** : JWT signé (secret fort, `openssl rand -hex 32`), expiration courte.

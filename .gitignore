@@ -28,3 +28,13 @@ cypress/videos/
 # Claude Code — settings personnels (settings.json partagé, local non)
 .claude/settings.local.json
 .claude/worktrees/
+
+# Charge utile embarquée du skill impeccable : un binaire natif de 13 Mo et des
+# bundles tiers minifiés. Ce n'est pas du source de projet, ça ne se relit pas,
+# et le binaire est spécifique à macOS ARM donc inutile au coureur de CI. Le
+# lanceur `scripts/impeccable` le retélécharge au premier usage (voir SKILL.md),
+# et `skills-lock.json` fixe la version. La documentation du skill, elle, reste
+# versionnée : SKILL.md et reference/ portent les règles de design du projet.
+.claude/skills/impeccable/scripts/bin/
+.claude/skills/impeccable/scripts/live-browser*.js
+.claude/skills/impeccable/scripts/modern-screenshot.umd.js

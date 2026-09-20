@@ -1,329 +1,219 @@
-/* globals.css — jeromemarichez-fr
- *
- * Jetons de design et base typographique. Toute valeur de couleur, d'espace ou de
- * taille utilisée dans un module CSS vient d'ici : aucune couleur ni aucun espacement
- * en dur dans un composant (docs/design.md).
- *
- * Direction « L'Établi » : papier chaud, encre graphite, et du verre qui laisse voir la
- * trame technique du fond — la transparence est le sujet. L'accent, lui, n'est plus
- * unique : une teinte par pôle, mappée sur `--accent` par `poles.css`.
- */
+@import "./jetons.css";
 
-:root {
-  color-scheme: light dark;
-
-  /* — Couleurs, thème clair — */
-  --fond: #f2efe8;
-  --fond-creux: #e7e2d7;
-  --encre: #14171a; /* 15.67:1 sur --fond */
-  --encre-douce: #4a5157; /* 7.02:1 sur --fond */
-  /* Le cuivre est la teinte de marque ET celle du pôle « ingénierie web ». Aucun module
-     ne le nomme : ils consomment `--accent`, que `poles.css` mappe sur le pôle courant
-     et fait retomber ici hors de tout `data-pole`. */
-  --cuivre: #8f4520; /* 6.02:1 sur --fond */
-  --cuivre-vif: #b4623a; /* 3.85:1 — NON-TEXTE : filets, arêtes, traits */
-  /* `--signal` n'est PAS une couleur d'ambiance : il marque la ligne « vous tranchez »,
-     partout où un bloc en porte une, et le témoin de mise en pause. Nulle part ailleurs. */
-  --signal: #1f5f52; /* 6.49:1 */
-  --trame: rgba(20, 23, 26, 0.055);
-  --verre-teinte: rgba(255, 255, 255, 0.42);
-  /* L'arête du verre est une DILUTION de `--accent`, pas une couleur de plus : seule
-     la part est fixée ici, la couleur est assemblée dans `poles.css`. */
-  --verre-arete-part: 28%;
-  --verre-lueur: rgba(255, 255, 255, 0.7);
-  --fond-degrade-haut: #f7f5f0;
-  --fond-degrade-bas: #ede9e0;
-
-  /* — La couleur de pôle du fond ne se déclare plus ici — */
-  /* Le fond portait une « maille » : quatre lavis de pôle posés à des coordonnées FIXES
-     dans `.fond-atelier`, une fois pour tout le document. Ils ne disaient donc rien de la
-     section qu'on lit — sur `/services/ia/`, le haut de page recevait le lavis
-     d'ingénierie parce que c'est le haut du document — et, étalés sur plus de 9 000 px,
-     ils n'atteignaient nulle part leur propre densité : le résultat à l'écran était un
-     beige uniforme.
-
-     Le lavis suit désormais le CONTENU : il est peint par le bloc qui porte `data-pole`,
-     et ses jetons vivent dans `lavis.css` (issue #104). Ne restent ici que les calques
-     qui appartiennent vraiment au document entier — grain, trame, dégradé d'atelier. */
-
-  /* Grain de papier : une TUILE de 128 px, comme la trame en est une de 32 px. Le
-     `feTurbulence` n'est rasterisé qu'une fois, sur 128×128 px, puis répété — même
-     raisonnement que pour la trame, et pour la même raison : `.fond-atelier` fait plus
-     de 9 000 px de haut sur l'accueil.
-     Deux tuiles distinctes plutôt qu'une seule inversée par un filtre : `filter` sur un
-     calque plein document forcerait une couche de compositing de la hauteur du
-     document. Ici, rien n'est promis au compositeur.
-     L'alpha moyen est volontairement sous 4 % : au-delà, le grain cesse d'être une
-     texture et devient un voile qui déplace les contrastes documentés. */
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23g)'/%3E%3C/svg%3E");
-  --grain-tuile: 128px;
-
-  /* — Typographie — */
-  --police-titre-pile: var(--police-titre), Georgia, "Times New Roman", serif;
-  --police-texte-pile: var(--police-texte), system-ui, -apple-system, sans-serif;
-  /* Pile système, aucune fonte téléchargée. Ce registre ne sert qu'aux étiquettes, aux
-     chiffres et aux rangs, tous composés en capitales espacées : à cette échelle et avec
-     cet interlettrage, le dessin propre à une fonte de labeur ne se distingue pas de
-     celui du monospace du système. `ui-monospace` prend SF Mono sur Apple, les suivants
-     couvrent le reste — tous ont les chiffres à chasse fixe, seule vraie exigence des
-     preuves chiffrées. */
-  --police-mono-pile:
-    ui-monospace, "SFMono-Regular", "SF Mono", "Cascadia Mono", "Segoe UI Mono", "Roboto Mono",
-    "DejaVu Sans Mono", "Liberation Mono", Menlo, Consolas, monospace;
-
-  --t--1: 0.8125rem;
-  /* Demi-cran sous le corps. Il porte tout ce qui accompagne sans être lu en continu :
-     menus, repères de charnière, notes de bas de section. Sans lui, ces sept endroits
-     réécrivaient `0.9375rem` en dur — la source unique n'en était plus une. */
-  --t-note: 0.9375rem;
-  --t-0: clamp(1rem, 0.955rem + 0.22vw, 1.125rem);
-  --t-1: clamp(1.25rem, 1.16rem + 0.44vw, 1.5rem);
-  /* Les trois crans de titre et le cran de chiffre ont été resserrés une PREMIÈRE fois
-     d'environ un quart (68 → 52 px de `h1`), puis une SECONDE fois ici. La première
-     passe traitait l'amplitude ; elle n'a pas traité ce qui se voyait vraiment à
-     l'écran — un titre de 78 signes qui retombait sur QUATRE lignes, soit 225 px de
-     titre avant le premier mot du chapô. Un titre qui s'empile n'est pas ample, il est
-     encombrant, et c'est ce que voit un lecteur sur un portable large.
-     Le RAPPORT entre les crans est conservé — c'est lui qui fait la hiérarchie, pas
-     l'amplitude —, et la borne basse ne bouge presque pas : à 320 px l'échelle était
-     déjà juste, c'est en s'ouvrant qu'elle dérapait. */
-  --t-2: clamp(1.25rem, 1.16rem + 0.44vw, 1.5rem); /* 20 → 24 px */
-  --t-3: clamp(1.5rem, 1.35rem + 0.75vw, 1.875rem); /* 24 → 30 px */
-  --t-4: clamp(1.875rem, 1.59rem + 1.43vw, 2.6875rem); /* 30 → 43 px */
-  --t-chiffre: clamp(1.875rem, 1.62rem + 1.25vw, 2.5625rem); /* 30 → 41 px */
-
-  /* — Interlettrage — */
-  /* Une fonte de titre gagne en tenue quand elle se resserre à mesure qu'elle grandit :
-     à 68 px, l'approche dessinée pour du labeur laissait des trous entre les lettres. Les
-     étiquettes font l'inverse — capitales de 13 px, elles ont besoin d'air pour rester
-     lisibles. Trois valeurs, jamais réécrites dans un module.
-     `--suivi-display` remonte avec l'échelle — -0.028 em à 68 px, -0.02 em à 52 px,
-     -0.016 em à 43 px : l'approche négative compense une taille, elle n'est pas un
-     style. Laissée à -0.02 em sur un titre redescendu à 43 px, elle recollerait les
-     lettres au lieu de refermer un trou qui n'existe plus. */
-  --suivi-display: -0.016em;
-  --suivi-titre: -0.016em;
-  --suivi-etiquette: 0.09em;
-
-  /* — Rythme vertical, base 8 — */
-  --e-0: 0.25rem;
-  --e-1: 0.5rem;
-  --e-2: 0.75rem;
-  --e-3: 1rem;
-  --e-4: 1.5rem;
-  --e-5: 3rem;
-  --e-6: 5rem;
-  --e-7: 8.5rem;
-
-  /* — Formes — */
-  --rayon-verre: 18px;
-  --rayon-petit: 8px;
-  --largeur-page: 76rem;
-  --mesure-texte: 64ch;
-  /* Côté d'une marque dessinée — celle d'un pôle sur sa plaque, celle d'un espace
-     éditorial sur sa carte. Un seul jeton pour les six : elles forment une série, et une
-     série dont les tailles divergent n'en est plus une. */
-  --taille-glyphe: 2.25rem;
-  /* Largeur d'une figure d'article. Sa hauteur suit son `viewBox` (48 × 32) et n'a donc
-     pas de jeton : deux valeurs à tenir d'accord divergent à la première retouche. La
-     valeur posée ici est celle du registre de LISTE, où la figure reste une annotation à
-     côté de la date ; la fiche d'article redéfinit le jeton chez elle, comme les pages de
-     pôle redéfinissent `--decalage-ancre`. */
-  --taille-figure-article: 3rem;
-
-  /* — Repères d'empilement collant — */
-  /* Hauteur nominale de l'en-tête, en un seul endroit : la barre de pôle s'y accroche,
-     et les ancres s'en déduisent. Volontairement 2 à 3 px SOUS la hauteur réelle — la
-     barre passe alors sous l'en-tête plutôt que de laisser voir une bande de contenu
-     entre les deux, qui serait le seul défaut visible des deux. */
-  --hauteur-entete: 4rem;
-  --hauteur-barre-pole: 3.25rem;
-  --decalage-ancre: calc(var(--hauteur-entete) + var(--e-4));
-
-  /* — Mouvement — */
-  /* Trois durées, trois échelles : le micro-état répond à la main, la pose accompagne
-     l'arrivée d'une section, le tracé raconte. Aucun module ne réécrit de durée. */
-  --duree-appui: 80ms;
-  --duree-micro: 140ms;
-  --duree-poser: 420ms;
-  --duree-tracer: 700ms;
-  --courbe-poser: cubic-bezier(0.2, 0.6, 0.2, 1);
-  --courbe-tracer: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --fond: #0e1114;
-    --fond-creux: #171b20;
-    --encre: #ece7de; /* 15.38:1 sur --fond */
-    --encre-douce: #9ba3aa; /* 7.41:1 sur --fond */
-    --cuivre: #e08b4c; /* 7.18:1 sur --fond */
-    --cuivre-vif: #f0a468; /* 9.21:1 */
-    --signal: #5fd1ae; /* 10.12:1 */
-    --trame: rgba(236, 231, 222, 0.06);
-    --verre-teinte: rgba(236, 231, 222, 0.07);
-    --verre-arete-part: 32%;
-    --verre-lueur: rgba(255, 255, 255, 0.14);
-    --fond-degrade-haut: #14181d;
-    --fond-degrade-bas: #0b0e11;
-    /* Même tuile, speckles clairs : du grain noir sur un fond à 6 % de luminance ne
-       se voit pas, il ne fait qu'assombrir encore. */
-    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23g)'/%3E%3C/svg%3E");
-  }
-}
+/* ==========================================================================
+   Remise a zero
+   ========================================================================== */
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-* {
   margin: 0;
+  padding: 0;
 }
 
 html {
   -webkit-text-size-adjust: 100%;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
+  scroll-behavior: smooth;
+  /* Le bandeau collant mesure trois lignes : une ancre ne doit pas passer
+     dessous quand on arrive par un lien profond. */
+  scroll-padding-top: calc(var(--ligne) * 3);
 }
 
 body {
-  /* Positionné pour que `.fond-atelier` prenne la hauteur du DOCUMENT et non celle du
-     viewport : sans cela, la trame technique s'arrête au bas du premier écran. */
-  position: relative;
-  min-height: 100dvh;
+  min-height: 100svh;
+  overflow-x: hidden;
+  /* Fira Code porte tout le site : la cellule de caractere EST la grille. */
+  font-family: var(--police-code), ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   background-color: var(--fond);
   color: var(--encre);
-  font-family: var(--police-texte-pile);
-  font-size: var(--t-0);
-  font-feature-settings:
-    "ss01" 1,
-    "cv05" 1;
-  line-height: 1.62;
+  font-size: var(--t-base);
+  line-height: var(--ligne);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  /* Les chiffres de preuve s'alignent en colonne d'une ligne a l'autre. */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  /* Fira Code deforme des mots courants par ses ligatures (« ffi », « fl »)
+     hors du code. On ne les rend qu'au code reel, plus bas. */
+  font-variant-ligatures: none;
 }
 
-/* Le fond d'atelier est un calque peint, séparé du contenu : c'est ce que le verre
-   floute. Il est en `absolute` et non `fixed`, donc haut comme le DOCUMENT — un fond
-   fixe ne défilerait pas derrière les panneaux, et le verre n'aurait rien à montrer qui
-   bouge.
-
-   `z-index: -1` et non `0` : il passe ainsi sous le contenu sans que celui-ci ait besoin
-   de déclarer quoi que ce soit. Aucune règle d'empilement à tenir ailleurs, et c'est le
-   but — un `z-index` posé ici obligerait chaque section à en poser un en réponse.
-
-   La trame est une TUILE de 32 px répétée, et non deux `repeating-linear-gradient`.
-   La différence ne se voit pas — le dessin est le même au pixel près — mais elle se
-   mesure : un `repeating-linear-gradient` sans `background-size` est généré une fois aux
-   dimensions de son élément, soit ici plus de 9 000 px de haut sur l'accueil. Avec
-   `background-size: 32px 32px`, le navigateur ne rasterise qu'un carré de 32 px et le
-   répète. Le grain suit la MÊME règle : c'est une quatrième tuile, de 128 px, posée
-   au-dessus de la trame et sous le dégradé. Rien n'est rasterisé à la hauteur du
-   document. */
-.fond-atelier {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-color: var(--fond-degrade-bas);
-  background-image:
-    var(--grain), linear-gradient(to right, var(--trame) 0 1px, transparent 1px),
-    linear-gradient(to bottom, var(--trame) 0 1px, transparent 1px),
-    /* La lueur de seuil. Une SEULE tache, en taille fixe, en haut du document, dans
-       `--lavis-tache` — c'est-à-dire, hors de tout `data-pole`, dans le cuivre : la
-       couleur de la maison. Ce n'est pas le retour de la maille par une autre porte. La
-       maille prétendait dire quel pôle on lisait, à des coordonnées qui ne le savaient
-       pas ; celle-ci ne dit rien d'un pôle, elle éclaire l'entrée du document et donne au
-       verre de l'en-tête un peu de matière à courber. Tout ce qui parle d'un pôle est
-       peint par le bloc du pôle (`lavis.css`).
-
-       Taille FIXE, jamais en pourcentage : `.fond-atelier` fait plus de 9 000 px de haut
-       sur l'accueil, et un `radial-gradient` dimensionné en pourcentage y serait rasterisé
-       à cette hauteur. */
-    radial-gradient(1200px 820px at 22% 6%, var(--lavis-tache), transparent),
-    radial-gradient(1200px 900px at 22% 8%, var(--fond-degrade-haut), var(--fond-degrade-bas));
-  background-repeat: repeat, repeat, repeat, no-repeat, no-repeat;
-  background-size:
-    var(--grain-tuile) var(--grain-tuile),
-    32px 32px,
-    32px 32px,
-    1200px 820px,
-    100% 100%;
+code,
+pre,
+kbd,
+samp {
+  font-variant-ligatures: contextual;
 }
 
 h1,
 h2,
-h3 {
-  font-family: var(--police-titre-pile);
-  font-variation-settings: "opsz" 32;
-  font-weight: 600;
+h3,
+h4 {
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 
-h1 {
-  font-size: var(--t-4);
-  /* 1.08 suit la baisse de `--t-4` : le risque de collision entre une jambe de « j » et
-     l'ascendante de la ligne suivante était une propriété des 68 px, pas de Fraunces.
-     À 52 px, l'interligne peut respirer sans que le titre se disperse. */
-  line-height: 1.08;
-  letter-spacing: var(--suivi-display);
-  /* La mesure suit l'échelle en sens INVERSE de la taille : c'est le nombre de signes
-     par ligne qui fait la tenue d'un titre. 18ch était le repli d'un titre à 68 px, 21ch
-     celui d'un titre à 52 px — mais 21ch appliqués à un `h1` de 78 signes le repliaient
-     sur QUATRE lignes, et un plafond qui casse la phrase plus tôt que la colonne ne
-     l'exige ne protège plus rien : il empile. À 43 px, 32 signes tiennent sans que la
-     ligne se rompe, et le titre reprend la largeur que la colonne lui offrait déjà. */
-  max-width: 32ch;
-}
-
-h2 {
-  font-size: var(--t-3);
-  line-height: 1.08;
-  letter-spacing: var(--suivi-titre);
-  /* 30ch coupait en deux des titres de 40 à 49 signes — « Ce qui est mesuré, pas ce qui
-     est promis », « Ce qui a été évalué par quelqu'un d'autre que moi » — alors que la
-     colonne avait la place de les tenir d'un trait. Une phrase courte cassée en deux
-     lignes se lit comme un titre trop grand, ce qu'elle n'était pas. 46ch les ramène sur
-     une ligne aux largeurs de portable, sans jamais dépasser la mesure de lecture. */
-  max-width: 46ch;
-}
-
-h3 {
-  font-size: var(--t-2);
-  line-height: 1.2;
-  letter-spacing: var(--suivi-titre);
-}
-
-p {
+p,
+li {
   text-wrap: pretty;
 }
 
 a {
-  color: var(--accent);
+  color: var(--cafe);
+  text-decoration-color: var(--cafe-sourd);
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
-  transition: text-decoration-thickness var(--duree-micro) ease-out;
+  text-underline-offset: 0.28em;
+  transition:
+    color var(--duree-court) var(--sortie),
+    text-decoration-color var(--duree-court) var(--sortie);
 }
 
 a:hover {
-  text-decoration-thickness: 2px;
-}
-
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 2px;
+  color: var(--cafe-vif);
+  text-decoration-color: var(--cafe-vif);
 }
 
 img,
-svg,
-canvas {
+picture,
+video,
+canvas,
+svg {
   display: block;
   max-width: 100%;
 }
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+hr {
+  border: 0;
+  border-top: var(--largeur-filet) solid var(--filet);
+}
+
+/* ==========================================================================
+   Surfaces du navigateur
+   --------------------------------------------------------------------------
+   Selection, curseur, anneau de focus et ascenseur arrivent avec des valeurs
+   par defaut qui n'appartiennent a aucun systeme de design. Les laisser en
+   place, c'est assembler une page au lieu de la construire.
+   ========================================================================== */
+
+::selection {
+  background-color: var(--cafe);
+  color: #1b1918;
+}
+
+body {
+  caret-color: var(--cafe);
+  accent-color: var(--cafe);
+}
+
+:focus-visible {
+  outline: 2px solid var(--cafe-vif);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* Rien n'est retire au clavier : seul le halo souris est neutralise. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@supports (scrollbar-color: red blue) {
+  html {
+    scrollbar-color: var(--cafe-sourd) var(--fond-creux);
+    scrollbar-width: thin;
+  }
+}
+
+@supports selector(::-webkit-scrollbar) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--fond-creux);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--cafe-sourd);
+    border: 2px solid var(--fond-creux);
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--cafe);
+  }
+}
+
+/* ==========================================================================
+   Mouvement
+   --------------------------------------------------------------------------
+   Le site a un seul mouvement permanent, la vapeur du mug. Deux interrupteurs
+   l'arretent : la preference systeme, et le bouton de mise en pause explicite
+   exige par WCAG 2.2.2, qui pose `data-mouvement="pause"` sur la racine.
+   ========================================================================== */
+
+/* biome-ignore-start lint/complexity/noImportantStyles: filet global d'accessibilite, il doit primer sur toute regle de module oubliee. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:root[data-mouvement="pause"] *,
+:root[data-mouvement="pause"] *::before,
+:root[data-mouvement="pause"] *::after {
+  animation-play-state: paused !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* ==========================================================================
+   Structure de page
+   ========================================================================== */
+
+.cadre {
+  width: 100%;
+  max-width: calc(var(--colonne-large) + var(--marge-page) * 2);
+  margin-inline: auto;
+  padding-inline: var(--marge-page);
+}
+
+.mesure {
+  max-width: var(--colonne);
+}
+
+/* Lu par la synthese vocale, absent de l'ecran. */
+.hors-ecran {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+/* biome-ignore-end lint/complexity/noImportantStyles: fin du filet global. */

@@ -1,384 +1,286 @@
 # jeromemarichez-fr
 
-## Présentation
+## Le projet
 
-Site portfolio et vitrine de services de Jérôme Marichez, ingénieur logiciel à Lille :
-**Ingénierie web**, **Data**, **IA**, **SEA & UX**.
+Site CV de **Jérôme Marichez**, ingénieur logiciel à Lille. Il existe pour **décrocher un
+poste**, et le succès se mesure à une chose : le recruteur qui arrive accorde l'entretien.
 
-Le site raconte un parcours (ingénieur logiciel, 9 ans, passé par la chefferie de projet
-et l'AMOA) et vend quatre pôles qui s'appuient dessus. Promesse centrale, à faire
-apparaître partout : **un seul interlocuteur humain pour vos projets digitaux, du cadrage
-au run** — celui qui cadre est celui qui code, mesure et exploite, et il répond de tout.
-La promesse porte sur l'**interlocuteur** et la **responsabilité**, jamais sur l'absence
-totale de tiers : sur un projet dont la taille le demande — c'est rare — Jérôme peut
-s'entourer de prestataires qu'il choisit, cadre et dont il répond.
+**Positionnement, l'intitulé LinkedIn fait foi : Ingénieur Full Stack | IA | QA |
+Data-Driven.** Dix ans d'expérience, toujours en petite équipe ou en autonomie complète.
 
-### Le modèle de l'offre — quatre pôles, un embranchement
+Quatre axes, **une seule pratique**. Ce ne sont pas quatre métiers juxtaposés : ils
+tiennent ensemble parce que les équipes où Jérôme a travaillé n'avaient ni QA, ni ops, ni
+équipe data. Ce qui manquait, il l'a construit. Aucun contenu ne doit leur donner un ordre
+ni une hiérarchie.
 
-```
-Ingénierie web  →  DATA  →  ( IA  et/ou  SEA & UX )
-```
+**L'encadrement se raconte dans les expériences, jamais dans le titre** : alternants et
+stagiaires développeurs, prestataires recrutés et mesurés, équipes marketing et SEO-SEA,
+équipe de 5 à 10 personnes, budgets justifiés en comité de direction.
 
-*(Modèle arbitré par Jérôme MARICHEZ le 2026-08-21.)*
+Le lecteur lit en deux temps, et les deux se servent : **trente secondes de jaugeage**
+(niveau, stack, séniorité, lieu), puis la **lecture détaillée** et le CV en PDF. **Le site
+est la démonstration de ce qu'il raconte** : un défaut de performance ou d'accessibilité y
+contredit directement ce que la page affirme.
 
-Ce n'est **pas** une chaîne linéaire de quatre maillons, et ce ne sont **pas** quatre offres
-posées côte à côte au catalogue :
+Vérité produit complète dans [`PRODUCT.md`](./PRODUCT.md), contenu dans
+[`README.md`](./README.md). Ce fichier-ci porte les règles.
 
-- **Data est le passage obligé.** Ni IA ni SEA & UX ne se font sans elle. C'est l'argument
-  central du modèle, pas une étape administrative : sans mesure, l'IA devine et
-  l'acquisition arbitre à l'aveugle.
-- **L'embranchement est inclusif.** Un client peut prendre IA seule, SEA & UX seule, ou les
-  deux. Rien n'oblige à acheter de l'IA pour tirer parti de la donnée, et le site doit le
-  dire explicitement.
-- **IA et SEA & UX sont deux branches parallèles**, pas deux étapes successives. Aucun
-  contenu, aucun visuel, aucun libellé, aucun numéro d'ordre ne doit laisser croire que
-  l'une vient après l'autre.
+**Stack** : TypeScript strict, Next.js 16 en App Router, export statique, CSS Modules,
+**Zod** pour toute entrée externe.
 
-**Le passage obligé a une méthode.** Les étapes qui précèdent le test, gouvernance et
-stratégie data comprises, servent **les deux branches** : elles valent autant pour
-SEA & UX que pour IA. Le test de déterminisme, lui, ne commande que l'entrée dans la
-branche IA. Le détail qu'on lui donne ici ne la hisse pas au-dessus de SEA & UX, il dit
-seulement à quelle condition on y entre, et à quelle condition on n'y entre pas. Aucun
-contenu ne réordonne ces étapes.
-
-```
-métier  →  gouvernance  →  stratégie data  →  problématique  →  exploration de données
-  →  [ le problème a-t-il une réponse déterministe ? ]
-        oui  →  on s'arrête. Pas d'IA.
-        non  →  alors seulement, on considère l'IA
-                (supervisé, non supervisé, LLM, agents)
-```
-
-*(Enchaînement décrit par Jérôme MARICHEZ le 2026-08-23.)*
-
-- **La gouvernance vient avant la stratégie data**, jamais l'inverse : on établit qui
-  détient la donnée, qui l'arbitre et sous quelles règles, avant de décider ce qu'on en
-  fait. C'est cet ordre qui fait foi *(arbitré par Jérôme MARICHEZ, issue #126)*.
-- **La problématique s'écrit, et l'exploration de données est une étape nommée.** La
-  première pose la question, la seconde y répond sur les données réelles. Ni l'une ni
-  l'autre n'est un préliminaire implicite qu'on saute.
-- **Le test de déterminisme est un test, pas une intuition.** Il pose une question
-  unique : le problème a-t-il une réponse déterministe ? Quand le cadrage a déjà donné
-  la réponse, elle est acquise avant l'exploration ; sinon, c'est l'exploration qui la
-  produit. Elle se constate, elle ne se suppose pas.
-- **Le cas déterministe est un bon résultat**, jamais un échec ni un moindre résultat.
-  Ce qui s'arrête est la trajectoire vers l'IA, pas la mission : le problème est traité,
-  il l'est sans modèle, et c'est un client à qui on évite une dépense inutile. Le lui
-  dire est un argument de lucidité, jamais une porte qui se ferme.
-- **Les familles de solutions IA se nomment sans hiérarchie** : supervisé, non
-  supervisé, LLM, agents. Aucun ordre, aucun numéro, aucune formule ne doit en désigner
-  une comme le choix par défaut ou comme le niveau supérieur. Quand le problème l'impose,
-  un LLM classique reste un choix légitime, open source ou propriétaire : « propriétaire »
-  désigne ici un modèle fermé, à ne pas confondre avec la propriété du client ci-dessous.
-- **L'axe économique donne au passage obligé sa raison chiffrable.** Deux notions
-  distinctes, à ne jamais confondre. La **propriété** : quand la stratégie data est
-  solide en amont, le client peut être propriétaire de sa solution IA au lieu de payer
-  indéfiniment l'usage d'un modèle tiers. Le **niveau cognitif** : un workflow agentique
-  de bas niveau cognitif, autrement dit un enchaînement automatisé qui ne demande au
-  modèle que ce que lui seul sait faire, coûte moins cher qu'un LLM sollicité pour tout,
-  parce que la donnée bien structurée a déjà fait le travail. Le chiffre se mesure sur
-  le projet, il ne s'annonce pas d'avance.
-
-Le **périmètre éditorial complet** (les quatre pôles en détail, les preuves chiffrées,
-les certifications, l'arborescence des pages, les contraintes SEO / perf / a11y / RGPD)
-est décrit dans le [`README.md`](./README.md) : c'est la **source de vérité du contenu**.
-Ce fichier-ci porte les règles qui encadrent la façon de l'écrire et de le développer.
-
-**Stack** : TypeScript — Next.js (App Router) (front) ; Node.js/TypeScript (back le cas
-échéant) ; **Zod** pour la validation des entrées.
-
-**Contraintes produit non négociables** : rendu statique ou ISR et métadonnées par page
-(SEO), Lighthouse à **95 visé sur les 4 catégories**, accessibilité RGAA / WCAG AA testée
-dans `uat/`, mesure d'audience conforme RGPD avec consentement. Le site est la
-démonstration de ce qu'il vend : un défaut de perf ou d'accessibilité y coûte plus cher
-qu'ailleurs.
-
-**Le plancher bloquant de performance est à 80**, décidé par Jérôme MARICHEZ le
-2026-08-24 : « Pour le LCP j'autorise 80/100 mais pas moins » (issue #146). Sous 80, le
-budget échoue et rien ne se livre. **Accessibilité, bonnes pratiques et SEO ne bougent
-pas** : leur plancher reste 95. 80 n'est pas la cible : entre 80 et 95, le budget passe
-mais le rapport le signale, et le score reste à corriger. Valeurs exécutables dans
-`scripts/budgets/pages.mjs`, elles ne se recopient nulle part.
+**Contraintes non négociables** : rendu statique et métadonnées par page, budgets
+Lighthouse bloquants (**performance 80**, plancher arbitré le 2026-08-24, issue #146 ;
+**accessibilité, bonnes pratiques et SEO 95**), RGAA et WCAG AA testés, aucun cookie et
+aucune mesure d'audience. Valeurs exécutables dans `scripts/budgets/pages.mjs`, elles ne
+se recopient nulle part.
 
 > Projet géré par Jérôme MARICHEZ.
 
 ## Règles de véracité du contenu (bloquantes)
 
-Le site engage la réputation professionnelle de Jérôme et sera lu par des prospects et
-des recruteurs. **Aucune formulation ne doit dépasser ce qui est réellement établi**, même
-quand une formule plus large serait plus vendeuse. Ces règles priment sur toute
-considération marketing.
-
-**Ne JAMAIS écrire sur ce site :**
+Le site engage une réputation professionnelle et sera lu par des recruteurs. **Aucune
+formulation ne dépasse ce qui est réellement établi**, même quand une formule plus large
+serait plus vendeuse. Ces règles priment sur toute considération marketing.
 
 | Interdit | Formulation juste |
 |----------|-------------------|
-| « aucune sous-traitance », « 0 sous-traitant », toute promesse d'**absence totale de tiers** | **Un seul interlocuteur, du cadrage au run, qui répond de tout.** Aucune couche commerciale, aucun transfert de dossier, l'interlocuteur ne change pas. Sur un projet dont la taille le demande — **c'est rare, et la rareté se dit** — des prestataires viennent en renfort : Jérôme les choisit, les cadre et en répond ; le client ne gère personne d'autre que lui. *(Règle mise à jour à la demande explicite de Jérôme MARICHEZ, issue #40.)* |
-| ISTQB niveau **Avancé** / Automatisation de test | **ISTQB Foundation** uniquement — l'Avancé n'est pas obtenu |
-| Management, lead ou mentorat de **développeurs** | Encadrement d'**équipes marketing / SEO-SEA, de prestataires externes, d'alternants et de stagiaires**. Titre réel : « Lead Tech » chez MailingVox (équipe de 2 devs + 1 PO) |
-| « en collaboration avec l'Universitat de Barcelona » | Méthode d'extraction audio **publiée sur arXiv**, qu'il a **implémentée lui-même** puis industrialisée |
-| LangChain, LlamaIndex, tout **framework** RAG | Le **RAG comme technique** est confirmé (recherche vectorielle PostgreSQL + API OpenAI), fait **maison** |
-| AppsFlyer, Adjust, Amplitude, Tealium, Adobe Launch / Analytics | Côté mobile : **Firebase Analytics et Crashlytics uniquement**. Côté web : GTM (web et server-side), Measurement Protocol, GA, Matomo, CMP |
+| ISTQB **Avancé**, Automatisation de test | **ISTQB Foundation** uniquement |
+| management, lead ou mentorat de **développeurs** | Encadrement d'**alternants et stagiaires développeurs, de prestataires, d'équipes marketing et SEO-SEA**. Titre réel : « Lead tech » sur Sms En Masse |
+| « en collaboration avec l'Universitat de Barcelona » | Méthode **publiée sur arXiv**, qu'il a **implémentée lui-même** puis industrialisée |
+| LangChain, LlamaIndex, tout **framework** RAG | Le **RAG comme technique** : recherche vectorielle PostgreSQL et API, fait **maison** |
+| AppsFlyer, Adjust, Amplitude, Tealium, Adobe | Mobile : **Firebase Analytics et Crashlytics** seuls. Web : GTM web et server-side, Measurement Protocol, GA, Matomo, CMP |
 | Meta Ads, LinkedIn Ads | Google Ads, Bing Ads, SEO / SEA / SMA |
-| GraphQL, NestJS, Prisma, Gherkin / Cucumber, PyTorch | Voir la stack réellement revendiquée dans le `README.md` |
-| Cluster **Kubernetes** administré en propre | Cloud Run, VM Compute Engine **auto-scalées**, cloud functions, Pub/Sub, Vertex AI — l'absence de K8s se dit telle quelle, c'est un argument de lucidité |
-| GTM attribué à la période **Verhoeven Joaillier** | GTM appartient à la période **Acetelecom / MailingVox**. Chez Verhoeven : Google Analytics, A/B testing, heatmaps |
+| GraphQL, NestJS, Prisma, Gherkin, Cucumber, PyTorch | Voir la stack revendiquée dans le `README.md` |
+| cluster **Kubernetes** administré en propre | Cloud Run, Compute Engine **auto-scalées**, cloud functions, Pub/Sub, Vertex AI. L'absence de K8s se dit, c'est un argument de lucidité |
+| GTM attribué à **Verhoeven Joaillier** | GTM appartient à **Acetelecom**. Chez Verhoeven : Google Analytics, A/B testing, heatmaps |
+| **Truffle Capital** présenté comme employeur | **Client, en mission indépendante** (2017-2019). Le risque commercial et financier était le sien |
 
-**Points de vigilance supplémentaires :**
+**Vigilance supplémentaire**
 
-- **Prézage** et **Llama 3** peuvent être **nommés** (autorisation explicite de Jérôme,
-  2026-08-07). Restent hors ligne : le contenu du corpus, les données, les chiffres du
-  projet — le NDA couvre ceux-là.
-- Les **intitulés de poste historiques** (Verhoeven Joaillier, Truffle Capital) sont
-  repris **à l'identique des CV**, sans réécriture pour coller à une offre de service.
-- Toute **certification affichée doit pointer vers son justificatif officiel**. Une URL
-  de certification ne s'invente ni ne s'approxime : tant qu'elle n'a pas été fournie par
-  Jérôme, le lien reste marqué *à fournir* et la certification n'est **pas** publiée avec
-  un lien mort.
-- Deux points de certification ont été **arbitrés par Jérôme MARICHEZ le 2026-08-20**, et
-  ne sont donc plus à rouvrir : la certification **Google Ads est datée de 2021** (le CV
-  Tracking Specialist indiquait 2022 — c'est 2021 qui fait foi), et la certification
-  **Microsoft Ads est confirmée**, sans année connue : elle s'affiche donc sans millésime.
-  `README.md` et `src/@vitrine/contenu/certifications.ts` appliquent déjà cet arbitrage.
-- Les **CV de référence** vivent dans `/Users/nicolasb/Documents/CV/`
-  (`cv-ingenieur-fullstack.md`, `cv-ai-engineer.md`, `cv-tracking-specialist.md`) : en cas
-  de doute sur un chiffre, une date ou un périmètre, ce sont eux qui font foi — pas la
-  mémoire de l'assistant.
+- **Prézage** et **Llama 3** peuvent être **nommés** (autorisation de Jérôme, 2026-08-07).
+  Restent couverts par le NDA : le contenu du corpus, les données, les chiffres du projet.
+- Les **intitulés de poste historiques** sont repris **à l'identique des CV**, sans
+  réécriture pour coller à une offre.
+- **Aucune date sur les certifications ni sur les diplômes** (arbitrage de Jérôme
+  MARICHEZ, 2026-09-20) : l'**ordre de déclaration** fait le classement. Le champ `annee` a
+  été retiré des interfaces plutôt que laissé inutilisé.
+- Une certification ne porte de lien que si son **justificatif** a été fourni. Aucune URL
+  ne s'invente ni ne s'approxime ; un lien mort est pire que pas de lien.
+- **Aucun témoignage, aucun tarif, aucune disponibilité**, aucun client non cité dans les
+  CV.
+- Les **CV de référence** vivent dans `/Users/nicolasb/Documents/CV/MES CV/` (six versions
+  ciblées, la plus complète est *Ingénieur Fullstack & Chef de Projet*). En cas de doute sur
+  un chiffre, une date ou un périmètre, **ce sont eux qui font foi**, pas la mémoire de
+  l'assistant.
 
 ## Ligne éditoriale
 
-- **Vendre une décision, pas une techno.** Chaque bloc de service se termine sur ce que
-  le client peut trancher grâce à la prestation, jamais sur une liste d'outils.
-- **Chaque affirmation porte sa preuve** : un chiffre, une durée, une contrainte tenue.
-  Les preuves disponibles sont listées dans le `README.md` (panier moyen +50 %,
-  Lighthouse 98/100, budgets de 100 000 € pilotés, migrations sans coupure, fraude en
-  baisse). Une affirmation sans preuve disponible se reformule ou se supprime.
+- **Chaque affirmation porte sa preuve** : un chiffre, une durée, une contrainte tenue. Les
+  preuves disponibles sont listées dans le `README.md`. Une affirmation sans preuve se
+  reformule ou se supprime.
 - **Ton** : sobre, direct, à la première personne. Pas de superlatif, pas de jargon
-  d'agence, pas d'emoji dans le contenu publié.
+  d'agence, **aucun emoji** dans le contenu publié.
 - **Jamais de tiret cadratin dans un texte destiné à être lu.** Ce caractère signe une
-  écriture de machine, et ce site vend un interlocuteur humain. La règle couvre le
-  contenu publié (`src/@vitrine/contenu/`), la documentation (`docs/`, `README.md`) et ce
-  fichier. Les **commentaires de code en sont exclus** : ils sont denses et raisonnés,
-  personne ne les lit de l'extérieur, les reformuler abîmerait leur propos sans bénéfice.
+  écriture de machine. La règle couvre `src/contenu/`, `docs/`, le `README.md`, ce fichier,
+  et **tout texte lu ailleurs dans `src/`** : métadonnée SEO, libellé, chaîne rendue,
+  message, et tout attribut lu par une synthèse vocale (`aria-*`, `alt`, `title`). Un texte
+  lu par un lecteur d'écran est un texte destiné à être lu. Le tri se fait **ligne par
+  ligne**, jamais dossier par dossier (issue #153).
+  Les **commentaires de code en sont exclus**.
   Ce n'est **pas une substitution de caractère** : le tiret y sert de ponctuation, donc la
   phrase se **reformule** (virgule, deux-points, parenthèses, ou deux phrases). Un `sed`
   global est proscrit, il produirait des phrases fausses.
-  *(Règle ajoutée à la demande explicite de Jérôme MARICHEZ, 2026-08-23.)*
-- **Tout texte destiné à être lu passe par un second agent avant la PR** : contenu du
-  site, articles, `README.md`, `docs/`. Le code et les commentaires n'y passent pas. Ce
-  second agent **n'a pas le contexte de rédaction**, et c'est précisément ce qui fait la
-  seconde vue : un agent qui a écrit un texte a déjà accepté ses propres choix, il ne peut
-  plus les voir. Il vérifie quatre points, dans cet ordre :
-  1. **La fidélité à la source**, quand le texte adapte un écrit existant de Jérôme
-     MARICHEZ. On le **porte**, on ne le réécrit pas : son titre, son plan et ses
-     formulations restent les siens. Corriger l'orthographe et la syntaxe est un devoir,
-     changer l'angle est une faute (issue #121).
-  2. **La table des interdits** des règles de véracité ci-dessus.
-  3. **La ligne éditoriale** : ton, preuve à chaque affirmation, absence d'emoji.
-  4. **L'absence de tiret cadratin.**
+  **Une exception constatée et non corrigeable** : le bloc `nextjs-agent-rules` en bas de
+  ce fichier. Il est réécrit à l'identique par
+  `node_modules/next/dist/server/lib/generate-agent-files.js` à chaque `next dev`.
+  Reformulé deux fois, il est revenu deux fois. Inutile d'y revenir.
+  *(Règle demandée par Jérôme MARICHEZ, 2026-08-23 ; périmètre étendu et exception
+  constatée le 2026-08-24.)*
+- **Tout texte destiné à être lu passe par un second agent avant la PR** : contenu,
+  articles, `README.md`, `docs/`. Le code et les commentaires n'y passent pas. Ce second
+  agent **n'a pas le contexte de rédaction**, et c'est ce qui fait la seconde vue : un agent
+  qui a écrit un texte a déjà accepté ses propres choix. Il vérifie quatre points, dans cet
+  ordre :
+  1. **La fidélité à la source** quand le texte adapte un écrit de Jérôme MARICHEZ. On le
+     **porte**, on ne le réécrit pas : son titre, son plan et ses formulations restent les
+     siens. Corriger l'orthographe est un devoir, **changer l'angle est une faute**
+     (issue #121).
+  2. La **table des interdits** ci-dessus.
+  3. La **ligne éditoriale** : ton, preuve, absence d'emoji.
+  4. L'**absence de tiret cadratin**.
 
   Il propose une réécriture ; le premier agent l'intègre ou motive son refus dans la PR.
-  *(Règle ajoutée à la demande explicite de Jérôme MARICHEZ, 2026-08-23.)*
-- **Le développement en IA augmentée** (Claude Code / Gemini — agents, hooks, skills,
-  loop, serveurs MCP) **piloté par les tests (TDD)** est un différenciateur assumé : il
-  apparaît partout où le site parle de programmation, jamais comme un détail
-  d'outillage.
+  *(Règle demandée par Jérôme MARICHEZ, 2026-08-23.)*
+- **Le développement en IA augmentée** (Claude Code, Gemini : agents, hooks, skills, loop,
+  serveurs MCP) **piloté par les tests** est le différenciateur revendiqué : il apparaît
+  partout où le site parle de programmation, jamais comme un détail d'outillage.
 
 ## Méthode de travail (workflow Git)
 
-Le projet suit **toujours** un modèle à deux branches permanentes :
+Deux branches permanentes : **`main`** en production (stable, déployable) et **`dev`** en
+intégration.
 
-| Branche | Rôle |
-|---------|------|
-| `main`  | Branche de **production** — code stable, déployable, jamais cassé. |
-| `dev`   | Branche d'**intégration** — développement courant, base des nouvelles fonctionnalités. |
-
-### Règles
-
-1. **Jamais de commit direct sur `main`.** `main` ne reçoit que des fusions depuis `dev` (ou des hotfix validés).
-2. **Jamais de commit direct sur `dev`.** `dev` ne reçoit que des fusions depuis des branches de fonctionnalité (`feature/<nom>`).
-3. **Toute nouvelle fonctionnalité suit le processus `/create-feat`** (skill **obligatoire**) : penser
-   **micro-features** (petites unités livrables indépendamment ; plan mode privilégié
-   pour l'orchestration/le découpage) puis, pour chaque micro-feature : **issue** →
-   **branche `feature/<nom>` dérivée de `dev`** → **worktree dédié** → **subagent dédié**
-   qui implémente dans ce worktree et ouvre la PR vers `dev`. Ce processus s'applique
-   **aussi hors plan mode**, sans exception.
-4. **Toute issue passe par `/create-issue`** (skill **obligatoire**), quel que soit
-   son type (`bug`, `feature`, `documentation`, `autre`) : le **template d'issue
-   commun** du dépôt (`.github/ISSUE_TEMPLATE/issue.md` ou
-   `.gitlab/issue_templates/issue.md`) est rempli intégralement, titre au format
-   `<type>: <résumé court>`, **jamais d'emoji** — pas d'issue en texte libre.
-5. **Fusion d'une PR — la nuance `dev` vs `main`.**
-   - **Vers `dev`** : dès que **tous les checks CI sont au vert**, la fusion est **autorisée en auto-merge** — l'assistant **peut fusionner lui-même** la PR.
-   - **Vers `main`** (mise en production) : passe **obligatoirement** par le skill `/merge-prod` — PR ouverte et remplie par l'assistant après vérification de la CI de `dev`, mais **l'assistant n'a PAS le droit de la fusionner** — seule une **validation humaine** (Jérôme MARICHEZ) peut merger dans `main`.
+1. **Jamais de commit direct sur `main`.** Elle ne reçoit que des fusions depuis `dev` ou un
+   hotfix validé.
+2. **Jamais de commit direct sur `dev`.** Elle ne reçoit que des fusions depuis des branches
+   `feature/<nom>`. Un hook (`check-branch-sync.sh`) refuse d'éditer un fichier quand `dev`
+   local est en retard sur `origin/dev`.
+3. **Toute fonctionnalité passe par `/create-feat`** (skill **obligatoire**) : penser
+   **micro-features** (petites unités livrables indépendamment), puis pour chacune
+   **issue**, **branche `feature/<nom>` depuis `dev`**, **worktree**, **subagent dédié** qui
+   implémente et ouvre la PR vers `dev`. Sans exception, plan mode ou non.
+4. **Toute issue passe par `/create-issue`** (skill **obligatoire**), quel que soit son
+   type : template commun rempli intégralement, titre `<type>: <résumé court>`, **jamais
+   d'emoji**. Pas d'issue en texte libre.
+5. **Fusion, la nuance `dev` et `main`.** Vers **`dev`** : dès que **tous les checks CI sont
+   verts**, l'assistant **peut fusionner lui-même**. Vers **`main`** : passe
+   **obligatoirement** par `/merge-prod`, et **l'assistant n'a PAS le droit de fusionner**.
+   Seule une **validation humaine** (Jérôme MARICHEZ) merge dans `main`.
 6. **Hotfix** : `hotfix/<nom>` depuis `main`, fusionné dans `main` **et** `dev`.
-7. **`main` est une branche protégée** : push direct interdit, PR obligatoire, checks CI au vert, revue approuvée. Détails : [`docs/git-workflow.md`](./docs/git-workflow.md).
-8. **Intégrité des contrôles — aucun truquage.** L'assistant ne doit **jamais** modifier, désactiver, supprimer, ignorer (`skip`/`xfail`) ou affaiblir un **test**, une **assertion**, ni un **fichier de configuration CI/CD** (workflows, seuils de couverture, linters, limite de lignes…) dans le but de faire passer artificiellement la CI ou de masquer une régression. Les checks passent au vert **par une correction réelle du code**. Une évolution légitime d'un test reste possible, mais doit être **justifiée et documentée** dans la PR.
-9. **Pipeline verte avant toute publication.** Aucun `git push` vers `main`/`dev`, aucune fusion de PR, aucun tag, aucune release, aucun `npm publish` tant que la pipeline du **commit courant** n'est pas **verte** — le hook `check-ci-before-publish.sh` interroge GitHub Actions (ou GitLab CI) et refuse une pipeline rouge **ou en cours**. Les contournements (`--no-verify`, `[skip ci]`, `gh pr merge --admin`, `gh run cancel`, `continue-on-error: true`, `allow_failure: true`, `|| true` sur un test) sont refusés sans condition. Détails : [`docs/ci-cd.md`](./docs/ci-cd.md).
-10. **Pas d'auto-modification des règles.** L'assistant ne modifie **jamais** ce `CLAUDE.md`, un skill, un hook ou toute règle du projet **pour contourner** les consignes. Toute évolution de ces règles se fait à la demande explicite de Jérôme MARICHEZ.
-11. **CI en échec — corriger puis escalader.** L'assistant retente 2 à 3 fois en corrigeant réellement, puis **signale à Jérôme MARICHEZ** avec un diagnostic clair si le blocage persiste.
+7. **`main` est protégée** : push direct interdit, PR obligatoire, checks verts, revue
+   approuvée. GitHub refuse un force-push, y compris à l'assistant. Détails :
+   [`docs/git-workflow.md`](./docs/git-workflow.md).
+8. **Intégrité des contrôles : aucun truquage.** L'assistant ne doit **jamais** modifier,
+   désactiver, supprimer, ignorer (`skip`, `xfail`) ou affaiblir un **test**, une
+   **assertion**, un **seuil** ni un **fichier de CI/CD** pour faire passer artificiellement
+   la CI ou masquer une régression. Les checks passent au vert **par une correction réelle du
+   code**. Une évolution légitime reste possible, mais doit être **justifiée et documentée**
+   dans la PR.
+9. **Pipeline verte avant toute publication.** Aucun push vers `main` ou `dev`, aucune
+   fusion, aucun tag, aucune release tant que la pipeline du **commit courant** n'est pas
+   **verte**. Le hook `check-ci-before-publish.sh` refuse une pipeline rouge **ou en cours**.
+   Contournements refusés sans condition : `--no-verify`, une directive de saut de CI dans un
+   message de commit, `gh pr merge --admin`, `gh run cancel`, `continue-on-error: true`,
+   `|| true` sur un test. Détails : [`docs/ci-cd.md`](./docs/ci-cd.md).
+10. **Pas d'auto-modification des règles.** L'assistant ne modifie **jamais** ce fichier, un
+    skill, un hook ou une règle du projet **pour contourner** une consigne. Toute évolution
+    se fait à la demande explicite de Jérôme MARICHEZ.
+11. **CI en échec : corriger puis escalader.** Deux ou trois tentatives avec correction
+    réelle, puis **signaler à Jérôme MARICHEZ** avec un diagnostic clair.
 
 ## Politique de tests
 
-Référence complète : [`docs/testing.md`](./docs/testing.md). Convention d'emplacement
-**imposée** (un hook bloque toute création hors convention) :
+Référence : [`docs/testing.md`](./docs/testing.md). Emplacements **imposés**, un hook bloque
+toute création hors convention :
 
 | Niveau | Emplacement | Nommage | Outil |
 |--------|-------------|---------|-------|
-| unitaire | `tests/unitaire/` | `*.spec.ts(x)` | Jest + React Testing Library |
-| intégration | `tests/integration/` | `*.integration.spec.ts(x)` | Jest + RTL (vraie frontière HTTP pilotée par fixtures) |
+| unitaire | `tests/unitaire/` | `*.spec.ts(x)` | Jest + RTL |
+| intégration | `tests/integration/` | `*.integration.spec.ts(x)` | Jest + RTL, vraie frontière HTTP |
 | e2e | `tests/e2e/` | `*.cy.ts` | Cypress |
-| système | `tests/systeme/` | `*.test.ts` | Jest + vrai serveur HTTP (`listen(0)`) + `fetch` ; collection **Postman** rejouable |
+| système | `tests/systeme/` | `*.test.ts` | Jest + vrai serveur (`listen(0)`) ; collection Postman |
 
-**Acceptation / UAT** : `tests/acceptance/` (+ `uat/{disponibilite,securite,performance,robustesse}/`),
-nommage `*.test.js|ts`, runner Node natif (`make test-acceptance`).
+**Acceptation et UAT** : `tests/acceptance/` et
+`uat/{disponibilite,securite,performance,robustesse}/`, runner Node natif
+(`make test-acceptance`). La **qualité** des tests unitaires et d'intégration est mesurée
+par **Stryker** (`make test-mutation`) ; ne jamais abaisser ses seuils.
 
-La **qualité** des tests unitaires/intégration est mesurée par **Stryker**
-(mutation testing, `make test-mutation`) — ne jamais abaisser ses seuils.
-
-Règles :
-
-- **Le test précède le code.** Avant d'écrire une ligne d'implémentation, le
-  comportement attendu est couvert par un test — **au moins l'un des trois niveaux**
-  (unitaire, intégration, système) selon ce que le comportement exige ; l'unitaire est
-  le minimum dès qu'il y a de la logique. Le hook `require-test-first.sh` demande
-  confirmation dès qu'un fichier source qu'aucun test ne couvre est écrit.
-- **Le test est écrit par Jérôme MARICHEZ, jamais par l'assistant.** L'assistant expose
-  dans le chat l'**intention** du test (comportement attendu, cas limites, niveau
-  visé, jeu de données utilisé) et le contenu qu'il propose ; Jérôme MARICHEZ pose le
-  fichier. Le hook refuse toute écriture d'un fichier de test par l'assistant.
-  Délégation ponctuelle possible par Jérôme MARICHEZ (`TESTS_WRITABLE_BY_ASSISTANT=1` dans
-  l'environnement de la session) — et même alors, le test doit porter en tête un bloc
-  **`Intention : …`**. Les **jeux de données** ne sont pas des tests : l'assistant
-  peut les préparer.
-- **Le code s'adapte au test, jamais l'inverse.** Faire passer un test ne justifie
-  **jamais** d'en modifier l'intention (assertions affaiblies, cas supprimé, `skip`).
-  Si un test paraît faux, le signaler à Jérôme MARICHEZ — ne pas le réécrire.
-- **Intégration / e2e** : vérifier d'abord si un test pertinent existe ; sinon, si le
-  composant le justifie (frontière API, accès base, auth ; parcours utilisateur critique
-  pour e2e), **proposer** son intention à Jérôme MARICHEZ.
-- **Pas de mocks — des jeux de données.** Aucune doublure de module (`jest.mock`,
-  `vi.mock`, `__mocks__`, `sinon.stub`, `mockResolvedValue`…) : les vrais services
-  collaborent entre eux et tournent sur des **jeux de données réalistes** versionnés
-  dans `tests/fixtures/` (`<entite>.fixture.json`). Seules les **frontières** se
-  pilotent : MSW pour le réseau, Supertest ou un vrai serveur (`listen(0)`) pour
-  HTTP, une base de test dédiée pour la persistance ; `jest.fn()`/`jest.spyOn`
-  restent permis pour **observer** un appel. Le hook `check-test-doubles.sh`
-  applique la règle.
+- **Le test précède le code.** Le comportement attendu est couvert avant toute
+  implémentation, **au moins à l'un des trois niveaux** (unitaire, intégration, système) ;
+  l'unitaire est le minimum dès qu'il y a de la logique. Le hook `require-test-first.sh`
+  demande confirmation dès qu'un fichier source non couvert est écrit.
+- **Le test est écrit par Jérôme MARICHEZ, jamais par l'assistant.** L'assistant expose dans
+  le chat l'**intention** (comportement attendu, cas limites, niveau visé, jeu de données) et
+  le contenu proposé ; Jérôme pose le fichier. Le hook refuse toute écriture d'un test par
+  l'assistant. **Délégation ponctuelle possible** (`TESTS_WRITABLE_BY_ASSISTANT=1`, ou
+  autorisation donnée en session) ; le test porte alors en tête un bloc **`Intention : …`**
+  et la délégation y est **écrite plutôt que taire**. Les **jeux de données ne sont pas des
+  tests** : l'assistant peut les préparer.
+- **Le code s'adapte au test, jamais l'inverse.** Faire passer un test ne justifie jamais
+  d'en modifier l'intention. Si un test paraît faux, le **signaler**, ne pas le réécrire.
+- **Pas de mocks, des jeux de données.** Aucune doublure de module (`jest.mock`,
+  `__mocks__`, `mockResolvedValue`…) : les vrais services collaborent sur des jeux de données
+  versionnés dans `tests/fixtures/` (`<entite>.fixture.json`). Seules les **frontières** se
+  pilotent : MSW pour le réseau, un vrai serveur pour HTTP, une base dédiée pour la
+  persistance. `jest.fn()` et `jest.spyOn` restent permis pour **observer**. Le hook
+  `check-test-doubles.sh` applique la règle.
 - Les tests **conditionnent la fusion** vers `dev`.
-
-## Versionnage — Semantic Versioning
-
-Le projet respecte **toujours** la convention **SemVer** (`MAJEUR.MINEUR.CORRECTIF`) :
-version dans `package.json` (point de vérité), releases taguées `vX.Y.Z`, incrément
-selon la nature du changement (rupture → majeur, fonctionnalité → mineur,
-correctif → patch). La release est **automatique** : à chaque push sur `main`, la CI
-lit la version de `package.json` et crée le tag `vX.Y.Z` + la release s'ils
-n'existent pas encore. **Toute modification fusionnée sur `main` DOIT donc bumper la
-version dans le même commit/PR**, sinon aucune release n'est publiée. Les
-**dépendances** sont soumises à la même exigence par le hook `check-new-dependency.sh` :
-un paquet dont la version ne respecte pas SemVer (ou dont l'information est
-indisponible) est **refusé**.
 
 ## Qualité du code
 
-- **Lint** : Biome (`make lint`) — la CI échoue si le lint échoue.
-- **Limite de taille** : **aucun fichier source ne dépasse 300 lignes**
-  (`scripts/check-max-lines.sh`, vérifié par hook local et par la CI).
-  Si un fichier approche la limite : **extraire** (sous-composants, hooks, services),
-  ne jamais contourner le contrôle.
+- **Lint** : Biome (`make lint`). La CI échoue si le lint échoue.
+- **Aucun fichier source au delà de 300 lignes** (`scripts/check-max-lines.sh`, hook local et
+  CI). Si un fichier approche : **extraire** (sous-composants, hooks, services), jamais
+  contourner. `.claude/skills/` est exclu du contrôle depuis le 2026-09-20 (code tiers
+  vendué, même nature que `node_modules`) ; aucun fichier du projet n'y échappe.
 - **TypeScript strict** : pas de `any` non justifié.
-- **Nommage des fichiers** : **Majuscule (PascalCase)** uniquement pour les
-  **composants React** (`Button.tsx`, `ProductCard.tsx`) et les **vues/pages** le cas
-  échéant (`HomeView.tsx`) ; **tout le reste en minuscules** (`cart.service.ts`,
-  `use-cart.ts`, `product.repository.ts`, `types.ts`).
+- **Nommage des fichiers** : **PascalCase** pour les **composants React** et les **vues** ;
+  **tout le reste en minuscules** (`cart.service.ts`, `use-cart.ts`, `types.ts`).
 - **Nommage des symboles** : **PascalCase** pour les **interfaces** (`IProduct`), les
-  **composants `.tsx`** (`ProductCard`) et les **classes du dossier métier
-  `services/`** (`CartService`) ; **camelCase** pour tout le reste (fonctions,
-  variables, hooks `useCart`, instances).
-- **Séparation métier / rendu (front)** : le front a **toujours** un dossier
-  `services/` qui porte la **logique métier** (classes/fonctions pures, appels API,
-  règles de gestion) ; les **hooks React** (`use-*.ts`) ne gèrent que la **logique de
-  rendu** (état d'UI, abonnements, orchestration des services pour les composants) —
-  jamais de règle métier dans un hook ou un composant.
-- **`utils/`** : un dossier `src/utils/` regroupe **toujours**
-  les **utilitaires** transverses (formatage, helpers purs, sans état ni métier).
-- **Interfaces et types** : toutes les **interfaces d'entités** vivent dans le dossier
-  `src/interfaces/` (un fichier par entité) et leur nom **commence toujours par `I`**
-  (`IProduct`, `IUser`…). Les **alias de types purs** (unions, utilitaires) vont dans
-  `src/interfaces/types.ts` — uniquement des `type`, jamais d'interface.
-- **Validation des entrées — Zod (obligatoire)** : toute entrée externe (body/query
-  d'API, formulaire, webhook, variables d'environnement) est validée par un schéma
-  **Zod** avant usage. Les schémas vivent dans `schemas/` (un fichier par entité,
-  `product.schema.ts` ; dans `shared/schemas/` si partagé front-back) et les types
-  d'entrée sont **dérivés du schéma** (`z.infer`), jamais l'inverse. Aucun cast
-  direct (`as`) d'une donnée externe.
-- **Composant = un dossier** : chaque composant React vit dans son dossier PascalCase
-  avec un `index.tsx` et ses styles/assets **colocalisés**
-  (`components/Button/index.tsx` + `button.module.css`). Les composants sont **purs**
-  par défaut ; ceux qui portent des effets (store, réseau, auth…) sont isolés dans un
-  sous-dossier **`_notPure/`**.
-- **`views/` vs `pages/`** : `pages/` (ou `app/`) ne fait **que le routage** ; les
-  sections d'écran composées vivent dans `src/views/<domaine>/` et assemblent les
-  composants.
-- **Découpage par domaine** : quand l'app grandit, regrouper le code front par domaine
-  métier sous `src/@<domaine>/` (ex. `@core` pour le socle applicatif, `@vitrine` pour
-  le site public, `@shared` pour le transverse), chaque domaine portant ses propres
-  `components/`, `hooks/`, `services/`, `utils/`, `interfaces/`.
+  **composants** et les **classes de `services/`** ; **camelCase** pour tout le reste.
+- **Séparation métier et rendu** : `services/` porte la **logique métier** ; les **hooks
+  React** (`use-*.ts`) ne gèrent que la **logique de rendu**. Jamais de règle métier dans un
+  hook ou un composant.
+- **`src/utils/`** regroupe les **utilitaires** transverses (formatage, helpers purs, sans
+  état ni métier).
+- **Interfaces et types** : les **interfaces d'entités** vivent dans `src/interfaces/`, un
+  fichier par entité, nom **préfixé `I`**. Les **alias de types purs** vont dans
+  `src/interfaces/types.ts` : uniquement des `type`, jamais d'interface.
+- **Validation Zod obligatoire** : toute entrée externe (body, query, formulaire, webhook,
+  variable d'environnement) est validée par un schéma **Zod** avant usage. Les schémas vivent
+  dans `schemas/`, un fichier par entité, et les types sont **dérivés du schéma** (`z.infer`).
+  Aucun cast direct (`as`) d'une donnée externe. Le site actuel n'a **aucune** entrée
+  externe : le jour où il en a une, elle passe par là.
+- **Composant = un dossier** PascalCase avec `index.tsx` et ses styles colocalisés
+  (`components/Bouton/index.tsx` plus `bouton.module.css`). **Aucune séparation entre
+  composants purs et composants à effets** : la règle `_notPure/` est **retirée**, elle
+  n'avait jamais été appliquée et n'ajoutait qu'un niveau de dossier. *(Retirée à la demande
+  de Jérôme MARICHEZ, 2026-08-24, issue #143.)*
+- **`views/` et `app/`** : `src/app/` est le système de pages de Next.js et ne fait **que le
+  routage** ; les sections d'écran composées vivent dans `src/views/`.
+- **Pas de découpage par domaine.** Le front vit **directement sous `src/`** : `app/`,
+  `components/`, `views/`, `contenu/`, `interfaces/`, `seo/`, `utils/`. Deux domaines pour une
+  vitrine de six écrans ajoutaient un niveau de chemin sans rien trancher. *(Retiré à la
+  demande de Jérôme MARICHEZ, 2026-08-24, issue #143.)*
 
-## Politique de documentation
+## Versionnage : SemVer
 
-- Toute modification de code **impactante** met à jour le `README.md` et la doc `docs/`
-  concernée (architecture, data-model, testing, ci-cd, docker, tooling…).
-- Une nouvelle catégorie `docs/` créée doit être **liée** dans le `README.md` **et** ce `CLAUDE.md`.
-- Docs disponibles : [architecture](./docs/architecture.md), [data-model](./docs/data-model.md),
-  [testing](./docs/testing.md), [ci-cd](./docs/ci-cd.md), [git-workflow](./docs/git-workflow.md),
-  [tooling](./docs/tooling.md), [model-routing](./docs/model-routing.md),
-  [security](./docs/security.md),
-  [accessibility](./docs/accessibility.md), [design](./docs/design.md),
-  [frontend-practices](./docs/frontend-practices.md),
-  [docker](./docs/docker.md),
-  [storybook](./docs/storybook.md),
-  [rgpd](./docs/rgpd.md), [ameliorations](./docs/ameliorations.md).
+Convention **SemVer** (`MAJEUR.MINEUR.CORRECTIF`), version dans `package.json` (point de
+vérité), releases taguées `vX.Y.Z`. La release est **automatique** : à chaque push sur
+`main`, la CI lit la version et crée le tag et la release. **Toute modification fusionnée sur
+`main` DOIT donc bumper la version dans la même PR**, sinon rien n'est publié. Les
+**dépendances** sont soumises à la même exigence (`check-new-dependency.sh`) : un paquet dont
+la version ne respecte pas SemVer est **refusé**.
 
-## Skills projet (`.claude/skills/`)
+## Documentation
 
-Trois skills **obligatoires** encadrent le cycle de vie :
+Toute modification **impactante** met à jour le `README.md` et la page `docs/` concernée. Une
+nouvelle catégorie `docs/` est **liée** dans le `README.md` et ici.
+
+[architecture](./docs/architecture.md) · [data-model](./docs/data-model.md) · [design](./docs/design.md) · [frontend-practices](./docs/frontend-practices.md) · [accessibility](./docs/accessibility.md) · [testing](./docs/testing.md) · [ci-cd](./docs/ci-cd.md) · [git-workflow](./docs/git-workflow.md) · [docker](./docs/docker.md) · [storybook](./docs/storybook.md) · [tooling](./docs/tooling.md) · [model-routing](./docs/model-routing.md) · [security](./docs/security.md) · [rgpd](./docs/rgpd.md) · [ameliorations](./docs/ameliorations.md)
+
+## Skills projet
 
 | Skill | Usage |
 |-------|-------|
-| `/create-issue` | **Obligatoire** pour créer toute issue (`bug`, `feature`, `documentation`, `autre`) : template d'issue commun rempli intégralement, titre `<type>: <résumé>`, jamais d'emoji. |
-| `/create-feat` | **Obligatoire** pour démarrer toute fonctionnalité : issue (via `/create-issue`) → branche depuis `dev` → worktree → subagent dédié → PR vers `dev`. |
-| `/merge-prod` | **Obligatoire** pour toute mise en production : vérifier la CI de `dev`, ouvrir la PR `dev` → `main`, surveiller les checks — **sans jamais merger** (validation humaine). |
+| `/create-issue` | **Obligatoire** pour toute issue : template rempli, titre `<type>: <résumé>`, jamais d'emoji |
+| `/create-feat` | **Obligatoire** pour démarrer toute fonctionnalité : issue, branche depuis `dev`, worktree, subagent, PR vers `dev` |
+| `/merge-prod` | **Obligatoire** pour toute mise en production : vérifier la CI de `dev`, ouvrir la PR `dev` vers `main`, **sans jamais merger** |
 
-Ajouter ici les procédures récurrentes du projet (build, déploiement, fixes connus).
+Deux skills de design sont installés et font foi sur l'interface : **`impeccable`** (le
+contrat de direction vit dans `.impeccable/surfaces/`) et **`web-animation-design`**.
 
-## Routage de modèles (subagents `.claude/agents/`)
+## Routage de modèles
 
-Le hook `route-task.sh` (UserPromptSubmit) classifie chaque demande et **recommande**
-un subagent adapté — voir [`docs/model-routing.md`](./docs/model-routing.md) :
+Le hook `route-task.sh` classifie chaque demande et **recommande** un subagent (voir
+[`docs/model-routing.md`](./docs/model-routing.md)) : `opus-architect` (architecture,
+migrations, sécurité, debugging profond), `opus-dev` (features, refactoring, bugfix),
+`opus-frontend` (composants, vues, styles, a11y, Storybook), `haiku-mechanic` (doc,
+renommages, git, recherches).
 
-| Subagent | Modèle / effort | Tâches |
-|----------|-----------------|--------|
-| `opus-architect` | Opus, effort xhigh | architecture, conception, migrations, sécurité, debugging profond |
-| `opus-dev` | Opus, effort medium | features, refactoring, bugfix non trivial, tests |
-| `opus-frontend` | Opus, effort medium | composants React, vues, styles, responsive, a11y, Storybook (projets avec UI) |
-| `haiku-mechanic` | Haiku | doc, renommages, formatage, git, recherches simples |
-
-Règles : **en cas de doute, router vers le haut** (jamais de perte de précision pour
-économiser) ; un subagent qui découvre que la tâche le dépasse répond `ESCALATE: <raison>`
-et le travail est re-délégué un cran au-dessus ; la recommandation du hook peut être
-outrepassée si le contexte de session l'exige.
+**En cas de doute, router vers le haut.** Un subagent qui découvre que la tâche le dépasse
+répond `ESCALATE: <raison>` et le travail est re-délégué un cran au-dessus. La recommandation
+peut être outrepassée si le contexte l'exige.
 
 ## Commandes
-
-Interface unique : **Make** (voir `Makefile`).
 
 ```bash
 make install        # dépendances
 make dev            # démarrage local
 make lint           # Biome + limite 300 lignes
-make test           # tous les niveaux de tests
+make test           # tous les niveaux
+make budgets        # Lighthouse + axe-core
+make storybook      # catalogue de composants
 make docker-up      # stack conteneurisée
 ```
 

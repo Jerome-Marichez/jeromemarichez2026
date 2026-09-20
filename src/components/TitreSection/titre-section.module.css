@@ -1,0 +1,29 @@
+.titre {
+  display: flex;
+  align-items: baseline;
+  gap: 1.2ch;
+  /* Plus d'espace au-dessus d'un titre qu'en dessous : il appartient a ce qui
+     suit, pas a ce qui precede. */
+  margin-block: var(--e6) var(--e3);
+  font-size: var(--t-section);
+  font-weight: 500;
+  color: var(--encre);
+}
+
+.marqueur {
+  flex-shrink: 0;
+  color: var(--cafe-sourd);
+  font-weight: 400;
+  /* Le marqueur reste dans la gouttiere, il ne pousse pas le titre : les titres
+     d'un meme ecran s'alignent donc sur la meme colonne de caracteres. */
+  margin-left: -3.2ch;
+  width: 2ch;
+}
+
+@media (max-width: 52rem) {
+  .marqueur {
+    /* Sous cette largeur la gouttiere n'existe plus : le marqueur rentre dans
+       le flux plutot que de deborder hors de l'ecran. */
+    margin-left: 0;
+  }
+}

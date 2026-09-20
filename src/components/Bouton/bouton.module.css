@@ -1,0 +1,53 @@
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 44px de haut au minimum : une cible tactile confortable. */
+  min-height: 2.75rem;
+  padding: var(--e2) 2.4ch;
+  border: var(--largeur-filet) solid transparent;
+  font-size: var(--t-petit);
+  text-decoration: none;
+  transition:
+    background-color var(--duree-court) ease,
+    border-color var(--duree-court) ease,
+    color var(--duree-court) ease,
+    transform var(--duree-court) var(--sortie);
+}
+
+/* L'action principale porte la lampe en aplat : l'accent possede une region. */
+.bouton[data-ton="primaire"] {
+  background-color: var(--cafe);
+  color: #1b1918;
+  font-weight: 500;
+}
+
+.bouton[data-ton="primaire"]:hover {
+  background-color: var(--cafe-vif);
+  color: #1b1918;
+}
+
+.bouton[data-ton="secondaire"] {
+  border-color: var(--filet-fort);
+  color: var(--encre);
+}
+
+.bouton[data-ton="secondaire"]:hover {
+  border-color: var(--cafe);
+  color: var(--cafe);
+}
+
+/* L'enfoncement rend le bouton reactif sans rien animer d'autre que transform. */
+.bouton:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bouton {
+    transition: none;
+  }
+
+  .bouton:active {
+    transform: none;
+  }
+}

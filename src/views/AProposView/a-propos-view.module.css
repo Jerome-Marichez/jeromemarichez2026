@@ -1,0 +1,13 @@
+.titre {
+  margin-block: var(--e6) var(--e4);
+  font-size: var(--t-heros);
+  font-weight: 500;
+  color: var(--encre);
+}
+
+.paragraphe {
+  max-width: var(--colonne);
+  color: var(--encre-douce);
+  font-size: var(--t-grand);
+  line-height: 1.65;
+}
