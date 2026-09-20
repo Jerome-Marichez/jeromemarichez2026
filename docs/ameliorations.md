@@ -12,12 +12,14 @@ se tranche par un raccourci technique.
 
 | Sujet | État | Ce qui bloque |
 |-------|------|---------------|
-| **Test de fumée e2e périmé** | `tests/e2e/fumee.cy.ts` vérifie `/services/*`, `/realisations/` et `/blog/`, routes supprimées | Le test appartient à Jérôme MARICHEZ, et la règle 8 interdit de le modifier pour faire passer la CI. Il ne tourne que sur les PR vers `main`, donc il bloque la mise en production, pas la fusion vers `dev` |
-| **Storybook sans stories** | Les 31 stories vivaient dans `src/` et sont parties avec les composants supprimés | À reconstruire pour les composants du nouveau site. `make storybook-build` tourne en CI sur toute PR vers `dev` |
+| ~~**Test de fumée e2e périmé**~~ | **Réglé le 2026-09-20** sur délégation explicite de Jérôme MARICHEZ : réécrit pour les six routes, dix tests au vert, et il a trouvé quatre défauts réels dès sa première exécution | rien |
+| ~~**Storybook sans stories**~~ | **Réglé le 2026-09-20** : 15 fichiers de story, 29 stories, et `preview.tsx` réécrit (il importait encore des modules supprimés, vraie cause de l'échec de construction) | rien |
 | **Deux fichiers morts dans `.storybook/`** | `theme-media.ts` (bascule clair et sombre, sans objet, le site n'a qu'un thème) et `jeux-de-donnees.ts` (importe des modules de contenu supprimés) | Rien ne les importe plus. Suppression sans risque, refusée à l'assistant par les permissions de session |
 | **Tests unitaires du nouveau site** | Seul `tests/unitaire/exemple.spec.ts` subsiste, générique | Les tests sont écrits par Jérôme MARICHEZ. L'intention des tests à écrire lui est exposée, il pose les fichiers |
-| **CV téléchargeable à « 9 ans »** | Le site annonce dix ans, les six PDF en annoncent neuf | Les PDF sont générés par les scripts Python de `MES CV/sources/`, hors de ce dépôt. Correction à autoriser |
-| **Année de la certification Google Ads** | Champ à `null`, aucune année affichée | Les CV disent 2022, un arbitrage antérieur disait 2021. Arbitrage de Jérôme MARICHEZ attendu |
+| **Quatre jeux de données morts** | `tests/fixtures/{article,realisation,contact,exemple}.fixture.json` décrivent des entités supprimées (articles, réalisations, formulaire de contact) et des services qui n'existent plus | Aucun test ne les lit, donc rien ne casse. Ce sont des jeux de données, pas des tests : l'assistant peut les préparer, mais les permissions de session lui refusent la suppression |
+| **Un tiret cadratin dans un libellé de test** | `tests/unitaire/exemple.spec.ts`, le libellé du `describe` | Le fichier appartient à Jérôme MARICHEZ et l'assistant ne réécrit pas un test. La phrase se reformule, elle ne se corrige pas par substitution de caractère |
+| ~~**CV téléchargeable à « 9 ans »**~~ | **Réglé le 2026-09-20** : douze corrections dans les scripts Python de `MES CV/sources/`, six PDF régénérés à dix ans | rien |
+| ~~**Année de la certification Google Ads**~~ | **Réglé le 2026-09-20** : Jérôme MARICHEZ a décidé qu'aucune certification ni aucun diplôme ne porte de date, l'ordre de déclaration fait le classement. Le champ `annee` est retiré des deux interfaces | rien |
 | **URL des justificatifs de certification** | Champ à `null`, aucun lien posé | Jamais fournies. Un lien mort serait pire que pas de lien |
 | **`CLAUDE.md` décrit encore les quatre pôles** | Le modèle, la promesse d'interlocuteur unique et la description du projet sont périmés | La règle 10 interdit à l'assistant de modifier ce fichier sans demande explicite |
 
