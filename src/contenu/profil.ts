@@ -11,7 +11,10 @@ export const profil: IProfil = {
   // ans : sa parole fait foi sur son propre parcours. Voir le compte rendu final.
   anneesExperience: 10,
   paragraphe:
-    "Ingénieur logiciel, dix ans d'expérience, toujours en petite équipe ou en autonomie complète. " +
+    "Ingénieur logiciel et chef de projet, dix ans d'expérience, toujours en petite équipe ou en " +
+    "autonomie complète. Lead tech sur le produit que j'ai conçu, ingénieur fullstack sur ceux que " +
+    "je n'ai pas créés, chef de projet quand il faut aller chercher la décision plutôt que " +
+    "l'attendre. " +
     'Je commence par dialoguer pour comprendre les enjeux business, puis je propose la solution ' +
     "technique qui y répond. Je conçois, je livre, je recette puis j'exploite, donc je paie moi-même " +
     "le prix de mes choix d'architecture. La qualité et les chaînes d'intégration continue, je les ai " +
