@@ -1,0 +1,30 @@
+.ouverture {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e3);
+  padding-block: var(--e6) var(--e5);
+}
+
+.titre {
+  font-size: var(--t-section);
+  font-weight: 500;
+  color: var(--encre);
+}
+
+.chapo {
+  max-width: var(--colonne);
+  color: var(--encre-douce);
+  font-size: var(--t-grand);
+  line-height: 1.65;
+}
+
+.apres {
+  padding-bottom: var(--e2);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e2);
+  margin-top: var(--e4);
+}

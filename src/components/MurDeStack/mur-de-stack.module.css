@@ -1,0 +1,74 @@
+/* Le mur occupe une region entiere du fond, il n'est pas pose dessus : c'est la
+   lampe appliquee au sol plutot qu'en accent saupoudre. Il saigne donc jusqu'aux
+   bords de la fenetre, et son fond descend d'un cran. */
+
+.mur {
+  /* Sortie de la gouttiere de page pour occuper toute la largeur de la fenetre,
+     sans provoquer de debordement horizontal. */
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding-block: var(--e5);
+  padding-inline: var(--marge-page);
+  border-top: var(--largeur-filet) solid var(--filet);
+  border-bottom: var(--largeur-filet) solid var(--filet);
+  background-color: var(--fond-creux);
+}
+
+.colonnes {
+  max-width: calc(var(--colonne-large) + var(--marge-page) * 2);
+  margin-inline: auto;
+  /* Le flux en colonnes est ce qui rend le mur dense sans rapetisser le texte :
+     c'est la mise en page qui travaille, pas la taille de caractere. */
+  columns: 3;
+  column-gap: var(--e5);
+  column-rule: var(--largeur-filet) solid var(--filet);
+}
+
+.groupe {
+  /* Une famille ne se coupe jamais entre deux colonnes : sa liste perdrait son
+     terme, et le mur cesserait d'etre lisible. */
+  break-inside: avoid;
+  margin-bottom: var(--e4);
+}
+
+.famille {
+  margin-bottom: var(--e2);
+  padding-bottom: var(--e1);
+  border-bottom: var(--largeur-filet) solid var(--cafe-sourd);
+  color: var(--cafe);
+  font-size: var(--t-micro);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.entrees {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e1);
+}
+
+/* L'entree est a 13px sur un contraste de 15:1 : dense, et lisible. La densite
+   se joue sur l'interlignage, resserre a 1.35 contre 1.5 ailleurs. */
+.entree {
+  color: var(--encre);
+  font-size: var(--t-petit);
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+@media (max-width: 64rem) {
+  .colonnes {
+    columns: 2;
+    column-gap: var(--e4);
+  }
+}
+
+@media (max-width: 44rem) {
+  .colonnes {
+    /* Sous cette largeur, deux colonnes donnent des lignes de quatre mots :
+       la densite se retournerait contre la lecture. */
+    columns: 1;
+    column-rule: none;
+  }
+}

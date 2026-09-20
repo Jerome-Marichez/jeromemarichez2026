@@ -7,9 +7,11 @@ export const profil: IProfil = {
   nom: "Jérôme Marichez",
   titre: "Ingénieur Full Stack | IA | QA | Data-Driven",
   localisation: "Lille (59)",
-  anneesExperience: 9,
+  // Les six CV disent « neuf ans », mais Jérôme MARICHEZ a corrigé oralement à dix
+  // ans : sa parole fait foi sur son propre parcours. Voir le compte rendu final.
+  anneesExperience: 10,
   paragraphe:
-    "Ingénieur logiciel, neuf ans d'expérience, toujours en petite équipe ou en autonomie complète. " +
+    "Ingénieur logiciel, dix ans d'expérience, toujours en petite équipe ou en autonomie complète. " +
     "Je commence par dialoguer pour comprendre les enjeux business, puis je propose la solution " +
     "technique qui y répond. Je conçois, je livre, je recette puis j'exploite, donc je paie moi-même " +
     "le prix de mes choix d'architecture. La qualité et les chaînes d'intégration continue, je les ai " +

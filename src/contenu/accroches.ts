@@ -31,4 +31,12 @@ export const accroches = {
 
   /** Invitation de fin d'accueil, vers la lecture detaillee. */
   suite: 'La suite en détail',
+
+  /**
+   * Chapo de la page Competences. Il assume la densite du mur au lieu de s'en
+   * excuser : une page de competences qui aere tout donne a dix lignes l'air
+   * d'en valoir cinquante.
+   */
+  competencesChapo:
+    'Tout est là, d\'un bloc, sans tri par niveau d\'étoiles. Ce que je pratique vraiment tient dans ce mur, et ce qui n\'y est pas, je ne le revendique pas.',
 } as const;
