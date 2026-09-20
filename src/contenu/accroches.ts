@@ -13,7 +13,7 @@ export const accroches = {
    * paragraphe de profil. C'est la phrase qui distingue reellement le poste :
    * beaucoup concoivent, peu restent pour exploiter.
    */
-  heroAnnotation: 'Je paie moi-même le prix de mes choix d\'architecture.',
+  heroAnnotation: "Je paie moi-même le prix de mes choix d'architecture.",
 
   /** Titre de la section qui porte la methode de travail. */
   methode: 'La marque de fabrique',
@@ -27,7 +27,7 @@ export const accroches = {
    * contexte : des equipes sans QA, sans ops et sans equipe data.
    */
   axesChapo:
-    'Ces quatre axes ne sont pas quatre métiers mis côte à côte. Ils tiennent ensemble parce que les équipes où j\'ai travaillé n\'avaient ni QA, ni ops, ni équipe data : ce qui manquait, je l\'ai construit.',
+    "Ces quatre axes ne sont pas quatre métiers mis côte à côte. Ils tiennent ensemble parce que les équipes où j'ai travaillé n'avaient ni QA, ni ops, ni équipe data : ce qui manquait, je l'ai construit.",
 
   /** Invitation de fin d'accueil, vers la lecture detaillee. */
   suite: 'La suite en détail',
@@ -38,5 +38,11 @@ export const accroches = {
    * d'en valoir cinquante.
    */
   competencesChapo:
-    'Tout est là, d\'un bloc, sans tri par niveau d\'étoiles. Ce que je pratique vraiment tient dans ce mur, et ce qui n\'y est pas, je ne le revendique pas.',
-} as const;
+    "Tout est là, d'un bloc, sans tri par niveau d'étoiles. Ce que je pratique vraiment tient dans ce mur, et ce qui n'y est pas, je ne le revendique pas.",
+
+  /** Titre de la section de formation, sur la page À propos. */
+  formation: 'Formation',
+
+  /** Titre de la section des certifications, sur la page À propos. */
+  certifications: 'Certifications',
+} as const

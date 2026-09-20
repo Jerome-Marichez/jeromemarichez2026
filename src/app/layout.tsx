@@ -1,11 +1,11 @@
-import type { Metadata, Viewport } from 'next';
-import { EnTete } from '@/components/EnTete';
-import { LienEvitement } from '@/components/LienEvitement';
-import { PiedDePage } from '@/components/PiedDePage';
-import { profil } from '@/contenu/profil';
-import { descriptions } from '@/seo/descriptions';
-import './globals.css';
-import { policeCode, policeMain } from './polices';
+import type { Metadata, Viewport } from 'next'
+import { EnTete } from '@/components/EnTete'
+import { LienEvitement } from '@/components/LienEvitement'
+import { PiedDePage } from '@/components/PiedDePage'
+import { profil } from '@/contenu/profil'
+import { descriptions } from '@/seo/descriptions'
+import './globals.css'
+import { policeCode, policeMain } from './polices'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://jeromemarichez.fr'),
@@ -25,20 +25,16 @@ export const metadata: Metadata = {
   },
   alternates: { canonical: '/' },
   robots: { index: true, follow: true },
-};
+}
 
 export const viewport: Viewport = {
   // Le fond du navigateur suit celui de la page : sur mobile, la barre d'URL
   // ne doit pas trancher une bande clair au bord d'un site qui se veut nocturne.
   themeColor: '#232020',
   colorScheme: 'dark',
-};
+}
 
-export default function GabaritRacine({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function GabaritRacine({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className={`${policeCode.variable} ${policeMain.variable}`}>
       <body>
@@ -48,5 +44,5 @@ export default function GabaritRacine({
         <PiedDePage />
       </body>
     </html>
-  );
+  )
 }

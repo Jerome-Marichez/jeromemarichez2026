@@ -1,8 +1,8 @@
-import type { ICompetence } from '@/interfaces/ICompetence';
-import styles from './mur-de-stack.module.css';
+import type { ICompetence } from '@/interfaces/ICompetence'
+import styles from './mur-de-stack.module.css'
 
 interface IMurDeStackProps {
-  readonly competences: readonly ICompetence[];
+  readonly competences: readonly ICompetence[]
 }
 
 /**
@@ -42,5 +42,5 @@ export function MurDeStack({ competences }: IMurDeStackProps) {
         ))}
       </dl>
     </div>
-  );
+  )
 }

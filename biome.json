@@ -31,6 +31,8 @@
       "!coverage",
       "!storybook-static",
       "!.claude/worktrees",
+      "!.claude/skills",
+      "!.impeccable",
       "!**/postman_collection.json",
       "!next-env.d.ts"
     ]

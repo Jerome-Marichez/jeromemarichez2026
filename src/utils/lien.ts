@@ -8,8 +8,8 @@
  * un « é », illegal dans une URL brute.
  */
 export function versUrl(domaine: string): string {
-  const nettoye = domaine.replace(/^https?:\/\//, '');
-  return encodeURI(`https://${nettoye}`);
+  const nettoye = domaine.replace(/^https?:\/\//, '')
+  return encodeURI(`https://${nettoye}`)
 }
 
 /**
@@ -18,8 +18,6 @@ export function versUrl(domaine: string): string {
  * n'est pas anecdotique pour un recruteur d'un groupe international.
  */
 export function versTel(numero: string): string {
-  const chiffres = numero.replace(/\s/g, '');
-  return chiffres.startsWith('0')
-    ? `tel:+33${chiffres.slice(1)}`
-    : `tel:${chiffres}`;
+  const chiffres = numero.replace(/\s/g, '')
+  return chiffres.startsWith('0') ? `tel:+33${chiffres.slice(1)}` : `tel:${chiffres}`
 }

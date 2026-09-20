@@ -53,6 +53,11 @@ const TYPES = {
   '.txt': 'text/plain; charset=utf-8',
   '.xml': 'application/xml; charset=utf-8',
   '.webmanifest': 'application/manifest+json',
+  // Le CV est le livrable attendu par un recruteur. nginx le type
+  // correctement en production via `mime.types` ; ce serveur de test
+  // l'annoncait en `application/octet-stream`, ce qui fait proposer un
+  // telechargement opaque au lieu d'un PDF reconnu.
+  '.pdf': 'application/pdf',
 }
 
 const typeDe = (chemin) => TYPES[extname(chemin).toLowerCase()] ?? 'application/octet-stream'

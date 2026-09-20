@@ -1,4 +1,4 @@
-import { Fira_Code, Shadows_Into_Light } from 'next/font/google';
+import { Fira_Code, Shadows_Into_Light } from 'next/font/google'
 
 /**
  * Deux voix, et deux seulement.
@@ -17,11 +17,11 @@ export const policeCode = Fira_Code({
   weight: ['300', '400', '500', '600'],
   variable: '--police-code',
   display: 'swap',
-});
+})
 
 export const policeMain = Shadows_Into_Light({
   subsets: ['latin'],
   weight: '400',
   variable: '--police-main',
   display: 'swap',
-});
+})

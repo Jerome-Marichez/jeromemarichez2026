@@ -1,8 +1,8 @@
-import { BoutonMouvement } from '@/components/BoutonMouvement';
-import { contact } from '@/contenu/contact';
-import { navigation } from '@/contenu/navigation';
-import { versTel, versUrl } from '@/utils/lien';
-import styles from './pied-de-page.module.css';
+import { BoutonMouvement } from '@/components/BoutonMouvement'
+import { contact } from '@/contenu/contact'
+import { navigation } from '@/contenu/navigation'
+import { versTel, versUrl } from '@/utils/lien'
+import styles from './pied-de-page.module.css'
 
 /**
  * Le pied de page porte les coordonnees, parce qu'un recruteur qui a fini de
@@ -14,7 +14,7 @@ import styles from './pied-de-page.module.css';
  * fait partie du propos.
  */
 export function PiedDePage() {
-  const annee = new Date().getFullYear();
+  const annee = new Date().getFullYear()
 
   return (
     <footer className={styles.pied}>
@@ -65,19 +65,18 @@ export function PiedDePage() {
           <h2 className={styles.intitule}>Confort de lecture</h2>
           <BoutonMouvement />
           <p className={styles.note}>
-            La vapeur du mug est la seule animation continue du site. Elle
-            s&apos;arrête aussi toute seule si votre système demande moins de
-            mouvement.
+            La vapeur du mug est la seule animation continue du site. Elle s&apos;arrête aussi toute
+            seule si votre système demande moins de mouvement.
           </p>
         </section>
       </div>
 
       <div className={`cadre ${styles.bas}`}>
         <p>
-          Jérôme Marichez, {annee}. Site statique, sans cookie, sans mesure
-          d&apos;audience et sans formulaire : rien de vous n&apos;est collecté ici.
+          Jérôme Marichez, {annee}. Site statique, sans cookie, sans mesure d&apos;audience et sans
+          formulaire : rien de vous n&apos;est collecté ici.
         </p>
       </div>
     </footer>
-  );
+  )
 }

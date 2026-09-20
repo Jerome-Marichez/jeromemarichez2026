@@ -1,9 +1,9 @@
-import { Bouton } from '@/components/Bouton';
-import { MurDeStack } from '@/components/MurDeStack';
-import { TitreSection } from '@/components/TitreSection';
-import { accroches } from '@/contenu/accroches';
-import { competences } from '@/contenu/competences';
-import styles from './competences-view.module.css';
+import { Bouton } from '@/components/Bouton'
+import { MurDeStack } from '@/components/MurDeStack'
+import { TitreSection } from '@/components/TitreSection'
+import { accroches } from '@/contenu/accroches'
+import { competences } from '@/contenu/competences'
+import styles from './competences-view.module.css'
 
 /**
  * La page Competences est un mur, et c'est le propos.
@@ -26,8 +26,8 @@ export function CompetencesView() {
       <section className={`cadre ${styles.apres}`}>
         <TitreSection>Ce que ça a donné</TitreSection>
         <p className={styles.chapo}>
-          Une liste de technologies ne prouve rien toute seule. Les projets
-          disent ce que chacune a servi à trancher.
+          Une liste de technologies ne prouve rien toute seule. Les projets disent ce que chacune a
+          servi à trancher.
         </p>
         <div className={styles.actions}>
           <Bouton href="/projets/" ton="primaire">
@@ -37,5 +37,5 @@ export function CompetencesView() {
         </div>
       </section>
     </>
-  );
+  )
 }

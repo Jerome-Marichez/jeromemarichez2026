@@ -1,201 +1,156 @@
 # Architecture
 
-## Vue d'ensemble
+Site CV statique. Next.js 16 en App Router, React 19, TypeScript strict, CSS Modules.
+Aucune base de données, aucune authentification, aucun appel réseau au navigateur.
 
-Site **vitrine** : tout le contenu est éditorial et rendu statiquement. Il n'y a ni base
-de données, ni authentification, **ni serveur**.
+## Le choix structurant : export statique
+
+`next.config.mjs` porte `output: 'export'`. `next build` écrit un site complet dans
+`out/`, servi par n'importe quel serveur de fichiers.
+
+**Ce que ça coûte**, et c'est assumé : plus de route API, plus d'ISR, plus de Server
+Action. Un formulaire de contact exigerait un service tiers. C'est précisément pourquoi
+la page Contact n'en a pas, et affiche les coordonnées en clair.
+
+**Ce que ça rapporte** : rien à exploiter, rien à patcher, aucune surface d'attaque
+côté serveur, un hébergement interchangeable, et un temps de réponse qui ne dépend que
+du réseau.
+
+`trailingSlash: true` fait sortir chaque route en `<route>/index.html`, la seule forme
+qu'un serveur de fichiers résout sans règle de réécriture. En contrepartie les URL
+canoniques portent la barre finale, et `src/app/sitemap.ts` comme les balises
+`canonical` sont alignés dessus.
+
+## Arborescence de `src/`
+
+Le code front vit **directement sous `src/`**, sans découpage par domaine : ce site est
+une vitrine de six écrans, et deux niveaux de chemin de plus n'y trancheraient rien.
 
 ```
-Visiteur ──► Fichiers statiques servis par nginx  ── offres, parcours, preuves, certifications
-         └─► mailto: direct                       ── aucun formulaire, aucun traitement
+src/
+  app/            routage Next.js, et RIEN d'autre
+    layout.tsx    gabarit racine : polices, en-tete, pied de page
+    page.tsx      /
+    jetons.css    les jetons de design, source unique
+    globals.css   remise a zero, surfaces du navigateur, mouvement
+    polices.ts    Fira Code et Shadows Into Light, auto-hebergees
+    sitemap.ts    derive de src/contenu/navigation.ts
+    robots.ts
+    <route>/page.tsx
+  views/          les sections d'ecran composees, une par route
+  components/     un dossier PascalCase par composant, styles colocalises
+  contenu/        le contenu du site, en TypeScript type
+  interfaces/     une interface par entite, prefixee I
+  seo/            les textes de referencement
+  utils/          helpers purs, sans etat ni metier
 ```
 
-**Conséquence structurante** : `next.config.mjs` porte `output: 'export'`. `next build`
-n'écrit pas un serveur, il écrit un site complet dans `out/`. Ce n'est pas un réglage de
-déploiement, c'est une contrainte d'architecture. Elle ferme, définitivement tant qu'elle
-tient :
+### `app/` ne fait que du routage
 
-| Fermé | Pourquoi ça n'est pas un manque ici |
-|-------|-------------------------------------|
-| Routes API (`/api/*`) | Le seul besoin identifié était le formulaire de contact, voir ci-dessous |
-| ISR et revalidation | Le contenu change quand Jérôme le réécrit, donc au build |
-| Server Actions | Même raison : aucune écriture côté serveur |
-| Optimiseur `next/image` | Les images sont optimisées au build, pas à la requête |
+Chaque `page.tsx` porte ses métadonnées et rend une vue. Il ne contient aucune mise en
+page. Les sections composées vivent dans `views/`, qui assemblent les composants de
+`components/`.
 
-**Le formulaire de contact est donc reporté.** L'accueil et le pied de page portent un
-`mailto:` direct, ce qui est cohérent avec la promesse du site : *vous écrivez à la
-personne qui fera le travail*. Le jour où un formulaire s'impose, il faudra soit un
-service tiers, soit un back séparé, soit renoncer à l'export : c'est un arbitrage à
-prendre en connaissance de cause, pas un détail de configuration.
+Cette séparation a une raison pratique : une vue se rend dans Storybook et se teste
+isolément, une page de Next ne s'y prête pas.
 
-### Les deux routes dynamiques du site : le blog et les réalisations
+### Le contenu est du code typé
 
-`/blog/[slug]` et `/realisations/[slug]` sont les seuls segments dynamiques, et l'export
-statique leur impose les mêmes règles :
+`src/contenu/` porte le contenu du site sous forme de tableaux typés, et
+`src/interfaces/` les entités correspondantes. Aucune chaîne de contenu n'est écrite
+en dur dans un composant.
 
-- **`generateStaticParams()` est obligatoire.** Sans lui, `next build` n'a aucune page à
-  écrire pour ce segment et il échoue. La liste est dérivée du contenu, jamais tenue à
-  la main : publier un article ou une fiche suffit à créer sa page. `dynamicParams = false`
-  est écrit noir sur blanc, pour qu'un futur passage au rendu serveur n'ouvre pas
-  silencieusement `/blog/<n-importe-quoi>` ni `/realisations/<n-importe-quoi>`.
-- **Le sitemap devient composé.** `INDEXABLE_ROUTES` (`src/routes`) n'énumère que les
-  routes **fixes** ; les URL d'articles et de fiches ne sont pas des routes mais des
-  instances de deux routes, et leur nombre change à chaque publication.
-  `src/seo/sitemap-entries` les ajoute avec **une date par article**, et donne à
-  `/blog` la date de son article le plus récent, parce que c'est exactement ce qui la fait
-  changer. C'est le seul module de `src/seo/` qui lit le contenu éditorial : un
-  sitemap est par définition l'inventaire du contenu publié, il n'y a pas d'autre source
-  d'où tirer la liste.
-- **Une réalisation n'est pas datée**, et le sitemap le respecte : elle porte la révision
-  globale du site, comme les pages éditoriales. Ce qui la situe dans le temps, c'est la
-  période du poste sous lequel elle a été menée, et cette période appartient au **contenu**
-  de la fiche. Même raison côté métadonnées : `buildPageMetadata` et non
-  `buildArticleMetadata`, qui exigerait une `datePublished` qu'il faudrait inventer.
-- **Une seule fonction compose une URL** : `toArticleRoute(slug)`, `toRealisationRoute(slug)`.
-  Liste, `canonical`, `og:url`, fil d'Ariane, JSON-LD, sitemap et renvois depuis le mur de
-  preuves passent tous par elles. Dans un export statique, une URL canonique fausse reste
-  fausse jusqu'au prochain build.
-- **Un seul fil d'Ariane.** `buildBreadcrumbSchema` accepte les niveaux qui suivent
-  l'accueil : celui-ci est un invariant du site, il est posé par la fonction et ne peut
-  pas être oublié par un appelant. La même liste alimente le fil **visible**
-  (`src/components/Breadcrumb`) : l'affiché et le déclaré ne peuvent pas diverger.
-- **Ni le blog ni les réalisations ne sont des pôles**, et la navigation le dit : ils
-  occupent un bloc distinct de la liste numérotée de la chaîne, dans l'en-tête comme dans
-  le pied de page.
+Ce n'est pas un détour inutile : le contenu de ce site est **contraint par des règles de
+véracité bloquantes** (voir `CLAUDE.md`). Le rassembler en un seul endroit rend ces
+règles vérifiables, ce qu'une chaîne perdue dans un JSX n'est pas.
 
-#### Le JSON-LD des réalisations : le type le plus pauvre possible
+`experiences/` et `projets/` sont découpés en un fichier par entrée, agrégés par un
+`index.ts` : c'est la limite de 300 lignes par fichier qui l'impose, et le découpage
+rend au passage chaque expérience relisible seule.
 
-La liste déclare une `CollectionPage` dont le `mainEntity` est une `ItemList` ; chaque
-fiche déclare une `WebPage` rattachée par `isPartOf`. **Ni `Service`, ni `CreativeWork`,
-ni `Project`** : le premier affirmerait une prestation vendue, le deuxième une œuvre dont
-on détiendrait les droits, le troisième une entreprise autonome. Aucune de ces trois
-affirmations n'est vraie d'un travail mené sous contrat de travail, et le JSON-LD est
-d'autant plus tentant à gonfler qu'il n'est lu que par des moteurs.
+### Les vues déléguent leur unité répétée à un composant
 
-### Métadonnées : la fusion de Next est **de surface**
+Une vue qui rend une liste d'entrées riches (une expérience, une fiche de projet, un
+diplôme) n'écrit pas le gabarit de l'entrée : elle le délègue.
 
-C'est le piège le plus coûteux de l'App Router, parce qu'il est silencieux : rien
-n'échoue, ni au build ni au lint. Next fusionne les objets `metadata` des segments d'une
-route **en surface**. Un champ imbriqué (`openGraph`, `robots`, `twitter`) déclaré par
-un segment enfant **remplace intégralement** celui du layout ; il ne le complète pas.
+| Composant | Rendu pour |
+|-----------|-----------|
+| `ExperienceBloc` | une expérience du parcours |
+| `ProjetFiche` | un projet, en Contexte, Enjeu, Mon rôle, Résultat |
+| `FormationListe` | les diplômes |
+| `AxeListe` | les quatre axes de la pratique |
+| `MurDeStack` | les neuf familles de compétences |
 
-Une page qui n'exportait que son URL de partage :
+C'est la limite de 300 lignes par fichier qui force cette extraction, et c'est un bon
+forçage : le gabarit d'une entrée devient relisible seul, et il se rend dans Storybook
+sans monter la page entière.
 
-```ts
-openGraph: { url: page.route }   // ✗ efface og:image, og:site_name et og:locale
-```
+Aucun de ces composants n'est une **carte**. Ils rendent des listes de définitions
+séparées par des filets, ce qui est la structure retenue par la direction visuelle : une
+grille de cartes de même taille traiterait dix ans comme des vignettes
+interchangeables. Voir [design.md](./design.md).
 
-perdait donc le visuel et l'identité du site posés par `src/app/layout.tsx`. Partagée sur
-un réseau social, elle sortait en **lien nu**, sans image et sans nom de site (issue
-#60). Le défaut ne se voit pas dans le code source de la page : il ne se constate que
-dans le HTML généré.
+### Les composants n'ont pas de bibliothèque
 
-Les règles qui en découlent :
+Aucune bibliothèque de composants, aucune dépendance d'effet visuel. Le site compte
+une dizaine de composants : importer un système entier coûterait plus en poids et en
+contraintes qu'il ne ferait gagner.
 
-- **`src/seo/open-graph.ts` porte le socle** (`SITE_OPEN_GRAPH` : `type`,
-  `locale`, `siteName`, `images`). C'est la parade recommandée par Next : sortir les
-  champs communs dans une constante et l'étaler dans chaque segment qui surcharge
-  `openGraph`.
-- **Le socle s'étale dans le constructeur commun, jamais page par page.** Les deux
-  fonctions de `src/seo/page-metadata` (`buildPageMetadata` et
-  `buildArticleMetadata`) écrivent `{ ...SITE_OPEN_GRAPH, url: … }`, et toutes les pages
-  passent par elles. Une route ajoutée demain hérite sans y penser : c'est la seule
-  raison pour laquelle ces constructeurs existent.
-- **Ce qui est propre à la page vient après le spread** : `url` toujours, `type:
-  'article'` et les dates pour un billet de blog.
-- **Une seule déclaration de l'image.** Alt, dimensions et type MIME vivent dans
-  `open-graph.ts` ; `src/app/opengraph-image.tsx` les importe pour dessiner la vignette.
-  L'image produite et ce que les métadonnées en annoncent ne peuvent donc pas diverger.
-- **`openGraph.images` échappe à `trailingSlash`.** Next n'applique cette règle qu'à
-  `openGraph.url` ; les images sont seulement résolues contre `metadataBase`. Le chemin
-  `/opengraph-image` tombe donc bien sur le fichier produit par l'export, qui n'a ni
-  extension ni barre finale, et que `docker/nginx.conf` doit typer à la main, faute de
-  suffixe à lire.
-- **La vérification se fait sur le HTML généré**, jamais sur le code source :
-  `make build`, puis inspecter les balises `og:` de `out/<route>/index.html`. Une page
-  de référence qui ne surcharge rien (`out/404.html`) sert de témoin.
+Conséquence assumée : chaque composant est écrit ici, avec ses états et son
+comportement clavier.
 
-### L'organisation des sources
+### Composants serveur par défaut
 
-Le code front vit **directement sous `src/`**, sans découpage par domaine. Le regroupement
-sous `src/@<domaine>/` a existé (`@vitrine` pour l'éditorial, `@shared` pour le transverse) :
-il est **retiré**. Pour une vitrine statique de 34 composants, deux domaines ajoutaient un
-niveau de chemin sans rien trancher, et aucun nom n'entrait en collision entre les deux.
-*(Retrait décidé par Jérôme MARICHEZ le 2026-08-24, issue #143.)*
+Presque tout le site est rendu sur le serveur, sans JavaScript envoyé au navigateur.
+Trois exceptions, et chacune a sa raison :
 
-| Dossier | Contenu |
-|---------|---------|
-| `src/app/` | Le **système de pages de Next.js**. Routage seul, aucune section composée. |
-| `src/views/` | Les écrans composés, un dossier par vue (`HomeView`, `ArticleView`, `PolePageView`) |
-| `src/components/` | Les 34 composants, un dossier PascalCase chacun, styles colocalisés |
-| `src/contenu/` | Sections éditoriales : offres, parcours, preuves, certifications, **articles du blog**, **fiches de réalisation** |
-| `src/services/` | La règle métier : sélection d'un article, d'un pôle, d'une réalisation, politique de verre |
-| `src/hooks/` | La logique de rendu : état d'écran, abonnements, viewport |
-| `src/seo/` | Métadonnées, Open Graph, sitemap, données structurées |
-| `src/interfaces/`, `src/schemas/`, `src/utils/` | Entités typées, validation Zod, helpers purs |
-| `src/motion/`, `src/typography/`, `src/routes.ts` | Socle d'animation, fontes, table des routes |
+| Composant | Pourquoi il est client |
+|-----------|------------------------|
+| `EnTete` | lit la route courante avec `usePathname` pour marquer l'onglet ouvert |
+| `BoutonMouvement` | pose `data-mouvement` sur la racine, donc il a un état |
 
-Le **contenu éditorial est de la donnée, pas du JSX** : offres, expériences,
-certifications et articles vivent dans des structures typées (`src/interfaces/`, une
-entité par fichier, préfixe `I`) que les composants consomment. Ajouter une certification,
-une offre ou un article ne doit pas demander de toucher au rendu. Le détail des entités
-est décrit dans [data-model](./data-model.md).
+Le **mug**, qui est l'élément le plus animé du site, est un **composant serveur** : sa
+vapeur et la rotation du café sont du CSS. Le titre qui s'écrit également, seule sa
+révélation est animée, par un retard par caractère calculé au rendu.
 
-**Les illustrations sont de la donnée aussi.** Le site ne sert aucune image matricielle :
-l'illustration d'un article n'est pas un chemin de fichier mais une **valeur d'union close**
-(`IArticle.figure`), rendue en SVG au serveur par `src/components/ArticleFigure`. Un
-article ne peut donc pas réclamer une figure qui n'existe pas : le compilateur le dit avant
-le build, et aucune ressource ne peut manquer à l'exécution. La grammaire de ces figures est
-décrite dans [design](./design.md).
+C'est un arbitrage central du site : le portfolio d'origine chargeait une image et une
+vidéo et construisait son titre dans un `useState`. Ici les deux effets coûtent zéro
+octet de script, et le titre existe pour un robot d'indexation comme pour une synthèse
+vocale.
 
-## Front (Next.js (App Router) + TypeScript)
+## Le style
 
-- **Organisation** : **par type technique, directement sous `src/`**. Le découpage par
-  domaine (`src/@<domaine>/`) n'est **pas retenu** sur ce site : voir « L'organisation des
-  sources » ci-dessus.
-- **Composant = un dossier** : `components/Button/index.tsx` + styles et assets
-  colocalisés (`button.module.css`). **Aucune distinction entre composants purs et
-  composants à effets** : la règle `_notPure/` est **retirée**, un site statique sans
-  store, sans authentification et sans appel réseau n'en tirait aucun bénéfice. Les
-  composants portant `'use client'` vivent avec les autres.
-  *(Retrait décidé par Jérôme MARICHEZ le 2026-08-24, issue #143.)*
-- **`views/` vs `pages/`** : `src/app/` est le **système de pages de Next.js** et ne fait
-  que le **routage** ; les sections d'écran composées vivent dans `src/views/`.
-- **Nommage des fichiers** : PascalCase pour les **composants** et **vues**
-  (`Button.tsx`, `HomeView.tsx`) ; **minuscules** pour tout le reste
-  (services, hooks, utilitaires, configs).
-- **Nommage des symboles** : PascalCase pour les **interfaces** (`IProduct`), les
-  **composants `.tsx`** et les **classes métier** de `services/` (`CartService`) ;
-  camelCase pour tout le reste (fonctions, variables, hooks).
-- **`services/` vs hooks** : la logique **métier** vit dans `src/services/`
-  (règles de gestion, appels API) ; les **hooks React** ne portent que la logique
-  de **rendu** (état d'UI, orchestration des services pour les composants).
-- **`src/utils/`** : utilitaires transverses (helpers purs, formatage), sans état,
-  sans logique métier.
-- **Interfaces & types** : `src/interfaces/` regroupe **toutes** les interfaces
-  d'entités, une interface par fichier, nom préfixé par `I` (`IProduct`, `IUser`…) ;
-  `src/interfaces/types.ts` regroupe les **alias de types purs** (unions, utilitaires),
-  jamais d'interface dedans.
-- **Validation des entrées avec Zod (obligatoire)** : toute entrée externe (formulaire,
-  réponse d'API, query params, env) passe par un schéma Zod de `src/schemas/`
-  (`product.schema.ts`) ; type dérivé par `z.infer`, jamais de cast direct.
-- **État** : privilégier l'état local + hooks ; un store global uniquement si justifié.
-- **Composants** : max 300 lignes, extraire sous-composants et hooks personnalisés.
+**CSS Modules**, un `*.module.css` colocalisé avec chaque composant, classes en
+français, valeurs issues des jetons. Deux feuilles globales seulement :
 
-## API (routes du framework)
+- `app/jetons.css` : les jetons, et rien d'autre. Source unique des couleurs, des
+  espacements, des tailles et des courbes d'animation.
+- `app/globals.css` : remise à zéro, thématisation des surfaces du navigateur
+  (sélection, curseur, anneau de focus, ascenseur) et pilotage global du mouvement.
 
-- **Découpage** : routes → services → repositories. Les routes ne portent aucune
-  logique métier.
-- **Validation avec Zod (obligatoire)** : chaque body/query/webhook est validé à la
-  frontière par un schéma de `src/schemas/`.
+**Aucune couleur, aucun espacement, aucune taille en dur dans un composant.** Aucune
+classe globale non plus, à l'exception des trois utilitaires de structure déclarés dans
+`globals.css` (`cadre`, `mesure`, `hors-ecran`).
 
-## Choix techniques et justifications
+La mise en page s'aligne sur une **grille de caractères** : les largeurs et les
+gouttières s'expriment en `ch`, le rythme vertical sur une ligne de base de 24px. Voir
+[design.md](./design.md).
 
-| Choix | Alternatives considérées | Justification |
-|-------|--------------------------|---------------|
-| **Next.js (App Router)** | Vite + React, Astro | Rendu statique et métadonnées par page nativement, stratégie de rendu arbitrable route par route, exactement l'argument SEO vendu dans l'offre. C'est aussi la stack mise en avant sur le site : la cohérence compte. |
-| **Rendu statique (SSG) par défaut** | SSR systématique | Contenu éditorial quasi figé. Coût serveur nul, TTFB minimal, Core Web Vitals au vert sans effort d'optimisation ultérieur. |
-| **Pas de base de données** | CMS headless (Strapi), Notion API | Le contenu change quelques fois par an et n'a qu'un seul auteur. Le versionner dans le dépôt le rend relisible en revue de PR et supprime une dépendance d'exploitation. À réévaluer si la publication devient fréquente. |
-| **Contenu typé en TypeScript** | Fichiers Markdown / MDX | Les entités (offre, expérience, certification) ont une forme stricte que le typage fait respecter : un lien de certification manquant devient une erreur de compilation, pas une page publiée avec un lien mort. |
-| **Zod sur `/api/contact`** | Validation manuelle | Seule entrée externe du site, donc seule surface d'attaque : elle est validée à la frontière, type dérivé par `z.infer`. |
-| **Hébergement** | _à trancher_ | Vercel (affinité Next.js, previews par PR) ou le VPS Hetzner existant. Décision à prendre avant la première mise en production. |
+## Le mouvement
+
+Un seul mouvement permanent, la vapeur du mug. Deux interrupteurs l'arrêtent :
+`prefers-reduced-motion`, et un bouton de mise en pause explicite exigé par WCAG 2.2.2,
+qui pose `data-mouvement="pause"` sur la racine.
+
+Règles appliquées partout : seuls `transform` et `opacity` sont animés, les entrées sont
+en sortie exponentielle sous 300ms, le mouvement à vitesse constante est en `linear`, et
+les survols sont réservés aux pointeurs fins pour éviter les faux survols au toucher.
+
+## Ce qui n'est pas là, et pourquoi
+
+- **Pas de gestionnaire d'état.** Aucun état partagé entre écrans.
+- **Pas de couche de service métier.** Il n'y a pas de règle de gestion : le site lit du
+  contenu et le rend. `src/utils/` porte les quelques helpers purs.
+- **Pas de schéma Zod pour l'instant.** La règle du projet impose Zod sur toute entrée
+  externe, et ce site n'en a aucune : ni formulaire, ni query, ni webhook, ni variable
+  d'environnement. Le jour où il en a une, elle passe par un schéma de `src/schemas/`.

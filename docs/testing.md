@@ -110,7 +110,17 @@ toujours le second qui laisse un serveur orphelin en CI.
 
 `make test-e2e`, en local comme dans le workflow `ci-main-e2e` :
 
-1. **build si nécessaire** : `npm run build` si `out/index.html` manque ;
+1. **build si nécessaire, et « nécessaire » veut dire périmé aussi** : le harnais
+   compare la date de `out/index.html` à la plus récente sous `src/`, `public/`,
+   `next.config.mjs` et `package.json`, et reconstruit si l'export est en retard.
+
+   **Pourquoi ce n'est pas un détail.** Jusqu'au 2026-09-20 le harnais ne construisait
+   que si `out/index.html` était **absent**. Un export vieux d'une heure se servait donc
+   en silence, et c'est plus grave qu'un faux échec : les tests et les budgets pouvaient
+   rendre un **faux succès** sur du code qui n'était pas celui du disque. C'est
+   exactement ce qui est arrivé lors de la réécriture du test de fumée, deux fois de
+   suite, sur des pages dont le `h1` venait d'être corrigé. Un contrôle qui valide la
+   version précédente ne protège de rien ;
 2. **serveur statique** : `scripts/serve-out.mjs` sert `out/` sur `127.0.0.1:E2E_PORT`
    (**4173** par défaut), sans aucune dépendance : `node:http` suffit ;
 3. **attente réelle** : le harnais sonde `GET /` jusqu'à obtenir une réponse HTTP
@@ -131,6 +141,33 @@ chaque route en `<route>/index.html`. `serve-out.mjs` applique exactement les r�
 `index.html` et une URL inconnue renvoient **404** avec la page `404.html`. Un serveur
 statique qui ignorerait cette règle ferait échouer les specs pour la mauvaise raison.
 La traversée de répertoire hors de `out/` est refusée.
+
+## Le test de fumée e2e
+
+`tests/e2e/fumee.cy.ts` est le seul test e2e du dépôt, et le seul fichier de test qui
+**ne soit pas de la main de Jérôme MARICHEZ**. L'entorse est écrite en tête du fichier
+plutôt que taire : elle a été autorisée explicitement, deux fois, et le fichier porte
+son bloc `Intention :` comme la règle l'exige même en cas de délégation.
+
+Ce qu'il couvre, en dix tests :
+
+| Vérification | Pourquoi elle est là |
+|--------------|----------------------|
+| les six routes répondent et portent un `h1` visible | une page sans titre de premier niveau est cassée pour un lecteur d'écran et pour un moteur, tout en s'affichant normalement |
+| la barre d'onglets mène à chaque page et marque la page courante | `aria-current="page"` est vérifié sur l'onglet, pas sur le logo, qui pointe aussi vers `/` |
+| le CV se télécharge, et le type de contenu est bien `application/pdf` | un serveur mal configuré rend un 200 avec autre chose. C'est le livrable attendu par un recruteur |
+| une adresse inexistante rend 404 | et pas la page d'accueil déguisée |
+
+**Il a été réécrit le 2026-09-20** : sa version précédente sondait les routes du site
+vitrine à quatre pôles (`/services/*`, `/realisations/`, `/blog/`), supprimé le même
+jour. L'alternative écartée était de rendre le job `ci-main-e2e` tolérant à l'échec :
+elle aurait fait passer la production au vert en **supprimant** la couverture au lieu de
+la déplacer, ce que la règle 8 du `CLAUDE.md` interdit sans condition.
+
+**Ce qu'il a trouvé en première exécution**, et qui justifie l'exercice à lui seul :
+deux pages sans `h1`, deux plans de document sautant le niveau `h2`, un type de contenu
+faux sur le PDF, et la péremption silencieuse du harnais décrite plus haut. Les quatre
+ont été corrigés dans le code, aucun dans le test.
 
 ## Budgets exécutables : performance et accessibilité
 

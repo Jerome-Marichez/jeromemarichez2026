@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import { useCallback, useEffect, useState } from 'react';
-import styles from './bouton-mouvement.module.css';
+import { useCallback, useEffect, useState } from 'react'
+import styles from './bouton-mouvement.module.css'
 
 /**
  * Mise en pause explicite du mouvement, exigee par WCAG 2.2.2.
@@ -15,34 +15,27 @@ import styles from './bouton-mouvement.module.css';
  * rendu serveur et le client ne divergent pas.
  */
 export function BoutonMouvement() {
-  const [enPause, setEnPause] = useState(false);
+  const [enPause, setEnPause] = useState(false)
 
   useEffect(() => {
-    setEnPause(
-      document.documentElement.dataset.mouvement === 'pause',
-    );
-  }, []);
+    setEnPause(document.documentElement.dataset.mouvement === 'pause')
+  }, [])
 
   const basculer = useCallback(() => {
     setEnPause((precedent) => {
-      const suivant = !precedent;
+      const suivant = !precedent
       if (suivant) {
-        document.documentElement.dataset.mouvement = 'pause';
+        document.documentElement.dataset.mouvement = 'pause'
       } else {
-        delete document.documentElement.dataset.mouvement;
+        delete document.documentElement.dataset.mouvement
       }
-      return suivant;
-    });
-  }, []);
+      return suivant
+    })
+  }, [])
 
   return (
-    <button
-      type="button"
-      className={styles.bouton}
-      onClick={basculer}
-      aria-pressed={enPause}
-    >
+    <button type="button" className={styles.bouton} onClick={basculer} aria-pressed={enPause}>
       {enPause ? 'Reprendre le mouvement' : 'Mettre le mouvement en pause'}
     </button>
-  );
+  )
 }

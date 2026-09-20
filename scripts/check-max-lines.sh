@@ -1,6 +1,13 @@
 #!/bin/bash
 # check-max-lines.sh — échoue si un fichier source dépasse 300 lignes.
 # Exécuté par `make lint` et par la CI. Exclusions : tests, config, généré.
+#
+# `.claude/skills/` est exclu depuis le 2026-09-20, sur autorisation explicite de
+# Jérôme MARICHEZ. Les skills installés y déposent du code tiers vendué que
+# personne ne relit : un bundle minifié de 12 990 lignes et un binaire natif.
+# C'est la même nature que `node_modules`, déjà exclu au-dessus. La règle des 300
+# lignes reste entière sur tout le code du projet : aucun fichier de `src/` ni de
+# `scripts/` n'y échappe.
 # Usage : ./scripts/check-max-lines.sh [racine]
 
 set -euo pipefail
@@ -17,7 +24,7 @@ while IFS= read -r f; do
 done < <(find "$ROOT" \
   \( -path '*/node_modules' -o -path '*/.next' -o -path '*/out' -o -path '*/dist' \
      -o -path '*/build' -o -path '*/coverage' -o -path '*/.git' \
-     -o -path '*/storybook-static' \) -prune -o \
+     -o -path '*/storybook-static' -o -path '*/.claude/skills' \) -prune -o \
   -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' \) \
   ! -name '*.test.*' ! -name '*.spec.*' ! -name '*.cy.ts' ! -name '*.config.*' ! -name '*.d.ts' \
   ! -path '*/tests/*' \

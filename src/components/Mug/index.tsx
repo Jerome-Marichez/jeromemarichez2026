@@ -1,8 +1,8 @@
-import styles from './mug.module.css';
+import styles from './mug.module.css'
 
 interface IMugProps {
   /** Libelle lu par la synthese vocale. Laisser vide pour un mug decoratif. */
-  readonly description?: string;
+  readonly description?: string
 }
 
 /**
@@ -18,7 +18,7 @@ interface IMugProps {
  * `prefers-reduced-motion` et sur le bouton de mise en pause (WCAG 2.2.2).
  */
 export function Mug({ description }: IMugProps) {
-  const decoratif = description === undefined;
+  const decoratif = description === undefined
 
   return (
     <div className={styles.scene}>
@@ -53,10 +53,22 @@ export function Mug({ description }: IMugProps) {
         </defs>
 
         {/* ---- La vapeur, trois volutes decalees ---- */}
-        <g className={styles.vapeurs} fill="none" stroke="url(#vapeur)" strokeWidth="5" strokeLinecap="round">
+        <g
+          className={styles.vapeurs}
+          fill="none"
+          stroke="url(#vapeur)"
+          strokeWidth="5"
+          strokeLinecap="round"
+        >
           <path className={styles.volute1} d="M78 96 C 68 76, 90 64, 80 44 C 72 28, 86 20, 82 6" />
-          <path className={styles.volute2} d="M100 92 C 90 70, 112 58, 102 36 C 94 20, 108 12, 104 -2" />
-          <path className={styles.volute3} d="M122 96 C 112 76, 134 64, 124 44 C 116 28, 130 20, 126 6" />
+          <path
+            className={styles.volute2}
+            d="M100 92 C 90 70, 112 58, 102 36 C 94 20, 108 12, 104 -2"
+          />
+          <path
+            className={styles.volute3}
+            d="M122 96 C 112 76, 134 64, 124 44 C 116 28, 130 20, 126 6"
+          />
         </g>
 
         {/* ---- L'anse, derriere le corps ---- */}
@@ -116,5 +128,5 @@ export function Mug({ description }: IMugProps) {
         />
       </svg>
     </div>
-  );
+  )
 }

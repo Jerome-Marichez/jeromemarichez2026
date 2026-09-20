@@ -1,9 +1,9 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { navigation } from '@/contenu/navigation';
-import styles from './en-tete.module.css';
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { navigation } from '@/contenu/navigation'
+import styles from './en-tete.module.css'
 
 /**
  * L'en-tete est une barre d'onglets d'editeur, pas un menu de site.
@@ -18,7 +18,7 @@ import styles from './en-tete.module.css';
  * la metaphore gere elle-meme le debordement.
  */
 export function EnTete() {
-  const chemin = usePathname();
+  const chemin = usePathname()
 
   return (
     <header className={styles.entete}>
@@ -32,7 +32,7 @@ export function EnTete() {
         <nav aria-label="Navigation principale">
           <ul className={styles.onglets}>
             {navigation.map((entree) => {
-              const actif = chemin === entree.href;
+              const actif = chemin === entree.href
 
               return (
                 <li key={entree.href}>
@@ -48,11 +48,11 @@ export function EnTete() {
                     </span>
                   </Link>
                 </li>
-              );
+              )
             })}
           </ul>
         </nav>
       </div>
     </header>
-  );
+  )
 }

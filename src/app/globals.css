@@ -24,8 +24,7 @@ body {
   min-height: 100svh;
   overflow-x: hidden;
   /* Fira Code porte tout le site : la cellule de caractere EST la grille. */
-  font-family: var(--police-code), ui-monospace, "SFMono-Regular", Menlo,
-    Consolas, monospace;
+  font-family: var(--police-code), ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   background-color: var(--fond);
   color: var(--encre);
   font-size: var(--t-base);
@@ -169,6 +168,7 @@ body {
    exige par WCAG 2.2.2, qui pose `data-mouvement="pause"` sur la racine.
    ========================================================================== */
 
+/* biome-ignore-start lint/complexity/noImportantStyles: filet global d'accessibilite, il doit primer sur toute regle de module oubliee. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -216,3 +216,4 @@ body {
   white-space: nowrap;
   border: 0;
 }
+/* biome-ignore-end lint/complexity/noImportantStyles: fin du filet global. */

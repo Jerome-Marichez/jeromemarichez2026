@@ -1,0 +1,91 @@
+/* Une experience se lit comme une entree de journal : periode, poste, contexte,
+   realisations, stack, encadrement. Aucune carte : la separation entre deux
+   experiences se fait au niveau de la liste qui les contient (voir
+   parcours-view.module.css), pas ici. */
+
+.periode {
+  color: var(--encre-faible);
+  font-size: var(--t-petit);
+}
+
+.secteur {
+  margin-top: var(--e1);
+  max-width: var(--colonne);
+  color: var(--encre-douce);
+}
+
+/* Le statut d'independant n'est pas un detail au filet : il porte la meme
+   lumiere que le nom de l'entreprise, juste en dessous. */
+.statut {
+  margin-top: var(--e2);
+  padding-left: 2ch;
+  max-width: var(--colonne);
+  border-left: var(--largeur-filet) solid var(--cafe-sourd);
+  color: var(--cafe);
+  font-size: var(--t-petit);
+  font-weight: 500;
+}
+
+.poste {
+  margin-top: var(--e3);
+  color: var(--encre);
+  font-size: var(--t-grand);
+  font-weight: 500;
+}
+
+.contexte {
+  margin-top: var(--e2);
+  max-width: var(--colonne);
+  color: var(--encre-douce);
+  line-height: 1.65;
+}
+
+.realisations {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e2);
+  margin-top: var(--e3);
+}
+
+.realisation {
+  max-width: var(--colonne);
+  padding-left: 2ch;
+  border-left: var(--largeur-filet) solid var(--filet);
+  color: var(--encre-douce);
+  line-height: 1.6;
+}
+
+.encadrement {
+  margin-top: var(--e3);
+  max-width: var(--colonne);
+  color: var(--encre-douce);
+  line-height: 1.6;
+}
+
+.etiquette {
+  display: block;
+  margin-bottom: var(--e1);
+  color: var(--cafe);
+  font-size: var(--t-micro);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e1) 2ch;
+  margin-top: var(--e4);
+}
+
+.techno {
+  color: var(--encre-faible);
+  font-size: var(--t-petit);
+}
+
+.techno:not(:last-child)::after {
+  content: "·";
+  margin-left: 2ch;
+  color: var(--cafe-sourd);
+}
