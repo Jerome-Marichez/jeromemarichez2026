@@ -1,0 +1,59 @@
+/* Le titre de page est un h1, pas un TitreSection : celui-ci rend un h2, et une
+   page sans titre de premier niveau est cassee pour un lecteur d'ecran comme pour
+   un moteur, meme si elle s'affiche correctement. */
+
+.titre {
+  font-size: var(--t-section);
+  font-weight: 500;
+  color: var(--encre);
+}
+
+.bloc {
+  padding-block: var(--e6) var(--e6);
+}
+
+.chapo {
+  max-width: var(--colonne);
+  margin-top: var(--e3);
+  color: var(--encre-douce);
+  font-size: var(--t-chapo);
+  line-height: 1.6;
+}
+
+.liste {
+  margin-top: var(--e4);
+}
+
+.item {
+  padding-block: var(--e5);
+  border-top: var(--largeur-filet) solid var(--filet);
+}
+
+.item:last-child {
+  border-bottom: var(--largeur-filet) solid var(--filet);
+}
+
+.titreArticle {
+  color: var(--encre);
+  font-size: var(--t-chapo);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.titreArticle a {
+  color: inherit;
+}
+
+.date {
+  display: block;
+  margin-top: var(--e1);
+  color: var(--encre-faible);
+  font-size: var(--t-petit);
+}
+
+.chapoArticle {
+  max-width: var(--colonne);
+  margin-top: var(--e2);
+  color: var(--encre-douce);
+  line-height: 1.6;
+}

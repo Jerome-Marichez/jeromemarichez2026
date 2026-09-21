@@ -13,6 +13,20 @@ const nextConfig = {
   // URL canoniques portent la barre finale — sitemap et `canonical` sont alignés
   // dessus (src/app/sitemap.ts).
   trailingSlash: true,
+
+  images: {
+    // L'optimisation d'images de Next est un service qui tourne au moment de la
+    // requête : elle est donc incompatible avec `output: 'export'`, et Next lève
+    // une erreur d'exécution dès qu'un `next/image` est rendu sans cette ligne.
+    //
+    // Ce n'est pas une perte ici. La seule image du site est le mug de la tasse de
+    // café, 124 Kio en PNG, servi tel quel. La redimensionner à la volée coûterait
+    // un serveur pour économiser quelques dizaines de kilo-octets sur une image
+    // déjà petite. `next/image` reste utilisé pour ce qu'il apporte sans serveur :
+    // les dimensions connues à la compilation, donc aucun décalage de mise en page
+    // au chargement.
+    unoptimized: true,
+  },
 }
 
 export default nextConfig

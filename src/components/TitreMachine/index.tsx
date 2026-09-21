@@ -17,13 +17,23 @@ interface ITitreMachineProps {
  *
  * Le titre est expose d'un bloc a la synthese vocale ; les caracteres decoupes
  * sont masques, sinon ils seraient annonces un par un.
+ *
+ * **Le titre tient sur une seule ligne par construction**, et non par un reglage
+ * empirique. Il portait un `clamp()` en `vw` sans rapport avec sa longueur, donc
+ * il se cassait sur deux lignes sur un MacBook. Fira Code etant a chasse fixe, un
+ * caractere vaut 0,6em : une chaine de N caracteres occupe donc N x 0,6em, et sa
+ * taille se deduit de la largeur disponible. Le composant expose N au CSS, qui
+ * fait le calcul. Changer le titre ne recasse plus la mise en page.
  */
 export function TitreMachine({ texte, duree = 1.6 }: ITitreMachineProps) {
   const caracteres = [...texte]
   const pas = duree / caracteres.length
 
   return (
-    <h1 className={styles.titre}>
+    <h1
+      className={styles.titre}
+      style={{ '--caracteres': caracteres.length } as React.CSSProperties}
+    >
       <span className="hors-ecran">{texte}</span>
 
       <span aria-hidden="true" className={styles.frappe}>

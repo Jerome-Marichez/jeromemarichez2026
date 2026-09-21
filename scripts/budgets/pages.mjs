@@ -95,9 +95,9 @@ export const ETIQUETTES_AXE = [
 ]
 
 /**
- * Les pages mesurées. **Les six routes du site, sans exception.**
+ * Les pages mesurées. **Les huit routes du site, sans exception.**
  *
- * Le site en compte six : les mesurer toutes coûte moins cher que de choisir
+ * Le site en comptait six : les mesurer toutes coûte moins cher que de choisir
  * lesquelles sacrifier, et supprime la question « ce gabarit est-il protégé ». Un
  * gabarit non mesuré est un gabarit non protégé.
  *
@@ -105,6 +105,10 @@ export const ETIQUETTES_AXE = [
  * vitrine à quatre pôles (`/services/*`, `/realisations/`, `/blog/`), retiré à la
  * demande de Jérôme MARICHEZ. Ce n'est pas une page soustraite au contrôle, c'est une
  * liste remise en face du site qui existe, et la couverture y gagne au lieu d'y perdre.
+ *
+ * **Deux gabarits de blog s'y ajoutent le même jour** (issue #167) : `/blog/` et un
+ * article représentatif. Le blog en HTML porté depuis l'ancien site n'a rien à voir
+ * avec le site vitrine retiré ci-dessus, il parle de méthode.
  *
  * **Aucun seuil n'a été touché** à cette occasion : le plancher de performance reste à
  * 80, les trois autres catégories à 95.
@@ -151,5 +155,20 @@ export const PAGES = [
     pourquoi:
       'la page la plus dépouillée, et la seule à porter des liens sortants et des liens ' +
       "d'appel et de courriel : leurs intitulés accessibles ne sont contrôlés que là",
+  },
+  {
+    id: 'blog',
+    chemin: '/blog/',
+    pourquoi:
+      'le seul gabarit de liste construit sur `time` et des liens de titre plutôt que des ' +
+      'fiches : un piège de contraste différent de celui du mur de stack ou des projets',
+  },
+  {
+    id: 'article',
+    chemin: '/blog/pourquoi-ce-site-est-un-export-statique/',
+    pourquoi:
+      'la seule page dont le corps est une chaîne HTML injectée directement ' +
+      '(`dangerouslySetInnerHTML`) : la mesure de lecture et le contraste des balises ' +
+      'du corps (titres, liste, liens) ne se contrôlent que sur ce gabarit',
   },
 ]

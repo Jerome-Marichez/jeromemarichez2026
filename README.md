@@ -124,6 +124,8 @@ pas six entrées de lecture : il n'y a **aucun sélecteur de profil**.
 | `/projets/` | Les projets détaillés, en Contexte, Enjeu, Mon rôle, Résultat |
 | `/competences/` | Le mur de stack : neuf familles, soixante-et-onze entrées |
 | `/contact/` | Les coordonnées, en clair et cliquables. Aucun formulaire |
+| `/blog/` | Les articles, du plus récent au plus ancien |
+| `/blog/<slug>/` | Un article. Son corps est une chaîne HTML écrite à la main |
 
 **Aucun formulaire de contact**, et c'est une décision : le site est un export statique,
 donc un formulaire exigerait un service tiers, du RGPD et de la maintenance, pour

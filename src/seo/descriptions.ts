@@ -18,6 +18,7 @@ export const descriptions = {
     "Projets détaillés : plateforme SaaS livrée de zéro, migrations sans coupure, fraude contenue, mesure remise d'aplomb. Contexte, rôle, résultat.",
   competences:
     'Front, back, qualité et tests, IA augmentée, data, cloud et exploitation, gestion de projet. La stack réellement pratiquée, sans remplissage.',
+  blog: 'Notes courtes sur des décisions techniques réelles : ce qui a été tranché, sur quel critère, et ce que ça a coûté. Ni veille, ni tutoriel.',
   contact:
     'Me joindre directement : téléphone, email, LinkedIn et GitHub. Un seul interlocuteur, aucune couche intermédiaire.',
 } as const

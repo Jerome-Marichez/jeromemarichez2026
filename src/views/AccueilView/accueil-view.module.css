@@ -13,16 +13,26 @@
   padding-block: var(--e6);
 }
 
+/* Conteneur mesurable : c'est lui qui donne au titre la largeur dont il deduit sa
+   taille (voir `TitreMachine`). Sans cette declaration, les `cqi` du titre se
+   rapporteraient au viewport, donc a une largeur plus grande que la colonne
+   reelle, et le titre se casserait a nouveau sur deux lignes. */
 .propos {
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--e3);
 }
 
+/* L'intitule tient sur une seule ligne, par le meme calcul que le titre : la
+   chasse est fixe, donc N caracteres occupent N x 0,6em. Le 0,62 laisse la marge
+   de l'interlettrage negatif. Le plafond `--t-chapo` evite qu'il grossisse sur un
+   tres grand ecran au point de concurrencer le titre. */
 .metier {
+  font-size: min(var(--t-chapo), calc(100cqi / (var(--caracteres, 44) * 0.62)));
+  white-space: nowrap;
   color: var(--cafe);
-  font-size: var(--t-chapo);
   font-weight: 500;
   letter-spacing: -0.01em;
 }
@@ -87,5 +97,21 @@
 
   .tasse {
     justify-content: flex-start;
+  }
+}
+
+/* A 834px et en dessous, la tasse disparait entierement.
+   Trois raisons, et elles tiennent ensemble : son interaction est l'orientation
+   vers le curseur, or il n'y a pas de curseur sur une tablette ni un telephone ;
+   posee sous le contenu elle repousse le premier ecran vers le bas sans rien
+   apporter ; et `display: none` l'ote du flux, donc aucune place vide ne reste.
+
+   La valeur est en pixels et non en rem, contrairement au reste du fichier, parce
+   que 834px est une largeur d'appareil reelle, l'iPad en portrait. Arrondie au
+   point de rupture voisin de 52rem (832px), la borne laissait la tasse affichee
+   exactement sur l'appareil ou on la voulait masquee. */
+@media (max-width: 834px) {
+  .tasse {
+    display: none;
   }
 }

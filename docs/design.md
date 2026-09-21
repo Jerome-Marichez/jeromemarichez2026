@@ -78,6 +78,52 @@ C'est la décision qui fait du monospace un **système** et non un costume.
 - Les colonnes fixes d'une liste de définitions sont en `ch`, pour que les termes
   s'alignent **au caractère** d'une ligne à l'autre.
 
+## Le titre tient sur une ligne, par calcul
+
+Le titre de l'accueil et l'intitulé qui le suit ne se cassent **jamais** sur deux lignes,
+et ce n'est pas un réglage empirique.
+
+Ils portaient un `clamp()` en `vw`, sans rapport avec la longueur réelle de la chaîne :
+sur un MacBook, `< Jérôme Marichez />` passait à la ligne. Un `clamp()` ajusté à la main
+aurait recassé au premier changement de titre.
+
+Fira Code étant à chasse fixe, la largeur d'une chaîne est **calculable** : un caractère
+vaut 0,6em, donc N caractères valent N x 0,6em. Le composant expose N au CSS dans
+`--caracteres`, et la taille se déduit de la largeur du conteneur :
+
+```css
+font-size: min(var(--t-heros), calc(100cqi / (var(--caracteres) * 0.64)));
+white-space: nowrap;
+```
+
+Le conteneur est déclaré `container-type: inline-size` sur la colonne du titre, sinon les
+`cqi` se rapporteraient au viewport, donc à une largeur plus grande que la colonne
+réelle. Le plafond `--t-heros` reste, sinon le titre deviendrait énorme sur un très grand
+écran.
+
+C'est le corollaire direct de la grille de caractères : **la police étant la grille, elle
+sert aussi à dimensionner.**
+
+## La tasse, seule interaction du site
+
+La tasse de café est l'élément qui porte l'identité. C'est la tasse **d'origine** du
+portfolio de Jérôme MARICHEZ, sa photo et sa vidéo de café réel, pas une reconstitution.
+
+Une version l'avait redessinée en SVG pour économiser 1,7 Mo. L'économie était réelle, le
+résultat était moins bon, et sur cet élément-là c'est le résultat qui tranche. Le revers
+est assumé et compensé : la vidéo ne charge pas sous 64rem, et la tasse entière disparaît
+sous 834px.
+
+**Son interaction unique : elle s'oriente vers le curseur.** Elle ne se déplace pas,
+seule sa rotation change, et elle vaut l'angle entre son centre et la souris. Le
+mouvement est amorti par la transition CSS, donc la tasse arrive toujours un peu après le
+curseur : ce retard lui donne du poids, là où une poursuite exacte donnerait un objet
+collé au pointeur.
+
+**Aucun état de survol.** Le portfolio d'origine faisait pivoter la tasse à 150 degrés au
+survol ; l'orientation vers le curseur répond déjà au même geste, et deux réponses
+concurrentes se gêneraient.
+
 ## Ce que le site refuse
 
 Ces refus sont dans le contrat de direction, ils ne se rediscutent pas au cas par cas :
@@ -148,6 +194,7 @@ racine.
 | Largeur | Ce qui change |
 |---------|---------------|
 | `64rem` | le mug passe sous le propos ; le mur de stack passe de trois à deux colonnes |
+| `834px` | la tasse disparaît entièrement. Valeur en pixels et non en rem, contrairement au reste : c'est une largeur d'appareil réelle, l'iPad en portrait, et l'arrondir au `52rem` voisin la laissait affichée exactement là où on la voulait masquée |
 | `52rem` | les noms de fichier disparaissent des onglets ; les listes de définitions passent en une colonne |
 | `44rem` | le mur de stack passe en une colonne |
 | `40rem` | les marges et les respirations se resserrent ; le mug rétrécit |

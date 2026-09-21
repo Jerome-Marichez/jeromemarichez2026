@@ -1,0 +1,96 @@
+/* Le titre de page est un h1 : voir la meme remarque dans ProjetsView. */
+
+.entete {
+  padding-block: var(--e6) var(--e4);
+  border-bottom: var(--largeur-filet) solid var(--filet);
+}
+
+.titre {
+  max-width: var(--colonne-large);
+  font-size: var(--t-section);
+  font-weight: 500;
+  color: var(--encre);
+}
+
+.date {
+  display: block;
+  margin-top: var(--e2);
+  color: var(--encre-faible);
+  font-size: var(--t-petit);
+}
+
+/* Le corps est une chaine HTML injectee (voir index.tsx) : ses balises sont
+   stylees ici par selecteur descendant, faute de pouvoir les typer en JSX.
+   La mesure de lecture (`--colonne`, 72ch) est la raison d'etre de ce jeton. */
+
+.corps {
+  max-width: var(--colonne);
+  padding-block: var(--e5) var(--e6);
+  color: var(--encre-douce);
+  line-height: 1.6;
+}
+
+.corps h2 {
+  margin-top: var(--e5);
+  margin-bottom: var(--e2);
+  color: var(--encre);
+  font-size: var(--t-grand);
+  font-weight: 500;
+}
+
+.corps h2:first-child {
+  margin-top: 0;
+}
+
+.corps p {
+  margin-top: var(--e3);
+}
+
+.corps p:first-child {
+  margin-top: 0;
+}
+
+.corps ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e1);
+  margin-top: var(--e3);
+  padding-left: 2ch;
+}
+
+.corps li {
+  list-style: disc;
+}
+
+.corps a {
+  color: var(--cafe);
+}
+
+.corps a:hover {
+  color: var(--cafe-vif);
+}
+
+.corps strong {
+  color: var(--encre);
+  font-weight: 600;
+}
+
+.corps code {
+  color: var(--code-chaine);
+  font-size: 0.94em;
+}
+
+.corps blockquote {
+  margin-top: var(--e3);
+  padding-left: var(--gouttiere);
+  border-left: var(--largeur-filet) solid var(--filet-fort);
+  color: var(--encre-faible);
+}
+
+.source {
+  max-width: var(--colonne);
+  padding-top: var(--e4);
+  border-top: var(--largeur-filet) solid var(--filet);
+  color: var(--encre-faible);
+  font-size: var(--t-petit);
+}
