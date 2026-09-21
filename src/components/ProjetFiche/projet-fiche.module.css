@@ -17,7 +17,22 @@
   margin-bottom: var(--e4);
 }
 
+.ligneTitre {
+  display: flex;
+  align-items: flex-start;
+  gap: 0 1.5ch;
+}
+
 .titre {
+  /* `flex-basis: 0`, et non `auto` : c'est toute la difference. Avec `auto`, la
+     base du titre vaut la largeur de son texte, pres de 1000px sur les titres
+     longs. La ligne debordait donc, et comme le conteneur autorisait le retour
+     a la ligne, le titre passait dessous en laissant le logo seul au dessus de
+     lui : le meme orphelin qu'avant, retourne. Avec une base nulle, le titre
+     n'impose plus rien, il prend l'espace restant a cote du logo et se
+     recompose dedans quelle que soit sa longueur. */
+  flex: 1 1 0;
+  min-width: 0;
   color: var(--encre);
   font-size: var(--t-chapo);
   font-weight: 500;

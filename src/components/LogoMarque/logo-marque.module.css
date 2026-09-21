@@ -1,0 +1,43 @@
+/* Le logo d'une marque, a cote du titre de la fiche, sur fond transparent.
+   Aucune pastille : voir index.tsx pour pourquoi les fichiers eux-memes sont
+   traites pour rester lisibles sur --fond. */
+
+.lien {
+  display: inline-flex;
+  align-items: center;
+  /* Boite fixe plutot qu'une hauteur seule : les marques vont du carre
+     (Sms En Masse, Prezage, Truffle Capital) au tres large (Verhoeven
+     Joaillier, pres de 3.7:1). Une hauteur seule donne des tailles optiques
+     sans rapport entre elles ; une boite fixe avec `object-fit: contain`
+     contraint les carrees par la hauteur et les larges par la largeur, et
+     les cinq atterrissent a une taille comparable. Fixe (`flex: none`) pour
+     ne jamais se faire ecraser par le titre, qui se recompose autour d'elle. */
+  flex: none;
+  width: 10ch;
+  height: calc(var(--ligne) * 2);
+  border-radius: 2px;
+  transition: opacity var(--duree-court) ease;
+}
+
+.lien:hover {
+  opacity: 0.8;
+}
+
+.lien:focus-visible {
+  outline: 2px solid var(--cafe-vif);
+  outline-offset: 2px;
+}
+
+.logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lien {
+    transition: none;
+  }
+}

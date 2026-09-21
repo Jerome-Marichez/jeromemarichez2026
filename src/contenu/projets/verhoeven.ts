@@ -3,6 +3,7 @@ import type { IProjet } from '../../interfaces/IProjet'
 export const verhoeven: IProjet = {
   titre: 'Verhoeven, flux boutique et e-commerce fiabilisés, puis socle remplacé',
   entreprise: 'Verhoeven Joaillier',
+  marque: 'verhoeven',
   sousTitre: 'intégration SI, refonte et recette, en poste unique',
   contexte:
     'Une maison de joaillerie qui vend les mêmes pièces en boutique et en ligne, souvent en un seul ' +

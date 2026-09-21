@@ -3,6 +3,7 @@ import type { IProjet } from '../../interfaces/IProjet'
 export const prezage: IProjet = {
   titre: 'Prézage, socle mobile migré sans coupure',
   entreprise: 'Acetelecom',
+  marque: 'prezage',
   sousTitre: 'Prézage · ingénieur fullstack, plus de 200 000 installations',
   contexte:
     'Application grand public utilisée au quotidien, près de 1 000 avis. Socle Ionic 6 et Angular 15 ' +
