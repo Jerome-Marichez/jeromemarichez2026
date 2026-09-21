@@ -18,7 +18,7 @@ export const marques: Record<IdMarque, IMarque> = {
   smsEnMasse: {
     nom: 'Sms En Masse',
     url: 'https://www.smsenmasse.fr/',
-    logo: { fichier: '/marques/sms-en-masse.png', largeur: 180, hauteur: 180 },
+    logo: { fichier: '/marques/sms-en-masse.svg', largeur: 100, hauteur: 55 },
   },
   prezage: {
     nom: 'Prézage',
