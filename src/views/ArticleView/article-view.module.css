@@ -27,7 +27,7 @@
   max-width: var(--colonne);
   padding-block: var(--e5) var(--e6);
   color: var(--encre-douce);
-  line-height: 1.6;
+  line-height: var(--lh-lecture);
 }
 
 .corps h2 {
@@ -43,7 +43,7 @@
 }
 
 .corps p {
-  margin-top: var(--e3);
+  margin-top: var(--e4);
 }
 
 .corps p:first-child {
@@ -54,7 +54,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--e1);
-  margin-top: var(--e3);
+  margin-top: var(--e4);
   padding-left: 2ch;
 }
 
@@ -81,10 +81,10 @@
 }
 
 .corps blockquote {
-  margin-top: var(--e3);
+  margin-top: var(--e4);
   padding-left: var(--gouttiere);
   border-left: var(--largeur-filet) solid var(--filet-fort);
-  color: var(--encre-faible);
+  color: var(--encre-douce);
 }
 
 .source {

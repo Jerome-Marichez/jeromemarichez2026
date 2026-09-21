@@ -17,7 +17,7 @@
   margin-top: var(--e3);
   color: var(--encre-douce);
   font-size: var(--t-chapo);
-  line-height: 1.6;
+  line-height: var(--lh-lecture);
 }
 
 .liste {
@@ -25,7 +25,7 @@
 }
 
 .item {
-  padding-block: var(--e5);
+  padding-block: var(--e6);
   border-top: var(--largeur-filet) solid var(--filet);
 }
 
@@ -55,5 +55,5 @@
   max-width: var(--colonne);
   margin-top: var(--e2);
   color: var(--encre-douce);
-  line-height: 1.6;
+  line-height: var(--lh-lecture);
 }

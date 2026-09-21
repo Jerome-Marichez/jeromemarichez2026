@@ -54,6 +54,11 @@
 
   /* ---- Rythme vertical : ligne de base de 24px ---- */
   --ligne: 1.5rem;
+  /* Interlignage du texte courant long : au dela de deux ou trois phrases, la
+     ligne de base de 1.5 resserre trop les lignes pour une lecture suivie.
+     Reserve aux paragraphes porteurs (fiches projet, experiences, articles, a
+     propos) ; les libelles courts gardent l'interlignage par defaut. */
+  --lh-lecture: 1.7;
   --e1: 0.375rem; /* 6px  */
   --e2: 0.75rem; /* 12px */
   --e3: 1.5rem; /* 24px, une ligne */

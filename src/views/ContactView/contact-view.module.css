@@ -64,7 +64,7 @@
   display: grid;
   grid-template-columns: 14ch minmax(0, 1fr);
   gap: var(--gouttiere);
-  padding-block: var(--e3);
+  padding-block: var(--e4);
   border-top: var(--largeur-filet) solid var(--filet);
   color: var(--encre-douce);
 }
