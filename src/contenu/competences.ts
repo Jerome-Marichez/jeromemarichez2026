@@ -1,10 +1,24 @@
 import type { ICompetence } from '../interfaces/ICompetence'
+import { mesure } from './projets/mesure'
+import { smsEnMasseDemarcheQa } from './projets/sms-en-masse-demarche-qa'
+import { smsEnMasseDesignSystem } from './projets/sms-en-masse-design-system'
+import { smsEnMasseIaAugmentee } from './projets/sms-en-masse-ia-augmentee'
+import { smsEnMassePlateforme } from './projets/sms-en-masse-plateforme'
+import { truffle } from './projets/truffle'
 
 // Familles reprises du CV « Ingénieur Fullstack & Chef de Projet », section
 // COMPÉTENCES. Chaque item reste court : ce fichier alimente un mur dense.
+//
+// L'ancrage de chaque famille reprend le titre d'un projet réel de
+// `src/contenu/projets/` par import, jamais recopié à la main : un renommage
+// de projet se répercute ici plutôt que de créer un intitulé fantôme. Chaque
+// rapprochement est justifié phrase à phrase dans la pull request qui l'a
+// introduit (issue #173). Une famille sans import d'ancrage n'a reçu aucun
+// rapprochement suffisamment explicite dans les fiches projet.
 export const competences: ICompetence[] = [
   {
     famille: 'Front & design system',
+    ancrage: { titreProjet: smsEnMasseDesignSystem.titre },
     items: [
       'TypeScript en typage strict',
       'React, Next.js, rendu arbitré page par page entre ISR, SSG, SSR et CSR',
@@ -18,6 +32,7 @@ export const competences: ICompetence[] = [
   },
   {
     famille: 'Back & architecture',
+    ancrage: { titreProjet: smsEnMassePlateforme.titre },
     items: [
       'Node.js, Express',
       'API REST spécifiée en OpenAPI, webhooks',
@@ -31,6 +46,7 @@ export const competences: ICompetence[] = [
   },
   {
     famille: 'Qualité & tests',
+    ancrage: { titreProjet: smsEnMasseDemarcheQa.titre },
     items: [
       'Stratégie et plans de test, analyse de risques',
       'Non-régression branchée sur la CI et bloquante',
@@ -43,6 +59,7 @@ export const competences: ICompetence[] = [
   },
   {
     famille: 'IA augmentée',
+    ancrage: { titreProjet: smsEnMasseIaAugmentee.titre },
     items: [
       'Claude Code et Gemini sur du TypeScript et du Python',
       'Agents, hooks, skills, boucles et serveurs MCP internes',
@@ -53,6 +70,7 @@ export const competences: ICompetence[] = [
   },
   {
     famille: 'Data & IA',
+    ancrage: { titreProjet: mesure.titre },
     items: [
       'PostgreSQL relationnel, séries temporelles et vectoriel',
       'MySQL, Redis, MongoDB, Supabase, Firebase',
@@ -66,6 +84,7 @@ export const competences: ICompetence[] = [
   },
   {
     famille: 'Cloud & exploitation',
+    ancrage: { titreProjet: smsEnMassePlateforme.titre },
     items: [
       'Google Cloud, Cloud Run, Pub/Sub, Vertex AI, cloud functions, Compute Engine',
       'Cloud Monitoring',
@@ -78,6 +97,7 @@ export const competences: ICompetence[] = [
   },
   {
     famille: 'Gestion de projet & AMOA',
+    ancrage: { titreProjet: truffle.titre },
     items: [
       'Recueil et priorisation du besoin, spécifications fonctionnelles',
       'Chiffrage, planning, jalons, comités et reporting',
@@ -90,6 +110,7 @@ export const competences: ICompetence[] = [
   },
   {
     famille: 'Encadrement & pilotage',
+    ancrage: { titreProjet: truffle.titre },
     items: [
       'Alternants et stagiaires développeurs encadrés, revues de code',
       "Le métier avant l'outil",
@@ -101,6 +122,7 @@ export const competences: ICompetence[] = [
   },
   {
     famille: 'Acquisition & mesure',
+    ancrage: { titreProjet: mesure.titre },
     items: [
       'Plan de taggage',
       'Google Tag Manager web et server-side',
