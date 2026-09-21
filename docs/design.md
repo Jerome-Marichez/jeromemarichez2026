@@ -142,6 +142,41 @@ transparent (Sms En Masse, Prézage) n'est pas touché.
 Un projet sans marque répertoriée ne rend aucun logo et ne laisse aucun trou dans la mise
 en page : voir `src/components/LogoMarque`.
 
+## Le mur de stack : grille, glyphes et ancrage de preuve
+
+Le mur (`src/components/MurDeStack/`) affichait ses neuf familles dans un flux
+`columns: 3`. Un flux remplit une colonne de haut en bas avant de passer à la
+suivante : sur un contenu de longueur inégale, la troisième colonne s'arrêtait
+bien avant les deux autres, avec un grand vide en bas à droite (issue #173).
+
+**Une grille CSS explicite le remplace.** Neuf familles sur trois colonnes
+occupent exactement trois lignes complètes : plus de colonne qui s'arrête en
+avance, et l'ordre de lecture suit le DOM, donc celui du CV, ligne par ligne,
+ce qu'un flux en colonnes ne garantissait pas. Sous 64rem (deux colonnes), le
+reste d'une famille impaire occupe la ligne entière plutôt que de laisser une
+cellule vide à côté d'elle. Le filet entre les cellules vient du fond de la
+grille qui perce à travers un écart d'un pixel entre les cellules, comme les
+lignes d'un tableur : pas de bordure doublée à la jointure de deux cellules,
+et toujours aucune carte. La structure `<dl>`/`<dt>`/`<dd>` est inchangée : la
+grille s'applique aux groupes, pas au balisage sémantique.
+
+**Un glyphe par famille** (`src/components/GlyphesCompetences/`) donne un
+point d'entrée visuel là où les neuf familles portaient exactement le même
+poids. Chaque glyphe est un SVG inline dessiné à la main, monochrome, en
+`currentColor`, sur une grille de 24 unités et un trait fin constant, jamais
+une fonte d'icônes ni une bibliothèque. Il est purement décoratif
+(`aria-hidden`, `focusable="false"`) : la famille est déjà nommée en toutes
+lettres juste à côté, un `title` ferait doublon à la synthèse vocale.
+
+**L'ancrage de preuve** répond à ce que la page affirmait sans y donner suite,
+« une liste de technologies ne prouve rien toute seule ». Une famille peut
+porter une ligne « vu sur : *titre du projet* » vers `/projets/`, mais
+seulement quand une fiche de `src/contenu/projets/` traite explicitement la
+famille. La donnée vit dans `src/contenu/competences.ts`, qui importe le
+titre du projet plutôt que de le recopier, et une famille sans rapprochement
+suffisamment explicite reste sans ancrage : un rapprochement inventé serait
+pire qu'une absence (`CLAUDE.md`, table des interdits).
+
 ## Ce que le site refuse
 
 Ces refus sont dans le contrat de direction, ils ne se rediscutent pas au cas par cas :
