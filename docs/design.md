@@ -124,6 +124,24 @@ collé au pointeur.
 survol ; l'orientation vers le curseur répond déjà au même geste, et deux réponses
 concurrentes se gêneraient.
 
+## Le logo d'une marque
+
+Une fiche projet peut porter le logo de l'entreprise ou du produit cité, à côté de son
+titre, sur sa ligne de base : jamais dans un bloc séparé, jamais sur une pastille de
+fond. Le site n'habille pas ses illustrations d'un cadre, voir le refus de carte
+ci-dessous, et un logo n'y échappe pas.
+
+**Fond transparent, donc fichier retravaillé si besoin.** Le logo est posé directement
+sur `--fond`, pas sur un aplat clair. Un logo dont l'encre est sombre ou dont le fond
+d'origine est blanc y devient illisible ; il est alors recoloré en `--encre` sur notre
+copie du fichier, jamais sur le fichier du titulaire. Trois des cinq logos actuels ont
+reçu ce traitement : le détail, la mesure de contraste avant traitement et la provenance
+de chaque fichier vivent dans `public/marques/LISEZMOI.md`. Un logo déjà clair ou déjà
+transparent (Sms En Masse, Prézage) n'est pas touché.
+
+Un projet sans marque répertoriée ne rend aucun logo et ne laisse aucun trou dans la mise
+en page : voir `src/components/LogoMarque`.
+
 ## Ce que le site refuse
 
 Ces refus sont dans le contrat de direction, ils ne se rediscutent pas au cas par cas :

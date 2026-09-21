@@ -3,6 +3,7 @@ import type { IProjet } from '../../interfaces/IProjet'
 export const fraude: IProjet = {
   titre: 'Fraude contenue sans perdre la conversion',
   entreprise: 'Acetelecom',
+  marque: 'smsEnMasse',
   sousTitre: 'Sms En Masse · analyse des données, parcours client et arbitrage',
   contexte:
     "Le canal SMS passait sous la pression du régulateur, avec des amendes de l'ARCOM dans le " +

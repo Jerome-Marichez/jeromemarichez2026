@@ -74,6 +74,24 @@ C'est le cœur du propos pour un recruteur : il veut voir le raisonnement, pas u
 vignette. Les quatre champs sont donc obligatoires, et une fiche incomplète ne compile
 pas.
 
+`marque` est **optionnelle** et de type `IdMarque` (`src/interfaces/types.ts`), une union
+fermée sur les clés du catalogue `src/contenu/marques.ts`. Elle ne s'invente pas : une
+fiche sans marque vérifiée ne porte pas ce champ, et `ProjetFiche` ne rend alors aucun
+logo (voir `docs/design.md`, « Le logo d'une marque »).
+
+### `IMarque`
+
+`{ nom, url, logo: { fichier, largeur, hauteur } }`. Une marque tierce citée dans un
+projet : l'entreprise ou l'un de ses produits. `url` est vérifiée en HTTP 200 avant
+d'être ajoutée, jamais approximée (« un lien mort est pire que pas de lien »). `logo`
+porte les dimensions intrinsèques du fichier réellement servi depuis
+`public/marques/`, pour réserver la place et éviter tout décalage de mise en page.
+
+Le catalogue vit dans `src/contenu/marques.ts`, une entrée par marque, indexée par
+`IdMarque`. La provenance de chaque fichier de logo, et le traitement appliqué le cas
+échéant pour qu'il reste lisible sur le fond sombre du site, sont consignés dans
+`public/marques/LISEZMOI.md`.
+
 ### `ICompetence`
 
 `{ famille, items }`. Neuf familles, soixante-et-onze entrées au total. Les `items`

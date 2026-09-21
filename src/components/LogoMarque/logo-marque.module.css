@@ -1,0 +1,31 @@
+/* Le logo d'une marque, a cote du titre de la fiche, sur fond transparent.
+   Aucune pastille : voir index.tsx pour pourquoi les fichiers eux-memes sont
+   traites pour rester lisibles sur --fond. */
+
+.lien {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 2px;
+  transition: opacity var(--duree-court) ease;
+}
+
+.lien:hover {
+  opacity: 0.8;
+}
+
+.lien:focus-visible {
+  outline: 2px solid var(--cafe-vif);
+  outline-offset: 2px;
+}
+
+.logo {
+  display: block;
+  height: 1.4em;
+  width: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lien {
+    transition: none;
+  }
+}

@@ -3,6 +3,7 @@ import type { IProjet } from '../../interfaces/IProjet'
 export const smsEnMasseIaAugmentee: IProjet = {
   titre: 'Le développement en IA augmentée piloté par les tests',
   entreprise: 'Acetelecom',
+  marque: 'acetelecom',
   sousTitre: "méthode de travail construite puis transmise à l'équipe",
   contexte:
     "Une équipe de trois pour quatre produits. La génération de code a changé la vitesse d'écriture, " +

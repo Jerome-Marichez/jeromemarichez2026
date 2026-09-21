@@ -121,7 +121,7 @@ pas six entrées de lecture : il n'y a **aucun sélecteur de profil**.
 | `/` | Le premier écran : nom, métier, quatre axes, les deux actions attendues |
 | `/a-propos/` | Le profil, la méthode, la formation, les certifications |
 | `/parcours/` | Les trois expériences, avec les réalisations portées telles quelles |
-| `/projets/` | Les projets détaillés, en Contexte, Enjeu, Mon rôle, Résultat |
+| `/projets/` | Les projets détaillés, en Contexte, Enjeu, Mon rôle, Résultat, avec le logo et le lien vérifié de la marque quand elle est connue |
 | `/competences/` | Le mur de stack : neuf familles, soixante-et-onze entrées |
 | `/contact/` | Les coordonnées, en clair et cliquables. Aucun formulaire |
 | `/blog/` | Les articles, du plus récent au plus ancien |

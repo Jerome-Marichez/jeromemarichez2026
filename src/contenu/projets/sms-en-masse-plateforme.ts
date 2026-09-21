@@ -3,6 +3,7 @@ import type { IProjet } from '../../interfaces/IProjet'
 export const smsEnMassePlateforme: IProjet = {
   titre: 'Sms En Masse, plateforme SaaS BtoB de zéro à la production',
   entreprise: 'Acetelecom',
+  marque: 'smsEnMasse',
   sousTitre: 'Sms En Masse · lead tech, architecture, développement et run',
   contexte:
     "L'offre était revendue en marque blanche. La plateforme appartenait à un tiers, la marge était " +

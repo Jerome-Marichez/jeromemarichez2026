@@ -17,6 +17,13 @@
   margin-bottom: var(--e4);
 }
 
+.ligneTitre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 1.5ch;
+}
+
 .titre {
   color: var(--encre);
   font-size: var(--t-chapo);

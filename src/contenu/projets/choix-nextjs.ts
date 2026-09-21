@@ -3,6 +3,7 @@ import type { IProjet } from '../../interfaces/IProjet'
 export const choixNextjs: IProjet = {
   titre: "Le choix Next.js, défendu devant des équipes que je n'encadrais pas",
   entreprise: 'Acetelecom',
+  marque: 'acetelecom',
   sousTitre: "décision d'architecture, débat et adoption",
   contexte:
     "Un site vitrine tenu au quotidien par l'équipe SEO et média, une application métier, et la " +
