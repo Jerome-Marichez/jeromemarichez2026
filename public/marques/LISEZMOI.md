@@ -16,7 +16,7 @@ de mise en page au chargement (CLS).
 | Fichier | Source | Titulaire | Récupéré le |
 |---|---|---|---|
 | `acetelecom.png` | https://www.acetelecom.fr/img/ACETELECOM.jpg | Acetelecom | 2026-09-21 |
-| `sms-en-masse.png` | https://www.smsenmasse.fr/images/apple-touch-icon.png | Acetelecom | 2026-09-21 |
+| `sms-en-masse.svg` | fourni par Jérôme MARICHEZ, logo de marque officiel | Acetelecom | 2026-09-21 |
 | `prezage.png` | icône Play Store de `fr.acetelecom.monavenir` | Acetelecom | 2026-09-21 |
 | `verhoeven-joaillier.svg` | https://www.verhoeven-joaillier.com/themes/classic_child/assets/img/logo-mobile.svg | Verhoeven Joaillier | 2026-09-21 |
 | `truffle-capital.svg` | https://www.truffle.com/themes/TruffleTheme/static/favicon.svg | Truffle Capital | 2026-09-21 |
@@ -32,9 +32,15 @@ Le site n'a qu'un thème, sombre (`docs/design.md`), et le logo est posé direct
 dans ces conditions et ont été retravaillés le 2026-09-21, **sur notre copie uniquement** :
 le fichier original côté titulaire n'est pas modifié, seule la copie déposée ici l'est.
 
+Le cas de Sms En Masse mérite d'être noté, parce qu'il montre ce que vaut un bon fichier
+source. Le dossier servait d'abord `sms-en-masse.png`, l'**icône d'application** du site,
+récupérée faute de mieux : un pictogramme, sans le nom de la marque. Jérôme MARICHEZ a
+fourni le **logo de marque** en SVG, qui porte le nom et qui est déjà dessiné pour un fond
+sombre. Aucune recoloration n'a donc été nécessaire, contrairement aux trois autres.
+
 | Fichier | État d'origine | Traitement appliqué |
 |---|---|---|
-| `sms-en-masse.png` | déjà en RGBA, fond transparent, couleurs claires | aucun |
+| `sms-en-masse.svg` | logo de marque, blanc et turquoise `#09c4bf` sur transparent, donc déjà dessiné pour un fond sombre | aucun |
 | `prezage.png` | carré jaune plein `#ffd100` | aucun, c'est la forme réelle de l'icône |
 | `verhoeven-joaillier.svg` | tracés en `#020204` (quasi noir), invisibles sur `--fond` (contraste mesuré 1.28:1) | tracés recolorés en `#f7f2f2` (`--encre`), fond resté transparent |
 | `truffle-capital.svg` | tracé en `#294276` (bleu nuit), invisible sur `--fond` (contraste mesuré 1.64:1) | tracé recoloré en `#f7f2f2` (`--encre`), fond resté transparent |
