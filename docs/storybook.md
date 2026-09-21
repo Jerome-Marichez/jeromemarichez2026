@@ -110,6 +110,22 @@ retenue : `preview.tsx` importait encore `GlassRefraction`, `src/typography/font
 fichiers manquants, ce qui a coûté un diagnostic. Quand `storybook build` échoue sans
 raison lisible, **vérifier d'abord ce que `preview.tsx` importe**.
 
+### Ce qu'une story ne peut pas montrer
+
+Un catalogue montre un composant **hors de sa page**, et certains comportements
+n'existent que dans la page. Les nommer vaut mieux que de laisser croire que la story
+suffit.
+
+Le cas du site est **la tasse de café** : son interaction est l'orientation vers le
+curseur, déclenchée par les mouvements de souris de la page entière. Dans un panneau de
+story, elle répond donc, mais autour d'un centre qui n'est pas celui qu'elle occupe sur
+l'accueil. La story le dit dans son propre docbloc, et juger l'effet demande d'ouvrir le
+site.
+
+Ce que la story apporte quand même, et que la page ne peut pas : les deux traitements
+d'accessibilité côte à côte, décoratif contre porteur de sens, alors que seul le premier
+est utilisé sur le site.
+
 ### Ce qui ne mérite pas de story
 
 Un composant sans rendu visible n'en a pas : une story vide vaudrait moins que la raison
