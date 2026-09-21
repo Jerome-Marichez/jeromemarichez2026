@@ -96,6 +96,24 @@ Deux champs nullables, et chacun encode une règle :
 
 `{ diplome, ville, annee }`. Deux diplômes.
 
+### `IArticle`
+
+Un article de blog. `corpsHtml` porte le corps **sous forme de chaîne HTML**, écrite à la
+main et rendue directement.
+
+**Pourquoi cette forme, et à quelle condition elle est sûre.** La contrainte vient de
+Jérôme MARICHEZ : « blog en HTML, pas besoin de te prendre la tête sur une architecture
+compliquée ». Aucun MDX, aucune chaîne de rendu, aucune dépendance ajoutée. Cinq articles
+ne justifient ni catégories, ni étiquettes, ni pagination, ni recherche.
+
+L'injection directe d'HTML est sans risque **ici, et seulement ici** : le contenu est
+écrit dans le dépôt et compilé, jamais reçu d'un visiteur. Cette condition est écrite à
+l'endroit de l'injection dans `ArticleView`. Le jour où quelqu'un branche une source
+externe sur ce champ, elle tombe, et il faut alors assainir.
+
+Les articles vivent dans `src/contenu/blog/`, un fichier par article, agrégés par un
+`index.ts` du plus récent au plus ancien.
+
 ### `IContact`
 
 Téléphone, email, GitHub, LinkedIn, localisation. **Aucun champ de formulaire**, parce

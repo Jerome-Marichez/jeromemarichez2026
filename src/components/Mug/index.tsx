@@ -1,132 +1,227 @@
+'use client'
+
+import Image from 'next/image'
+import { useEffect, useRef } from 'react'
 import styles from './mug.module.css'
+import mugPic from './mug.png'
 
 interface IMugProps {
-  /** Libelle lu par la synthese vocale. Laisser vide pour un mug decoratif. */
+  /** Libelle lu par la synthese vocale. Laisser vide pour une tasse decorative. */
   readonly description?: string
 }
 
 /**
- * Le mug, signature du site et seul mouvement permanent de la page.
+ * La tasse de cafe, signature du site.
  *
- * Entierement dessine en SVG et anime en CSS : aucun JavaScript, aucune image,
- * aucune video. Le portfolio d'origine chargeait un PNG et un MP4 de plusieurs
- * centaines de kilo-octets pour ce meme effet ; ici la vapeur coute zero octet
- * de script et reste nette a toutes les tailles.
+ * C'est **la tasse d'origine** du portfolio de Jerome MARICHEZ : sa photo de mug
+ * et sa video de cafe reel qui tourne dedans. Une version precedente la redessinait
+ * en SVG pour economiser le poids ; l'economie etait vraie, le resultat etait moins
+ * beau, et sur l'element qui porte l'identite du site c'est le resultat qui tranche.
  *
- * La vapeur est un mouvement a vitesse constante, donc animee en `linear`.
- * La rotation du cafe est un survol, donc en `ease`. Les deux s'arretent sur
- * `prefers-reduced-motion` et sur le bouton de mise en pause (WCAG 2.2.2).
+ * Ce qui a ete garde de la reecriture, parce que ca ne coute rien au rendu :
+ *
+ * - **La video est pilotee, pas seulement masquee.** `prefers-reduced-motion` et le
+ *   bouton de mise en pause (WCAG 2.2.2) l'arretent reellement. Une regle CSS ne
+ *   suspend pas une video : il faut appeler `pause()`, donc ce composant est client.
+ * - **Le poster porte la premiere image**, donc la tasse est pleine avant que la
+ *   video n'ait charge, et rien ne saute.
+ * - **La video ne charge pas sur un petit ecran** : `cafe.mp4` pese 1,6 Mo pour un
+ *   detail de quelques centaines de pixels. Sous 64rem, l'image suffit et c'est elle
+ *   qui reste affichee.
  */
 export function Mug({ description }: IMugProps) {
+  const video = useRef<HTMLVideoElement>(null)
+  const scene = useRef<HTMLDivElement>(null)
   const decoratif = description === undefined
 
-  return (
-    <div className={styles.scene}>
-      <svg
-        className={styles.mug}
-        viewBox="0 0 200 210"
-        role={decoratif ? 'presentation' : 'img'}
-        aria-hidden={decoratif ? true : undefined}
-        aria-label={decoratif ? undefined : description}
+  useEffect(() => {
+    const element = video.current
+    if (element === null) return
+
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
+    // `cafe.mp4` pese 1,6 Mo pour un detail de quelques centaines de pixels. Sous
+    // cette largeur, le poster suffit et la video n'est jamais demandee : c'est
+    // `preload="none"` qui l'empeche de se telecharger, et l'absence de `play()`
+    // qui l'empeche d'etre reclamee ensuite.
+    const grandEcran = window.matchMedia('(min-width: 64rem)')
+    const racine = document.documentElement
+
+    const appliquer = () => {
+      const enPause = preference.matches || racine.dataset.mouvement === 'pause'
+
+      if (enPause || !grandEcran.matches) {
+        element.pause()
+      } else {
+        // `play()` rend une promesse rejetee quand le navigateur refuse la lecture
+        // automatique. Ce n'est pas une erreur a remonter : la tasse reste alors
+        // sur son poster, qui montre deja le cafe.
+        void element.play().catch(() => undefined)
+      }
+    }
+
+    appliquer()
+    preference.addEventListener('change', appliquer)
+    grandEcran.addEventListener('change', appliquer)
+
+    // Le bouton de pause pose un attribut sur `<html>` : on l'observe plutot que
+    // de faire remonter un etat, ce qui coupleraient deux composants sans raison.
+    const observateur = new MutationObserver(appliquer)
+    observateur.observe(racine, {
+      attributes: true,
+      attributeFilter: ['data-mouvement'],
+    })
+
+    return () => {
+      preference.removeEventListener('change', appliquer)
+      grandEcran.removeEventListener('change', appliquer)
+      observateur.disconnect()
+    }
+  }, [])
+
+  /**
+   * La tasse s'oriente vers le curseur.
+   *
+   * Elle **ne se deplace pas** : seule sa rotation change, et elle vaut l'angle
+   * entre son centre et la souris. C'est la seule interaction de la tasse, il n'y
+   * a aucun etat de survol : deux reponses concurrentes au meme geste se
+   * gêneraient.
+   *
+   * Trois choix qui font la difference entre un effet agreable et un effet qui
+   * rame ou qui saute :
+   *
+   * - **Rien ne passe par un etat React.** Une position de curseur change des
+   *   dizaines de fois par seconde ; la stocker dans un `useState` re-rendrait le
+   *   composant a chaque frame. L'angle est donc ecrit directement dans une
+   *   propriete CSS, en dehors du cycle de rendu.
+   * - **Le mouvement est amorti par la transition CSS**, pas calcule image par
+   *   image. La tasse arrive toujours un peu apres le curseur, et ce retard lui
+   *   donne du poids. Une poursuite exacte donnerait un objet colle au pointeur.
+   * - **L'angle est deroule.** `atan2` bascule de 180 a -180 quand le curseur
+   *   passe derriere la tasse ; ecrit tel quel, cela ferait faire un tour complet
+   *   a l'envers. On accumule donc l'angle en prenant toujours le chemin le plus
+   *   court, ce qui rend le passage invisible.
+   */
+  useEffect(() => {
+    const element = scene.current
+    if (element === null) return
+
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
+    // Sur un ecran tactile il n'y a pas de curseur a suivre : l'effet n'aurait
+    // aucun sens et couterait un ecouteur pour rien.
+    const pointeurFin = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const racine = document.documentElement
+
+    /** Position de repos, celle du portfolio d'origine. */
+    const ANGLE_REPOS = 50
+    /** L'anse est dessinee en bas de l'image : ce quart de tour l'envoie vers le
+     *  curseur plutot que de l'en eloigner. */
+    const ORIENTATION_ANSE = 90
+
+    let demande = 0
+    // L'angle accumule, jamais ramene dans [-180, 180] : c'est lui qui permet le
+    // deroulage. La tasse peut donc tourner plusieurs fois dans le meme sens si le
+    // curseur en fait le tour, ce qui est exactement ce qu'on attend d'un objet.
+    let angleAccumule = ANGLE_REPOS
+
+    const repos = () => {
+      angleAccumule = ANGLE_REPOS
+      element.style.setProperty('--angle', `${ANGLE_REPOS}deg`)
+    }
+
+    const surMouvement = (evenement: PointerEvent) => {
+      if (preference.matches || racine.dataset.mouvement === 'pause') {
+        repos()
+        return
+      }
+
+      // Une seule ecriture par frame, quel que soit le nombre d'evenements.
+      if (demande !== 0) return
+      demande = requestAnimationFrame(() => {
+        demande = 0
+        const cadre = element.getBoundingClientRect()
+        const centreX = cadre.left + cadre.width / 2
+        const centreY = cadre.top + cadre.height / 2
+
+        const vise =
+          (Math.atan2(evenement.clientY - centreY, evenement.clientX - centreX) * 180) / Math.PI +
+          ORIENTATION_ANSE
+
+        // Chemin le plus court entre l'angle courant et l'angle vise, ramene dans
+        // [-180, 180]. Sans cela, franchir le dos de la tasse lui ferait faire un
+        // tour complet a l'envers.
+        const ecart = ((((vise - angleAccumule + 180) % 360) + 360) % 360) - 180
+        angleAccumule += ecart
+
+        element.style.setProperty('--angle', `${angleAccumule.toFixed(1)}deg`)
+      })
+    }
+
+    const brancher = () => {
+      if (pointeurFin.matches) {
+        window.addEventListener('pointermove', surMouvement, { passive: true })
+      } else {
+        window.removeEventListener('pointermove', surMouvement)
+        repos()
+      }
+    }
+
+    brancher()
+    pointeurFin.addEventListener('change', brancher)
+    // Le bouton de pause et la preference systeme remettent la tasse droite.
+    preference.addEventListener('change', repos)
+    const observateur = new MutationObserver(repos)
+    observateur.observe(racine, { attributes: true, attributeFilter: ['data-mouvement'] })
+
+    return () => {
+      if (demande !== 0) cancelAnimationFrame(demande)
+      window.removeEventListener('pointermove', surMouvement)
+      pointeurFin.removeEventListener('change', brancher)
+      preference.removeEventListener('change', repos)
+      observateur.disconnect()
+    }
+  }, [])
+
+  // Une tasse decorative et une tasse nommee ne sont pas le meme element pour une
+  // synthese vocale : la premiere doit etre tue, la seconde annoncee comme une
+  // image. Les rendre en deux branches plutot qu'en un `role` conditionnel evite
+  // aussi la combinaison illegale `role="presentation"` avec un `aria-label`.
+  const contenu = (
+    <>
+      <video
+        ref={video}
+        className={styles.cafe}
+        poster="/tasse/cafe.jpg"
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-hidden="true"
+        tabIndex={-1}
       >
-        <defs>
-          {/* Le cafe vu de dessus : sombre au bord, chaud au centre. */}
-          <radialGradient id="surfaceCafe" cx="42%" cy="38%" r="72%">
-            <stop offset="0%" stopColor="#a8622f" />
-            <stop offset="55%" stopColor="#6b3a1c" />
-            <stop offset="100%" stopColor="#331a0d" />
-          </radialGradient>
+        <source src="/tasse/cafe.mp4" type="video/mp4" />
+      </video>
 
-          {/* La ceramique prend la lampe sur sa gauche. */}
-          <linearGradient id="ceramique" x1="0%" y1="0%" x2="100%" y2="20%">
-            <stop offset="0%" stopColor="#efe8e4" />
-            <stop offset="46%" stopColor="#cfc5c0" />
-            <stop offset="100%" stopColor="#8e837e" />
-          </linearGradient>
+      <Image
+        className={styles.mug}
+        src={mugPic}
+        alt=""
+        sizes="(max-width: 40rem) 60vw, 34ch"
+        priority
+      />
+    </>
+  )
 
-          {/* La vapeur s'efface vers le haut, elle ne se coupe pas net. */}
-          <linearGradient id="vapeur" x1="0%" y1="100%" x2="0%" y2="0%">
-            <stop offset="0%" stopColor="#f7f2f2" stopOpacity="0.44" />
-            <stop offset="60%" stopColor="#f7f2f2" stopOpacity="0.16" />
-            <stop offset="100%" stopColor="#f7f2f2" stopOpacity="0" />
-          </linearGradient>
-        </defs>
+  if (decoratif) {
+    return (
+      <div ref={scene} className={styles.scene} aria-hidden="true">
+        {contenu}
+      </div>
+    )
+  }
 
-        {/* ---- La vapeur, trois volutes decalees ---- */}
-        <g
-          className={styles.vapeurs}
-          fill="none"
-          stroke="url(#vapeur)"
-          strokeWidth="5"
-          strokeLinecap="round"
-        >
-          <path className={styles.volute1} d="M78 96 C 68 76, 90 64, 80 44 C 72 28, 86 20, 82 6" />
-          <path
-            className={styles.volute2}
-            d="M100 92 C 90 70, 112 58, 102 36 C 94 20, 108 12, 104 -2"
-          />
-          <path
-            className={styles.volute3}
-            d="M122 96 C 112 76, 134 64, 124 44 C 116 28, 130 20, 126 6"
-          />
-        </g>
-
-        {/* ---- L'anse, derriere le corps ---- */}
-        <path
-          d="M150 132 C 178 132, 178 168, 150 168"
-          fill="none"
-          stroke="url(#ceramique)"
-          strokeWidth="13"
-          strokeLinecap="round"
-        />
-
-        {/* ---- Le corps du mug ---- */}
-        <path
-          className={styles.corps}
-          d="M48 112 L54 190 C 55 199, 62 205, 71 205 L129 205 C 138 205, 145 199, 146 190 L152 112 Z"
-          fill="url(#ceramique)"
-        />
-
-        {/* ---- L'ouverture, puis le cafe qui tourne dedans ---- */}
-        <ellipse cx="100" cy="112" rx="52" ry="15" fill="#6f645f" />
-        <ellipse cx="100" cy="112" rx="47" ry="12.5" fill="url(#surfaceCafe)" />
-
-        <g className={styles.tourbillon}>
-          {/* La crema : deux arcs clairs qui tournent lentement sur la surface. */}
-          <ellipse
-            cx="100"
-            cy="112"
-            rx="30"
-            ry="7"
-            fill="none"
-            stroke="#c98a53"
-            strokeOpacity="0.5"
-            strokeWidth="2.2"
-            strokeDasharray="26 40"
-          />
-          <ellipse
-            cx="100"
-            cy="112"
-            rx="17"
-            ry="4"
-            fill="none"
-            stroke="#e0a875"
-            strokeOpacity="0.4"
-            strokeWidth="1.8"
-            strokeDasharray="14 24"
-          />
-        </g>
-
-        {/* ---- Le reflet de la lampe sur la levre du mug ---- */}
-        <path
-          d="M62 106 C 74 99, 90 96, 100 96"
-          fill="none"
-          stroke="#fffaf6"
-          strokeOpacity="0.55"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-        />
-      </svg>
+  return (
+    <div ref={scene} className={styles.scene} role="img" aria-label={description}>
+      {contenu}
     </div>
   )
 }

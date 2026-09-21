@@ -3,7 +3,18 @@
    `scale(0)` ni de translation longue, qui donneraient un titre qui tremble. */
 
 .titre {
-  font-size: var(--t-heros);
+  /* Le titre tient sur UNE ligne, et sa taille se calcule au lieu de se regler.
+     Fira Code est a chasse fixe : un caractere vaut 0,6em, donc une chaine de
+     `--caracteres` caracteres occupe `--caracteres * 0.6em`. Pour tenir dans la
+     largeur du conteneur (100cqi), la taille ne doit pas depasser
+     100cqi / (--caracteres * 0.6). Le 0,64 au lieu de 0,6 laisse une marge pour
+     l'interlettrage negatif et pour le curseur en fin de ligne.
+
+     Le plafond `--t-heros` reste, sinon le titre deviendrait enorme sur un tres
+     grand ecran. */
+  font-size: min(var(--t-heros), calc(100cqi / (var(--caracteres, 20) * 0.64)));
+  /* Sans cela, tout le calcul ci-dessus ne serait qu'une suggestion. */
+  white-space: nowrap;
   font-weight: 500;
   letter-spacing: -0.035em;
   color: var(--encre);
