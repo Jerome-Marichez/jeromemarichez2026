@@ -6,12 +6,14 @@ interface ILogoMarqueProps {
 }
 
 /**
- * Le logo d'une marque, à côté du titre de la fiche, sur fond transparent :
+ * Le logo d'une marque, devant le titre de la fiche, sur fond transparent :
  * aucune pastille, le site n'habille pas ses logos d'un cadre (`docs/design.md`).
  * Pas de `next/image` : le site est en export statique avec
  * `images.unoptimized: true` (`next.config.ts`), donc l'optimiseur n'a rien à
  * faire ici, et une balise `<img>` classique avec `width`/`height` explicites
- * évite tout décalage de mise en page sans dépendance superflue.
+ * évite tout décalage de mise en page sans dépendance superflue. `width` et
+ * `height` restent les dimensions intrinsèques du fichier : c'est le CSS
+ * (`logo-marque.module.css`) qui contraint le rendu à une boîte fixe.
  *
  * Un fond transparent exige que le fichier lui-même se lise sur `--fond` :
  * voir `public/marques/LISEZMOI.md` pour le traitement appliqué à chacun des

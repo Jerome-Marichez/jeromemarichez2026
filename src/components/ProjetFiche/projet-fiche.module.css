@@ -20,11 +20,16 @@
 .ligneTitre {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   gap: 0 1.5ch;
 }
 
 .titre {
+  /* flex-shrink permet au titre de se recomposer sur deux lignes dans
+     l'espace restant a cote du logo, au lieu de forcer le logo a passer
+     seul sur une ligne suivante : c'est ce qui l'empechait d'orpheliner. */
+  flex: 1 1 auto;
+  min-width: 0;
   color: var(--encre);
   font-size: var(--t-chapo);
   font-weight: 500;

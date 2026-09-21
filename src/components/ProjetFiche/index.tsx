@@ -16,9 +16,13 @@ interface IProjetFicheProps {
  * s'alignent sur la meme colonne de caracteres, dans l'esprit d'AxeListe : une
  * liste de definitions, pas une carte.
  *
- * `marque`, quand elle existe, place le logo a cote du titre, sur sa ligne de
- * base : une marque non repertoriee dans `src/contenu/marques.ts` ne rend
- * aucun logo, sans laisser de trou dans la mise en page.
+ * `marque`, quand elle existe, place le logo devant le titre, en tete de
+ * fiche : une marque non repertoriee dans `src/contenu/marques.ts` ne rend
+ * aucun logo, sans laisser de trou dans la mise en page. Le logo precede le
+ * titre plutot que de le suivre pour deux raisons : il se lit comme un
+ * repere de marque et non comme un symbole de fin de phrase, et il ne
+ * risque plus de se retrouver seul sur une ligne quand le titre se casse
+ * sur deux lignes (voir projet-fiche.module.css).
  */
 export function ProjetFiche({ projet }: IProjetFicheProps) {
   const marque = projet.marque ? marques[projet.marque] : undefined
@@ -27,8 +31,8 @@ export function ProjetFiche({ projet }: IProjetFicheProps) {
     <article className={styles.fiche}>
       <header className={styles.entete}>
         <div className={styles.ligneTitre}>
-          <h2 className={styles.titre}>{projet.titre}</h2>
           {marque && <LogoMarque marque={marque} />}
+          <h2 className={styles.titre}>{projet.titre}</h2>
         </div>
         <p className={styles.meta}>
           <span className={styles.entreprise}>{projet.entreprise}</span>
