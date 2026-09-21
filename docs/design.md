@@ -209,6 +209,44 @@ elle a cessé d'être une annotation pour devenir une police de corps. Une par p
 Les **ligatures de Fira Code sont désactivées** hors du code : elles déforment des mots
 courants. Elles sont rendues au code réel et au titre, qui en est.
 
+## Le rythme de lecture longue
+
+Retour de Jérôme MARICHEZ après lecture du site en local (issue #171) : « il faut aérer
+un peu plus les textes ». Les pages de lecture longue, fiches projet, expériences,
+articles, page à propos, enchaînaient des paragraphes à un interlignage de 1.6, avec un
+espacement entre blocs qui ne se distinguait pas assez de l'espacement interne à un bloc.
+
+**Interlignage porté à 1.7** sur le texte courant long (`--lh-lecture`, dans
+`jetons.css`). Il ne s'applique qu'aux paragraphes qu'on lit vraiment : le contexte et le
+résultat d'une fiche projet, le contexte et les réalisations d'une expérience, le corps
+d'un article, les deux paragraphes de la page à propos, le chapô du blog. Un micro-libellé
+(une date, un intitulé de colonne, un nom de technologie) garde l'interlignage par
+défaut : l'écart entre les deux distingue visuellement ce qui se lit de ce qui se
+parcourt.
+
+**L'espacement entre deux blocs de même niveau monte d'un cran sur l'échelle `--e*`** :
+deux fiches projet, deux expériences ou deux entrées du blog passent de `--e5` à `--e6` ;
+les quatre lignes de définition d'une fiche projet et les paragraphes du corps d'un
+article passent de `--e3` à `--e4`. Ce sont des valeurs déjà présentes dans l'échelle, pas
+des chiffres inventés pour l'occasion, et le rythme vertical de 24px reste la seule unité
+de mesure.
+
+**Rien n'est écarté au même degré.** L'espacement entre deux fiches ou deux expériences
+reste supérieur à l'espacement interne à une fiche ou une expérience, sinon les groupes se
+dissolvent et la page ne se parcourt plus, elle s'étire.
+
+**Aucun paragraphe de texte porteur ne reste en `--encre-faible`.** La citation d'un
+article de blog s'y trouvait alors que c'est du texte qu'on lit en continu ; elle passe à
+`--encre-douce` (8.5:1). Les intitulés Contexte / Enjeu / Mon rôle / Résultat d'une fiche
+projet, les dates et les libellés de la page Contact restent en `--encre-faible` : ce sont
+des micro-libellés, pas le texte qu'ils annoncent.
+
+La mesure de lecture (`--colonne`, 72ch) n'a pas bougé : elle était déjà tenue partout où
+un paragraphe est concerné par ce chantier.
+
+Aucun contenu n'est réécrit ici : c'est un travail de rythme et de rendu, jamais
+d'édition.
+
 ## Les surfaces du navigateur
 
 Sélection, curseur de saisie, anneau de focus, ascenseur et chiffres tabulaires arrivent

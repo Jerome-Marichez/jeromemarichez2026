@@ -37,13 +37,13 @@
   margin-top: var(--e2);
   max-width: var(--colonne);
   color: var(--encre-douce);
-  line-height: 1.65;
+  line-height: var(--lh-lecture);
 }
 
 .realisations {
   display: flex;
   flex-direction: column;
-  gap: var(--e2);
+  gap: var(--e3);
   margin-top: var(--e3);
 }
 
@@ -52,14 +52,14 @@
   padding-left: 2ch;
   border-left: var(--largeur-filet) solid var(--filet);
   color: var(--encre-douce);
-  line-height: 1.6;
+  line-height: var(--lh-lecture);
 }
 
 .encadrement {
   margin-top: var(--e3);
   max-width: var(--colonne);
   color: var(--encre-douce);
-  line-height: 1.6;
+  line-height: var(--lh-lecture);
 }
 
 .etiquette {
