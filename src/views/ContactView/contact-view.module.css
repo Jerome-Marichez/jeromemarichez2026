@@ -41,7 +41,15 @@
 
 .donnee {
   color: var(--cafe);
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  /* `--t-chapo` et non un `clamp` maison. L'ancienne valeur montait a 40px
+     alors que le `h1` de la page plafonne a 34px (`--t-section`) : les
+     coordonnees etaient donc plus grosses que le titre qui les annonce, ce qui
+     renverse la hierarchie de la page au lieu de la servir.
+
+     Ce qui rend le telephone et l'email saillants n'est pas leur taille mais
+     leur couleur, leur graisse et le vide autour d'eux : ils restent les seuls
+     elements en `--cafe` de la page. */
+  font-size: var(--t-chapo);
   font-weight: 500;
   letter-spacing: -0.01em;
   transition: color var(--duree) var(--sortie);
