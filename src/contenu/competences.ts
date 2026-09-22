@@ -49,6 +49,7 @@ export const competences: ICompetence[] = [
     ancrage: { titreProjet: smsEnMasseDemarcheQa.titre },
     items: [
       'Stratégie et plans de test, analyse de risques',
+      'Tests fonctionnels et non fonctionnels',
       'Non-régression branchée sur la CI et bloquante',
       'Playwright, Cypress, Jest, Vitest, Stryker',
       'SonarQube, Postman, k6',
