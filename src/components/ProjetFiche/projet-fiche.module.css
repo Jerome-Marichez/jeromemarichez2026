@@ -19,7 +19,11 @@
 
 .ligneTitre {
   display: flex;
-  align-items: flex-start;
+  /* Le titre est centre en face du logo, et non cale sur son bord superieur.
+     Les cinq logos partagent le meme gabarit 2:1 (voir `src/contenu/marques.ts`),
+     donc leur centre optique est a la meme hauteur d'une fiche a l'autre : le
+     centrage tient la ligne aussi bien sur un titre d'une ligne que de trois. */
+  align-items: center;
   gap: 0 1.5ch;
 }
 
