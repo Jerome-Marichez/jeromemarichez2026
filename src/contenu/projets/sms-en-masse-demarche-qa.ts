@@ -3,6 +3,7 @@ import type { IProjet } from '../../interfaces/IProjet'
 export const smsEnMasseDemarcheQa: IProjet = {
   titre: 'Démarche QA construite de zéro',
   entreprise: 'Acetelecom',
+  marque: 'smsEnMasse',
   sousTitre: 'Sms En Masse · stratégie de test, automatisation et intégration continue',
   contexte:
     'Équipe de trois sans QA, quatre produits en parallèle, et des grands comptes qui auditaient ce ' +

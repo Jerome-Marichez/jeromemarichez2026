@@ -5,6 +5,7 @@ import type { IProjet } from '../../interfaces/IProjet'
 export const truffle: IProjet = {
   titre: "Truffle Capital, reprise du travail d'une agence et équipe montée à mes frais",
   entreprise: 'Truffle Capital',
+  marque: 'truffle',
   sousTitre: 'chef de projet, de la proposition commerciale à la livraison, en indépendant',
   contexte:
     'Les sites du fonds et de ses participations étaient produits par une agence digitale ' +

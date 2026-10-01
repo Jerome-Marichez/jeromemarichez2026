@@ -20,5 +20,6 @@ export const navigation: readonly IEntreeNavigation[] = [
   { libelle: 'Parcours', href: '/parcours/', onglet: 'parcours.tsx' },
   { libelle: 'Projets', href: '/projets/', onglet: 'projets.tsx' },
   { libelle: 'Compétences', href: '/competences/', onglet: 'competences.tsx' },
+  { libelle: 'Blog', href: '/blog/', onglet: 'blog.tsx' },
   { libelle: 'Contact', href: '/contact/', onglet: 'contact.tsx' },
 ]

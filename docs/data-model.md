@@ -74,6 +74,24 @@ C'est le cœur du propos pour un recruteur : il veut voir le raisonnement, pas u
 vignette. Les quatre champs sont donc obligatoires, et une fiche incomplète ne compile
 pas.
 
+`marque` est **optionnelle** et de type `IdMarque` (`src/interfaces/types.ts`), une union
+fermée sur les clés du catalogue `src/contenu/marques.ts`. Elle ne s'invente pas : une
+fiche sans marque vérifiée ne porte pas ce champ, et `ProjetFiche` ne rend alors aucun
+logo (voir `docs/design.md`, « Le logo d'une marque »).
+
+### `IMarque`
+
+`{ nom, url, logo: { fichier, largeur, hauteur } }`. Une marque tierce citée dans un
+projet : l'entreprise ou l'un de ses produits. `url` est vérifiée en HTTP 200 avant
+d'être ajoutée, jamais approximée (« un lien mort est pire que pas de lien »). `logo`
+porte les dimensions intrinsèques du fichier réellement servi depuis
+`public/marques/`, pour réserver la place et éviter tout décalage de mise en page.
+
+Le catalogue vit dans `src/contenu/marques.ts`, une entrée par marque, indexée par
+`IdMarque`. La provenance de chaque fichier de logo, et le traitement appliqué le cas
+échéant pour qu'il reste lisible sur le fond sombre du site, sont consignés dans
+`public/marques/LISEZMOI.md`.
+
 ### `ICompetence`
 
 `{ famille, items }`. Neuf familles, soixante-et-onze entrées au total. Les `items`
@@ -95,6 +113,24 @@ Deux champs nullables, et chacun encode une règle :
 ### `IFormation`
 
 `{ diplome, ville, annee }`. Deux diplômes.
+
+### `IArticle`
+
+Un article de blog. `corpsHtml` porte le corps **sous forme de chaîne HTML**, écrite à la
+main et rendue directement.
+
+**Pourquoi cette forme, et à quelle condition elle est sûre.** La contrainte vient de
+Jérôme MARICHEZ : « blog en HTML, pas besoin de te prendre la tête sur une architecture
+compliquée ». Aucun MDX, aucune chaîne de rendu, aucune dépendance ajoutée. Cinq articles
+ne justifient ni catégories, ni étiquettes, ni pagination, ni recherche.
+
+L'injection directe d'HTML est sans risque **ici, et seulement ici** : le contenu est
+écrit dans le dépôt et compilé, jamais reçu d'un visiteur. Cette condition est écrite à
+l'endroit de l'injection dans `ArticleView`. Le jour où quelqu'un branche une source
+externe sur ce champ, elle tombe, et il faut alors assainir.
+
+Les articles vivent dans `src/contenu/blog/`, un fichier par article, agrégés par un
+`index.ts` du plus récent au plus ancien.
 
 ### `IContact`
 

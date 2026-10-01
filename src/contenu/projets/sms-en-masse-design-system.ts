@@ -3,6 +3,7 @@ import type { IProjet } from '../../interfaces/IProjet'
 export const smsEnMasseDesignSystem: IProjet = {
   titre: "Un design system en atomic design, construit avec l'UI designer",
   entreprise: 'Acetelecom',
+  marque: 'smsEnMasse',
   sousTitre: 'Sms En Masse · composants, Storybook et arbitrages UX',
   contexte:
     'Une plateforme neuve avec un périmètre public et une application métier authentifiée, des ' +

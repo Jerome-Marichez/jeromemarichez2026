@@ -24,7 +24,15 @@ export function AccueilView() {
         <div className={styles.propos}>
           <TitreMachine texte="< Jérôme Marichez />" />
 
-          <p className={styles.metier}>{profil.titre}</p>
+          {/* Meme calcul que le titre : l'intitule est en chasse fixe, donc sa
+              largeur se deduit de sa longueur. Sans cela il se cassait apres
+              « QA | », ce qui coupait la liste des axes au mauvais endroit. */}
+          <p
+            className={styles.metier}
+            style={{ '--caracteres': [...profil.titre].length } as React.CSSProperties}
+          >
+            {profil.titre}
+          </p>
 
           <p className={styles.reperes}>
             <span>{profil.anneesExperience} ans d&apos;expérience</span>

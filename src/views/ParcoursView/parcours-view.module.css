@@ -16,7 +16,7 @@
 }
 
 .item {
-  padding-block: var(--e5);
+  padding-block: var(--e6);
   border-top: var(--largeur-filet) solid var(--filet);
 }
 

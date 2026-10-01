@@ -14,24 +14,31 @@
   background-color: var(--fond-creux);
 }
 
+/* Grille explicite, pas un flux en colonnes : neuf familles sur trois colonnes
+   remplissent exactement trois lignes, donc plus de colonne qui s'arrete en
+   avance. L'ordre du DOM (celui du CV) reste l'ordre de lecture ligne par
+   ligne, ce qu'un flux en `columns` ne garantit pas.
+   Le filet entre les cellules vient du fond de la grille qui perce a travers
+   un ecart d'un pixel, comme les lignes d'un tableur : pas de bordure double
+   a la jointure de deux cellules. */
 .colonnes {
   max-width: calc(var(--colonne-large) + var(--marge-page) * 2);
   margin-inline: auto;
-  /* Le flux en colonnes est ce qui rend le mur dense sans rapetisser le texte :
-     c'est la mise en page qui travaille, pas la taille de caractere. */
-  columns: 3;
-  column-gap: var(--e5);
-  column-rule: var(--largeur-filet) solid var(--filet);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--largeur-filet);
+  background-color: var(--filet);
 }
 
 .groupe {
-  /* Une famille ne se coupe jamais entre deux colonnes : sa liste perdrait son
-     terme, et le mur cesserait d'etre lisible. */
-  break-inside: avoid;
-  margin-bottom: var(--e4);
+  padding: var(--e4);
+  background-color: var(--fond-creux);
 }
 
 .famille {
+  display: flex;
+  align-items: center;
+  gap: var(--e2);
   margin-bottom: var(--e2);
   padding-bottom: var(--e1);
   border-bottom: var(--largeur-filet) solid var(--cafe-sourd);
@@ -57,10 +64,36 @@
   text-wrap: pretty;
 }
 
+/* L'ancrage de preuve : la reponse concrete a « une liste de technologies ne
+   prouve rien toute seule ». Meme gabarit typographique que les entrees, pour
+   ne pas faire saillir une preuve au detriment d'une autre. */
+.ancrage {
+  margin-top: var(--e2);
+  padding-top: var(--e1);
+  border-top: var(--largeur-filet) solid var(--filet);
+  color: var(--encre-faible);
+  font-size: var(--t-petit);
+  line-height: 1.35;
+}
+
+.ancrage a {
+  color: var(--cafe);
+}
+
+.ancrage a:hover {
+  color: var(--cafe-vif);
+}
+
 @media (max-width: 64rem) {
   .colonnes {
-    columns: 2;
-    column-gap: var(--e4);
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Neuf familles sur deux colonnes laissent un reste de un : la derniere
+     famille occupe alors la ligne entiere plutot que de laisser une cellule
+     vide a cote d'elle. */
+  .groupe:last-child {
+    grid-column: 1 / -1;
   }
 }
 
@@ -68,7 +101,6 @@
   .colonnes {
     /* Sous cette largeur, deux colonnes donnent des lignes de quatre mots :
        la densite se retournerait contre la lecture. */
-    columns: 1;
-    column-rule: none;
+    grid-template-columns: 1fr;
   }
 }

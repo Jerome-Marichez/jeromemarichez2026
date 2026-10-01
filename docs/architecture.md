@@ -37,6 +37,7 @@ src/
     sitemap.ts    derive de src/contenu/navigation.ts
     robots.ts
     <route>/page.tsx
+    blog/[slug]/page.tsx   route dynamique, figee par generateStaticParams
   views/          les sections d'ecran composees, une par route
   components/     un dossier PascalCase par composant, styles colocalises
   contenu/        le contenu du site, en TypeScript type
@@ -108,15 +109,37 @@ Trois exceptions, et chacune a sa raison :
 |-----------|------------------------|
 | `EnTete` | lit la route courante avec `usePathname` pour marquer l'onglet ouvert |
 | `BoutonMouvement` | pose `data-mouvement` sur la racine, donc il a un état |
+| `Mug` | pilote une vidéo et suit le curseur, voir ci-dessous |
 
-Le **mug**, qui est l'élément le plus animé du site, est un **composant serveur** : sa
-vapeur et la rotation du café sont du CSS. Le titre qui s'écrit également, seule sa
-révélation est animée, par un retard par caractère calculé au rendu.
+**Le mug a été serveur, il ne l'est plus, et le revirement mérite d'être écrit.** Une
+première version le redessinait en SVG animé en CSS : zéro octet de script, et un rendu
+jugé inférieur à l'original. Sur l'élément qui porte l'identité du site, c'est le
+résultat visuel qui tranche, pas l'argument de poids. La tasse d'origine est revenue,
+avec sa photo et sa vidéo de café, et deux comportements qui exigent du JavaScript :
 
-C'est un arbitrage central du site : le portfolio d'origine chargeait une image et une
-vidéo et construisait son titre dans un `useState`. Ici les deux effets coûtent zéro
-octet de script, et le titre existe pour un robot d'indexation comme pour une synthèse
-vocale.
+- **mettre la vidéo en pause.** Une règle CSS suspend une animation, pas une vidéo. Le
+  respect de `prefers-reduced-motion` et du bouton de mise en pause (WCAG 2.2.2) passe
+  donc par un appel à `pause()` ;
+- **suivre le curseur.** La tasse s'oriente vers la souris, et c'est sa seule
+  interaction. L'angle est écrit directement dans une propriété CSS, jamais dans un état
+  React : une position de curseur change des dizaines de fois par seconde, et un
+  `useState` re-rendrait le composant à chaque image.
+
+Le **titre qui s'écrit** reste un composant serveur : il est rendu entier, seule sa
+révélation est animée, par un retard par caractère calculé au rendu. Le portfolio
+d'origine le construisait dans un `useState`, donc invisible à l'indexation et à la
+synthèse vocale.
+
+### Les images ne sont pas optimisées, et c'est voulu
+
+`next.config.mjs` porte `images: { unoptimized: true }`. L'optimisation d'images de Next
+est un service qui tourne au moment de la requête : elle est **incompatible avec
+`output: 'export'`**, et Next lève une erreur d'exécution dès qu'un `next/image` est
+rendu sans cette ligne.
+
+Ce n'est pas une perte : la seule image du site est le mug, 124 Kio, servi tel quel.
+`next/image` reste utilisé pour ce qu'il apporte sans serveur, les dimensions connues à
+la compilation, donc aucun décalage de mise en page au chargement.
 
 ## Le style
 

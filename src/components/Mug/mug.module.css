@@ -1,124 +1,107 @@
-/* Le mug : seul mouvement permanent du site.
-   Vapeur a vitesse constante donc `linear`, survol en `ease`, et rien d'anime
-   d'autre que `transform` et `opacity`. */
+/* La tasse de cafe, signature du site.
+   Les valeurs geometriques viennent du portfolio d'origine : elles avaient ete
+   reglees pour CET asset, et les recalculer au jugé donnerait un cafe qui deborde
+   du mug. Inclinaison a 50 degres, cafe detoure en cercle a 37 %, opacite 0,85,
+   mug decale de 5,5 % vers la droite. */
 
 .scene {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: 34ch;
-  /* La lampe du site est le cafe : le mug la porte, donc il la diffuse. */
-  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.55));
+  /* Les proportions de mug.png (898 x 772) : la scene reserve sa place avant que
+     l'image ait charge, donc rien ne saute au chargement. */
+  aspect-ratio: 898 / 772;
+  /* Une seule lampe sur le site, donc une seule direction d'ombre. */
+  filter: drop-shadow(-24px 14px 12px rgba(0, 0, 0, 0.62));
+  /* La tasse ne se deplace pas : elle **s'oriente**. `--angle` est ecrit par le
+     composant a chaque mouvement du curseur, et vaut l'angle entre le centre de
+     la tasse et la souris. 50deg est la position de repos, celle du portfolio
+     d'origine. */
+  --angle: 50deg;
+
+  transform: rotate(var(--angle)) scale(var(--echelle, 1));
+  /* La transition est ce qui fait que la tasse SUIT le curseur au lieu d'y etre
+     collee : elle arrive toujours un peu apres, et ce retard lui donne du poids. */
+  transition: transform var(--duree-long) var(--sortie);
+  will-change: transform;
 }
 
-.mug {
-  width: 100%;
-  height: auto;
-  /* La vapeur sort du cadre par le haut : on lui laisse la place. */
-  overflow: visible;
-}
+/* ---- Le cafe, sous le mug ------------------------------------------------- */
 
-.corps {
-  /* Une seule lampe, donc une seule direction d'ombre portee. */
-  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.45));
-}
-
-/* ---- La vapeur ----------------------------------------------------------- */
-
-.vapeurs {
-  /* Les volutes montent en continu : la couche GPU est reellement utilisee. */
-  will-change: transform, opacity;
-}
-
-.volute1,
-.volute2,
-.volute3 {
-  transform-box: fill-box;
-  transform-origin: bottom center;
-  opacity: 0;
-}
-
-.volute1 {
-  animation: monte 6.2s linear infinite;
-}
-
-.volute2 {
-  animation: monte 5.1s linear infinite 1.4s;
-}
-
-.volute3 {
-  animation: monte 7s linear infinite 2.9s;
-}
-
-@keyframes monte {
-  0% {
-    opacity: 0;
-    transform: translateY(6px) scaleY(0.72) scaleX(0.9);
-  }
-
-  18% {
-    opacity: 1;
-  }
-
-  72% {
-    opacity: 0.55;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateY(-34px) scaleY(1.22) scaleX(1.16);
-  }
-}
-
-/* ---- Le cafe qui tourne -------------------------------------------------- */
-
-.tourbillon {
-  transform-box: fill-box;
-  transform-origin: center;
-  /* Rotation lente et permanente : la tasse vient d'etre posee. */
-  animation: tourne 26s linear infinite;
+.cafe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Legerement plus large que le mug : le detourage circulaire reprend ensuite la
+     forme exacte du bol, sans laisser de bord vide. */
+  width: 114%;
+  height: 114%;
+  object-fit: cover;
+  clip-path: circle(37%);
+  opacity: 0.85;
+  z-index: 1;
+  transform: translate(-50%, -50%) rotate(0deg);
+  /* Rotation a vitesse constante, donc `linear` : ce n'est ni une entree ni un
+     survol, c'est un liquide qui tourne. */
+  animation: tourne 22s linear infinite;
 }
 
 @keyframes tourne {
   to {
-    transform: rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
-/* Au survol la tasse s'incline un peu et le cafe accelere. Reserve aux
-   pointeurs fins : sur tactile, un appui declencherait un faux survol. */
-@media (hover: hover) and (pointer: fine) {
-  .scene {
-    transition: transform var(--duree) var(--sortie);
-  }
+/* ---- Le mug, par dessus -------------------------------------------------- */
 
-  .scene:hover {
-    transform: rotate(-3deg) scale(1.03);
-  }
-
-  .scene:hover .tourbillon {
-    animation-duration: 5s;
-  }
+.mug {
+  position: relative;
+  left: 5.5%;
+  z-index: 2;
+  width: 100%;
+  height: auto;
 }
+
+/* ---- Le survol ----------------------------------------------------------- */
+
+/* Reserve aux pointeurs fins : sur tactile, un appui declencherait un faux survol
+   et la tasse resterait tournee. */
+/* Aucun etat de survol. L'orientation vers le curseur EST l'interaction, et elle
+   repond deja partout dans la page : ajouter un effet au survol de la tasse
+   elle-meme ferait deux reponses concurrentes au meme geste. */
 
 /* ---- Accessibilite ------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .volute1,
-  .volute2,
-  .volute3 {
-    animation: none;
-    /* La vapeur reste visible, simplement immobile : le dessin garde son sens. */
-    opacity: 0.6;
-  }
-
-  .tourbillon {
-    animation: none;
-  }
-
-  .scene,
-  .scene:hover {
+  .scene {
+    /* La tasse reste a sa position de repos et cesse de suivre le curseur : le
+       composant coupe l'ecouteur, et la transition disparait ici. */
     transition: none;
-    transform: none;
+    transform: rotate(50deg);
+  }
+
+  .cafe {
+    /* Le cafe reste visible, simplement immobile : le dessin garde son sens.
+       La VIDEO, elle, est mise en pause par le composant : une regle CSS ne
+       suspend pas une video. */
+    animation: none;
+  }
+}
+
+/* Le bouton de mise en pause du pied de page (WCAG 2.2.2). Meme remarque : il
+   arrete l'animation CSS ici, et la video dans le composant. */
+:global(:root[data-mouvement="pause"]) .cafe {
+  animation-play-state: paused;
+}
+
+@media (max-width: 64rem) {
+  .scene {
+    /* Sous cette largeur la video n'est pas chargee (`preload="none"` plus la
+       regle ci-dessous) : c'est le poster qui reste affiche, et il suffit. */
+    max-width: 28ch;
   }
 }
 
