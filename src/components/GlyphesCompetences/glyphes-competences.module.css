@@ -1,0 +1,8 @@
+/* Le glyphe porte la couleur de la lampe, comme l'intitulé de la famille
+   juste à côté : c'est la même région café, pas une décoration à part. */
+.glyphe {
+  flex-shrink: 0;
+  width: var(--e3);
+  height: var(--e3);
+  color: var(--cafe);
+}

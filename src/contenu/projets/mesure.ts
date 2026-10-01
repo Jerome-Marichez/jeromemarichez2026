@@ -3,6 +3,7 @@ import type { IProjet } from '../../interfaces/IProjet'
 export const mesure: IProjet = {
   titre: "Mesure remise d'aplomb et valeur client à long terme",
   entreprise: 'Acetelecom',
+  marque: 'acetelecom',
   sousTitre: 'plan de taggage, sources croisées et arbitrage budgétaire',
   contexte:
     "Sur les produits BtoB, les performances d'acquisition ne suivaient pas, et les chiffres de " +

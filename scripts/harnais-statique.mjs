@@ -18,7 +18,7 @@
 // laisse un serveur orphelin en CI.
 
 import { spawn } from 'node:child_process'
-import { access, readdir, stat } from 'node:fs/promises'
+import { readdir, stat } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { demarrerServeurStatique, PORT_PAR_DEFAUT } from './serve-out.mjs'
@@ -27,12 +27,6 @@ export const RACINE = join(dirname(fileURLToPath(import.meta.url)), '..')
 export const DOSSIER_EXPORT = join(RACINE, 'out')
 
 const DELAI_SONDE_MS = 30_000
-
-const existe = (chemin) =>
-  access(chemin).then(
-    () => true,
-    () => false,
-  )
 
 /** Exécute une commande en héritant des flux, et résout son code de sortie. */
 export function executer(commande, arguments_, env = {}) {

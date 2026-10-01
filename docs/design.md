@@ -78,6 +78,105 @@ C'est la décision qui fait du monospace un **système** et non un costume.
 - Les colonnes fixes d'une liste de définitions sont en `ch`, pour que les termes
   s'alignent **au caractère** d'une ligne à l'autre.
 
+## Le titre tient sur une ligne, par calcul
+
+Le titre de l'accueil et l'intitulé qui le suit ne se cassent **jamais** sur deux lignes,
+et ce n'est pas un réglage empirique.
+
+Ils portaient un `clamp()` en `vw`, sans rapport avec la longueur réelle de la chaîne :
+sur un MacBook, `< Jérôme Marichez />` passait à la ligne. Un `clamp()` ajusté à la main
+aurait recassé au premier changement de titre.
+
+Fira Code étant à chasse fixe, la largeur d'une chaîne est **calculable** : un caractère
+vaut 0,6em, donc N caractères valent N x 0,6em. Le composant expose N au CSS dans
+`--caracteres`, et la taille se déduit de la largeur du conteneur :
+
+```css
+font-size: min(var(--t-heros), calc(100cqi / (var(--caracteres) * 0.64)));
+white-space: nowrap;
+```
+
+Le conteneur est déclaré `container-type: inline-size` sur la colonne du titre, sinon les
+`cqi` se rapporteraient au viewport, donc à une largeur plus grande que la colonne
+réelle. Le plafond `--t-heros` reste, sinon le titre deviendrait énorme sur un très grand
+écran.
+
+C'est le corollaire direct de la grille de caractères : **la police étant la grille, elle
+sert aussi à dimensionner.**
+
+## La tasse, seule interaction du site
+
+La tasse de café est l'élément qui porte l'identité. C'est la tasse **d'origine** du
+portfolio de Jérôme MARICHEZ, sa photo et sa vidéo de café réel, pas une reconstitution.
+
+Une version l'avait redessinée en SVG pour économiser 1,7 Mo. L'économie était réelle, le
+résultat était moins bon, et sur cet élément-là c'est le résultat qui tranche. Le revers
+est assumé et compensé : la vidéo ne charge pas sous 64rem, et la tasse entière disparaît
+sous 834px.
+
+**Son interaction unique : elle s'oriente vers le curseur.** Elle ne se déplace pas,
+seule sa rotation change, et elle vaut l'angle entre son centre et la souris. Le
+mouvement est amorti par la transition CSS, donc la tasse arrive toujours un peu après le
+curseur : ce retard lui donne du poids, là où une poursuite exacte donnerait un objet
+collé au pointeur.
+
+**Aucun état de survol.** Le portfolio d'origine faisait pivoter la tasse à 150 degrés au
+survol ; l'orientation vers le curseur répond déjà au même geste, et deux réponses
+concurrentes se gêneraient.
+
+## Le logo d'une marque
+
+Une fiche projet peut porter le logo de l'entreprise ou du produit cité, à côté de son
+titre, sur sa ligne de base : jamais dans un bloc séparé, jamais sur une pastille de
+fond. Le site n'habille pas ses illustrations d'un cadre, voir le refus de carte
+ci-dessous, et un logo n'y échappe pas.
+
+**Fond transparent, donc fichier retravaillé si besoin.** Le logo est posé directement
+sur `--fond`, pas sur un aplat clair. Un logo dont l'encre est sombre ou dont le fond
+d'origine est blanc y devient illisible ; il est alors recoloré en `--encre` sur notre
+copie du fichier, jamais sur le fichier du titulaire. Trois des cinq logos actuels ont
+reçu ce traitement : le détail, la mesure de contraste avant traitement et la provenance
+de chaque fichier vivent dans `public/marques/LISEZMOI.md`. Un logo déjà clair ou déjà
+transparent (Sms En Masse, Prézage) n'est pas touché.
+
+Un projet sans marque répertoriée ne rend aucun logo et ne laisse aucun trou dans la mise
+en page : voir `src/components/LogoMarque`.
+
+## Le mur de stack : grille, glyphes et ancrage de preuve
+
+Le mur (`src/components/MurDeStack/`) affichait ses neuf familles dans un flux
+`columns: 3`. Un flux remplit une colonne de haut en bas avant de passer à la
+suivante : sur un contenu de longueur inégale, la troisième colonne s'arrêtait
+bien avant les deux autres, avec un grand vide en bas à droite (issue #173).
+
+**Une grille CSS explicite le remplace.** Neuf familles sur trois colonnes
+occupent exactement trois lignes complètes : plus de colonne qui s'arrête en
+avance, et l'ordre de lecture suit le DOM, donc celui du CV, ligne par ligne,
+ce qu'un flux en colonnes ne garantissait pas. Sous 64rem (deux colonnes), le
+reste d'une famille impaire occupe la ligne entière plutôt que de laisser une
+cellule vide à côté d'elle. Le filet entre les cellules vient du fond de la
+grille qui perce à travers un écart d'un pixel entre les cellules, comme les
+lignes d'un tableur : pas de bordure doublée à la jointure de deux cellules,
+et toujours aucune carte. La structure `<dl>`/`<dt>`/`<dd>` est inchangée : la
+grille s'applique aux groupes, pas au balisage sémantique.
+
+**Un glyphe par famille** (`src/components/GlyphesCompetences/`) donne un
+point d'entrée visuel là où les neuf familles portaient exactement le même
+poids. Chaque glyphe est un SVG inline dessiné à la main, monochrome, en
+`currentColor`, sur une grille de 24 unités et un trait fin constant, jamais
+une fonte d'icônes ni une bibliothèque. Il est purement décoratif
+(`aria-hidden`, `focusable="false"`) : la famille est déjà nommée en toutes
+lettres juste à côté, un `title` ferait doublon à la synthèse vocale.
+
+**L'ancrage de preuve** répond à ce que la page affirmait sans y donner suite,
+« une liste de technologies ne prouve rien toute seule ». Une famille peut
+porter une ligne « vu sur : *titre du projet* » vers `/projets/`, mais
+seulement quand une fiche de `src/contenu/projets/` traite explicitement la
+famille. La donnée vit dans `src/contenu/competences.ts`, qui importe le
+titre du projet plutôt que de le recopier, et une famille sans rapprochement
+suffisamment explicite reste sans ancrage : un rapprochement inventé serait
+pire qu'une absence (`CLAUDE.md`, table des interdits).
+
 ## Ce que le site refuse
 
 Ces refus sont dans le contrat de direction, ils ne se rediscutent pas au cas par cas :
@@ -109,6 +208,44 @@ elle a cessé d'être une annotation pour devenir une police de corps. Une par p
 
 Les **ligatures de Fira Code sont désactivées** hors du code : elles déforment des mots
 courants. Elles sont rendues au code réel et au titre, qui en est.
+
+## Le rythme de lecture longue
+
+Retour de Jérôme MARICHEZ après lecture du site en local (issue #171) : « il faut aérer
+un peu plus les textes ». Les pages de lecture longue, fiches projet, expériences,
+articles, page à propos, enchaînaient des paragraphes à un interlignage de 1.6, avec un
+espacement entre blocs qui ne se distinguait pas assez de l'espacement interne à un bloc.
+
+**Interlignage porté à 1.7** sur le texte courant long (`--lh-lecture`, dans
+`jetons.css`). Il ne s'applique qu'aux paragraphes qu'on lit vraiment : le contexte et le
+résultat d'une fiche projet, le contexte et les réalisations d'une expérience, le corps
+d'un article, les deux paragraphes de la page à propos, le chapô du blog. Un micro-libellé
+(une date, un intitulé de colonne, un nom de technologie) garde l'interlignage par
+défaut : l'écart entre les deux distingue visuellement ce qui se lit de ce qui se
+parcourt.
+
+**L'espacement entre deux blocs de même niveau monte d'un cran sur l'échelle `--e*`** :
+deux fiches projet, deux expériences ou deux entrées du blog passent de `--e5` à `--e6` ;
+les quatre lignes de définition d'une fiche projet et les paragraphes du corps d'un
+article passent de `--e3` à `--e4`. Ce sont des valeurs déjà présentes dans l'échelle, pas
+des chiffres inventés pour l'occasion, et le rythme vertical de 24px reste la seule unité
+de mesure.
+
+**Rien n'est écarté au même degré.** L'espacement entre deux fiches ou deux expériences
+reste supérieur à l'espacement interne à une fiche ou une expérience, sinon les groupes se
+dissolvent et la page ne se parcourt plus, elle s'étire.
+
+**Aucun paragraphe de texte porteur ne reste en `--encre-faible`.** La citation d'un
+article de blog s'y trouvait alors que c'est du texte qu'on lit en continu ; elle passe à
+`--encre-douce` (8.5:1). Les intitulés Contexte / Enjeu / Mon rôle / Résultat d'une fiche
+projet, les dates et les libellés de la page Contact restent en `--encre-faible` : ce sont
+des micro-libellés, pas le texte qu'ils annoncent.
+
+La mesure de lecture (`--colonne`, 72ch) n'a pas bougé : elle était déjà tenue partout où
+un paragraphe est concerné par ce chantier.
+
+Aucun contenu n'est réécrit ici : c'est un travail de rythme et de rendu, jamais
+d'édition.
 
 ## Les surfaces du navigateur
 
@@ -148,6 +285,7 @@ racine.
 | Largeur | Ce qui change |
 |---------|---------------|
 | `64rem` | le mug passe sous le propos ; le mur de stack passe de trois à deux colonnes |
+| `834px` | la tasse disparaît entièrement. Valeur en pixels et non en rem, contrairement au reste : c'est une largeur d'appareil réelle, l'iPad en portrait, et l'arrondir au `52rem` voisin la laissait affichée exactement là où on la voulait masquée |
 | `52rem` | les noms de fichier disparaissent des onglets ; les listes de définitions passent en une colonne |
 | `44rem` | le mur de stack passe en une colonne |
 | `40rem` | les marges et les respirations se resserrent ; le mug rétrécit |

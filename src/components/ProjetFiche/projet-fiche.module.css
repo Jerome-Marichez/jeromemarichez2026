@@ -2,7 +2,7 @@
    dessous. Separee de la suivante par un filet, jamais par une carte. */
 
 .fiche {
-  padding-block: var(--e5);
+  padding-block: var(--e6);
   border-top: var(--largeur-filet) solid var(--filet);
 }
 
@@ -17,7 +17,26 @@
   margin-bottom: var(--e4);
 }
 
+.ligneTitre {
+  display: flex;
+  /* Le titre est centre en face du logo, et non cale sur son bord superieur.
+     Les cinq logos partagent le meme gabarit 2:1 (voir `src/contenu/marques.ts`),
+     donc leur centre optique est a la meme hauteur d'une fiche a l'autre : le
+     centrage tient la ligne aussi bien sur un titre d'une ligne que de trois. */
+  align-items: center;
+  gap: 0 1.5ch;
+}
+
 .titre {
+  /* `flex-basis: 0`, et non `auto` : c'est toute la difference. Avec `auto`, la
+     base du titre vaut la largeur de son texte, pres de 1000px sur les titres
+     longs. La ligne debordait donc, et comme le conteneur autorisait le retour
+     a la ligne, le titre passait dessous en laissant le logo seul au dessus de
+     lui : le meme orphelin qu'avant, retourne. Avec une base nulle, le titre
+     n'impose plus rien, il prend l'espace restant a cote du logo et se
+     recompose dedans quelle que soit sa longueur. */
+  flex: 1 1 0;
+  min-width: 0;
   color: var(--encre);
   font-size: var(--t-chapo);
   font-weight: 500;
@@ -41,7 +60,7 @@
 .details {
   display: flex;
   flex-direction: column;
-  gap: var(--e3);
+  gap: var(--e4);
 }
 
 .ligne {
@@ -62,7 +81,7 @@
 .valeur {
   max-width: var(--colonne);
   color: var(--encre-douce);
-  line-height: 1.6;
+  line-height: var(--lh-lecture);
 }
 
 @media (max-width: 52rem) {
